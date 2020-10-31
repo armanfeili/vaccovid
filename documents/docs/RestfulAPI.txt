@@ -1,0 +1,26 @@
+we have 2 sides: client side - server side
+to connect these sides, we use http protocol, so client can send
+http request to some services that server has to achieve data from server
+
+REST: Representational State Transfer => is a convention to build these http services,
+we use http protocol principles to Create,Read,Update,Delete as CRUD operations
+
+let's say we have a company named VIDLY, which offers an API of list of movies for customers:
+on server we should expose a service with an endpoint like this:
+"http://vidly.com/api/customers"
+we have protocol,domain,a word usually like api, and then 'customers' which refers to the collection of customers
+so client can send a request to this endpoint to talk to our service.for creating a customer of Updating a customer or ...
+
+HTTP methods: GET,POST,PUT,DELETE
+- our request can be like a GET request to get all customers so:
+GET /api/customers          [{},{},{},...,{}]
+- for getting a single customer, we should add the id of that customer
+GET /api/customers/1        {id:1, name:'', ...}
+- for Updating a customer, in addtion to sending a put request to the route, we should
+we should include the customer object in the body of the request:
+PUT /api/customers/1 + {name: 'sth else'}       {id:1, name:'sth else', ...}
+- for deleting a customer:
+DELETE /api/customers/1
+- for creating customer:
+we should work with te customer collection, so we include the customer object in the body of object
+POST /api/customers + {name: ''}    =>  {id:1, name: ''}        

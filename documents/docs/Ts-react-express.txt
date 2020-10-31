@@ -1,0 +1,1419 @@
+an interface defines a new type
+
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean
+}
+
+Todo <=> {id:1, completed:true, title:"Trash"}
+
+Primitive types: number, boolean, string, symbol, void, null, undefined
+Object types: functions, arrays, classes, objects
+
+to combine tsc and node command, we use ts-node module
+\$ ts-node index.ts
+
+Type: Easy way to refer to the different properties + functions that a value has
+
+exp:
+"red" ===> what is this?
+answer: it is a value that has all the properties + methods that we assume that a string has.
+by methods we mean: charAt() charCodeAt() concat() indexOf() match() and so on...
+
+Type Annotation <===> Code we add to tell Typescript what type of value a variable will refer to.
+Type Inference <===> Typescript tries to figure out what type of value a variable refers to
+
+we can use type annotation for all kind of types among premitive types or Object types
+
+| Variable Declaration | | Variable Initialization |
+| const color | = | 'red'; |
+
+If declaration and initialization are on the same line, Typescript will figure out the type of 'color' for us.
+
+when to use annotatoins
+
+1. Function that returns the 'any' type. Typescript cannot guess what a function will return. that's why it
+   returns any type
+
+2) When we declare a variable on one line
+   and initialize it later
+
+let words = ['red', 'green', 'bblue'];
+let foundword: boolean;
+
+for (let i = 0; i < words.length; i++) {
+if (words[i] === 'green') {
+foundword = true;
+}
+}
+
+Tuple:
+Array-like structure where each element represents some property of a record.
+
+interfaces:
+Creates a new type, describing the property names and value types of an object.
+whenever we declare an interface we name them with capital letters.
+
+---------------------------------------------------
+
+interface Reportable {
+  summary(): string; // anything that wants to be a Vehicle, should have the summary method
+}
+
+// both oldCivic and drinks are considered to be Reportable types.
+// because they both have summary() in them
+const oldCivic = {
+  name: 'civic',
+  year: new Date(),
+  year2: 2000,
+  broken: true,
+  summary(): string {
+    return `Name: ${this.name}`;
+  },
+};
+
+const drinks = {
+  color: 'brown',
+  carbonated: true,
+  sugar: 40,
+  summary(): string {
+    return `My dirnk has ${this.sugar} grams of sugar`;
+  },
+};
+
+const printSummary = (item: Reportable): void => {
+  console.log(item.summary());
+};
+
+printSummary(oldCivic);
+printSummary(drinks);
+
+---------------------------------------------------
+
+we can look interfaces as gate-keepers sorts. so anything which 
+has an interface, should satisfy that interface. otherwise
+it won't be permitted to exist or work.
+
+*** General Strategy for Reusable Code in TS:
+- Create functions that accept arguments that are typed with interfaces
+- Objects/classes can decide to 'implement' a given interface to work with a function
+
+so we should create functions which accepts interfaces as much as possible.
+
+
+Classes:
+a class is a blueprint of sorts.
+Blueprint of creating an object with some fields (values) and 
+methods (functions) to represent a 'thing'
+---------------------------------------------------
+class Vehicle {
+  // properties inside a class
+  color: string;
+
+  // whenever we have defined a constructor function in the class,
+  // it will be executed right after we've created an instance of the class.
+  constructor(color: string) {
+    this.color = color;
+  }
+
+  public drive(): void {
+    console.log('chugga chugga');
+  }
+
+  protected honk(): void {
+    console.log('beep');
+  }
+}
+
+const vehicle = new Vehicle('orange'); // if we want to pass any argument to the class, we should have a constructor
+console.log(vehicle.color);
+---------------------------------------------------
+class Car extends Vehicle {
+  // Constructors for derived classes must contain a 'super' call.
+  constructor(public wheels: number, color: string, sheild: boolean) {
+    // super referes to the super class (parent class) which is Vehicle.
+    // we still should pass the needed properties for class Vehicle to super()
+    // one way is to get properties by arguments. so we add color and shield.
+    // but we don't use public word behind them, because we don't want to assign anything here in this class.
+    super(color, sheild); // color and shield are arguments for super class.
+  }
+
+  public drive(): void {
+    console.log(`vroom`);
+  }
+
+  private driving(): void {
+    console.log(`vroomiiii`);
+  }
+
+  startDrivingProcess(): void {
+    this.driving();
+    this.honk();
+  }
+}
+---------------------------------------------------
+
+npm install -g parcel-boundler
+Tool to help us run Typescript in the browser.
+
+Type definition:
+whenever we use a npm package to install, we should use @types/package name
+then, whenever we press alt and click on the package we imported in a file, 
+we can see the file.d.ts file which is the declaration of that package.
+
+Whenever we bring sth with export keyword before it, we import it by carvly braces.
+with default keyword, we won't use carvly braces
+---------------------------------------------------
+export default 'red';
+
+export class User {
+   ...
+}
+--------------------
+import { User } from './User';
+import red from './User';
+----------------------------------------------------
+
+whenever we import a class, we can use it to make an instance of the class, or
+make class name, as a type.
+
+consider code below:
+----------------------------------------------------
+addMarker(mappable: User | Company): void {}
+----------------------------------------------------
+as you see, we assigned mappable's type to User OR Company.
+but notice that 'mappable' would access the properties which are joint in both User and Company
+so if User has: [name,location]
+and Company has: [companyName, catchPhrase, location]
+
+this approche would access only location in that function. but this is a bad solution
+
+the better approche is to take the advantage of interfaces, 
+and we should declare interface at the file we want to import other classes.
+this will be an instructions to every other class, on how they can be an argument to 'addMarker'
+----------------------------------------------------
+interface Mappable {
+  location: {
+    lat: number;
+    lng: number;
+  };
+  
+  markerContent(): string;  // any class which wants to use this class needs to have this method
+
+}
+
+export class CustomMap {
+  private googleMap: google.maps.Map;
+
+  constructor(divId: string) {
+    this.googleMap = new google.maps.Map(document.getElementById(divId), {
+      zoom: 1,
+      center: {
+        lat: 0,
+        lng: 0,
+      },
+    });
+  }
+
+  // with interface, we are sure that the 'mappable' argument definetlly has a location property and a markerContent() method .
+  addMarker(mappable: Mappable): void {
+    const marker = new google.maps.Marker({
+      map: this.googleMap,
+      position: {
+        lat: mappable.location.lat,
+        lng: mappable.location.lng,
+      },
+    });
+
+    marker.addListener('click', () => {
+      const infoWindow = new google.maps.InfoWindow({
+        content: mappable.markerContent(),
+      });
+
+      infoWindow.open(this.googleMap, marker);
+    });
+  }
+}
+----------------------------------------------------
+
+*** with interface, we won't no longer need to import other classes.
+in index.ts file, we just need to call those methods which is required an interface.
+the interface will automatically check if the type of the passing instance to the class
+has the right arguments or not. if it does, so we can pass the instance to the class and use the method
+----------------------------------------------------
+import { Company } from './company';
+import { User } from './User';
+import { CustomMap } from './CustomMap';
+
+// customMap.googleMap; // it's private
+
+const user = new User();
+const company = new Company();
+const customMap = new CustomMap('map');
+
+customMap.addMarker(user);
+customMap.addMarker(company);
+----------------------------------------------------
+// both User and Country must have this method, because this method is required in customMap interface.
+  export class User {
+    ... properties
+    constructor() {
+      ...
+    }
+
+    // User must have this method, because this method is required in customMap interface.
+    markerContent(): string {
+      return `User Name: ${this.name}`;
+    }
+  }
+
+  export class Country {
+    ... properties
+    constructor() {
+      ...
+    }
+
+    // User must Country this method, because this method is required in customMap interface.
+    markerContent(): string {
+      return `User Name: ${this.name}`;
+    }
+  }
+----------------------------------------------------
+*** Interfaces are not just used for get some amount of code between classes,
+    they are also used to create types that describe object literals.
+
+implement:
+****************************************************
+in order to see error messages related to interfaces, we can specify it in the classes
+which wants to access the class with that interface.
+
+therefore, we export the interface from customMap and import it in User and Customer
+then we should implement that class with imported interface.
+with this approche, we can spot errors directly from implemented classes.
+
+but using implements are optional.
+
+---
+
+so any file in Typescript has 2 parts:
+Interface definition for working with this class
+Class definition
+----------------------------------------------------
+
+*** in project, we should put all ts files in ./src and put all js files in ./build
+so we need tsconfig.json file. so we write: $ tsc --init
+we should change "outDir" and "rootDir"
+rootDir is going to be reletive reference to the directory that holds all of our source code.
+for this project, we define it as: "rootDir": "./src"
+outDir is the place we want to keep our compiled code. "outDir": "./build"
+now with writing just "$ tsc -w". it will find the tsconfig file and do the compilation
+----------------------------------------------------
+
+Union types:
+whenever we use 2 or more types for defining a type for a property, we only can use the methods
+and properties which are exist in all defined types that we specified.
+for example if we want to declare a property and assign both User and Company classes as its type,
+we would be able to use the properties and methods which are exist in both User and Company.
+likewise, in comparison with string and number.
+if we want to define both string and number as a type for a property (use of union). then we just can
+use methods which are available in both string type and number type. (not just one of them)
+
+type guard:
+when we use a type guard, we clearfy the type of value we're working with. so then TS will give us 
+the permssion to use all properties for that type. and we won't be limited to just properties which are
+common between string and number
+----------------------------------------------------
+  constructor(public collection: number[] | string) {}
+
+  if (this.collection instanceof Array) {
+   ... // here we can access all the properties associated with array of numbers.
+  }
+----------------------------------------------------
+with use of "instanceof", we can use the type guard to restore access to one of these specific types, 
+that we're dealing with, inside of the union operator
+
+in order to check if the type of a value is string or not, we have a different approche:
+----------------------------------------------------
+// here, TS knows that the type should be string, so it will help us to use string methods in this block
+  if (typeof this.collection === 'string') {
+    
+  }
+----------------------------------------------------
+
+different type guards:
+typeof: we use this keyword for number, string, boolean, symbol
+instanceof: we use it for every other value that is created with a constructor function: like Object, Array, or
+even classes
+----------------------------------------------------
+
+Abstract Classes:
+
+Can't be used to create an object directly.
+only used as a parent class.
+can contain real implementation for some methods,
+the implementation methods can refer to other methods that don't actually exist yet (we still have to
+provide names and types for the un-implemented methods)
+can make child classes promise to implement some other method.
+
+if the child class required a constructor, we should add super() to the constructor,
+but if the child class didn't need constructor, we don't have to call super
+Sorter constructor will automatically be called instead.
+----------------------------------------------------
+export abstract class Sorter {
+  // by using abstract, we mark certain methods as existing in the future
+  // or essentially implemented by some child class. it's like we promise we're gonna have this method
+  // with these properties
+  abstract compare(leftIndex: number, rightIndex: number): boolean;
+  abstract swap(leftIndex: number, rightIndex: number): void;
+  abstract length: number;
+
+  sort(): void {
+    // const length = this.collection.length; // same as below
+    const { length } = this;
+
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < length - i - 1; j++) {
+        if (this.compare(j, j + 1)) {
+          this.swap(j, j + 1);
+        }
+      }
+    }
+  }
+}
+---------------------------------------------------
+
+Abstract methods:
+whenever we have an abstract class, within that abstract class, we have methods which are depended on some methods
+existed in child class, we should define those methods in the abstract class likewise, as abstract methods.
+so abstract methods will be *require* for inheritance. 
+if we want to make them optional, we should define them as normal methods.
+---------------------------------------------------
+export abstract class View {
+  constructor(public parent: Element, public model: User) {
+    this.bindModel();
+  }
+
+  abstract template(): string;                    //  obligatory - mandatory
+  
+  eventsMap(): { [key: string]: () => void } {    //  arbitrary - optional
+    return {};
+  }
+
+  ...
+}
+---------------------------------------------------
+
+Interfaces VS Inheritance/Abstract Classes:
+
+Interfaces:
+sets up contract between different classes.
+Use when we have very different objects that we want to work together
+promotes loose coupling
+
+Inheritance/Abstract Classes:
+Sets up contract between different classes but it's about inheritance and make use certain methods in child ones
+use when we are trying to build up a definition of an object.
+Strongly couples classes together
+without abstract classes in child classes, the child classes don't function correctly
+and likewise, the abstract class will be pointless without those child classes.
+
+***************************************************
+
+in order to use any nodejs module, we should install nodejs types by: $ npm i @types/node 
+
+with fs.readFileSync we can read any sort of file. like image, executable, json file, ...
+by adding [encoding: 'utf-8'] we tell TS that what kind of content we expect to find inside the file
+so it will return a string to us. if we don't add on that encoding flag, it will instead return buffer which is the raw
+data out of that file
+
+---------------------------------------------------
+const matches = fs.readFileSync('football.csv', {
+  encoding: 'utf-8',
+});
+---------------------------------------------------
+
+*** Attention: we don't export anything from our root index.ts file.
+
+type assertion, we use it to overwrite TypeScript behaviour. so for example, anytime we use enum in a
+separate file, we can import it in other files and use it with 'as' keyword:
+---------------------------------------------------
+export enum MatchResult {
+  HomeWin = 'H',
+  AwayWin = 'A',
+  Draw = 'D',
+}
+---
+import { MatchResult } from './MatchResults';
+---
+.map((row: string[]): any => {
+  return [
+    row[5] as MatchResult,
+  ];
+});
+---------------------------------------------------
+
+we use toples for defining the types of any items of an array.
+
+---------------------------------------------------
+type MatchData = [Date, string, string, number, number, MatchResult, string];
+export class CsvFileReader {
+  data: MatchData[] = []; // it's going to start off as an empty array
+  constructor(public filename: string) {} // we can get any csv file
+
+  // with fs.readFileSync we can read any sort of file. like image, executable, json file, ...
+  // by adding [encoding: 'utf-8'] we tell TS that what kind of content we expect to find inside the file
+  // so it will return a string to us. if we don't add on that encoding flag, it will instead return buffer which is the raw
+  // data out of that file
+  read(): void {
+    this.data = fs
+      .readFileSync(this.filename, {
+        encoding: 'utf-8',
+      })
+      .split('\n')
+      .map((row: string): string[] => {
+        return row.split(',');
+      })
+      .map(
+        (row: string[]): MatchData => {
+          return [
+            dateStringToDate(row[0]),
+            row[1],
+            row[2],
+            parseInt(row[3]),
+            parseInt(row[4]),
+            row[5] as MatchResult, // H , A , D - type assertion, we use it to overwrite TypeScript behaviour.
+            row[6],
+          ];
+        }
+      );  
+  }
+}
+---------------------------------------------------
+
+Generics:
+like function arguments, but for types in class/function definition.
+Allows us to define the type of a property/argument/return value at a future point
+Used heavily when writing reusable code
+we bring them in <> and we see them as an argument. treat generics as function arguments
+------------------------------------------
+class HoldAnything<TypeOfData>{
+  data: TypeOfData;
+}
+
+const holdNumber = new HoldAnything<number>()
+holdNumber.data = 123;
+
+const holdString = new HoldAnything<string>()
+holdString.data = 'hi there';
+------------------------------------------
+
+*** useually instead of using long name as <TypeOfData>, we use <T>
+------------------------------------------
+export abstract class CsvFileReader<T> {
+  data: T[] = [];
+}
+----
+and in other file, when we want to use this abstract class abounded with generics, we have:
+----
+type MatchData = [Date, string, string, number, number, MatchResult, string];
+
+export class MatchReader extends CsvFileReader<MatchData> {   // we send the MatchData tople as the argument of the class.
+  mapRow(row: string[]): MatchData {
+    return [
+      ...
+    ];
+  }
+}
+------------------------------------------
+
+When to use Inheritance and when to use Compositiion:
+
+Inheritance:  Characterized by an 'is a' relationship between two classes.
+Compositiion: Characterized by a 'has a' relationship between two classes.
+
+so we use inheritance when there is a relationship between 2 classes which both are depended to each other.
+so the child class has all the methods and properties which normally belongs to parent class as well.
+
+but in compositiion way, a class has a relationship or has a reference to some outside object (class)
+so anytime we want to execute a method in a class with interface, we let the inherited class do that execution.
+
+---
+favor object compositiion over class inheritance: what does it mean?
+for more information: watch video 117 & 118 & 119
+------------------------------------------
+
+static methods:
+they are methods which can be called even without making an instance of their class. 
+------------------------------------------
+export class Sammary{
+  constructor(...){}
+
+  static printHello(){
+    console.log('hi)
+  }
+
+  buildAndPrintReport(...){...}
+}
+
+Summary.printHello();           // works
+Summary.buildAndPrintReport();  // won't work
+------------------------------------------
+
+So, we can use static methods to give us back preconfigured instances of Summary
+------------------------------------------
+import { HtmlReport } from './reportTargets/HtmlReport';
+import { WinsAnalysis } from './analyzers/WinsAnalysis';
+
+export class Summary {
+  constructor(public analyzer: Analyzer, public outputTarget: OutputTarget) {}
+
+  // now anytime we want to create an instance of Summary that already has instance of both analyzis and
+  // htmlprint as argument, we can call this method, without creating any instance of it.
+  static winsAnalysisWithHtmlReport(team: string): Summary {
+    return new Summary(new WinsAnalysis(team), new HtmlReport());
+  }
+
+  buildAndPrintReport(matches: MatchData[]): void {
+    const output = this.analyzer.run(matches);
+    this.outputTarget.print(output);
+  }
+}
+---
+we can use one of these approches: 
+creating new instances and pass them to an instance of Summary,
+or calling static method of Summary which took new instances before as a preconfigured method.
+---
+// const summary = new Summary(new WinsAnalysis('Man United'), new HtmlReport());
+const summary = Summary.winsAnalysisWithHtmlReport('Man United');
+------------------------------------------
+
+***
+In Typescript, strings can be types:
+---
+type BestName = 'stephen';
+
+const printName = (name: BestName):void => {
+
+};
+
+printName('asdfafsgs');   // doesn't work
+printName('stephen');     // works
+---
+
+***
+In Javascript and Typescript, all object keys are strings:
+---
+const color = {}
+
+color.red = 'red';    //  =>  the key is "red"  - the key is string
+color[5]= 'red';      //  =>  the key is "5"    - the key is string
+
+console.log(color);   // => {5: "red", red: "red"}
+
+***
+Therefore, in Typescript, the keys of an object can be a type as well.
+----------------------------------------------------------------------
+export class Attributes<T> {
+  constructor(private data: T) {}
+
+  // normal behaviour
+  // get(propName: string): number | string | boolean {
+  //   return this.data[propName];
+  // }
+
+  // we use K as KeyOfObject => it means the value (or type) of K, can only ever be one of the keys of T - and T here is UserProps
+  // and (key: K) means the arguments we pass to the get method, will be one of id,name,age as strings (T type)
+  // T[K] means we return sth from this method as a normal object. ==> T[K] === T.K
+  // just like when we have:  color = {firstColor: "red"} - and we get the firstColor with color[firstColor]
+  // so here, T is the object "UserProps" - and the K is one of UserProps keys (id,name,age) - so T[K] means UserProps[id] or UserProps[name] or UserProps[age]
+  
+  // get<K extends keyof T>(key: K): T[K] {
+  //   return this.data[key];
+  // }
+
+  *
+  // we made this getter as an arrow function. so 'this' will referes to the instances of Attribute class (here, this === attribute)
+  get = <K extends keyof T>(key: K): T[K] => {
+    return this.data[key]; // === return attribute.data[key]
+  };
+
+  set(update: T): void {
+    Object.assign(this.data, update); // takes all the properties on 'update' and uses them to overwrite this.data data.
+  }
+}
+
+
+with defining K:
+
+import { UserProps } from './User';
+const attrs = new Attributes<UserProps>({ id: 5, name: 'asdf', age: 20 });
+const id = attrs.get('id');      // it knows it will be number
+const name = attrs.get('name');  // it knows it will be string
+const age = attrs.get('age');    // it knows it will be number
+
+----------------
+without defining K:
+
+import { UserProps } from './User';
+const attrs = new Attributes<UserProps>({ id: 5, name: 'asdf', age: 20 });
+const id = attrs.get('id') as number;  // with this approche, TS will know that id will be a number
+if (typeof id === 'number') {
+  id;
+}
+
+----------------------------------------------------------------------
+
+Accessors: get() and set():
+
+class Person{
+  constructor(public firstName: string, public lastName: string){};
+
+  // it's a method
+  fullName:string(){
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  // it's a getter
+  get fullName:string(){
+    return `${this.firstName} ${this.lastName}`;
+  }
+}
+
+const person = new Person('firstName','lastName');
+
+console.log(person.fullName());   //  calling fullName method
+console.log(person.fullName);     //  getting the fullName value
+
+----------------------------------------------------------------
+export class User {
+  public events: Eventing = new Eventing();
+  public sync: Sync<UserProps> = new Sync<UserProps>(rootUrl);
+  public attributes: Attributes<UserProps>;
+  
+  constructor(attrs: UserProps) {
+    this.attributes = new Attributes<UserProps>(attrs);
+  }
+
+  // method
+  on(eventName: string, callback: Callback): void {
+    this.events.on(eventName, callback);
+  }
+
+  // getter
+  get on() {
+    // we are not trying to call a function on here - instead we're trying to return a reference to the on() method.
+    // so whenever we use a getter, we no longer use pranthesise. if we just reference that getter, it's going to run that code
+    // right in the reference and going to get some value back.
+    return this.events.on;
+  }
+}
+----------------------------------------------------------------
+in index.ts file:
+----------------------------------------------------------------
+const user = new User({ name: 'new record', age: 0 });
+user.on('change', () => {         
+  // we pass all arguments to the "on" getter, and eventually, it will be passed to the right reference
+  console.log('user was changed');
+});
+----------------------------------------------------------------
+Property 'on' does not exist on type 'T'.  ->  to fix that: we should write a generic constraint
+so we fix this problem with an interface and we extends the interface by T
+----------------------------------------------------------------
+interface ModelForView {
+  on(eventName: string, callback: () => void): void;
+}
+
+export abstract class View<T extends ModelForView> {
+  constructor(public parent: Element, public model: T) {
+    this.bindModel();
+  }
+
+  bindModel(): void {
+    this.model.on('change', () => {
+      this.render();
+    });
+  }
+}
+----------------------------------------------------------------
+
+another way to fix that, is to use Model class itself, as a generic constraint. because a class can act like a type.
+
+----------------------------------------------------------------
+import { Model } from './../models/Model';
+
+// here we used Model as a type which can be extended by T. but the Model class, is also a generic class.
+// so we should also send a generic type to Model class. that's why we used 2 generic types here: T & K
+// so whenever we make a reference to View we're gonna pass in a type of Model (here is User class), 
+// and the second type will be the set of attributes inside that Model. so K can be UserProps, and T can be User
+// so we have sth like: <T extends Model<UserProps>, UserProps>
+
+export abstract class View<T extends Model<K>, K> {
+  ...
+}
+----------------------------
+import { User, UserProps } from '../models/User';
+import { View } from './View';
+
+export class UserForm extends View<User, UserProps> {
+  ...
+}
+----------------------------------------------------------------
+
+*** Whenever we have a file which want to export a class from it, we should start naming it with small letters
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+Express:
+
+the body in req.body only exists thanks to bodyParser library.
+
+Middleware in general:
+Middlewares in Express are functions, that recieve a Request and Response object, and also a reference to 
+the next middleware to be executed. if there is no other middleware, then the next function will instead be
+our request handller.
+so Middleware will expect Request and Response and does some processing of req and res,
+then calls the next function.
+-------------------------------
+
+How to combine Express with Typescript? should we just grab everything and put them into classes?
+
+normal Express index.ts:
+----------------------------------------------------------------
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['laskdjf'], // this keys is an array of string to encode the session.
+  })
+);
+
+app.use(router);
+
+app.listen(3000, () => {
+  console.log('Listening on port 3000');
+});
+----------------------------------------------------------------
+Express in class:
+----------------------------------------------------------------
+
+class Server {
+  // the instance variable "app" should have type of express.Express
+  app: express.Express = express();
+
+  constructor() {
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(
+      cookieSession({
+        name: 'session',
+        keys: ['laskdjf'], // this keys is an array of string to encode the session.
+      })
+    );
+    this.app.use(router);
+  }
+
+  start(): void {
+    app.listen(3000, () => {
+      console.log('Listening on port 3000');
+    });
+  }
+}
+
+new Server().start();
+----------------------------------------------------------------
+
+but we should ask ourselves if we gain anything from it or not?
+writing this code in a class just because we want to forcely use Typescript is not a good idea.
+and it's not even easy to read or write
+
+but if we use some advance features of Typescript, then it can be useful.
+---
+
+Decorators:
+
+whenever we use Ts classes and add a method to them, in compiled Ts file, all those methods are
+accessable via prototypes in Javascript. prototype is sth invisable which contains all of the class functions
+but the important point is, that we can add functions to a prototype of a class, even if the class has 
+already been created. that's why we can take the advantage of decorators for Ts classes.
+
+decorators are functions that can be used to modify/change/anything different properties/methods in the class.
+they're not the same as Js decorators. they are used inside/on classes only
+to undrestand them, we should undrestand the order in which decorators are ran 
+so we used decorators in different locations to modify different properties of a class
+
+in order to make decorators work, we should add 'experimentalDecorators: true' and 'emitDecoratorMetadata: true'
+to our tsconfig.json file.
+---
+Decorators in classes can be used on property, method, accessor (getter)
+their first argument is Prototype of the object.
+second argument is the key of the property/method/accessor on the object
+the third argument is the property descriptor
+Decorators are applied when the code for this class is ran(not when an instance is created)
+the decorator will be executed one single time when we define a class.
+----------------------
+class Boat {
+  color: string = 'red';
+
+  get formattedColor(): string {
+    return `This boats color`;
+  }
+
+  @testDecorator
+  pilot(): void {
+    console.log('swish');
+  }
+}
+
+//  target will be prototype, second argument is the key of the property/method/accessor on the object
+//  so here is pilot
+function testDecorator(target: any, key: string): void {
+  console.log(target); // Boat { formattedColor: [Getter], pilot: [Function] }
+  console.log(key); // pilot
+}
+----------------------
+
+we used '@decorator' syntax to take the advantage decorators. but we can simply call the decorator like a function:
+---
+testDecorator(Boat.prototype, 'pilot');
+---
+
+'PropertyDecorator' is globally available to us in TS. 
+it is an object that configured a property in another object.
+ 
+options in PropertyDecorator for methods: 
+writable:       whether or not this property can be changed
+enumerable:     whether or not this property get looped over by a 'for...in'
+value:          current value
+configurable:   property definition can be changed and property can be deleted.
+-------------------------------------------------------
+const car = {make: 'honda', year: 2000}
+Object.getOwnPropertyDescriptor(car, 'make');
+
+// output:
+{value: "honda", writable: true, enumerable: true, configurable: true}
+configurable: true
+enumerable: true
+value: "honda"
+writable: true
+__proto__: Object
+-------------------------------------------------------
+
+so we can change the normal behaviour by changing these options:
+---
+Object.getOwnPropertyDescriptor(car, 'make', { writable: false});
+---
+
+we can also pass some arguments to the decorator and meke our decorator more dynamic.
+in order to do that, we should define our function decorator as 2 nested functions:
+----------------------------------------------------
+class Boat {
+  color: string = 'red';
+
+  get formattedColor(): string {
+    return `This boats color`;
+  }
+
+  @logError("Opps, boat was sunk in ocean")
+  pilot(): void {
+    throw new Error();
+    console.log('swish');
+  }
+}
+
+function logError(errorMessage:string) {
+  //  target will be prototype,
+  //  second argument is the key of the property/method/accessor on the object so here is pilot
+  function (target: any, key: string, desc: PropertyDecorator): void {
+    //   console.log(target); // Boat { formattedColor: [Getter], pilot: [Function] }
+    //   console.log(key); // pilot
+    const method = desc.value;
+
+    desc.value = function () {
+      try {
+      method();
+      } catch (e) {
+      console.log(errorMessage);
+      }
+    };
+  }
+}
+----------------------------------------------------
+
+Remember: that, target as the first argument of a decorator function, is always refers to the prototypes of a class
+and prototypes just contain methods. not properties.
+so by decorators, we can access and change only methods. not properties.
+------------
+class Boat {
+  @testDecorator
+  color: string = 'red';
+}
+
+function testDecorator(target: any, key: string) {
+  console.log(target);         //  Boat { formattedColor: [Getter], pilot: [Function] }
+  console.log(target.color);   //  undefined
+}
+----------------------------------------------------
+
+we also can use decorators for the arguments of a method in class.
+-------------------------------
+class Boat {
+
+  pilot(@parameterDecorator speed: string, @parameterDecorator generateWake: boolean): void {
+    if (speed === 'fast') {
+      console.log('swish');
+    } else {
+      console.log('nothing');
+    }
+  }
+}
+
+function parameterDecorator(target: any, key: string, index: number) {
+  console.log(key, index);  
+}
+
+// the output: 
+pilot 0
+pilot 1
+-------------------------------
+
+so the decorator function in this case has arguments like taget as prototype, key as the name of the method in that class,
+and index as which argument of the method.
+
+the syntax is also like this: pilot(@parameterDecorator speed: string)
+
+-------------------------------
+
+class decorators are used when we want to apply a decorator to a class. the only argument to it will be the
+constructor of that class in this example:
+-------------------------------
+@classDecorator
+class Boat {
+  ...
+} 
+
+function classDecorator(constructor: typeof Boat) {
+  console.log(constructor);
+}
+-------------------------------
+
+*** We can take the advantage of decorators while writing Rest API !!!
+we can use them for calling different HTTP request and pass the path of the route. like:
+----------------
+@controller('/auth')
+class loginController{
+  @get('/login')
+  getLogin(req: Request, res: Response): void {
+    res.send('form');
+  }
+
+  @post('/login')
+  @validateBody('email','password')
+  @use(requireAuth)
+  postLogin(req: Request, res: Response): void {
+    ...
+  }
+}
+----------------
+the decorator will take the getLogin method, and associate with '/login' route
+we can also use decorators to validate the passing arguments to a method. like @validateBody('email','password')
+it checks if email or password are entered.
+we can also use middlewares via decorators. like: @use(requireAuth)
+we can also use a class decorator for applying a prefix for all routes inside the class methods. like: @controller('/auth')
+----------------
+
+one possible implementation of how to put all these decorators together:
+we want this function for postLogin()
+----------------
+
+function post(routeName) {
+  return function(target: any, key: string, desc: PropertyDecorator) {
+    // it says: look at the router, we want to associate a post request handller
+    // the router which is watching for is routeName, the actual route handler (the function that handle the request)
+    // is target[key]
+    router.post(routeName, targrt[key]);    
+  }
+}
+
+function use(middleware: any) {
+  return function(target: any, key: string, desc: PropertyDecorator) {
+    router.addMidd
+  }
+}
+----------------------------------------------------------------
+
+the best approche to associate all decorators to a method, is using metadata
+actually, the decorators associate route configuration info with the method by using metadata
+
+Metadata:
+in order to add metadata, you should install reflect-metadata with: $npm i reflect-metadata
+also you should have "experimentalDecorators": true, "emitDecoratorMetadata": true, enabaled.
+proposed feature to be added to Javascript, and thus Typescript.
+it is snippets of info that can be tied to a method, property, or class defination.
+----------------------------------------------------------------
+// it automatically adds a single method named Reflect as metadata.
+import 'reflect-metadata';
+
+// we want to associate some metadata with this object - metadata is like secret information that doesn't show up anywhere.
+const plane = {
+  color: 'red',
+};
+
+// it will add an invisible property with key of 'note' and value of 'hi there'. but no one can see this.
+Reflect.defineMetadata('note', 'hi there', plane);
+
+console.log(plane);   // output -> {color: 'red'}
+
+const note = Reflect.getMetadata('note', plane);  // arguments: 1. the property we want, 2. the object we want to extract from.
+const height = Reflect.getMetadata('height', plane);
+
+console.log(note);    // output -> 'hi there'
+console.log(height);
+
+----------------------------------------------------------------
+
+so metadata is a let's say a pointer to another object attached to our first object.
+
+we also can attach a metadata to a property of an object:
+----------------------------------------------------------------
+import 'reflect-metadata';
+
+const plane = {
+  color: 'red',
+};
+
+Reflect.defineMetadata('note', 'hi there', plane, 'color');
+
+const noteForColor = Reflect.getMetadata('note', plane, 'color');
+
+console.log(noteForColor);  // output -> hi there
+----------------------------------------------------------------
+
+now let's use metadata with decorators to combine decorater with a method:
+----------------------------------------------------------------
+import 'reflect-metadata';
+
+class Plane {
+  color: string = 'red';
+
+  @markFunctioin
+  fly(): void {
+    console.log('vrrrrrrrr');
+  }
+}
+
+function markFunctioin(target: Plane, key: string) {
+  Reflect.defineMetadata('secret', 123, target, key);
+}
+
+const secret = Reflect.getMetadata('secret', Plane.prototype, 'fly');
+
+console.log(secret);  // 123
+----------------------------------------------------------------
+
+as we don't want to pass any parameter to our decorater function, we don't define it as nested functions (decorater factory).
+in the decorater function, we define a metadata with key of 'secret' and value of 123, and we want to 
+associate it with the fly method in the Plane class, so the target should be the prototype which is the class here
+and the key would be the name of the method(fly) .
+
+if we want to make our decorater available to recieve some arguments, we should use decorater factory:
+----------------------------------------------------------------
+function markFunctioin(secretInfo: string){
+  return function (target: Plane, key: string) {
+    Reflect.defineMetadata('secret', secretInfo, target, key);
+  }
+}
+----------------------------------------------------------------
+
+another decorater for the whole class:
+----------------------------------------------------------------
+// this method will loop throw all properties of the prototype, (all methods of the class)
+// so it's gonna find the fly() method right now.
+function printMetadata(target: typeof Plane){
+  for(let key in target.prototype){
+    const secret = Reflect.getMetadata('secret', target.prototype, key);
+    console.log(secret)
+  }
+}
+----------------------------------------------------------------
+
+*** React App ***
+
+-----------
+$ npx create-react-app rrts --typescript
+-----------
+creat a react application, rrts stands for react-redux-Typescript.
+if you had error with 'npx cannot be found', you should update your npm
+
+here is the code for the base index.tsx file of the application
+------------------------------------------------------------------
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+// color here is an optional property
+interface AppProps {
+  color?: string;
+}
+
+// the Component below is an generic class with this syntax:
+// class React.Component<P = {}, S = {}, SS = any>
+// so it takes Props as a generic argument as the first argument
+
+class App extends React.Component<AppProps> {
+  render() {
+    return <div>{this.props.color} Hi there</div>;
+  }
+}
+
+ReactDOM.render(<App color="red" />, document.querySelector('#root'));
+------------------------------------------------------------------
+
+this pattern you see above is gonna be repeated for just about 
+every single class based react component you ever create.
+1.  you go and define your class based component.
+2.  you go and define an interface right above it that describes the structure of props
+    that you expect to pass into the component
+3.  and you reference that interface right next to React.Component<> as generics.
+
+here we have a code for incrementing and decrementing a counter:
+------------------------------------------------------------------
+class App extends React.Component<AppProps> {
+  state = { counter: 0 };
+
+  onIncrement = (): void => {
+    this.setState({ counter: this.state.counter + 1 });
+  };
+
+  onDecrement = (): void => {
+    this.setState({ counter: this.state.counter - 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.onIncrement}>Increment</button>
+        <button onClick={this.onDecrement}>Decremnt</button>
+        {this.state.counter}
+      </div>
+    );
+  }
+}
+------------------------------------------------------------------
+
+we used the normal way of using state for defining a property for the Class in both JS & TS
+but we could use constructor instead of state
+
+// class React.Component<P = {}, S = {}, SS = any>
+
+the second generic argument of React.Component is 'S' stands for 'state', so we can have another
+interface for passing to the 'S'. and that's gonna describe the state that we expect to have
+inside our component. the type of state in React.Component is Readonly<S>
+it means it's a 'read only' object of 'S'.
+when we use 'state = {counter: 0}' we actually redefined the state property of React.Component
+but now that we don't have state and we have constructor instead, we should define state type with interface
+so we need AppState interface
+------------------------------------------------------------------
+interface AppProps {
+  color: string;
+}
+
+interface AppState {
+  counter: number;
+}
+
+class App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+
+    // we add a value to the state property. we don't define state here.
+    this.state = { counter: 0 };
+  }
+
+  onIncrement = (): void => {
+    this.setState({ counter: this.state.counter + 1 });
+  };
+
+  onDecrement = (): void => {
+    this.setState({ counter: this.state.counter - 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.onIncrement}>Increment</button>
+        <button onClick={this.onDecrement}>Decremnt</button>
+        {this.state.counter}
+      </div>
+    );
+  }
+}
+------------------------------------------------------------------
+
+so there is 2 options:
+1 . declare an interface for props, pass it to component, and have a separate state property:
+    state = {counter: 0}
+
+2 . declare 2 interfaces, one for props, one for state, pass them to component, and add values 
+    to them with constructor class.
+   
+    constructor(props: AppProps) {
+    super(props);
+
+    this.state = { counter: 0 };
+    }
+
+we should choose just one of them. we go with easy wat in this course. (an overwritten state and 1 interface)
+
+** Functional-component **
+
+the argument of functional components is props object. its type is AppProps interface.
+it returns some jsx elements , so the type of return is JSX.Element.
+we don't need state in functional-components
+-----------------
+interface AppProps {
+  color: string;
+}
+
+const App = (props: AppProps): JSX.Element => {
+  return <div>{props.color}</div>;
+};
+------------------------------------------------------------------
+
+Redux with Typescript:
+
+we need to install redux react-redux axios redux-thunk @types/react-redux
+
+we use axios for making request.
+we use redux-thunk to make request inside the action creator.
+
+we should then create directories such as: 'actions,reducers,components' and have an index.tsx file
+as the root of our project.
+
+--------------------index.tsx------------------------------------------
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { App } from './components/App';
+import { reducers } from './reducers';
+
+const store = createStore(reducers, applyMiddleware(thunk));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App color="red" />
+  </Provider>,
+  document.querySelector('#root')
+);
+------------------------------------------------------------------
+
+---------------------index.ts - in reducerrs----------------------
+
+// we used .ts instead of .tsx for index.ts
+// because we have no jsx code to render here.
+import { combineReducers } from 'redux';
+
+export const reducers = combineReducers({
+  counter: () => 1,
+});
+------------------------------------------------------------------
+
+---------------------App.tsx - in components----------------------
+import React from 'react';
+
+interface AppProps {
+  color: string;
+}
+
+export class App extends React.Component<AppProps> {
+  render() {
+    return <div>Hi there</div>;
+  }
+}
+------------------------------------------------------------------
+
+we make a network request here, so it's an Asynchronous action creator
+so we need to use redux-thunk
+so instead of returning an action, we return a function
+because we use redux-thunk, the function will be called with 'dispatch'
+it's the dispatch function from redux which allows us to dispatch actions as we pleased.
+
+in the type defination file of 'redux', we have an interface named Dispatch
+----
+export interface Dispatch<A extends Action = AnyAction> {
+  <T extends A>(action: T): T;
+}
+----
+so we need to import that interface from redux definition file.
+
+we also need to make an interface for the instructure of receivng data from url
+the data sample is:
+
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "delectus aut autem",
+    "completed": false
+  },
+
+we don't add 'userId' to our interface because we don't need it. so its existance is optional.
+
+we also need an Enum to represent all the redux types inside our app
+in redux, type stands for the type that the action object has. like: 'FETCH_TODOS'
+therefore, in ./actions , we make a types.ts file
+
+
+we also need to make an interface for the instructure of receivng data from url
+the data sample is:
+----
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "delectus aut autem",
+    "completed": false
+  },
+----
+the FetchTodosActions interface, makes sure that you're
+always passing in, the object with the correct types and properties
+
+---------------------index.ts - in actions------------------------
+
+import axios from 'axios';
+import { Dispatch } from 'redux';
+import { ActionTypes } from './types';
+
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+interface FetchTodosActions {
+  type: ActionTypes.fetchTodos;
+  payload: Todo[];
+}
+
+const url = 'https://jsonplaceholder.typicode.com/todos';
+
+export const fetchTodos = () => {
+  return async (dispatch: Dispatch) => {
+    // axios.get() is gonna fetch array of objects that satisfies the Todo object.
+    const response = await axios.get<Todo[]>(url);
+
+    // once we get the response back
+    dispatch<FetchTodosActions>({
+      // in redux, type stands for the type that the action object has
+      //   type: 'FETCH_TODOS',
+      type: ActionTypes.fetchTodos,
+      payload: response.data,
+    });
+  };
+};
+------------------------------------------------------------------
+
+now we need to make sure we have a reducer which handles the action of type 'FetchTodosActions'
+and essentially store the reference to all the different Todos that we detched.

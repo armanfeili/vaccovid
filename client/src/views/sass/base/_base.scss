@@ -1,0 +1,138 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    // This defines what 1rem is
+    font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
+
+    @include respond(tab-land) {
+        // width < 1200?
+        font-size: 56.25%; //1 rem = 9px, 9/16 = 50%
+    }
+
+    @include respond(tab-port) {
+        // width < 900?
+        font-size: 50%; //1 rem = 8px, 8/16 = 50%
+    }
+
+    @include respond(big-desktop) {
+        font-size: 75%; //1rem = 12, 12/16
+    }
+}
+
+body {
+    box-sizing: border-box;
+    padding: 3rem;
+    // background-color: $color-primary-forth;
+
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    @include respond(tab-port) {
+        padding: 0;
+    }
+}
+
+// body::-webkit-scrollbar-track {
+//     background: orange;
+//     /* color of the tracking area */
+// }
+
+// body::-webkit-scrollbar-thumb {
+//     background-color: blue;
+//     /* color of the scroll thumb */
+//     border-radius: 20px;
+//     /* roundness of the scroll thumb */
+//     border: 3px solid orange;
+//     /* creates padding around scroll thumb */
+// }
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 2px;
+    background: #1a1a2e;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
+    border-radius: 20px;
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #064670;
+    // background: #19d3da;
+    // background: #1f1f3d;
+    border-radius: 20px;
+    // background: #fff;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    // background: #1f1f3d;
+    width: 8px;
+}
+
+
+.container {
+
+    // background-color: #eee;
+    // width: 1000px;
+    // margin: 60px auto;
+    margin-top: 53px;
+    // display: grid;
+}
+
+::selection {
+    background-color: $color-primary;
+    color: $color-white;
+}
+
+.loading {
+    position: relative;
+    background-color: #E2E2E2;
+
+    &.card-image {
+        border-radius: 0;
+    }
+
+    &::after {
+        display: block;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+        animation: loading 1.5s infinite;
+    }
+}
+
+@keyframes loading {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+::-moz-selection {
+    /* Code for Firefox */
+    color: #36506c;
+    background: #a5def1;
+}
+
+::selection {
+    color: #36506c;
+    background: #a5def1;
+}

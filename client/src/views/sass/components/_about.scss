@@ -1,0 +1,562 @@
+.about {
+    display: grid;
+    grid-template-rows: [whoweare-start] auto [whoweare-end resources-start] auto [resources-end];
+    grid-template-columns: 1fr;
+    color: #eee;
+
+    @include respond(tab-land) {
+        grid-template-columns: minmax(0px, 1100px);
+    }
+
+    @include respond(tab-port) {}
+
+    @include respond(middle-phone) {}
+
+    @include respond(phone) {}
+
+    @include respond(small-phone) {}
+
+    &-whoweare {
+        grid-row: whoweare-start / whoweare-end;
+
+        display: grid;
+        grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
+        grid-template-columns: [left-start] 1fr [left-end whoweare-start] minmax(300px, 1200px) [whoweare-end right-start] 1fr [right-left];
+
+        @include respond(tab-land) {
+            grid-template-columns: [res-start] minmax(20px, 700px) [res-end];
+            margin-left: 18%;
+        }
+
+
+        @include respond(tab-port) {
+            grid-template-columns: [res-start] minmax(20px, 500px) [res-end];
+            margin-left: 22%;
+        }
+
+        @include respond(middle-phone) {
+            grid-template-columns: [res-start] minmax(20px, 400px) [res-end];
+            margin-left: 17%;
+        }
+
+        @include respond(phone) {
+            grid-template-columns: [res-start] minmax(20px, 300px) [res-end];
+            margin-left: 9.8%;
+        }
+
+        @include respond(small-phone) {
+            grid-template-columns: [res-start] minmax(20px, 270px) [res-end];
+            margin-left: 5px;
+        }
+
+
+        &-first-part {
+            grid-row: first-part-start / first-part-end;
+            grid-column: whoweare-start / whoweare-end;
+
+            @include respond(tab-land) {
+                grid-column: res-start / res-end;
+            }
+
+            display: grid;
+            grid-template-rows: auto auto;
+            grid-template-columns: 1fr;
+            text-align: center;
+
+            &-title {
+                font-weight: 100;
+            }
+
+            &-between {
+                width: 70%;
+                margin-left: 15%;
+                height: 1px;
+                background: #8e9eab;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+                /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-description {
+                margin-top: 8px;
+            }
+        }
+
+        &-second-part {
+            grid-row: second-part-start / second-part-end;
+            grid-column: whoweare-start / whoweare-end;
+            justify-self: center;
+
+            display: grid;
+            grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
+            grid-template-columns: [left-start] minmax(300px, 330px) [left-end middle-start] minmax(300px, 330px) [middle-end right-start] minmax(300px, 330px) [right-end];
+            margin-top: 15px;
+            gap: 10px;
+
+            @include respond(tab-land) {
+                grid-column: res-start / res-end;
+
+                display: grid;
+                grid-template-rows: [contributors-start] auto [contributors-end firstname-start] auto [firstname-end secondname-start] auto [secondname-end thirdname-start] auto [thirdname-end];
+                grid-template-columns: [contributor-start] 1fr [contributor-end];
+                gap: 0px;
+                row-gap: 10px;
+
+            }
+
+            &-contributors {
+                grid-row: contributors-start / contributors-end;
+                grid-column: middle-start / middle-end;
+                font-size: 180%;
+                font-weight: 100;
+                text-align: center;
+
+                @include respond(tab-land) {
+                    grid-row: contributors-start / contributors-end;
+                    grid-column: contributor-start / contributor-end;
+                }
+            }
+
+            &-between {
+                grid-row: contributors-start / contributors-end;
+                grid-column: middle-start / middle-end;
+                align-self: end;
+                width: 70%;
+                margin-left: 15%;
+                height: 1px;
+                background: #8e9eab;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+                /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */
+
+                @include respond(tab-land) {
+                    grid-row: contributors-start / contributors-end;
+                    grid-column: contributor-start / contributor-end;
+                }
+            }
+
+            &-Arman-Feili {
+                grid-row: names-start / names-end;
+                // grid-column: left-start / left-end;
+
+                @include respond(tab-land) {
+                    grid-column: contributor-start / contributor-end;
+                    grid-row: firstname-start / firstname-end;
+                }
+
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end];
+
+                &-image {
+                    grid-column: left-start / left-end;
+
+                    width: 100px;
+                    height: 100px;
+                    margin-top: 10px;
+
+                    @include respond(tab-land) {
+                        grid-column: left-start / left-end;
+                        width: 80px;
+                        height: 80px;
+                        margin-top: 22px;
+                        margin-left: 20px;
+                    }
+
+                    &-img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                    }
+                }
+
+                &-title {
+                    grid-column: right-start / right-end;
+                    font-weight: 100;
+
+                    &-name {
+                        font-size: 230%;
+                        font-weight: 100;
+                        line-height: 0px;
+                        margin-top: 37px;
+                        margin-bottom: 3px;
+
+                        @include respond(tab-land) {
+                            font-size: 200%;
+                        }
+
+                    }
+
+                    &-proficiency {
+                        font-size: 120%;
+                        line-height: 15px;
+                        margin-top: 28px;
+                        margin-left: 2px;
+
+                        @include respond(tab-land) {
+                            font-size: 105%;
+                            line-height: 15px;
+                            margin-top: 20px;
+                            margin-left: 0px;
+                        }
+                    }
+
+                    &-act {
+                        font-size: 100%;
+                        color: #1fab89;
+                        margin-left: 2px;
+
+                        @include respond(tab-land) {
+                            margin-left: 0px;
+                        }
+                    }
+                }
+            }
+
+            &-Parsa-Radfar {
+                grid-row: names-start / names-end;
+                // grid-column: middle-start / middle-end;
+
+                @include respond(tab-land) {
+                    grid-column: contributor-start / contributor-end;
+                    grid-row: secondname-start / secondname-end;
+                }
+
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end];
+
+                &-image {
+                    grid-column: left-start / left-end;
+
+                    width: 100px;
+                    height: 100px;
+                    margin-top: 10px;
+
+                    @include respond(tab-land) {
+                        grid-column: left-start / left-end;
+                        width: 80px;
+                        height: 80px;
+                        margin-top: 22px;
+                        margin-left: 20px;
+                    }
+
+                    &-img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                    }
+                }
+
+                &-title {
+                    grid-column: right-start / right-end;
+                    font-weight: 100;
+
+                    &-name {
+                        font-size: 230%;
+                        font-weight: 100;
+                        line-height: 0px;
+                        margin-top: 37px;
+                        margin-bottom: 3px;
+
+                        @include respond(tab-land) {
+                            font-size: 200%;
+                        }
+
+                    }
+
+                    &-proficiency {
+                        font-size: 120%;
+                        line-height: 15px;
+                        margin-top: 28px;
+                        margin-left: 2px;
+
+                        @include respond(tab-land) {
+                            font-size: 105%;
+                            line-height: 15px;
+                            margin-top: 20px;
+                            margin-left: 0px;
+                        }
+                    }
+
+                    &-act {
+                        font-size: 100%;
+                        color: #1fab89;
+                        margin-left: 2px;
+
+                        @include respond(tab-land) {
+                            margin-left: 0px;
+                        }
+                    }
+                }
+
+            }
+
+            &-Amin-Feili {
+                grid-row: names-start / names-end;
+                // grid-column: right-start / right-end;
+
+                @include respond(tab-land) {
+                    grid-column: contributor-start / contributor-end;
+                    grid-row: thirdname-start / thirdname-end;
+                }
+
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end];
+
+                &-image {
+                    grid-column: left-start / left-end;
+
+                    width: 100px;
+                    height: 100px;
+                    margin-top: 10px;
+
+                    @include respond(tab-land) {
+                        grid-column: left-start / left-end;
+                        width: 80px;
+                        height: 80px;
+                        margin-top: 22px;
+                        margin-left: 20px;
+                    }
+
+                    &-img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                    }
+                }
+
+                &-title {
+                    grid-column: right-start / right-end;
+                    font-weight: 100;
+
+                    &-name {
+                        font-size: 230%;
+                        font-weight: 100;
+                        line-height: 0px;
+                        margin-top: 37px;
+                        margin-bottom: 3px;
+
+                        @include respond(tab-land) {
+                            font-size: 200%;
+                        }
+
+                    }
+
+                    &-proficiency {
+                        font-size: 120%;
+                        line-height: 15px;
+                        margin-top: 28px;
+                        margin-left: 2px;
+
+                        @include respond(tab-land) {
+                            font-size: 105%;
+                            line-height: 15px;
+                            margin-top: 20px;
+                            margin-left: 0px;
+                        }
+                    }
+
+                    &-act {
+                        font-size: 100%;
+                        color: #1fab89;
+                        margin-left: 2px;
+
+                        @include respond(tab-land) {
+                            margin-left: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-resources {
+        grid-row: resources-start / resources-end;
+        margin-top: 30px;
+
+        &-title {
+            font-weight: 100;
+            text-align: center;
+        }
+
+        &-between {
+            width: 70%;
+            margin-left: 15%;
+            height: 1px;
+            background: #8e9eab;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+            /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        &-list {
+            display: grid;
+            grid-template-rows: auto;
+            // grid-template-columns: [left-start]100px [left-end item-left-start]minmax(300px, 400px) [item-left-end item-middle-start]minmax(300px, 400px) [item-middle-end item-right-start]minmax(300px, 400px) [item-right-end right-start] 100px [right-end];
+            grid-template-columns: 1fr 1fr 1fr;
+            margin: 20px 6%;
+
+            @include respond(tab-land) {
+                grid-template-columns: 1fr 1fr;
+                margin: 20px 2%;
+
+            }
+
+            @include respond(tab-port) {
+                grid-template-columns: 1fr;
+            }
+
+            @include respond(middle-phone) {}
+
+            @include respond(phone) {}
+
+            @include respond(small-phone) {}
+
+            &-link {
+                color: #eee;
+                text-decoration: none;
+                outline: 0;
+            }
+
+            &-item {
+                // grid-column: item-left-start / item-left-end;
+
+                display: grid;
+                grid-template-rows: [title-start] 50px [title-end description-start] 140px [description-end];
+                grid-template-columns: [image-start] 1fr [image-end text-start] 3fr [text-end];
+
+                // border: 1px solid antiquewhite;
+                margin: 8px 8px;
+                border-radius: 8px;
+
+                background: #141E30;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #1a1a2e, #141E30);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #1a1a2e, #141E30);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                transition: 0.2s;
+
+                @include respond(middle-phone) {
+                    grid-template-rows: [title-start] 50px [title-end description-start] 165px [description-end];
+                    grid-template-columns: [image-start] 1fr [image-end text-start] 5fr [text-end];
+                    margin: 6px 8px;
+                }
+
+                &-image {
+                    grid-column: image-start / image-end;
+                    grid-row: title-start / description-end;
+
+                    width: 150px;
+                    height: 190px;
+                    border-radius: 8px 0px 0px 8px;
+
+                    @include respond(middle-phone) {
+                        width: 105px;
+                        height: 214px;
+                    }
+
+                    @include respond(phone) {}
+
+                    @include respond(small-phone) {}
+
+                    &-img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 8px 0px 0px 8px;
+                    }
+                }
+
+                &-cover {
+                    grid-column: image-start / image-end;
+                    grid-row: title-start / description-end;
+
+                    width: 150px;
+                    height: 190px;
+                    background-color: #1fab8844;
+                    z-index: 2;
+                    border-radius: 8px 0px 0px 8px;
+
+                    background: #141E30;
+                    /* fallback for old browsers */
+                    background: -webkit-linear-gradient(to right, #243b5500, #141E30);
+                    /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to right, #243b5500, #141E30);
+
+                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                    @include respond(middle-phone) {
+                        width: 105px;
+                        height: 214px;
+                    }
+                }
+
+
+                &-title {
+                    grid-row: title-start / title-end;
+                    grid-column: text-start / text-end;
+                    padding-left: 5px;
+                    padding-top: 5px;
+                    font-weight: 100;
+                    font-size: 160%;
+                    border-radius: 0px 8px 8px 0px;
+                    color: #1fab89;
+
+                    background: #141E30;
+                    /* fallback for old browsers */
+                    background: -webkit-linear-gradient(to left, #1a1a2e, #141E30);
+                    /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to left, #1a1a2e, #141E30);
+                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+                }
+
+                &-between {
+                    grid-row: title-start / title-end;
+                    grid-column: text-start / text-end;
+                    align-self: end;
+                    width: 90%;
+                    margin-left: 5px;
+                    height: 1px;
+                    background: #8e9eab;
+                    /* fallback for old browsers */
+                    background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab00);
+                    /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to right, #eef2f3, #8e9eab00);
+                    /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */
+                }
+
+                &-description {
+                    grid-row: description-start / description-end;
+                    grid-column: text-start / text-end;
+                    padding-left: 5px;
+                    font-weight: 100;
+                    border-radius: 0px 8px 8px 0px;
+                    background: #141E30;
+                    /* fallback for old browsers */
+                    background: -webkit-linear-gradient(to left, #1a1a2e, #141E30);
+                    /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to left, #1a1a2e, #141E30);
+                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                    width: 325px;
+
+                    @include respond(phone) {
+                        width: 200px;
+                        font-size: 85%;
+                    }
+
+                    @include respond(small-phone) {}
+
+
+                }
+            }
+        }
+    }
+}

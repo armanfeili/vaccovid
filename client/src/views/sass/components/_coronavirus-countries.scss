@@ -1,0 +1,1586 @@
+table {
+    // width: 100%;
+}
+
+table,
+th,
+td {
+    // border: 1px solid black;
+    // border-collapse: collapse;
+}
+
+th,
+td {
+    // padding: 15px;
+    text-align: left;
+}
+
+
+#t01 tr:nth-child(even) {
+    // background-color: #eee;
+}
+
+#t01 tr:nth-child(odd) {
+    // background-color: #fff;
+}
+
+#t01 th {
+    // background-color: black;
+    // color: white;
+}
+
+.country {
+    background-color: #283149;
+    width: 98%;
+    margin: 50px auto;
+    display: grid;
+    // grid-template-rows: [regions-and-stats-start] 4fr [regions-end] 1fr [stats-end];
+    grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 400px [quick-facts-chart-end new-cases-chart-start] 400px [new-cases-chart-end total-cases-chart-start] 350px [total-cases-chart-end];
+    // grid-template-rows: 1fr;
+    grid-template-columns: [regions-start]minmax(150px, 1fr)[regions-end stats-start] minmax(200px, 3fr) [middle-left-end middle-right-start] minmax(200px, 3fr) [stats-end];
+    // grid-template-columns: [regions-start] 1fr [regions-end stats-start] 5fr [stats-end];
+    // grid-column-gap: 10px;
+    height: 100%;
+    // border: red 2px solid;
+    border-radius: 10px;
+    padding: 10px 8px;
+
+    @include respond(very-big-desktop) {
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end new-cases-chart-start] 200px [new-cases-chart-end total-cases-chart-start] 200px [total-cases-chart-end];
+    }
+
+    @include respond(big-desktop) {
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 650px [quick-facts-chart-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end];
+    }
+
+    @include respond(tab-land) {
+    grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 250px [quick-facts-chart-end new-cases-chart-start] 250px [new-cases-chart-end total-cases-chart-start] 250px [total-cases-chart-end];
+}
+
+@include respond(tab-port) {
+    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 450px [quick-facts-chart-end world-chart-start] 450px [world-chart-end new-cases-start] 450px [new-cases-end new-deaths-start] 450px [new-deaths-end total-cases-start] 450px [total-cases-end total-deaths-start] 450px [total-deaths-end];
+    grid-template-columns: [responsive-start] 100% [responsive-end];
+    height: auto;
+}
+
+@include respond(middle-phone) {
+    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 350px [quick-facts-chart-end world-chart-start] 350px [world-chart-end new-cases-start] 350px [new-cases-end new-deaths-start] 350px [new-deaths-end total-cases-start] 350px [total-cases-end total-deaths-start] 350px [total-deaths-end];
+}
+
+@include respond(phone) {
+    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 230px [quick-facts-chart-end world-chart-start] 230px [world-chart-end new-cases-start] 230px [new-cases-end new-deaths-start] 230px [new-deaths-end total-cases-start] 230px [total-cases-end total-deaths-start] 230px [total-deaths-end];
+}
+
+@include respond(small-phone) {
+    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end world-chart-start] 200px [world-chart-end new-cases-start] 200px [new-cases-end new-deaths-start] 200px [new-deaths-end total-cases-start] 200px [total-cases-end total-deaths-start] 200px [total-deaths-end];
+}
+
+
+    &-withProvince {
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 400px [quick-facts-chart-end new-cases-chart-start] 400px [new-cases-chart-end total-cases-chart-start] 400px [total-cases-chart-end];
+
+        @include respond(very-big-desktop) {
+            grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end new-cases-chart-start] 200px [new-cases-chart-end total-cases-chart-start] 200px [total-cases-chart-end];
+        }
+
+        @include respond(big-desktop) {
+            grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 650px [quick-facts-chart-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end];
+        }
+
+        @include respond(tab-land) {
+            grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 270px [quick-facts-chart-end new-cases-chart-start] 270px [new-cases-chart-end total-cases-chart-start] 270px [total-cases-chart-end];
+        }
+
+        @include respond(tab-port) {
+            grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end title-start] 5px [title-end province-stats-start] 410px [province-stats-end guide-start] auto [guide-end quick-facts-chart-start] 450px [quick-facts-chart-end world-chart-start] 450px [world-chart-end new-cases-start] 450px [new-cases-end new-deaths-start] 450px [new-deaths-end total-cases-start] 450px [total-cases-end total-deaths-start] 450px [total-deaths-end];
+            grid-template-columns: [responsive-start] 100% [responsive-end];
+            height: auto;
+        }
+
+        @include respond(middle-phone) {
+            grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end title-start] 5px [title-end province-stats-start] 410px [province-stats-end guide-start] auto [guide-end quick-facts-chart-start] 350px [quick-facts-chart-end world-chart-start] 350px [world-chart-end new-cases-start] 350px [new-cases-end new-deaths-start] 350px [new-deaths-end total-cases-start] 350px [total-cases-end total-deaths-start] 350px [total-deaths-end];
+        }
+
+        @include respond(phone) {
+            grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end title-start] 5px [title-end province-stats-start] 410px [province-stats-end guide-start] auto [guide-end quick-facts-chart-start] 230px [quick-facts-chart-end world-chart-start] 230px [world-chart-end new-cases-start] 230px [new-cases-end new-deaths-start] 230px [new-deaths-end total-cases-start] 230px [total-cases-end total-deaths-start] 230px [total-deaths-end];
+        }
+
+        @include respond(small-phone) {
+            grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end title-start] 5px [title-end province-stats-start] 410px [province-stats-end guide-start] auto [guide-end quick-facts-chart-start] 200px [quick-facts-chart-end world-chart-start] 200px [world-chart-end new-cases-start] 200px [new-cases-end new-deaths-start] 200px [new-deaths-end total-cases-start] 200px [total-cases-end total-deaths-start] 200px [total-deaths-end];
+        }
+
+    }
+
+    &-name_and_flag {
+        grid-row: quick-facts-start / quick-facts-end;
+        grid-column: stats-start / stats-end;
+        display: grid;
+        grid-template-rows: [name-and-flag-start] 70px [name-end stats-start] 210px [stats-and-flag-end];
+        grid-template-columns: [name-and-stats-start] 3fr [name-and-stats-end flag-start] 1fr [flag-end];
+        // grid-template-columns: [name-and-stats-start] minmax(300px, 5fr) [name-and-stats-end flag-start] minmax(300px, 2fr) [flag-end];
+        background-color: #1a1a2e;
+        height: 300px;
+        padding: 10px;
+        border-radius: 10px;
+
+        @include respond(big-desktop) {}
+
+        @include respond(tab-land) {
+            grid-template-columns: [name-and-stats-start] minmax(500px, 700px) [name-and-stats-end flag-start] minmax(100px, 300px) [flag-end];
+        }
+
+        @include respond(tab-port) {
+            grid-row: flag-quick-facts-start / flag-quick-facts-end;
+            grid-column: responsive-start / responsive-end;
+
+            height: auto;
+            display: grid;
+            grid-template-rows: [flag-start] 200px [flag-end stats-start] auto [stats-end];
+            grid-template-columns: [responsive-start] 1fr [responsive-end];
+
+        }
+
+        @include respond(phone) {
+            grid-row: flag-quick-facts-start / flag-quick-facts-end;
+            grid-column: responsive-start / responsive-end;
+
+            height: auto;
+            display: grid;
+            grid-template-rows: [flag-start] 200px [flag-end stats-start] auto [stats-end];
+            grid-template-columns: [responsive-start] 1fr [responsive-end];
+        }
+
+        @include respond(small-phone) {}
+
+        &-name {
+            grid-row: name-and-flag-start / name-end;
+            grid-column: name-and-stats-start / name-and-stats-end;
+            font-size: 250%;
+            background: -webkit-linear-gradient(#849099, #eee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-left: 10px;
+            letter-spacing: 3px;
+
+            @include respond(tab-port) {
+                display: none;
+            }
+        }
+
+        &-cover {
+            grid-row: name-and-flag-start / stats-and-flag-end;
+            grid-column: flag-start / flag-end;
+            justify-self: end;
+            border-radius: 10px;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            background: #1a1a2e;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to bottom, #243b5500, #1a1a2e);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to bottom, #243b5500, #1a1a2e);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            // object-fit: cover;
+
+            @include respond(tab-port) {
+                grid-row: flag-start / flag-end;
+                grid-column: responsive-start / responsive-end;
+            }
+        }
+
+        &-flag {
+            grid-row: name-and-flag-start / stats-and-flag-end;
+            grid-column: flag-start / flag-end;
+            justify-self: end;
+            border-radius: 10px;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+
+            @include respond(tab-port) {
+                grid-row: flag-start / flag-end;
+                grid-column: responsive-start / responsive-end;
+                height: 200px;
+            }
+        }
+
+        &-stats {
+            grid-row: stats-start / stats-and-flag-end;
+            grid-column: name-and-stats-start / name-and-stats-end;
+
+            display: grid;
+            grid-template-columns: [left-start] 1fr [left-end right-start] 1fr [right-end];
+            // grid-template-rows: 20px 20px 20px 20px 20px 20px;
+            font-size: 120%;
+            padding: 0px 10px;
+            margin-right: 10px;
+            border-radius: 8px;
+            background: #141E30;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #062a49, #141E30);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #062a49, #141E30);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            @include respond(tab-port) {
+                grid-row: stats-start / stats-end;
+                grid-column: responsive-start / responsive-end;
+
+                background: #141E30;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to top, #062a49, #141E30);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to top, #062a49, #141E30);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+                padding: 10px 10px;
+                margin-right: 0px;
+                display: grid;
+                grid-template-columns: [res-start] 1fr [res-end];
+            }
+
+            @include respond(phone) {
+                font-size: 100%;
+            }
+
+            &-number {
+                display: grid;
+                // grid-template-rows: 1fr;
+                grid-template-columns: [left-start] minmax(200px, 1fr) [left-end right-start] minmax(100px, 1fr) [right-end];
+                color: #fff;
+
+                @include respond(tab-port) {
+                    grid-column: res-start / res-end;
+
+                    display: grid;
+                    grid-template-columns: [left-start] 1fr [left-end right-start] 1fr [right-end];
+                }
+
+                &-left {
+                    grid-column: left-start / left-end;
+
+                    @include respond(tab-port) {
+                        grid-column: left-start / left-end;
+                    }
+                }
+
+                &-right {
+                    grid-column: right-start / right-end;
+
+                    @include respond(tab-port) {
+                        grid-column: right-start / right-end;
+                        padding-left: 4px;
+                    }
+                }
+
+                &-TotalCases {
+                    color: #1fab89;
+                }
+
+                &-NewCases {
+                    color: #1fab89;
+                }
+
+                &-Infection_Risk {
+                    color: #1fab89;
+                }
+
+                &-Serious_Critical {
+                    color: #ff6f3c;
+                }
+
+                &-ActiveCases {
+                    color: #f6c90e;
+                }
+
+                &-TotalRecovered {
+                    color: #19dac0;
+                }
+
+                &-TotalDeaths {
+                    color: #f73859;
+                }
+
+                &-NewDeaths {
+                    color: #f73859;
+                }
+
+                &-Case_Fatality_Rate {
+                    color: #f73859;
+                }
+
+                &-TotalTests {
+                    color: #19d3da;
+                }
+
+                &-Test_Percentage {
+                    color: #19d3da;
+                }
+
+                &-Recovery_Proporation {
+                    color: #19dac0;
+                }
+            }
+        }
+    }
+
+    &-btnAndTitle {
+        @include respond(tab-port) {
+            display: grid;
+        }
+
+        grid-row: header-start / header-end;
+        display: none;
+        grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 50px [region-name-end];
+        grid-template-columns: 100%;
+
+
+        &-btn {
+            grid-row: region-btn-start / region-btn-end;
+            border: none;
+            font-size: 110%;
+            background-color: #083358;
+            cursor: pointer;
+            color: #eee;
+            border-radius: 5px;
+            transition: 0.2s;
+            outline: 0;
+        }
+
+        &-btn:hover,
+        &-btn:active {
+            color: #fff;
+            text-shadow: 0px 0px 1px #eee;
+            background-color: #0a4274;
+        }
+
+        &-title {
+            grid-row: region-name-start / region-name-end;
+            text-align: center;
+            letter-spacing: 4px;
+            padding-top: 5px;
+            font-size: 150%;
+            background: -webkit-linear-gradient(#849099, #eee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+
+    &-responsive {
+        height: 100vh;
+        width: 100vw;
+        // width: 100vw;
+        position: fixed;
+        top: 50px;
+        left: 0;
+        z-index: 5;
+
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #243B55, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #243B55, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        display: grid;
+        grid-template-rows: [responsive-regions-start] 1fr [responsive-regions-end];
+        grid-template-columns: [responsive-regions-start] 1fr [responsive-regions-end];
+
+        transition: 0.4s;
+
+        &-close_btn {
+            grid-row: responsive-regions-start / responsive-regions-end;
+            grid-column: responsive-regions-start / responsive-regions-end;
+            display: grid;
+            grid-template-rows: 0px;
+            grid-template-columns: 21px;
+            z-index: 10;
+            width: 45px;
+            height: 55px;
+            opacity: 0.7;
+            border: none;
+            background-color: transparent;
+            justify-self: end;
+            margin: 0px 30px;
+            padding: 0px 0px;
+            cursor: pointer;
+        }
+
+        &-close_btn:hover {
+            opacity: 1;
+        }
+
+        &-close_btn:before,
+        &-close_btn:after {
+            grid-row: -1;
+            grid-column: -1;
+            content: ' ';
+            height: 58px;
+            width: 2px;
+            background-color: #fff;
+        }
+
+        &-close_btn:before {
+            transform: rotate(45deg);
+        }
+
+        &-close_btn:after {
+            transform: rotate(-45deg);
+        }
+
+
+        &-allregions {
+
+            grid-row: responsive-regions-start / responsive-regions-end;
+            grid-column: responsive-regions-start / responsive-regions-end;
+
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 100%;
+            overflow: scroll;
+
+            @include respond(tab-port) {}
+
+            &-title {
+                position: relative;
+                height: 40px;
+                justify-self: center;
+                padding: 6px 0px;
+                font-size: 220%;
+                color: #fff;
+                margin-bottom: 30px;
+
+                @include respond(phone) {
+                    font-size: 180%;
+                }
+
+            }
+
+            &-title:first-child {
+                margin-top: 15vh;
+            }
+
+            &-title::after {
+                position: absolute;
+                content: '';
+                width: 120%;
+                height: 3px;
+                background-color: #fff;
+                top: 60px;
+                left: -10%;
+            }
+
+            &-btn {
+                justify-self: center;
+                font-size: 170%;
+                color: #fff;
+                transition: 0.2s;
+                text-decoration: none;
+
+                @include respond(phone) {
+                    font-size: 145%;
+                }
+
+                &-active {
+                    color: #19d3da;
+                    text-shadow: 0px 0px 1px #074f80;
+                }
+            }
+
+            &-btn:hover {
+                text-shadow: 0px 0px 2px #eee;
+                // background-color: #0d63a5;
+            }
+        }
+    }
+
+    &-regions {
+        background-color: #1a1a2e;
+        grid-row: quick-facts-start / total-cases-chart-end;
+        grid-column: regions-start / regions-end;
+        display: grid;
+        z-index: 2;
+        overflow: scroll;
+        margin-right: 8px;
+        border-radius: 10px;
+        padding: 4px 4px;
+        height: 87vh;
+
+        @include respond(tab-port) {
+            display: none;
+        }
+
+        &-title {
+            height: 40px;
+            justify-self: center;
+            padding: 6px 0px;
+            font-size: 130%;
+            color: #fff;
+
+            @include respond(tab-land) {
+                font-size: 100%;
+            }
+        }
+
+        &-btn {
+            background-color: #083358;
+            border-radius: 10px;
+            height: 40px;
+            text-decoration: none;
+            padding: 8px 8px;
+            margin: 2px 0px;
+            color: #fff;
+            transition: 0.2s;
+
+            &-active {
+                text-shadow: 0px 0px 1px #eee;
+                background-color: #0d63a5;
+            }
+
+            &-loading {
+                // position: relative;
+                // background-color: #E2E2E2;
+
+                background-color: #36506c;
+                padding: 0px 0px;
+                margin: 4px 0px;
+                color: #fff;
+                transition: 0.2s;
+                overflow: hidden;
+
+                &.card-image {
+                    border-radius: 0;
+                }
+
+                &::after {
+                    display: block;
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    transform: translateX(-100%);
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+                    animation: loading 1.5s infinite;
+                }
+            }
+        }
+
+        &-btn:hover {
+            text-shadow: 0px 0px 1px #eee;
+            background-color: #0d63a5;
+        }
+    }
+
+    &-table-title {
+        grid-row: title-start / title-end;
+        grid-column: stats-start / stats-end;
+
+        display: grid;
+        grid-template-rows: [caption-start] 45px [caption-end table-start] 48px [table-end];
+        grid-template-columns: [caption-and-titles-start] 5fr [caption-end searchbar-start] minmax(100px, 1fr) [title-and-searchbar-end];
+        z-index: 3;
+        background-color: #1a1a2e;
+        border-radius: 10px 10px 0px 0px;
+        height: 88px;
+        margin-top: 7px;
+
+        @include respond(tab-port) {
+            grid-row: title-start / title-end;
+            grid-column: responsive-start / responsive-end;
+
+            grid-template-rows: [caption-start] 45px [caption-end searchbar-start] 45px [searchbar-end table-start] 48px [table-end];
+            grid-template-columns: 1fr;
+            // grid-template-columns: [caption-searchbar-start] 1fr [caption-searchbar-end];
+        }
+
+        // height: 83vh;
+        // background-color: burlywood;
+        // display: grid;
+        // grid-template-columns: [name-start]1fr[name-end confirmed-start] 1fr [confirmed-end newcases-start] 1fr [newcases-end confirmedpermil-start] 1fr[confirmedpermil-end] 1fr [confirmedpermil-end critical-start] 1fr [critical-end active-start] 1fr [active-end deceased-start] 1fr [deceased-end newdeaths-start] 1fr [newdeaths-end deathspermil-start] 1fr[deathspermil-end test-start] 1fr [test-end recovered-start] 1fr [recovered-end newrecovered-start] 1fr [newrecovered-end population-start]1fr [population-end];
+        // grid-template-columns: [regions-start] 1fr [regions-end stats-start] 5fr [stats-end];
+        // width: 95.5%;
+        // height: 83vh;
+
+        &-searchbar {
+            grid-row: caption-start / caption-end;
+            grid-column: searchbar-start / title-and-searchbar-end;
+            padding: 1px 6px;
+            margin: 5px 5px;
+            border-radius: 4px;
+            border: none;
+            background-color: #064670;
+            color: #fff;
+            outline: none;
+            font-size: 90%;
+            z-index: 2;
+            transition: 0.2s;
+
+            @include respond(tab-port) {
+                grid-row: searchbar-start / searchbar-end;
+                grid-column: caption-searchbar-start / caption-searchbar-end;
+            }
+
+        }
+
+        &-searchbar:hover,
+        &-searchbar:active {
+            padding: 1px 6px;
+            margin: 5px 3px;
+            background-color: #074f80;
+            // text-shadow: 0px 0px 1px #fff;
+        }
+
+        &-stats {
+            grid-row: caption-start / table-end;
+            grid-column: caption-and-titles-start / title-and-searchbar-end;
+
+            @include respond(tab-port) {
+                display: grid;
+                grid-template-rows: [cap-start]1fr [cap-end nothing-start] 1fr [nothing-end title-start] 1fr [title-end];
+                grid-template-columns: [cap-and-title-start] 1fr [cap-and-title-end];
+            }
+
+            &-caption {
+                grid-row: caption-start / caption-end;
+                grid-column: caption-and-titles-start / caption-end;
+                // color: #fff;
+                background: -webkit-linear-gradient(#8e9eab, #eef2f3);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-align: left;
+                padding: 0px 15px;
+                font-size: 160%;
+
+                @include respond(tab-port) {
+                    grid-row: cap-start / cap-end;
+                    grid-column: cap-and-title-start / cap-and-title-end;
+                }
+            }
+
+
+
+
+
+            &-thead {
+                grid-row: table-start / table-end;
+                grid-column: caption-and-titles-start / title-and-searchbar-end;
+
+                @include respond(tab-port) {
+                    grid-row: title-start / title-end;
+                    grid-column: cap-and-title-start / cap-and-title-end;
+                    margin-top: -5px;
+                }
+
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-template-columns: 1fr;
+
+
+            }
+
+            &-columns {
+                background-color: #1a1a2e;
+                padding: 0px 8px;
+                font-size: 70%;
+                top: 90px;
+                display: grid;
+                overflow: hidden;
+                grid-template-rows: [table-start] 41px [table-end];
+                // grid-template-rows: [table-start] 1fr [table-end];
+                grid-template-columns: minmax(30px, 40px) minmax(200px, 300px) minmax(100px, 300px) minmax(65px, 300px) minmax(80px, 300px) minmax(70px, 300px) minmax(90px, 300px) minmax(90px, 300px) minmax(100px, 300px) minmax(120px, 300px);
+                // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(90px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+                // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+
+                @include respond(tab-port) {
+                    grid-template-rows: [table-start] 50px [table-end];
+                }
+
+                &-item {
+                    color: #eee;
+                    padding: 2px 2px;
+                    text-align: left;
+                    border-right: 1px #07568b solid;
+                    cursor: pointer;
+                    transition: 0.2s;
+                }
+
+                &-item:last-child {
+                    border-right: none;
+                }
+
+                &-item:hover {
+                    // color: #fff;
+                    // text-shadow: 0px 0px 1px #fff;
+                    color: #3feaf0;
+                    text-shadow: 0px 0px 1px #19d3da;
+                    background-color: #07568b;
+                }
+
+
+                &-number {
+                    // grid-column: name-start / name-end;
+                    cursor: default;
+                    margin: 0px 0px 0px -8px;
+                    padding: 2px 0px 0px 4px;
+                }
+
+                &-active_btn {
+                    color: #3feaf0;
+                    text-shadow: 0px 0px 1px #19d3da;
+                }
+
+                &-name {
+                    // grid-column: name-start / name-end;
+                }
+
+                &-confirmed {
+                    // grid-column: confirmed-start / confirmed-end;
+                }
+
+                &-newcases {
+                    // grid-column: newcases-start / newcases-end;
+                }
+
+                &-confirmedpermil {
+                    // grid-column: confirmedpermil-start / confirmedpermil-end;
+                }
+
+                &-critical {
+                    // grid-column: critical-start / critical-end;
+                }
+
+                &-active {
+                    // grid-column: active-start / active-end;
+                }
+
+                &-deceased {
+                    // grid-column: deceased-start / deceased-end;
+                }
+
+                &-newdeaths {
+                    // grid-column: newdeaths-start / newdeaths-end;
+                }
+
+                &-deathspermil {
+                    // grid-column: deathspermil-start / deathspermil-end;
+                }
+
+                &-giventests {
+                    // grid-column: giventests-start / giventests-end;
+                }
+
+                &-testspermil {
+                    // grid-column: testspermil-start / testspermil-end;
+                }
+
+                &-recovered {
+                    // grid-column: recovered-start / recovered-end;
+                }
+
+                &-recoveredrate {
+                    // grid-column: newrecovered-start / newrecovered-end;
+                }
+
+                &-population {
+                    // grid-column: population-start / population-end;
+                }
+            }
+        }
+
+
+    }
+
+    &-table-stats {
+        grid-row: province-stats-start / province-stats-end;
+        grid-column: stats-start / stats-end;
+        // background-color: #1a1a2e;
+        margin-top: 90px;
+        border-radius: 0px 0px 10px 10px;
+        overflow: scroll;
+
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+
+        @include respond(tab-port) {
+            grid-row: province-stats-start / province-stats-end;
+            grid-column: responsive-start / responsive-end;
+            margin-top: 140px;
+        }
+
+        &-loading {
+            border-radius: 11px;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            height: 100%;
+            background-color: #36506c;
+        }
+
+        // &-loading {
+        //     background-color: #36506c;
+        //     color: #fff;
+        //     transition: 0.2s;
+        //     overflow: hidden;
+
+        //     &.card-image {
+        //         border-radius: 0;
+        //     }
+
+        //     &::after {
+        //         display: block;
+        //         content: '';
+        //         position: absolute;
+        //         width: 100%;
+        //         height: 100%;
+        //         transform: translateX(-100%);
+        //         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+        //         animation: loading 1.5s infinite;
+        //     }
+        // }
+
+        &-item {
+
+            // grid-column: name-start / population-end;
+            height: 30px;
+            text-decoration: none;
+            padding: 0px 8px;
+            font-size: 95%;
+            color: #fff;
+            // display: grid;
+            // grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+            // grid-template-columns: repeat(14, minmax(100px, 7%));
+            // grid-template-columns: repeat(14, 1fr);
+            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+            // width: 80.8%;
+
+            display: grid;
+            grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+            grid-template-columns: minmax(30px, 40px) minmax(200px, 300px) minmax(100px, 300px) minmax(65px, 300px) minmax(80px, 300px) minmax(70px, 300px) minmax(90px, 300px) minmax(90px, 300px) minmax(100px, 300px) minmax(120px, 300px);
+            // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(90px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+
+
+            &-each {
+                font-weight: bold;
+            }
+
+            &-number {
+                // grid-column: confirmed-start / confirmed-end;
+                color: #ffcf0f;
+            }
+
+            &-name {
+                // grid-column: name-start / name-end;
+                color: #eee;
+                font-size: 105%;
+                transition: 0.1s;
+
+                &-link {
+                    color: #eee;
+                    font-weight: bold;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+                &-link:hover {
+                    color: #f6c90e;
+                }
+            }
+
+            &-name:hover {
+                color: #f6c90e;
+                font-weight: bold;
+                // text-shadow: 0px 0px 1px #facd1a;
+            }
+
+            &-confirmed {
+                // grid-column: confirmed-start / confirmed-end;
+                color: #1fab89;
+            }
+
+            &-newcases {
+                // grid-column: newcases-start / newcases-end;
+                color: #1fab89;
+
+            }
+
+            &-confirmedpermil {
+                // grid-column: confirmedpermil-start / confirmedpermil-end;
+                color: #1fab89;
+
+            }
+
+            &-critical {
+                // grid-column: critical-start / critical-end;
+                color: #ff6f3c;
+
+            }
+
+            &-active {
+                // grid-column: active-start / active-end;
+                color: #f6c90e;
+
+            }
+
+            &-deceased {
+                // grid-column: deceased-start / deceased-end;
+                color: #f73859;
+
+            }
+
+            &-newdeaths {
+                // grid-column: newdeaths-start / newdeaths-end;
+                color: #f73859;
+
+            }
+
+            &-deathspermil {
+                // grid-column: deathspermil-start / deathspermil-end;
+                color: #f73859;
+
+            }
+
+            &-giventests {
+                // grid-column: giventests-start / giventests-end;
+                color: #19d3da;
+
+            }
+
+            &-testspermil {
+                // grid-column: testspermil-start / testspermil-end;
+                color: #19d3da;
+
+            }
+
+            &-recovered {
+                // grid-column: recovered-start / recovered-end;
+                color: #19d3da;
+
+            }
+
+            &-recoveredrate {
+                // grid-column: recoveredrate-start / recoveredrate-end;
+                color: #19dac0;
+
+            }
+
+            &-population {
+                // grid-column: population-start / population-end;
+                color: #1fab89;
+
+            }
+        }
+
+        &-item:nth-child(even) {
+            background-color: #00204a;
+        }
+
+        &-item:nth-child(odd) {
+            background-color: #083358;
+        }
+    }
+
+    &-guide {
+        background-color: #1a1a2e;
+        grid-row: guide-start / guide-end;
+        grid-column: stats-start / stats-end;
+        margin-top: 5px;
+        border-radius: 5px;
+
+        @include respond(tab-port) {
+            grid-row: guide-start / guide-end;
+            grid-column: responsive-start / responsive-end;
+            height: 120px;
+        }
+
+        @include respond(middle-phone) {
+            height: 150px;
+        }
+
+        @include respond(phone) {
+            height: 170px;
+        }
+
+        @include respond(small-phone) {
+            height: 200px;
+        }
+
+
+        &-list {
+            list-style: none;
+            display: grid;
+            grid-template-rows: minmax(43px, 25px);
+            grid-template-columns: minmax(700px, 850px) minmax(500px, 850px);
+            overflow: scroll;
+            grid-gap: 0px 10px;
+            padding: 5px;
+
+            @include respond(tab-port) {
+                grid-template-rows: [infection-risk-start] 0px [infection-risk-end CFR-start] 110px [CFR-end test-start] 0px [test-end recovery-start] 0px [recovery-end];
+                grid-template-columns: 1fr;
+                overflow: hidden;
+                height: 200px;
+            }
+
+            @include respond(middle-phone) {
+                grid-template-rows: [infection-risk-start] 0px [infection-risk-end CFR-start] 150px [CFR-end test-start] 0px [test-end recovery-start] 0px [recovery-end];
+                grid-template-columns: 1fr;
+                overflow: hidden;
+                height: 250px;
+            }
+
+            @include respond(phone) {
+                grid-template-rows: [infection-risk-start] 0px [infection-risk-end CFR-start] 190px [CFR-end test-start] 0px [test-end recovery-start] 0px [recovery-end];
+                grid-template-columns: 1fr;
+                height: 300px;
+            }
+
+            @include respond(small-phone) {
+                grid-template-rows: [infection-risk-start] 0px [infection-risk-end CFR-start] 270px [CFR-end test-start] 0px [test-end recovery-start] 0px [recovery-end];
+                grid-template-columns: 1fr;
+                height: 310px;
+            }
+
+            &-item {
+                display: grid;
+                grid-template-rows: minmax(15px, 40px);
+                grid-template-columns: 1fr;
+                line-height: 17px;
+
+                &-title {
+                    font-size: 100%;
+                    font-weight: normal;
+                }
+
+                &-text {
+                    font-size: 90%;
+                    color: #eee;
+                }
+
+                &-INFECTION_RISK {
+                    color: #1fab89;
+
+                    @include respond(tab-port) {
+                        grid-row: infection-risk-start / infection-risk-end;
+                    }
+                }
+
+                &-CASE_FATALITY_RATE {
+                    color: #f73859;
+
+                    @include respond(tab-port) {
+                        grid-row: CFR-start / CFR-end;
+                    }
+                }
+
+                &-TEST_PERCENTAGE {
+                    color: #19d3da;
+
+                    @include respond(tab-port) {
+                        grid-row: test-start / test-end;
+                    }
+                }
+
+                &-RECOVERY_PERCENTAGE {
+                    color: #19dac0;
+
+                    @include respond(tab-port) {
+                        grid-row: recovery-start / recovery-end;
+                    }
+                }
+            }
+        }
+    }
+
+
+    &-table-cities-title {
+        grid-row: cities-title-start / cities-title-end;
+        grid-column: stats-start / stats-end;
+
+        display: grid;
+        grid-template-rows: [caption-start] 45px [caption-end table-start] 48px [table-end];
+        grid-template-columns: [caption-and-titles-start] 5fr [caption-end searchbar-start] minmax(100px, 1fr) [title-and-searchbar-end];
+        z-index: 3;
+        background-color: #1a1a2e;
+        border-radius: 10px 10px 0px 0px;
+        height: 88px;
+        margin-top: 7px;
+
+        @include respond(tab-port) {
+            grid-row: responsive-title-start / responsive-title-end;
+            grid-column: responsive-start / responsive-end;
+
+            grid-template-rows: [caption-start] 45px [caption-end searchbar-start] 45px [searchbar-end table-start] 48px [table-end];
+            grid-template-columns: 1fr;
+            // grid-template-columns: [caption-searchbar-start] 1fr [caption-searchbar-end];
+        }
+
+        // height: 83vh;
+        // background-color: burlywood;
+        // display: grid;
+        // grid-template-columns: [name-start]1fr[name-end confirmed-start] 1fr [confirmed-end newcases-start] 1fr [newcases-end confirmedpermil-start] 1fr[confirmedpermil-end] 1fr [confirmedpermil-end critical-start] 1fr [critical-end active-start] 1fr [active-end deceased-start] 1fr [deceased-end newdeaths-start] 1fr [newdeaths-end deathspermil-start] 1fr[deathspermil-end test-start] 1fr [test-end recovered-start] 1fr [recovered-end newrecovered-start] 1fr [newrecovered-end population-start]1fr [population-end];
+        // grid-template-columns: [regions-start] 1fr [regions-end stats-start] 5fr [stats-end];
+        // width: 95.5%;
+        // height: 83vh;
+
+        &-searchbar {
+            grid-row: caption-start / caption-end;
+            grid-column: searchbar-start / title-and-searchbar-end;
+            padding: 1px 6px;
+            margin: 5px 5px;
+            border-radius: 4px;
+            border: none;
+            background-color: #064670;
+            color: #fff;
+            outline: none;
+            font-size: 90%;
+            z-index: 2;
+            transition: 0.2s;
+
+            @include respond(tab-port) {
+                grid-row: searchbar-start / searchbar-end;
+                grid-column: caption-searchbar-start / caption-searchbar-end;
+            }
+
+        }
+
+        &-searchbar:hover,
+        &-searchbar:active {
+            padding: 1px 6px;
+            margin: 5px 3px;
+            background-color: #074f80;
+            // text-shadow: 0px 0px 1px #fff;
+        }
+
+        &-stats {
+            grid-row: caption-start / table-end;
+            grid-column: caption-and-titles-start / title-and-searchbar-end;
+
+            @include respond(tab-port) {
+                display: grid;
+                grid-template-rows: [cap-start]1fr [cap-end nothing-start] 1fr [nothing-end title-start] 1fr [title-end];
+                grid-template-columns: [cap-and-title-start] 1fr [cap-and-title-end];
+            }
+
+            &-caption {
+                grid-row: caption-start / caption-end;
+                grid-column: caption-and-titles-start / caption-end;
+                // color: #fff;
+                background: -webkit-linear-gradient(#8e9eab, #eef2f3);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-align: left;
+                padding: 0px 15px;
+                font-size: 160%;
+
+                @include respond(tab-port) {
+                    grid-row: cap-start / cap-end;
+                    grid-column: cap-and-title-start / cap-and-title-end;
+                }
+            }
+
+
+
+
+
+            &-thead {
+                grid-row: table-start / table-end;
+                grid-column: caption-and-titles-start / title-and-searchbar-end;
+
+                @include respond(tab-port) {
+                    grid-row: title-start / title-end;
+                    grid-column: cap-and-title-start / cap-and-title-end;
+                    margin-top: -5px;
+                }
+
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-template-columns: 1fr;
+
+
+            }
+
+            &-columns {
+                background-color: #1a1a2e;
+                padding: 0px 8px;
+                font-size: 70%;
+                top: 90px;
+                display: grid;
+                overflow: hidden;
+                grid-template-rows: [table-start] 41px [table-end];
+                // grid-template-rows: [table-start] 1fr [table-end];
+                grid-template-columns: minmax(30px, 40px) minmax(200px, 300px) minmax(100px, 300px) minmax(65px, 300px) minmax(80px, 300px) minmax(70px, 300px) minmax(90px, 300px) minmax(90px, 300px) minmax(100px, 300px) minmax(120px, 300px);
+                // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(90px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+                // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+
+                @include respond(tab-port) {
+                    grid-template-rows: [table-start] 50px [table-end];
+                }
+
+                &-item {
+                    color: #eee;
+                    padding: 2px 2px;
+                    text-align: left;
+                    border-right: 1px #07568b solid;
+                    cursor: pointer;
+                    transition: 0.2s;
+                }
+
+                &-item:last-child {
+                    border-right: none;
+                }
+
+                &-item:hover {
+                    // color: #fff;
+                    // text-shadow: 0px 0px 1px #fff;
+                    color: #3feaf0;
+                    text-shadow: 0px 0px 1px #19d3da;
+                    background-color: #07568b;
+                }
+
+
+                &-number {
+                    // grid-column: name-start / name-end;
+                    cursor: default;
+                    margin: 0px 0px 0px -8px;
+                    padding: 2px 0px 0px 4px;
+                }
+
+                &-active_btn {
+                    color: #3feaf0;
+                    text-shadow: 0px 0px 1px #19d3da;
+                }
+
+                &-name {
+                    // grid-column: name-start / name-end;
+                }
+
+                &-confirmed {
+                    // grid-column: confirmed-start / confirmed-end;
+                }
+
+                &-newcases {
+                    // grid-column: newcases-start / newcases-end;
+                }
+
+                &-confirmedpermil {
+                    // grid-column: confirmedpermil-start / confirmedpermil-end;
+                }
+
+                &-critical {
+                    // grid-column: critical-start / critical-end;
+                }
+
+                &-active {
+                    // grid-column: active-start / active-end;
+                }
+
+                &-deceased {
+                    // grid-column: deceased-start / deceased-end;
+                }
+
+                &-newdeaths {
+                    // grid-column: newdeaths-start / newdeaths-end;
+                }
+
+                &-deathspermil {
+                    // grid-column: deathspermil-start / deathspermil-end;
+                }
+
+                &-giventests {
+                    // grid-column: giventests-start / giventests-end;
+                }
+
+                &-testspermil {
+                    // grid-column: testspermil-start / testspermil-end;
+                }
+
+                &-recovered {
+                    // grid-column: recovered-start / recovered-end;
+                }
+
+                &-recoveredrate {
+                    // grid-column: newrecovered-start / newrecovered-end;
+                }
+
+                &-population {
+                    // grid-column: population-start / population-end;
+                }
+            }
+        }
+
+
+    }
+
+    &-cities-stats {
+        grid-row: cities-stats-start / cities-stats-end;
+        grid-column: stats-start / stats-end;
+        // background-color: #1a1a2e;
+        margin-top: 90px;
+        border-radius: 0px 0px 10px 10px;
+        overflow: scroll;
+
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+
+        @include respond(tab-port) {
+            grid-row: responsive-stats-start / responsive-stats-end;
+            grid-column: responsive-start / responsive-end;
+        }
+
+        &-loading {
+            border-radius: 11px;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            height: 100%;
+            background-color: #36506c;
+        }
+
+        // &-loading {
+        //     background-color: #36506c;
+        //     color: #fff;
+        //     transition: 0.2s;
+        //     overflow: hidden;
+
+        //     &.card-image {
+        //         border-radius: 0;
+        //     }
+
+        //     &::after {
+        //         display: block;
+        //         content: '';
+        //         position: absolute;
+        //         width: 100%;
+        //         height: 100%;
+        //         transform: translateX(-100%);
+        //         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+        //         animation: loading 1.5s infinite;
+        //     }
+        // }
+
+        &-item {
+
+            // grid-column: name-start / population-end;
+            height: 30px;
+            text-decoration: none;
+            padding: 0px 8px;
+            font-size: 95%;
+            color: #fff;
+            // display: grid;
+            // grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+            // grid-template-columns: repeat(14, minmax(100px, 7%));
+            // grid-template-columns: repeat(14, 1fr);
+            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+            // width: 80.8%;
+
+            display: grid;
+            grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+            grid-template-columns: minmax(30px, 40px) minmax(200px, 300px) minmax(100px, 300px) minmax(65px, 300px) minmax(80px, 300px) minmax(70px, 300px) minmax(90px, 300px) minmax(90px, 300px) minmax(100px, 300px) minmax(120px, 300px);
+            // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(90px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+
+
+            &-each {
+                font-weight: bold;
+            }
+
+            &-number {
+                // grid-column: confirmed-start / confirmed-end;
+                color: #ffcf0f;
+            }
+
+            &-name {
+                // grid-column: name-start / name-end;
+                color: #eee;
+                font-size: 105%;
+                transition: 0.1s;
+
+                &-link {
+                    color: #eee;
+                    font-weight: bold;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+                &-link:hover {
+                    color: #f6c90e;
+                }
+            }
+
+            &-name:hover {
+                color: #f6c90e;
+                font-weight: bold;
+                // text-shadow: 0px 0px 1px #facd1a;
+            }
+
+            &-confirmed {
+                // grid-column: confirmed-start / confirmed-end;
+                color: #1fab89;
+            }
+
+            &-newcases {
+                // grid-column: newcases-start / newcases-end;
+                color: #1fab89;
+
+            }
+
+            &-confirmedpermil {
+                // grid-column: confirmedpermil-start / confirmedpermil-end;
+                color: #1fab89;
+
+            }
+
+            &-critical {
+                // grid-column: critical-start / critical-end;
+                color: #ff6f3c;
+
+            }
+
+            &-active {
+                // grid-column: active-start / active-end;
+                color: #f6c90e;
+
+            }
+
+            &-deceased {
+                // grid-column: deceased-start / deceased-end;
+                color: #f73859;
+
+            }
+
+            &-newdeaths {
+                // grid-column: newdeaths-start / newdeaths-end;
+                color: #f73859;
+
+            }
+
+            &-deathspermil {
+                // grid-column: deathspermil-start / deathspermil-end;
+                color: #f73859;
+
+            }
+
+            &-giventests {
+                // grid-column: giventests-start / giventests-end;
+                color: #19d3da;
+
+            }
+
+            &-testspermil {
+                // grid-column: testspermil-start / testspermil-end;
+                color: #19d3da;
+
+            }
+
+            &-recovered {
+                // grid-column: recovered-start / recovered-end;
+                color: #19d3da;
+
+            }
+
+            &-recoveredrate {
+                // grid-column: recoveredrate-start / recoveredrate-end;
+                color: #19dac0;
+
+            }
+
+            &-population {
+                // grid-column: population-start / population-end;
+                color: #1fab89;
+
+            }
+        }
+
+        &-item:nth-child(even) {
+            background-color: #00204a;
+        }
+
+        &-item:nth-child(odd) {
+            background-color: #083358;
+        }
+    }
+
+    &-quick-facts-chart {
+        grid-row: quick-facts-chart-start / quick-facts-chart-end;
+        grid-column: stats-start / middle-left-end;
+
+        @include respond(tab-port) {
+            grid-row: quick-facts-chart-start / quick-facts-chart-end;
+            grid-column: responsive-start / responsive-end;
+        }
+    }
+
+    &-compare-to-world-chart {
+        grid-row: quick-facts-chart-start / quick-facts-chart-end;
+        grid-column: middle-right-start / stats-end;
+
+        @include respond(tab-port) {
+            grid-row: world-chart-start / world-chart-end;
+            grid-column: responsive-start / responsive-end;
+        }
+    }
+
+    &-new-cases-chart {
+        grid-row: new-cases-chart-start / new-cases-chart-end;
+        grid-column: stats-start / middle-left-end;
+
+        @include respond(tab-port) {
+            grid-row: new-cases-start / new-cases-end;
+            grid-column: responsive-start / responsive-end;
+        }
+    }
+
+    &-new-deaths-chart {
+        grid-row: new-cases-chart-start / new-cases-chart-end;
+        grid-column: middle-right-start / stats-end;
+
+        @include respond(tab-port) {
+            grid-row: new-deaths-start / new-deaths-end;
+            grid-column: responsive-start / responsive-end;
+        }
+    }
+
+    &-total-cases-chart {
+        grid-row: total-cases-chart-start / total-cases-chart-end;
+        grid-column: stats-start / middle-left-end;
+
+        @include respond(tab-port) {
+            grid-row: total-cases-start / total-cases-end;
+            grid-column: responsive-start / responsive-end;
+        }
+    }
+
+    &-total-deaths-chart {
+        grid-row: total-cases-chart-start / total-cases-chart-end;
+        grid-column: middle-right-start / stats-end;
+
+        @include respond(tab-port) {
+            grid-row: total-deaths-start / total-deaths-end;
+            grid-column: responsive-start / responsive-end;
+        }
+    }
+}
+
+
+.displayOff {
+    display: none;
+}
+
+.gridDisplayOn {
+    display: grid;
+}
+
+.adjust-left {
+    margin-left: -15px;
+}
+
+.take_underground {
+    // margin-top: -120vh;
+    margin-top: 300%;
+}

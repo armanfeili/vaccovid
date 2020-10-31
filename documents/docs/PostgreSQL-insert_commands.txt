@@ -1,0 +1,186 @@
+// country
+-----------------------------------------
+INSERT INTO country (country_name)
+VALUES ('iran')
+RETURNING country_id,country_name,created_date,last_update;
+
+UPDATE country
+SET country_name = 'iran',
+	last_update = current_timestamp
+WHERE country_name LIKE 'c%'
+RETURNING country_id,country_name,created_date,last_update;
+
+DELETE FROM country
+WHERE country_name LIKE 'U%'
+RETURNING country_id,country_name,created_date,last_update; 
+-----------------------------------------
+
+// province
+-----------------------------------------
+INSERT INTO province (province_name,country_id)
+VALUES ('tehran',1)
+RETURNING province_id,province_name,country_id,created_date,last_update;
+
+UPDATE province
+SET province_name = 'tehran',
+	last_update = current_timestamp
+WHERE province_name LIKE 't%'
+RETURNING province_id,province_name,country_id,created_date,last_update;
+
+DELETE FROM province
+WHERE province_name LIKE 't%'
+RETURNING province_id,province_name,country_id,created_date,last_update;
+-----------------------------------------
+
+// city
+-----------------------------------------
+INSERT INTO city (city_name,province_id)
+VALUES ('tehran',3)
+RETURNING city_id,city_name,province_id,created_date,last_update;
+
+UPDATE city
+SET city_name = 'tehran',
+	last_update = current_timestamp
+WHERE city_name LIKE 't%'
+RETURNING province_id,province_name,country_id,created_date,last_update;
+
+DELETE FROM city
+WHERE city_name LIKE 't%'
+RETURNING province_id,province_name,country_id,created_date,last_update;
+-----------------------------------------
+
+// address
+-----------------------------------------
+INSERT INTO address (city_id,home_number,post_address,postal_code,map_latitude_coordinate,map_longitude_coordinate)
+VALUES (2,07136394355,'shiraz,farhang-shahr,imani,2017',7184839398,29.668356,52.452670)
+RETURNING address_id,city_id,home_number,post_address,postal_code,map_latitude_coordinate,map_longitude_coordinate,created_date,last_update;
+
+INSERT INTO address (city_id,home_number,post_address,postal_code,map_latitude_coordinate,map_longitude_coordinate)
+VALUES (2,07136398355,'شیراز فرهنگ شهر٬ کوچه ایمانی٬ ساختمان ۲۰۱۷',7184839398,29.668356,52.452670)
+RETURNING address_id,city_id,home_number,post_address,postal_code,map_latitude_coordinate,map_longitude_coordinate,created_date,last_update;
+
+
+UPDATE address
+SET post_address = 'sth else',
+	last_update = current_timestamp
+WHERE address_id = 1
+RETURNING address_id,city_id,home_number,post_address,postal_code,map_latitude_coordinate,map_longitude_coordinate,created_date,last_update;
+
+DELETE FROM address
+WHERE address_id = 1
+RETURNING address_id,city_id,home_number,post_address,postal_code,map_latitude_coordinate,map_longitude_coordinate,created_date,last_update;
+-----------------------------------------
+
+// designer
+-----------------------------------------
+INSERT INTO designer (user_id,address_id,first_name,last_name,brand_name,description,phone_number,background_picture_path,profile_picture_path,bank_card_number) 
+VALUES (17, 1, 'Arman', 'Feili', 'ARMANI', 'here we go again', 09176877533, NULL, NULL, 6161616161616161) 
+RETURNING *
+
+INSERT INTO designer (address_id,brand_name,first_name,last_name,profile_url,description,username,password,email,phone_number,company_number,background_picture_path,profile_picture_path,remained_credit,bank_card_number,activebool,active)
+VALUES (7,'Armani','Arnan','Feili','/marketplace.com/profile/designer/armani001','a lover for new designs','armando756','salam123','armanfc.enter@yahoo.com',09176877533,09176877533,'../pictures/designers/1/background_picture','../pictures/designers/1/profile_picture',NULL,6221061267897556,'true',1)
+RETURNING designer_id,address_id,brand_name,first_name,last_name,profile_url,description,username,password,email,phone_number,company_number,background_picture_path,profile_picture_path,remained_credit,bank_card_number,activebool,active
+
+UPDATE designer
+SET address_id = 1,
+    brand_name = '',
+    first_name = '',
+    last_name = '', 
+    profile_url = '',
+    description = '',
+    username = '',
+    password = '',
+    email = '',
+    phone_number = 09170000000,
+    company_number = '',
+    background_picture_path = '',
+    profile_picture_path = '',
+    remained_credit = '',
+    bank_card_number = '',
+    activebool = '',
+    active = '',
+	last_update = current_timestamp
+WHERE designer_id = 1
+RETURNING designer_id,address_id,brand_name,first_name,last_name,profile_url,description,username,password,email,phone_number,company_number,background_picture_path,profile_picture_path,remained_credit,bank_card_number,activebool,active
+
+DELETE FROM designer
+WHERE designer_id = 1
+RETURNING *;
+-----------------------------------------
+
+// customer
+-----------------------------------------
+INSERT INTO customer (address_id,first_name,last_name,gender,profile_url,invited_profile_url,username,password,email,phone_number,receive_news,remained_credit,bank_card_number,activebool,active)
+VALUES (1,'Amin','Feili','male','/marketplace.com/profile/customer/amin001','/marketplace.com/profile/customer/hossein001','aminmaster','dorood123','aminf.master@yahoo.com',09177396796,true,NULL,0000000000000000,true,1)
+RETURNING customer_id,address_id,first_name,last_name,gender,profile_url,invited_profile_url,username,password,email,phone_number,receive_news,remained_credit,bank_card_number,activebool,active;
+
+UPDATE customer
+SET address_id = 1,
+    first_name = '',
+    last_name = '',
+    gender = '',
+    profile_url = '',
+    invited_profile_url = '',
+    username = '',
+    password = '',
+    email = '',
+    phone_number = 09170000000,
+    receive_news = false,
+    remained_credit = 0,
+    bank_card_number = 0000000000000000,
+    activebool = false,
+    active = 0,
+    last_update = current_timestamp
+WHERE customer_id = 1
+RETURNING customer_id,address_id,first_name,last_name,gender,profile_url,invited_profile_url,username,password,email,phone_number,receive_news,remained_credit,bank_card_number,activebool,active;
+
+DELETE FROM customer
+WHERE customer_id = 1
+RETURNING customer_id,address_id,first_name,last_name,gender,profile_url,invited_profile_url,username,password,email,phone_number,receive_news,remained_credit,bank_card_number,activebool,active;
+-----------------------------------------
+
+
+
+
+
+
+
+
+ALTER TABLE country
+ADD COLUMN created_date TIMESTAMP NOT NULL default current_timestamp,
+ADD COLUMN last_update TIMESTAMP default current_timestamp;
+
+// DROP:
+
+ALTER TABLE table_name
+DROP COLUMN column_name_1,
+DROP COLUMN column_name_2,
+...;
+
+// UPDATE:
+
+UPDATE table
+SET column1 = value1,
+    column2 = value2 ,...
+WHERE
+   condition;
+
+// ADD:
+ALTER TABLE table_name
+ADD COLUMN new_column_name_1 data_type constraint,
+ADD COLUMN new_column_name_2 data_type constraint,
+...
+ADD COLUMN new_column_name_n data_type constraint;
+
+
+
+ALTER table  chemlab.rule_header 
+    DROP CONSTRAINT rule_header_parent_id_fkey,
+    ADD CONSTRAINT rule_header_parent_id_fkey 
+    FOREIGN KEY (parent_id) REFERENCES chemlab.rule_header(id) ON DELETE RESTRICT;
+
+ALTER table province 
+    DROP CONSTRAINT province_country_id_fkey,
+    ADD CONSTRAINT province_country_id_fkey FOREIGN KEY (country_id)
+	REFERENCES country (country_id) MATCH SIMPLE
+	ON UPDATE CASCADE ON DELETE CASCADE;

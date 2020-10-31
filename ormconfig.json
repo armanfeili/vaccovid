@@ -1,0 +1,22 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "armanbatman",
+    "database": "vaccinenow",
+    "synchronize": true,
+    "cache": {
+        "duration": 30000
+    },
+    "logging": false,
+    "entities": [
+        "build/app/src/db/models/*.js"
+    ],
+    "migrations": [
+        "src/migration/**/*.ts"
+    ],
+    "subscribers": [
+        "src/subscriber/**/*.ts"
+    ]
+}

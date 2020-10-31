@@ -1,0 +1,143 @@
+create a file name index.ts
+
+*** Creating the React app
+
+then, create 3 folders:
+-------
+mkdir app build client
+-------
+
+go to the app and install 'create-react-app' by typescript with this command:
+npx create-react-app {project-name} --template typescript
+-------
+npx create-react-app client --template typescript
+-------
+
+alternative:(not recommended)
+---
+npx create-react-app my-app --template node-mvp
+---
+
+The create-react-app package will also initialize a git repository in the client directory. 
+However, I want to have a single git repository in the project root directory.
+
+To remove the git repository in the frontend directory I simply remove the .git directory.
+---
+rm -rf .git
+---
+
+*** Creating the Express app
+
+set the initialization package.json
+---
+npm init
+---
+then it's recommended to set entry point to the root 'index.js'
+
+install backend packages:
+---
+npm i --save express @types/express typescript
+---
+
+run 'tsc --init' to make a default tsconfig.json file.
+
+whenever we create a client folder with 'create-react-app', it automatically build a rsconfig.json in client folder.
+adjust it as below:
+--------------------------------------------------
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "jsx": "react",
+    "outDir": "../build",
+    "rootDir": "./src",
+    "noEmit": true,
+    "isolatedModules": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": ["./src"]
+}
+--------------------------------------------------
+
+so we have 2 tsconfig.json files. one for frontend, and one for backend.
+
+essential packages in backend package.json:
+---
+npm install --save-dev nodemon
+npm i --save concurrently
+npm i express typescript passport passport-jwt jsonwebtoken body-parser bcryptjs validator concurrently winston typeorm reflect-metadata pg --save
+npm i @types/express @types/passport @types/passport-jwt @types/jsonwebtoken @types/body-parser @types/bcryptjs @types/validator @types/concurrently @types/winston @types/node @types/pg
+---
+
+essential packages in frontend package.json:
+---
+npm i react react-dom react-router-dom react-scripts classnames redux react-redux redux-thunk jwt-decode
+npm i @types/react @types/react-dom @types/react-router-dom @types/react-scripts @types/classnames @types/redux @types/react-redux @types/redux-thunk @types/jwt-decode
+---
+if you want to work with redux, you need to use axios for fetching data directly through frontend:
+---
+npm i axios
+---
+in order to install SASS we have:
+---
+$ npm i node-sass --save-dev
+---
+for adding icons via react, use:
+---
+npm i react-icons
+---
+
+we should go to client => package.json and add proxy to the file->
+"proxy": "http://localhost:5000",
+
+with this, anytime we want to write axios.get(), we don't need to write the whole "http: localhost:5000",
+and instead we can say sth like: axios.get('/api/post') and start off from '/'
+
+--
+
+best way to make http request?  express.Router() , node-fetch, axios, got, superagent
+express.Router() is the best. then the others.
+
+***
+An Express application can use the following types of middleware:
+
+Application-level middleware
+Router-level middleware
+Error-handling middleware
+Built-in middleware
+Third-party middleware
+***
+
+how to config postgreSql?
+how to add TypeOrm to our project?
+how do '.env', 'db.ts', 'ormconfig' should be filled?
+--
+if you want to add TypeORM:
+npm install typeorm reflect-metadata --save
+npm install @types/node --save-dev
+
+and for PostgreSQL or CockroachDB:
+npm install pg @types/pg --save
+
+import "reflect-metadata" somewhere in the global place of your app (for example in app.ts):
+import "reflect-metadata";
+
+in tsconfig.json, make sure that:
+"emitDecoratorMetadata": true,
+"experimentalDecorators": true,
+
+You can run typeorm init on an existing node project, 
+but be careful - it may override some files you already have.
+
+edit the ormconfig.json file and put your own database connection configuration options in there:
+
+
+construct the frontend directory

@@ -1,0 +1,63 @@
+.header {
+  height: 95vh;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba($color-primary-light, 0.8),
+      rgba($color-primary-dark, 0.8)
+    ),
+    url(../img/hero-small.jpg);
+  background-size: cover;
+  background-position: top; /* anytime we resize the window, the photo will be at the top. default is button */
+  position: relative;
+
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  /* in order to clip the image use clip-path, it apply a polygon function*/
+  /* the polygon accepts corners and we can start top-left corner. */
+  /* more polygons can be found in 'https://bennettfeely.com/clippy/' */
+
+  @media only screen and (min-width: 192dpi) and (min-width: 600px) {
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8),
+        rgba($color-primary-dark, 0.8)
+      ),
+      url(../img/hero.jpg);
+  }
+
+  @media only screen and (min-width: 2000px) {
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8),
+        rgba($color-primary-dark, 0.8)
+      ),
+      url(../img/hero.jpg);
+  }
+
+  @include respond(phone) {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+  }
+
+  &__logo-box {
+    position: absolute;
+    top: 40px; /* = 4rem */
+    left: 40px;
+  }
+
+  &__logo {
+    height: 35px; /* = 3.5rem */
+  }
+
+  &__text-box {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* it consider the middle of the border
+     so it means when we say 50% from left, it won't start the whole box after that 50%
+     instead the middle of box will be started after the that 50%
+  */
+    text-align: center;
+  }
+}

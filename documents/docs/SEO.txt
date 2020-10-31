@@ -1,0 +1,293 @@
+SEO = Search Engine Optimization
+a keyword doesn't have to ba just a word like: 'wordpress themes'
+or 'Free responsive Wordpress themes for blog'
+
+the long keywords are more recommended
+
+go to keyword planner: https://ads.google.com/intl/en_ae/home/tools/keyword-planner/
+to get the right keywords
+
+***
+we need to find words with 
+'competition = Low' & 'Maximum Monthly searches >= 1000' 
+
+you can write a vraiety of words to get their competition,
+or you can enter a website name and click on 'Use only this page' to get the keywords from that page
+
+then you can download results as .CVS file
+we need just first 5 columns so delete all other columns and format the file as table.
+then right click on 'Max search volume', and filter it by 'greater or equal to = 1000'.
+
+google trends:
+https://trends.google.com/trends/?geo=US
+open menu and click on Explore. start adding search terms
+
+another tool is Ubersuggest:https://neilpatel.com/ubersuggest/
+when you set a word and specified the region, if the 'SEO DIFFICULTY' was lower than 35, you can use the word.
+but if it was more than 35, you should go for a longer keyword with that word
+go to 'keyword ideas page' and set filter as minimum search value as 1000 and SEO DIFFICULTY as 35. click on apply
+you should add these filters to the given keywords:
+position filter <= 5
+SEO DIFFICULTY <= 36
+Volume >= 1000
+
+even after you found the keywords, check them again with google ads.
+
+another source is keyword tool: https://keywordtool.io/google
+another is: http://www.seobook.com/
+another:https://www.semrush.com/
+
+by going to 'Google.com/ncr' , you can find the related words.
+ncr = no country redirect
+
+How to find top ranking keywords of your site?
+
+you can use Search Console in Google Webmaster tool:
+https://search.google.com/search-console/about
+
+then you can insert your website name, and find out which keywords were more popular among 
+your keywords recently.
+you can set position filter to see which keywords you positioned first before
+
+we have 3 types of long words: Informational Transactional General
+Informational: your searching for information: How to use smartphone
+Transactional: you want the best advice or the best site which has the products with lowest price : Buy graphic card online
+General: ecommerce wordpress website
+
+when you used these long keywords and after a while got backlinks from more authority websites,
+you can use short keywords.
+
+spyfu helps you to get information from your competitor websites.
+it also shows the other competitor to the website:
+https://www.spyfu.com/
+
+the next tool is Alexa:
+https://www.alexa.com/
+
+SimilarWeb is also the best tool for comparing sites based on similarity or Rank
+https://www.similarweb.com/
+
+-------------------------------------------------------------
+
+On Paage Optimization:
+keyword selection
+Meta Description Tags
+Header Tags
+Title Tags
+Content
+H1 Tags
+Alt Tags
+Unique Content
+Internal Link
+
+most of the websites have h1 tags in themselves, we should use them too 
+but if we use h2, we can get higher competitive advantages
+keep have 1 <h1> to your entire posts and assign multiple h2 and h3 to several otherr headings
+
+when a similar post is in both high authority website and a new website, google gives the higher ranking to
+the higher authority website
+we should also use meta description for all of our posts.
+
+***
+If you want to buy a domain name, don't look for the keyword. instead
+choose a good brand name and develope the brand name. so people will search the direct domain name.
+
+to increase domain seo visibility, it should have 2 important things:
+1.  number of backlinks from high authority domains. so you should have pages for your brand name in all social medias
+    and link them to the website: facebook, pintrest, google+
+    the website 'moz.com' gives all the authority score.
+    https://moz.com/
+    just like:
+    https://moz.com/domain-analysis?site=https%3A%2F%2Fncov2019.live%2F
+
+    and searchmetrics also shows the visibility score.
+    https://www.searchmetrics.com/
+
+2.  Direct domain name searches
+
+EMD: Exact Matched Domain       wordpress
+PMD: Partial Matched Domain     word + press
+
+https is a SEO signal and needs to buy 10 to 100$ SSL certificate.
+goDaddy will sell it
+google recommends TLS means SSL plus Certificate
+
+url length of the site, should be short
+loading time is a really factor for SEO. it should be lower than 2s.
+check it with PageSpeed insight
+https://developers.google.com/speed/pagespeed/insights/
+
+it gives you recommendations to speedup your website load time.
+
+another website to test speed is 'WEBPAGETEST'
+https://www.webpagetest.org/
+
+you should use CDN, it helps the user to reach your website frorm the nearest CDN server
+best CDN are:
+KyeCDN, MaxCDN, Google CDN, Amazon AWS, Rackspace
+
+CloudFlare is not just a CDN, it also optimize your content
+setup CloudFlare: (folder 4 - video 10)
+
+***
+we need to declare our sitemap:
+
+What is the use of sitemap?
+A sitemap tells Google which pages and files you think are 
+important in your site, and also provides valuable information 
+about these files: for example, for pages, when the page was 
+last updated, how often the page is changed, and any alternate 
+language versions of a page.
+
+In simple terms, an XML sitemap is a list of your website's 
+URLs. It acts as a roadmap to tell search engines what content 
+is available and how to reach it. In the example above, a search 
+engine will find all nine pages in a sitemap with one visit to 
+the XML sitemap file.
+
+https://www.quicksprout.com/creating-website-sitemap/
+https://support.google.com/webmasters/answer/156184?hl=en
+
+How to add your website to Alexa:
+if your website rank is less than 100,000 it's a pride for your website
+you should sign-up and receive a <meta> tag, and add it to you HTML
+
+How to add your website to the WEBMASTER tool (google search console).
+sign up and add <meta> tag
+then you should add your sitemap to the Google Search Console
+before adding them, click on test to see if you have any error in your sidemap.xml
+
+also you should add WWW version to the Google Search Console.
+(folder 5 - video 6)
+
+***
+ADD your website and sitemap to Bing
+https://www.bing.com/toolbox/webmaster
+
+***
+pages which are not displaying any Ads, has come up compared to pages which display Ads
+
+Are external links bad for SEO?
+While there are still some unanswered questions, this study 
+seems to show that including outbound links to high authority 
+sites can help your SEO efforts. At the very least, it won't 
+hurt your SEO, so if you're hesitant to link out to other 
+sites, just consider these results.
+
+also you should use Internal Links. 
+like Top Posts, Recent Posts, Categories, ... 
+add 1 internal link per 100 words. like: if you haven't read my xyz post, click here to read it
+
+***
+if you use more images, it helps to your SEO.
+if you want to use images from google, you should search images for a word, 
+and set filter as 'labbeled for reuse'. so you can easily use
+them with no copyright restriction
+
+these days it's not a good idea to have video in your website.
+but if you add a video from youtube, you make your audiance to stay more in your website.
+so it will be a good point.
+
+***
+resources to check if your site is responsive or not:
+http://mattkersley.com/responsive/
+http://www.responsivetester.net/
+https://responsivedesignchecker.com/
+https://www.responsinator.com/
+and
+https://search.google.com/test/mobile-friendly
+
+use browser.ling to test your website on different browsers:
+https://www.browserling.com/
+http://browsershots.org/ (better)
+
+another factor is Intractive Elements.
+like navbar or recent post to encourage users to intract more with your website.
+you can also encourage them to make a comment under your posts. and let them to sign up with google
+so they won't be that lazy
+
+***
+try to use un-orderd lists. they are user-friendly and more readably
+having Tables in your site or deviding paragraphs to un-ordered lists are the things to
+consider for SEO
+
+***
+put your Ads, Bellow to fold. it means the places where user can see 
+with scrolling. Once you have imporved your brand authority, or domain seo visibility,
+you can add 1 Ad in the header, 1 Ad in sidebar, inside the content
+add 1 or 2 ads, in your Maximum limit of the page
+don't force users to click on your Ad.(pop up window) because if you are using google AdSence,
+you will get banned.
+
+3 User signals:
+1. Clicks
+2. Time on site
+3. Bounce rate: the percentage of visitors to a particular website who navigate away from the site after viewing only one page
+
+CTR: Click per Impression(who haved view). we should use google search analysis
+
+***
+you should also need to provide Rich snippets to your site
+so in search engine, your site has instant information about the search keyword
+https://backlinko.com/hub/seo/snippets
+https://developers.google.com/search/docs/data-types/product
+https://developers.google.com/search/docs/guides/intro-structured-data
+
+***
+with this website you can evaluate your topic of a heading:
+ig gives you back the pros and cons of your headline
+https://coschedule.com/
+and also https://www.subjectline.com/
+https://aminstitute.com/
+
+*** *** ***
+if you can decrease Bounce rate, you will get to the 3 top results of google.
+- use eye catching images (from conva)
+- add relative youtube video to your post
+- use related posts
+
+***
+Setup google analytics
+
+***
+to avoid Negative SEO, you should add firwall configaration
+
+links to check backlinks:
+https://moz.com/
+https://majestic.com/
+https://www.semrush.com/
+https://openlinkprofiler.org/ (the best)
+
+if you found so many backlinks coming from the same name, this is possibaly has a Negative SEO on your site
+first, check the site with this tool: web of trust
+https://www.mywot.com/
+
+if the color of the site was green, so the backlink is safe,
+but if it was red, this site is spam
+
+google console tool also can help you to be aware of first Negative seo attacks
+go to https://search.google.com/search-console/about
+click on Search Console Prefrences
+by default, Email notifications is enabaled and click on type: all issues.
+
+to remove these backlinks, sign uo in seoprofiler:
+https://www.seoprofiler.com/
+
+add links which are in red color to link manager, and tab on Link Disinfection
+download CSV file of these links and upload it in site below:
+you can search for 'disavow tool' in google
+https://www.google.com/webmasters/tools/disavow-links-main?pli=1
+
+upload the .txt fole
+
+canonical tag:
+A canonical tag (aka "rel canonical") is a way of telling 
+search engines that a specific URL represents the master copy 
+of a page. Using the canonical tag prevents problems caused 
+by identical or "duplicate" content appearing on multiple URLs.
+
+You should be adding a canonical tag wherever you have 
+duplicate content on your site. Similar content: Let's say 
+you have an e-commerce store with products that are very 
+similar but may have slight differences between them. In 
+this case, most SEO experts say you should use canonical tags.

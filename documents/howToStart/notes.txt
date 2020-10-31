@@ -1,0 +1,21 @@
+
+// create a branch
+$ git checkout -b [name_of_your_new_branch]
+
+// push to branch
+$ git push origin [name_of_your_new_branch]
+
+
+
+git add . 
+git commit -am 'sth'
+git push origin armanbranch
+
+news_branch
+map
+stats
+
+killall -9 node
+
+  "proxy": "http://127.0.0.1:5000/",
+  "secure": false,

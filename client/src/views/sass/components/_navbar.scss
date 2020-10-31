@@ -1,0 +1,246 @@
+nav {
+  background-color: $color-primary-first;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  border-bottom: $color-primary-second 3px solid;
+}
+
+
+
+.navigation {
+
+  display: grid;
+
+  grid-template-rows: [nav-start] 1fr [nav-end];
+  grid-template-columns: [brand-start] minmax(200px, 1fr) [brand-end btns-start] minmax(400px, 5fr) [btns-end];
+  z-index: 9900;
+
+  @include respond(tab-land) {
+    grid-template-rows: [nav-start] 1fr [nav-end];
+    grid-template-columns: [brand-start] 1fr [brand-end btns-start] 1fr [btns-end];
+  }
+
+  &-brand {
+    grid-row: nav-start / nav-end;
+    grid-column: brand-start / brand-end;
+    text-decoration: none;
+    margin: 10px 40px;
+    font-weight: 400;
+    color: #00adb5;
+    text-shadow: #00adb5 0px 0px 1px;
+    z-index: 9999;
+    outline: 0;
+
+
+
+    &__secondpart {
+      color: #f62a66;
+      text-shadow: #f62a66 0px 0px 1px;
+    }
+
+    &__livepoint {
+      position: absolute;
+      color: #f62a66;
+      border: #f62a66 1px solid;
+      width: 4px;
+      height: 4px;
+      margin-top: 2px;
+      margin-left: 1px;
+      border-radius: 100%;
+      background-color: #f62a66;
+    }
+
+    &__shiningpoint {
+      position: absolute;
+      color: #f62a66;
+      border: #f62a66 1px solid;
+      background-color: #f62a66;
+      width: 4px;
+      height: 4px;
+      margin-top: 2px;
+      margin-left: 1px;
+      border-radius: 100%;
+      animation: shiningLiveLogo 2s;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+    }
+  }
+
+  &-open {
+    display: none;
+
+    @include respond(tab-land) {
+      display: grid;
+      grid-row: nav-start / nav-end;
+      grid-column: btns-start / btns-end;
+      justify-self: end;
+      align-self: center;
+      width: 46px;
+      height: 33px;
+      margin-right: 20px;
+      cursor: pointer;
+      background-color: #1a1a2e;
+      border-radius: 5px;
+      padding: 7px 0px 3px 0px;
+      opacity: 1;
+      z-index: 9990;
+
+    }
+
+    &-btn {
+      height: 3px;
+      width: 33px;
+      opacity: 0.7;
+      border: none;
+      background-color: #fff;
+      margin: 0px 7px;
+      border-radius: 5px;
+    }
+  }
+
+  &-open:hover,
+  &-open:active {
+    background-color: #00adb5;
+  }
+
+  &-btns {
+    grid-row: nav-start / nav-end;
+    grid-column: btns-start / btns-end;
+
+    display: grid;
+    grid-template-rows: [nav-start] 1fr [nav-end];
+    grid-template-columns: [space-start] 0px [space-end ul-start] 3fr [ul-end link-start] 1fr [link-end];
+    z-index: 9980;
+
+    @include respond(tab-land) {
+      // display: grid;
+      // grid-template-rows: [nav-start] 1fr [nav-end];
+      // grid-template-columns: [ul-start] 4fr [ul-end link-start] 1fr [link-end];
+      display: none;
+    }
+
+    &-ul {
+      grid-row: nav-start / nav-end;
+      grid-column: ul-start / ul-end;
+
+      overflow: hidden;
+      text-decoration: none;
+
+      display: grid;
+      grid-template-rows: 1fr;
+      // grid-template-columns: 107px 93px 99px 70px 59px 91px 82px;
+      grid-template-columns: 100px 70px 60px 80px;
+
+    }
+
+    &-li {
+      list-style-type: none;
+      font-weight: 300;
+      // border-bottom: $color-primary-second 2px solid;
+
+
+      a {
+        padding: 10px 12px;
+        display: inline-block;
+        color: $color-primary-forth;
+        text-align: center;
+        text-decoration: none;
+        transition: 0.2s;
+        border-bottom: $color-primary-second 3px solid;
+        outline: 0;
+      }
+
+      a:hover {
+        border-bottom: $color-primary-third 3px solid;
+        color: $color-primary-third;
+        // box-shadow: $color-primary-third 0px 20px 1px;
+        text-shadow: $color-primary-third 0px 0px 0.5px;
+
+      }
+    }
+  }
+}
+
+.res-navigation {
+
+  display: grid;
+  grid-template-rows: [nav-start] 1fr [nav-end];
+  grid-template-columns: [brand-start] minmax(200px, 1fr) [brand-end btns-start] minmax(400px, 5fr) [btns-end];
+  z-index: 800;
+
+  &-responsive {
+
+    display: none;
+
+    @include respond(tab-land) {
+      display: grid;
+      transition: 0.4s;
+      z-index: 9720;
+      height: 100vh;
+      width: 100vw;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+      background: #141E30;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #243B55, #141E30);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #243B55, #141E30);
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      overflow: scroll;
+
+    }
+
+    &-ul {
+      overflow: hidden;
+      text-decoration: none;
+      display: grid;
+      justify-content: center;
+      align-self: start;
+      text-align: center;
+      margin-top: 110px;
+    }
+
+    &-li {
+      list-style-type: none;
+      font-weight: 300;
+      height: 50px;
+      font-size: 180%;
+      // border-bottom: $color-primary-second 2px solid;
+
+
+      &-nav-link {
+        color: $color-primary-forth;
+        text-align: center;
+        text-decoration: none;
+        transition: 0.2s;
+      }
+
+      &-nav-link:hover {
+        color: $color-primary-third;
+        text-shadow: $color-primary-third 0px 0px 0.5px;
+      }
+    }
+
+    &-is-active {
+      background-color: #f62a66;
+      border-radius: 3px;
+      width: 30px;
+      color: #141E30;
+    }
+  }
+}
+
+.is-active {
+  background-color: $color-primary-second;
+}
+
+.takeToSky {
+  margin-top: -120vh;
+}
+
+.activeNav {
+  background-color: #00adb5;
+}

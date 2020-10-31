@@ -1,0 +1,681 @@
+Git
+
+git is a distributed source control system which is not required to be decentralized
+git can scale massively,it's open source,developed for Linux project requirements
+most operations are local. it's the most popular DVCS, VCS
+
+Repository contains files, history, config managed by Git
+we have 2 workflows: Local, Remote
+Local contains (3 stages of Git): - Working Directory
+                                  - Staging Area = pre-commit holding area
+                                  - Commit - Git Repository (.git folder) = history
+
+Remote contains:- Remote Repository (GitHub)
+
+Working Directory is a directory or folder on our computer, that holds all the projects and application files.
+files within Working Directory may or may not be managed by git, however, git is aware of them
+normaly within a Working Directory is a hidden folder, called the "/.git" folder, that contains the actual git repository
+the git repository manages the git commit history. that is all the changes that they're finaliezed in permenently of the git repository.
+in between of Working Directory and Repository, there is a Staging Area (often refers to as the git index). that is a holding area for queue of changes for the next commit.
+since files in Staging Area haven't been commited yet, we can move the files in or out of the Staging Area, without impact on the git repository and it's history of changes.
+
+the remote repository, is just another repository, with it's own 3 stages internally. conceptually, we thinks the remote repository as a 4 state.
+since it's the last step in basic forkflow,
+
+Master branch: there are timelines that contain your changes. in Git, branches contain commits. when we start off, Git provide us with a default branch named "master".
+-------------------------------------------------------------------------------------
+now we want to create a repository in GitHub. so we go there and click "new".
+then we specify repository owner and it's name.
+then we wirte a description, and we leave this project as public. also we check the "initializ this repository with a README"
+
+after creating a repository on GitHub, we need to prepare our local system before we can pursue.
+-------------------------------------------------------------------------------------
+commands:
+pwd => where is the current directory
+git version => version of git
+-------------------------------------------------------------------------------------
+for git, first we should specify name and email. if we don't do that, Git will automatically attempt to figure it out, which is unreliable
+so:
+-------------------------------------------------------------------------------------
+$ git config --global user.name "Arman Feili"
+$ git config --global user.email "armanfc.enter@yahoo.com"
+$ git config --global --list            // to confirm
+-------------------------------------------------------------------------------------
+now let's go to GitHub and get a copy of the repository we created on to our local system.
+the process to do that is called "cloning a repository".
+so we first locate the clone options. make sure HTTPS is selected. then we click on "copy" button to copy the https url of the repository
+in the terminal we have:
+-------------------------------------------------------------------------------------
+$ git clone https://github.com/arman756/github-demo.git
+-------------------------------------------------------------------------------------
+so it will copy the repository into our local system. as we set "github-demo" as the name of this repository before,
+it will create a file named "github-demo" and put all the files in it.
+so => $ cd github-demo
+
+if we wirte => $ git status
+it shows: 
+-------------------------------------------------------------------------------------
+On branch master
+Your branch is up to date with 'origin/master'.     // it referes to the master branch
+-------------------------------------------------------------------------------------
+the GitHub command, automatically set up a relationship back to the repository on github and named that referance "orgin"
+
+now we wanna add a new file to the local repository. we use "echo"
+-------------------------------------------------------------------------------------
+$ echo "Test Git Quick Start demo" >> start.txt     // we created a simple text file with the passage between qoutations
+-------------------------------------------------------------------------------------
+now we can see the file, in the local directory by => $ ls
+we can use the "cat" command to display the content of that file.
+-------------------------------------------------------------------------------------
+$ cat start.txt
+-------------------------------------------------------------------------------------
+it will show:   Test Git Quick Start demo
+
+now if we write "$ git status" git says that we have an untracked file
+an Untracked file is just a file in our Working Directory that hasn't been added to git yet.
+so we use => $ add
+-------------------------------------------------------------------------------------
+$ git add start.txt
+-------------------------------------------------------------------------------------
+now if we write => $ git status
+it says: "Chages to be committed". so now that the files are in the Staging Area and waiting to commit, let's move forward by commiting this file to the repository.
+-------------------------------------------------------------------------------------
+$ git commit -m "Adding start text file"
+-------------------------------------------------------------------------------------
+now if we write => $ git status
+it says: Your branch is ahead of 'origin/master' by 1 commit.
+and it also says: nothing to commit, working tree clean.
+** now that we commited the files into *LOCAL repository* , it's time to push files into the GitHub Repository.
+-------------------------------------------------------------------------------------
+$ git push origin master
+-------------------------------------------------------------------------------------
+origin, is the remote name that refers to the GitHub copy of our repository.
+master refers to the default and only branch in the repository
+push command, needs our password
+
+-------------------------------------------------------------------------------------
+
+** Initialize a new project
+
+this time we want to create a fresh new git repository right from terminal. to do that, we use => "$ git init" and then, the name of project
+-------------------------------------------------------------------------------------
+$ git init fresh-project
+-------------------------------------------------------------------------------------
+it says: Initialized empty Git repository in /Users/armanfeili/code/git/2/fresh-project/.git/
+now if we write: "$ ls" we can see the "fresh-project" folder. so => "$ cd fresh-project/"
+** if wirte "$ ls" we can't see anything. but if write "$ ls -al" we can see ".git/" file. this is actually where the git repository lives.
+
+so if we write "$ git status" it says: we're on the master branch. it also says: we're in the initial commit.
+now we want to create a file with a paragraph text. => touch textFile.txt
+and paste some text in it and save the file, if we write again => $ git status
+we have one untracked file.
+so => $ git add .
+      $ git commit -m "add new file"
+
+now we can delete that folder => $ rm -rf fresh-project/
+
+-------------------------------------------------------------------------------------
+
+** Add Git to an existing project:
+
+now we want to download a simple project from "http://www.initializr.com/" to add git to it.
+so we download the zip file, and in command line, we have:
+-------------------------------------------------------------------------------------
+$ unzip ~/Downloads/initializr-verekia-4.0.zip
+-------------------------------------------------------------------------------------
+now we can see the "initializer" folder. so let's rename this folder:
+-------------------------------------------------------------------------------------
+$ mv initializer web-project
+-------------------------------------------------------------------------------------
+so we can write: => $ git init
+if we write => $ git status
+, we have a lot of files to commit.
+so => $ git add .
+then => $ git commit -m "my first commit"
+-------------------------------------------------------------------------------------
+
+** Start on GitHub: Fork and Clone
+
+how to join on existing project on github.
+we want to clone from "https://github.com/scm-ninja/starter-web". 
+
+* so we go there and click on fork button, to create a copy of the repository,into our personal space.
+now we can see that the repository added to our projects in github and for example,
+we can see => arman756/starter-web - forked from scm-ninja/starter-web above.
+
+* now, we should clone the repository to our local system. so we have:
+-------------------------------------------------------------------------------------
+$ git clone https://github.com/arman756/starter-web.git
+$ cd starter-web/
+-------------------------------------------------------------------------------------
+with $ git status, we see => On branch master - nothing to commit,Your branch is up to date with 'origin/master'. - working tree clean.
+-------------------------------------------------------------------------------------
+
+** Tracked files
+
+track files are the files which are tracked by git and they passed throgh all the local workflows.
+to see what files are tracked, we wirte => 
+-------------------------------------------------------------------------------------
+$ git ls-files
+-------------------------------------------------------------------------------------
+this gives us all the files that git is tracking in the current repository. now we can push them into the remote repository.
+if we change a file, it shows up as a modified file, so should add it to Staging Area amd then commit it to local Git repository folder, and then push it into GitHub.
+-------------------------------------------------------------------------------------
+
+** How to recursively add files into get repository
+
+we want to create nested folders into each other:
+-------------------------------------------------------------------------------------
+$ mkdir -p level1/level2/level3/level4/level5
+-------------------------------------------------------------------------------------
+now if we make some files into each of thease folders, and come to the root folder and wirte => $ git status,
+the status, just show us the first level directory "level1". it's not showing all the files.
+but if we write "$ git add ." it will add all the files recursively from this point
+-------------------------------------------------------------------------------------
+
+** How to Back out changes in your git repository => (if we had a mistake)
+
+if we change a commited file, it appears as a modified file, for example we have a modified file named: "level1-file.txt"
+now if we want to back out the changes from Staging Area (or unstage) , so it will go to the Working Directory
+we should use this syntax: => "git reset HEAD <file> " to unstage
+-------------------------------------------------------------------------------------
+$ git reset HEAD level1-file.txt
+-------------------------------------------------------------------------------------
+now the file does not included to the commited files,
+now if we decided not to want this changes and to discard our changes, and
+we just want to back to the state file from our last committed.
+-------------------------------------------------------------------------------------
+$ git checkout -- level1-file.txt
+-------------------------------------------------------------------------------------
+
+** Move and Rename files:
+
+let's go to "$ cd level1/level2/level3"
+now with "ls" we can see there is a file named: "level3-file.txt"
+we can rename it:
+-------------------------------------------------------------------------------------
+$ git mv level1-file.txt new-file-name.txt
+-------------------------------------------------------------------------------------
+so "level3-file.txt" changed to "new-file-name.txt".
+
+at this point git knows that we renamed a file and it added it to the "to be committed list" but it didn't commit it yet
+so git commit -m "renaming a file"
+
+now if we want to move a file to other folder directory, we can say:
+-------------------------------------------------------------------------------------
+$ git mv level2.txt level3/
+-------------------------------------------------------------------------------------
+so it changed the position of "level2.txt" into the "level3/" folder
+so both renaming and moving files can be accessible with "mv" command.
+-------------------------------------------------------------------------------------
+$ mv level2.txt ..
+-------------------------------------------------------------------------------------
+it take it to the past directory
+
+now if we write: $ git status
+it says that we deleted a file from level3/ and added a file into the level2/
+so we should add them to the Staging Area and commit them again. so:
+-------------------------------------------------------------------------------------
+$ git add -A
+$ gir commit -m "moved a file"
+-------------------------------------------------------------------------------------
+
+** Deleting files
+
+like:
+-------------------------------------------------------------------------------------
+$ git rm doomed.txt
+-------------------------------------------------------------------------------------
+and after that we need to commit the changes
+to delete the entire folder structure, we use: $ rm -rf level1
+
+-------------------------------------------------------------------------------------
+
+** History
+
+how to look at git history
+-------------------------------------------------------------------------------------
+$ git log
+-------------------------------------------------------------------------------------
+we can see the logs shorter:
+-------------------------------------------------------------------------------------
+$ git log --abbrev-commit
+-------------------------------------------------------------------------------------
+or a better look at log history can be done by:
+-------------------------------------------------------------------------------------
+$ git log --oneline --graph --decorate
+-------------------------------------------------------------------------------------
+to get out, we can press "q".
+
+or even:
+-------------------------------------------------------------------------------------
+$ git log --since="3 days ago"
+-------------------------------------------------------------------------------------
+
+or even seeing the commit history for a specific file:
+-------------------------------------------------------------------------------------
+$ git log --follow -- level1/level2/level2.txt
+-------------------------------------------------------------------------------------
+
+or "git show"+"commit id" command to show logs for a specific command:
+-------------------------------------------------------------------------------------
+$ git show 4beb7f097b54ab7cf08daf17972c3ab14432ae24
+-------------------------------------------------------------------------------------
+
+** Git Alias
+
+craetin our own command to make long commands, shorter.
+for example we want "git hist" to be a command for ourselves.
+syntax is: => git config -g alias.commandName "the real command"
+-------------------------------------------------------------------------------------
+$ git config --global alias.hist "log --all --graph --decorate --oneline"
+-------------------------------------------------------------------------------------
+now instead of the code above, we write "git hist"
+
+
+****** in any folder that we initiate git, there is a folder named .git/ that is hidden
+if we go into it, and write "ls" we can see the content
+there is a file name: "config". in order to open that, we wirte:
+open config
+and it's the local config for our git.
+it looks like:
+-------------------------------------------------------------------------------------
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/arman756/starter-web.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[alias]
+	hist = log --all --graph --decorate --oneline
+-------------------------------------------------------------------------------------
+
+** Git Ignore
+
+instead of unwanted files to commit, we should write their name into .gitignore/
+-------------------------------------------------------------------------------------
+
+*** Pull and then Push
+
+before pushing all the last commit into the GitHub, we should first pull them
+-------------------------------------------------------------------------------------
+$ git pull origin master
+-------------------------------------------------------------------------------------
+now
+-------------------------------------------------------------------------------------
+$ git push origin master
+-------------------------------------------------------------------------------------
+
+with this action, we pushed all the commits into the GitHub and they're appeard from GitHub history
+
+-------------------------------------------------------------------------------------
+
+** P4Merge
+
+got to perforce.com and download p4merge as "Helix Visual Merge Tool".
+then we should configer p4merge as our default merge tool.
+
+we go to:
+cd /Applications/p4merge.app/Contents/MacOS/
+now if we type: $ ./p4merge
+it will launch the application
+
+-------------------------------------------------------------------------------------
+so we go to $ cd ~
+and write: $ git config --global diff.tool p4merge
+then path: $ git config --global difftool.p4merge.path /Applications/p4merge.app/Contents/MacOS/p4merge
+then prompt: $ git config --global difftool.prompt false
+-------------------------------------------------------------------------------------
+now let's do the same thing for the merge tool confiuration with git.
+-------------------------------------------------------------------------------------
+and write: $ git config --global merge.tool p4merge
+then path: $ git config --global mergetool.p4merge.path /Applications/p4merge.app/Contents/MacOS/p4merge
+then prompt: $ git config --global mergetool.prompt false
+-------------------------------------------------------------------------------------
+
+$ git config --global --list
+this list down our confiuration
+
+if we write $ git config --global -e
+it's gonna load git config on our default editor
+
+-------------------------------------------------------------------------------------
+
+** Comparisons
+
+* Comparing Working Directory and Staging Area:
+
+let's say we created a README.md file, so we write sth in it and commit it
+then we change it and write git status. it shows that the old README is ready to push, but the new README is modified.
+in order to compare these two we can write:
+-------------------------------------------------------------------------------------
+$ git diff
+-------------------------------------------------------------------------------------
+to compare these two files, and then write 
+-------------------------------------------------------------------------------------
+$ git difftool
+-------------------------------------------------------------------------------------
+to open p4merge tool and see the differences.
+
+* Comparing Working Directory and the last commit (local repository)
+-------------------------------------------------------------------------------------
+$ git difftool HEAD
+-------------------------------------------------------------------------------------
+
+* Comparing Staging Area and the last commit (local repository)
+-------------------------------------------------------------------------------------
+$ git diff --staged HEAD
+-------------------------------------------------------------------------------------
+
+sometimes our diff ivloves more files, and we want to limit that search to just one file
+if we write "$ git diff", all the changes in all files will be listed
+but for one file:	"$ git diff -- path"
+-------------------------------------------------------------------------------------
+$ git diff -- README.md
+-------------------------------------------------------------------------------------
+
+* Compare between Commits: 
+syntax:
+$ git diff firstCommitChoice secondCommitChoice
+
+if we write "$ git log --oneline", we can see the commitments
+-------------------------------------------------------------------------------------
+$ git diff ae6f872 HEAD
+-------------------------------------------------------------------------------------
+"ae6f872" is one of the commitments and HEAD is our last commit
+
+-------------------------------------------------------------------------------------
+$ git diff HEAD HEAD^
+-------------------------------------------------------------------------------------
+this compares "HEAD" and "HEAD-1" commits.
+
+-------------------------------------------------------------------------------------
+
+* Compare Local master branch vs Remote master branch:
+
+the syntax:
+-------------------------------------------------------------------------------------
+"$ git diff master origin/master"
+-------------------------------------------------------------------------------------
+it compares master branch in the local system, and origin master branch
+* origin is the name of the remote referance that points back to the github
+
+-------------------------------------------------------------------------------------
+to see this more virtually, we use difftool:
+-------------------------------------------------------------------------------------
+"$ git difftool master origin/master"
+-------------------------------------------------------------------------------------
+
+** Branches
+
+till now, we did everything in the master branch. but the better way is creating some branches and try to complete them,
+and then, add them into the master branch.
+
+let's first list all our beanches
+-------------------------------------------------------------------------------------
+$ git branch -a
+-------------------------------------------------------------------------------------
+it returns all the local and remote branches
+
+to create a new branch. we can write:
+-------------------------------------------------------------------------------------
+$ git branch mynewbranch
+-------------------------------------------------------------------------------------
+so it will be created as one of our local branches available.
+but we're not in that branch right now, we're still in the master
+we should use "git checkout" command to switch branches.
+-------------------------------------------------------------------------------------
+$ git checkout mynewbranch		//Switched to branch 'mynewbranch'
+-------------------------------------------------------------------------------------
+
+now if we see history log with "git log --oneline --decorate"
+we see that our first commit, 
+e060e24 (HEAD, origin/master, origin//HEAD, mynewbranch, master) Updated
+so branches are just layers or pointers 
+
+in order to rename the branch:
+-------------------------------------------------------------------------------------
+$ git branch -m mynewbranch newbranch		// -m refers to "move" and then the old and new names
+-------------------------------------------------------------------------------------
+
+in order to delete a branch:
+-------------------------------------------------------------------------------------
+$ git branch -d newbranch
+-------------------------------------------------------------------------------------
+obviously we can't delete a branch we're currently on.
+
+for example we want to create a branch for just changing a title of an HTML.
+-------------------------------------------------------------------------------------
+$ git checkout -b title-change
+-------------------------------------------------------------------------------------
+so with this line of code, it will create a branch and switch the branch to the title-change
+so we now change the HTML file, and now
+-------------------------------------------------------------------------------------
+$ git status
+$ git commit -am "changing title of HTML file"
+$ git log -oneline
+-------------------------------------------------------------------------------------
+
+so we need to move it into master branch
+so the first thing to do is to switch into the master branch => git checkout master
+we also can see the changes before put everything into the master branch. so:
+-------------------------------------------------------------------------------------
+$ git diff master title-change
+or
+$ git difftool master title-change
+-------------------------------------------------------------------------------------
+
+if everything was right, now we're ready to merge in our change.
+notice that we're in the master branch:
+-------------------------------------------------------------------------------------
+$ git merge title-change
+-------------------------------------------------------------------------------------
+so it will merged into our current branch (master).
+returns:
+-------------------------------------------------------------------------------------
+Updating 4beb7f0..7ca717d
+Fast-forward
+ README.md  |   6 ++-
+ index.html | 167 +++++++++++++++++++++++++++++++++++++++++------------------
+ 2 files changed, 121 insertions(+), 52 deletions(-)
+-------------------------------------------------------------------------------------
+
+so now, all the changes are included into the master branch.
+now that we no longer need title-change branch, we can delete it => $ git -d title-change
+
+let's create another branch and go to it:
+-------------------------------------------------------------------------------------
+$ git checkout -b add-copyright   // to change HTML file
+$ git commit -am "Adding copyright notice"
+$ git checkout master		// to go to the master
+-------------------------------------------------------------------------------------
+this time, we want to let people know that we branched off
+$ git merge add-copyright --no-ff      // ff stands for Fast Forward
+so it will stay in the history.
+now we can delete that branch.
+-------------------------------------------------------------------------------------
+
+* Automatic changes
+
+sometimes 1 person works with master branch, wihle ther other one, works with other branch
+so we want to keep branches separate.
+-------------------------------------------------------------------------------------
+$ git merge simple-changes -m "Merging changes from simple-change branch"
+-------------------------------------------------------------------------------------
+this will commit as it merge
+
+if we log again:
+-------------------------------------------------------------------------------------
+$ git log --oneline --decorate --all --graph
+-------------------------------------------------------------------------------------
+we can see the merge has been commited and simple-changes is still remain as separate branch
+
+-------------------------------------------------------------------------------------
+
+sometimes 2 people works with master branch and another brancj separately, and maybe at the end of the day, the result files,
+will be different. so someone should sit and work with the issues
+
+-------------------------------------------------------------------------------------
+
+** Rebase
+
+we want to create a "feature" branch and do some work, and then switch back to master and do little work, and then rebase our changes back into the feature branch.
+-------------------------------------------------------------------------------------
+$ git checkout -b myfeature
+/ do some changes on humans.txt/
+$ git commit -am "Saying thanks to all my students"
+/ now we're done with immediate change to the feature branch /
+$ git checkout master
+/ let's edit README.md file in master branch /
+$ git commit -am "Adding oneliner to README for rebase example "
+/ now it's time to rebase master to the feature branch - so we should go to the branch we want to rebase into "here is myfeature" /
+(myfeature) $ git rebase master
+/ now let's look at logs /
+$ git log --oneline --decorate --all --graph
+/ so time to merge /
+(master) $ git merge myfeature
+/ actually we change all we did on master with what we did on myfeature branch. now we can delete myfeature /
+$ git branch -d myfeature
+-------------------------------------------------------------------------------------
+
+if the changes in both branches was conflict (na sazegar), we can stop rebasing
+-------------------------------------------------------------------------------------
+$ git rebase --abort
+-------------------------------------------------------------------------------------
+
+but if we wanted to continue with rebasing and merging, we should use mergetool
+-------------------------------------------------------------------------------------
+(bigtroubleBranch) $ git rebase master
+/ it returns that the rebase is conflict, so /
+(bigtroubleBranch|REBASE 1/1) $ git mergetool
+-------------------------------------------------------------------------------------
+in the mergetool we can select the best changes between 3 changes, then save it. then we should continue the rebasing
+-------------------------------------------------------------------------------------
+(bigtroubleBranch|REBASE 1/1) $ git rebase --continue
+/ now merge /
+(master) $ git merge bigtroubleBranch
+-------------------------------------------------------------------------------------
+
+** Pull with Rebase
+
+let's say other developer worked with part of our project, now we want to update our local project with that part of commited project.
+so instead of using pull, we use fetch
+-------------------------------------------------------------------------------------
+(master) $ git fetch origin master
+-------------------------------------------------------------------------------------
+with this line of code, all the referances are updated.
+
+-------------------------------------------------------------------------------------
+(master) $ git pull --rebase origin master
+
+now we rebased the changes from master branch of GitHub into our local repository
+-------------------------------------------------------------------------------------
+
+** Stash
+
+sometimes we have a modified file but we're not ready to commit it, we can use Stash (= store)
+-------------------------------------------------------------------------------------
+$ git stash save
+-------------------------------------------------------------------------------------
+the default command is "save". so we can do it like this:
+-------------------------------------------------------------------------------------
+$ git stash
+-------------------------------------------------------------------------------------
+now that we stash the file, if we visit it again, we can see it's back to what it was.
+in order to get what we have in stash , we should apply it
+-------------------------------------------------------------------------------------
+$ git stash apply
+-------------------------------------------------------------------------------------
+it starts showing us the files which are not commited yet but was stashed for a while.
+now we can change these files even more, and then commit,pull,push them
+
+but if we write this line now:
+-------------------------------------------------------------------------------------
+$ git stash list
+-------------------------------------------------------------------------------------
+it shows a referance to the stash we had. as we don't need it anymore, we can drop it.
+-------------------------------------------------------------------------------------
+$ git stash drop
+-------------------------------------------------------------------------------------
+
+note: the "$ git stash" command only stash files which are tracked.
+	  so they should be modified but not commited yet.
+	  
+by writing "$ git ls-files" we can see all the tracked files
+-------------------------------------------------------------------------------------
+we can view one specific file which is stashed:
+-------------------------------------------------------------------------------------
+$ git stash show stash@{1} 
+-------------------------------------------------------------------------------------
+in order to apply one specific file from stash, we have:
+-------------------------------------------------------------------------------------
+$ git stash apply stash@{1} 
+-------------------------------------------------------------------------------------
+also we can stash not only modified files but even new files:
+-------------------------------------------------------------------------------------
+$ git stash -u
+-------------------------------------------------------------------------------------
+
+** Tagging
+
+* Tag
+tags are labels that we can apply it in any commit in history
+with " $ git tag myTag". it's just a marker in a prticular commit
+no if we go back to our log command:
+-------------------------------------------------------------------------------------
+$ git tag myTag
+$ git log --oneline --decorate --graph --all
+-------------------------------------------------------------------------------------
+we have a new item at the very top.
+-------------------------------------------------------------------------------------
+(HEAD, tag:myTag, origin/master, origin/HEAD, master)
+these are the branches and tags which we're working with.
+
+to see all tags:
+-------------------------------------------------------------------------------------
+$ git tag --list
+-------------------------------------------------------------------------------------
+
+or show the specific tag:
+-------------------------------------------------------------------------------------
+$ git show myTag
+-------------------------------------------------------------------------------------
+
+or delete a tag:
+-------------------------------------------------------------------------------------
+$ git tag --delete myTag
+
+*** Notice: most of the time, tags show the version numbers on the source code.
+
+* Annotated Tags
+it is similar to a lightweight tag except it has a little extra information
+syntax:
+-------------------------------------------------------------------------------------
+$ git tag -a tag-name
+like:
+$ git tag -a v-1.0
+-------------------------------------------------------------------------------------
+after pressing enter we can write some description.
+
+if we specify tags to several commits, we can compare them:
+-------------------------------------------------------------------------------------
+$ git difftool v-1.0 v-1.2
+-------------------------------------------------------------------------------------
+
+set a tag to an specific old commit:
+-------------------------------------------------------------------------------------
+$ git tag -a v-0.9-beta 7ca717d
+-------------------------------------------------------------------------------------
+
+to update a tag: 
+-------------------------------------------------------------------------------------
+$ git tag -a v-0.8-alpha -f 7ca717d	
+
+tags can be tracked by GitHub likewise. so anytime we wanted to add a version to an existing program, we use tags

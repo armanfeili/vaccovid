@@ -1,0 +1,19 @@
+{
+    "name": "db1-connection",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "1",
+    "database": "VaccineNow",
+    "synchronize": true,
+    "logging": false,
+    "entities": ["build/entity/**/*.js"],
+    "migrations": ["build/migration/**/*.js"],
+    "subscribers": ["build/subscriber/**/*.ts"],
+    "cli": {
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration",
+        "subscribersDir": "src/subscriber"
+    }
+}

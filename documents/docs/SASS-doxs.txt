@@ -1,0 +1,1779 @@
+there is a simple naming convention named BEM (Block Element Modifier)
+Block Element Modifier is a methodology that helps you to create reusable components and code sharing in front-end development
+
+there is a 7-1 pattern for architecting our front-end project:
+7 different folders for partial SASS files, and 1 main SASS file to import all other files into a compiled CSS stylesheet.
+
+the 7 folders are: all these folders are gonna be in the 'sass' folder.
+/base           // where we put the basic project definitions. like
+/abstracts      // where we put code that doesn't output any CSS such as Variables, Mixins
+/components     // where we have one file for each components
+/layout         // where we define the overall layout of the project like Header, Footer, and so on...
+/pages          // where we have styles for specific pages of the project. like the Main page.
+/themes         // if we want to implement different visual themes
+/vendors        // where all third-party CSS goes.
+
+all the partials will be initiate with underscore = like: '_base.scss'
+then we should import all partials into the main scss file
+and in order to import this partial into the main.scss, in the main.scss we can write:
+
+@import "base/base"; it will know how to find the '_base.scss' file and will import it.
+@import "base/animations";
+@import "base/typography";
+@import "base/utilities";
+
+at the end of the day there should be no code in the main.scss except the 'import's one.
+
+------
+we have a consept name "Attribute Selector". syntax:
+[src]{} <=> select all elements having the src attribute.
+[alt="logo"]{} <=> select all elements having the alt="logo" attribute.
+[class^="col-"]{...} <=> select all elemnts which their class starts with "col-"
+[class$="col-"]{...} <=> select all elemnts which their class ends with "col-"
+------
+if we specify the font-size to 10px, in any where of the code, we can put rem instead of pixels.
+and with that specifiction, any 1rem equals to 10px
+
+if we don't specify the box-sizing, the width and height will take the content into account for measurement.
+if we set "box-sizing = border-box;" , the width and height will take the content+padding into account for measurement.
+
+Convert a simple HTML into the BEM system:
+in order to do that, for example, we have a <div> with calss of header.
+so any elemnts living in this <div> should have the name of "header__" before their actual name of class.
+
+if we had a modifier, we should use '--' to separate the names of differences. 
+like:
+"heading-primary-main"
+"heading-primary-sub"
+and if it was an element, we use "__" to separate
+-------------------------------------------------------------------------
+
+<header class="header">
+    <div class="header__logo-box">
+        <img src="./img/logo-white.png" alt="logo-white" class="header__logo" />
+    </div>
+    
+    <div class="header__text-box">
+    <h1 class="heading-primary">
+        <span class="heading-primary--main">Outdoors</span>
+        <span class="heading-primary--sub">is where life happens</span>
+    </h1>
+
+    <a href="#" class="btn btn--white btn--animated">Discover our tours</a>
+    </div>
+</header>
+-------------------------------------------------------------------------
+Sass is a CSS preprocessor, an extension of CSS that adds pwoer adn elegance to the basic language.
+SASS source code ===> sass compiler ===> Compiled CSS code.
+Main SASS features:
+Variables,
+Nesting,
+Operators
+Partials and imports,
+Mixins : to write reusable pieces of CSS code,
+functions,
+extends,
+Control directives
+
+there are 2 syntax for writing SASS
+SASS syntax:
+-------------------
+.navigation
+    list-style: none
+    float: left
+
+    & li
+      display: inline-Block
+      margin-left: 30px
+-------------------
+SCSS syntax:
+-------------------
+.navigation{
+    list-style: none
+    float: left
+
+    & li {
+      display: inline-Block
+      margin-left: 30px
+    }
+}
+-------------------------------------------------------------------------
+
+whenever we want to use a variable, we should just define it once and use it everywhere.
+whenever we want to define a variable, we use dollor sign => $
+like:
+-------------------
+*{
+  margin: 0;
+  padding: 0;
+}
+
+$color-primary: #f9ed69 ;// yellow color
+
+nav {
+  margin: 30px;
+  background-color: $color-primary;
+}
+-------------------
+
+Nesting:
+instead of write a code like this:
+-------------------
+.navigation {
+  list-style: none;
+}
+.navigation li {
+  display: inline-block;
+  margin-left: 30px;
+}
+-------------------
+we can write it like this:
+-------------------
+navigation {
+  list-style: none;
+  
+  li{
+    display: inline-block;
+    margin-left:30px;
+  }
+ }
+-------------------
+
+now if we want to select the first <li> for example, we can use ':first-child' class,
+like:  
+-------------------
+.navigation li:first-child{
+   margin:0;
+}
+-------------------
+but a better way is using '&' symbol.
+-------------------
+.navigation {
+  list-style: none;
+  
+  li{
+    display: inline-block;
+    margin-left:30px;
+  }
+  
+  &:first-child{
+    margin:0;
+  }
+}
+-------------------
+
+sometimes we use float:left or right, so some styles will be not shown.
+in order to fix that, we should use clearfix
+-------------------
+.clearfix::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+-------------------
+and add this class to the <nav> tag.
+
+but in the SCSS syntax:
+-------------------
+nav {
+  margin: 30px;
+  background-color: $color-primary;
+
+  &::after{
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+-------------------
+now we don't even need to add it in the HTML
+
+let's say we styled buttons like this:
+-------------------
+.btn-main:link,
+.btn-hot:link{
+  padding: 10px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 100px;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: $width-button;
+}
+-------------------
+
+now if we want to set :link or :hover or :visited or :active, 
+we can use the '&' syntax:
+-------------------
+.btn-main{
+  &:link {
+    background-color: $color-secondary;
+  }
+  
+  &:hover {
+    background-color: darken($color-secondary, 15%);
+  }
+}
+-------------------
+in the code above, we used a built-in function named darken() and passed the variable and the 
+precentage we want the button be darken.
+
+the code above equals to:
+-------------------
+.btn-main:link {
+  background-color: #f08a5d;
+}
+.btn-main:hover {
+  background-color: #ea5717;
+}
+-------------------
+
+other functions are: 
+darken();
+lighten();
+
+
+https://codepen.io/armando-gonzales/pen/dybVXNW?editors=1100#0
+
+-------------------------------------------------------------------------
+
+** Mixins
+
+Mixin is a reusable piece of code that we write into a mixin, so whenever we call that mixin, that code will be used.
+it's like a huge variable with multiple lines of code.
+
+for example, we want to have a mixin named 'clearfix'
+we write:
+-------------------
+@mixin clearfix {
+  &::after{
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+-------------------
+so the code stored as a mixin named clearfix
+then we want to add it:
+-------------------
+nav {
+  margin: 30px;
+  background-color: $color-primary;
+
+  @include clearfix;
+}
+-------------------
+
+mixin can have arguments 
+-------------------
+@mixin style-link-text($color){
+  text-decoration: none;
+  text-transform: uppercase ;
+  color:$color;
+}
+
+a:link{
+  @include style-link-text($color-text-dark);
+}
+-------------------
+
+there are some built-in functions but we can also write our own functions.
+but mostly we don't find them so useful.
+-------------------
+function divide($a,$b){
+  @return $a / $b;
+}
+
+.somewhere{
+  margin: divide(60,2) * 1px;   // 30px
+}
+-------------------
+
+extends:
+
+we can use some common codes on a placeholder
+for example:
+-------------------
+
+&btn-placeholder{
+  padding: 10px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 100px;
+  width: $width-button;
+  @include style-link-text($color-text-light);  
+}
+
+.btn-main:link,
+.btn-hot:link{}   // no longer use
+
+
+.btn-main{
+  &:link {
+    @extend %btn-placeholder
+    background-color: $color-secondary;
+  }
+  
+  &:hover {
+    background-color: darken($color-secondary, 15%);
+  }
+}
+
+.btn-hot{
+  &:link {
+    @extend %btn-placeholder
+    background-color: $color-secondary;
+  }
+  
+  &:hover {
+    background-color: lighten($color-tertiary, 15%);
+  }
+}
+-------------------
+
+Install Sass
+
+in order to install SASS we have:
+---
+$ npm i node-sass --save-dev
+---
+
+now for example, we want to create a folder names /sass to write some sass code in it.
+$ mkdir sass
+$ cd sass/
+$ touch main.scss   // sass files have .scss postfixes
+
+
+in SASS, we can bring color variables into rgba()
+like:
+------------------
+background-image: linear-gradient(to right bottom, rgba($color-primary-light,0.8),rgba($color-primary-dark,0.8)),url(../img/hero.jpg);
+------------------
+
+in order to compile sass files, we should use node-sass
+and we can specify a script in the package.json file
+
+------------------
+"scripts": {
+"compile:sass": "node-sass sass/main.scss css/style.css",
+"compile:sass-watch-mode": "node-sass sass/main.scss css/style.css -w"    // for watch mode
+},
+------------------
+
+so it says: node-sass input.scss output.scss
+to run that code, we have:
+$ npm run compile:sass-watch-mode
+
+------------------
+now if you look at style.css. all the code gets compiled.
+we still call style.css in index.html
+
+------------------
+
+Install live-server, globally:
+------------------
+$sudo npm i live-server -g
+------------------
+
+now to use it, just write the code below in the root folder of project (where index.html lives):
+------------------
+$ live-server
+------------------
+
+***** so we should keep thease commands running:
+------------------
+$ npm run compile:sass-watch-mode
+$ live-server
+------------------
+
+the '&' symbol actually copies the current className and is useful for nesting.
+for example:
+------------------
+.header{
+  ...
+  ...
+  &__logo-box{        // equals to '.header__logo-box'
+    ...
+    ...
+  }
+}
+------------------
+or like:
+------------------
+.btn{
+
+  &:hover {
+    /* we used a pseudo-class 'hover' */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba($color-black, 0.2);
+
+    &::after {
+      /* we use ::after in :hover , where we want to see the after element */
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+    }
+  }
+  
+}
+------------------------------------------------------------------------------------------
+ 
+// in order to make the coler of text, gradient we should set a background image to it,
+background-image: linear-gradient(
+  to right,
+  $color-primary-light,
+  $color-primary-dark
+);
+// then make the background color clipped in where the text is
+-webkit-background-clip: text;
+// and make the actual text, transparent.
+color: transparent;
+
+------------------------------------------------------------------------------------------
+
+utility classes are simple classes that have one single goal.
+------------------------------------------------------------------------------------------
+
+writing 'lorem' can provide you some simple random text.
+------------------------------------------------------------------------------------------
+Emmet:
+this code:
+----------------
+.composition>(img.composition__photo.composition__photo--p1)*3
+----------------
+will be this code:
+----------------
+<div class="composition">
+  <img src="" alt="" class="composition__photo composition__photo--p1">
+  <img src="" alt="" class="composition__photo composition__photo--p1">
+  <img src="" alt="" class="composition__photo composition__photo--p1">
+</div>
+------------------------------------------------------------------------------------------
+
+***
+Select Children:
+.className{
+  & * {}    // it selects all the childs. <=> .className *{}
+  & > * {}  // it selects the direct child. Means the exact div within the current div
+}
+------------------------------------------------------------------------------------------
+
+Prespective:
+for example we want to rotate a card:
+we can define our prespective in CSS.
+let's say we have 2 divs:
+
+----------------
+ <div class="card">
+    <div class="card__side">
+      Card text
+    </div>
+  </div>
+----------------
+.card {
+  perspective: 150rem;
+  -moz-perspective: 150rem;       // to make it happen in mozilla Fire Fox as well.
+
+ // now when we hover the card, the side will transform
+  &:hover &__side {               // .card:hover .card__side {}
+    transform: rotateY(180deg);
+  }
+}
+----------------
+
+backface-visibility: 
+
+backface-visibility: hidden;    // means it will hidden all elemtnts which are at the back of the current element.
+                                // so it's useful when we want to create the cards.
+------------------------------------------------------------------------------------------
+
+Blending images:
+in order to make linear-gradient work on the pictures, we can use 'background-blend-mode'
+'background-blend-mode: ...' has a lot of cool effects for blending the colors with pictures
+like: background-blend-mode: screen;
+------------------------------------------------------------------------------------------
+
+when we want to have imgae with a caption, best way is using <figure>
+------------------------------------------------------------------------------------------
+
+we have a filter attribute to use and filter images. it has functions like blur() or brightness(80%)
+------------------------------------------------------------------------------------------
+
+Sibilings Selector:
+if 2 elements were not the parent and child of each other and they came emidiently one after another,
+they can be considered as sibilings, and we still can select them in SASS, with sibiling selector.
+the order matters a lot here.
+just like:
+-------------------
+<input type="text" class="form__input" placeholder="Full Name" id="name" required />
+<label for="name" class="form__lable">Full Name</label>
+-------------------
+so we select them with: there are two operators: '+' and '~'
+-------------------
+  &__lable {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-left: 2rem;
+    margin-top: 0.7rem;
+    display: block;
+    transition: all 0.3s;
+  }
+
+  &__input:placeholder-shown + &__lable {
+    opacity: 0;
+    visibility: hidden; // the element will not be in the page
+  }
+---------------------------------------------------------
+
+Styling Radio buttons:
+let's say we have thease lines of code for 2 radio buttons.
+-----------------------
+ <div class="form__group">
+  <div class="form__radio-group">
+    <!-- the name attribute for all radio buttons we want to be related should be the same. -->
+    <!-- the 'id' and 'for' should be the same. -->
+    <input type="radio" class="form__radio-input" id="small" name="size" />
+    <label for="small" class="form__radio-label">
+      <span class="form__radio-button"></span>
+      Small tour group
+    </label>
+  </div>
+  <div class="form__radio-group">
+    <!-- the 'id' and 'for' should be the same. -->
+    <input type="radio" class="form__radio-input" id="large" name="size"/>
+    <label for="large" class="form__radio-label">
+      <span class="form__radio-button"></span>
+      Large tour group
+    </label>
+  </div>
+</div>
+-----------------------
+
+we can't style radio buttons in CSS, so we should build up our own buttons.
+that's why we added the line into the label:
+-----------------------
+<span class="form__radio-button"></span>
+-----------------------
+so we style it like this button will be selected. but it actually hide the real radio button behinde itself.
+-----------------------
+
+a <button> dosen't have link or visited sudo class.
+-----------------------
+
+.row>.col-1-of-2*2
+
+==
+
+<div class="row">
+  <div class="col-1-of-2"></div>
+  <div class="col-1-of-2"></div>
+</div>
+---------------------------------------------------------
+
+***
+Designing Navigation:
+
+in order to create a clickable navigation, we build a checkBox and hide it by a an element
+so whenever we click on that element, the actual checkBox will be checked, so we can control the opened navigation.
+the hider element can be a label acts like a navigation button.
+------------------
+  <div class="navigation">
+      <input type="checkbox" class="navigation__checkbox" id="navi-toggle" />
+
+      <label for="navi-toggle" class="navigation__button">MENU</label>
+
+      <div class="navigation__background">&nbsp;</div>
+
+      <nav class="navigation__nav">
+        <ul class="navigation__list">
+          <li class="navigation__item"><a href="#" class="navigation__link">About Natous</a></li>
+          <li class="navigation__item"><a href="#" class="navigation__link">Your benefits</a></li>
+          <li class="navigation__item"><a href="#" class="navigation__link">Popular tours</a></li>
+          <li class="navigation__item"><a href="#" class="navigation__link">Stories</a></li>
+          <li class="navigation__item"><a href="#" class="navigation__link">Book now</a></li>
+        </ul>
+      </nav>
+    </div>
+------------------
+
+in order to use linear from center to outter edge, we use radial-gradient()
+------------------
+background-image: radial-gradient(
+  $color-primary-light,
+  $color-primary-dark
+);
+------------------
+
+***
+there is a function name 'cubic-bezier()' which help us to soften our animations in different ways.
+it's website is: "https://easings.net/en"
+you just need to copy the numbers of cubic-bezier from the website and paste it into your project.
+like:
+transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+---------------------------------------------------------
+
+for styling a passage to be like magazines, we can use 'column-count' property.
+and the space between the columns can be specified by 'column-gap'
+and 'column-rule' to create a line between columns. it be defined just like a border.
+in order to use hythen, we should first specify the language of the page in HTML in '<html lang="en">'
+then set it to manual or auto.
+just like:
+------------------
+&__text {
+  font-size: 1.4rem;
+  margin-bottom: 4rem;
+  column-count: 2; // number of columns
+  column-gap: 4rem; // gap between columns - the default length of this is 1em = 14px;
+  column-rule: 1px solid $color-grey-light-2; // line between columns
+
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+---------------------------------------------------------
+
+in order to make a popup window work, we should use anchers, so we specify an id with a hash(#) on a button like:
+  <a href="#popup" class="btn btn--white">Book now!</a>
+and the same id on the popup window:
+  <div class="popup" id="popup">
+
+then we can use a pseudo calls name ':target' in CSS, which applies to the element which is the target, when we click on a button or
+basically when the url changes to having target in it. like: '127.0.0.1:8080/#popup'
+------------------
+.popup{
+  ...
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+
+  &:target {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+------------------
+so when ever we click on the button, the '#popup' will be the target, because it added to the url,
+in order to close this popup window, we should add sth else to the url as the target.
+---------------------------------------------------------
+
+***
+For making our page responsive, we can use Mixins.
+we can pass a block of code into the mixin with @content .
+
+// MEDIA QUERY MANAGER
+/* 
+0     - 600px:    Phone
+600px - 900px;    TABLET PORTRAIT
+900PX - 1200PX:   TABLET LANDSCAPE
+[1200 - 1800]:    is where our normal styles apply
+1800px < - :      Big Desktop
+*/
+
+so we create a mixin for any range of sizes, then we add @content to them, so now in every file, we can just bring
+the name of the mixin (include it), and write the changes we want to apply.
+in mixin.scss :
+------------------
+@mixin respond-phone{
+  @media (max-width: 600px){ @content}
+}
+------------------
+and in any file, we have:
+------------------
+.className{
+  @include respond-phone{
+    font-size: 50%;
+  }
+}
+------------------  
+
+the better solution to make responsive is using $breakpoint as argumnet and @if statement.
+
+/*
+$breakpoint argumnet choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+*/
+
+so in mixin file we have:
+------------------
+@mixin respond($breakpoint){
+  @if $breakpoint == phone {
+    @media only screen and (max-width: 600px){ @content};
+  }
+  @if $breakpoint == tab-port {
+    @media only screen and (max-width: 900px){ @content};
+  }
+  @if $breakpoint == tab-land {
+    @media only screen and (max-width: 1200px){ @content};
+  }
+  @if $breakpoint == big-desktop {
+    @media only screen and (min-width: 1800px){ @content};    // using min-width instead of max-width
+  }
+}
+------------------
+and in any other files, we simply have:
+------------------
+@include respond(phone) {
+  font-size: 50%;
+}
+@include respond(tab-port) {
+  font-size: 60%;
+}
+@include respond(tab-land) {
+  font-size: 70%;
+}
+@include respond(big-desktop) {
+  font-size: 80%;
+}
+------------------
+
+But as we tend to use 'rem' and 'em' instead of 'px' we change them to 'em'
+but defining rem as 10px in /_base.scss , is not effected on what we have in mixins, so the default
+value of '1em' is '16px' which is coming from browser.
+so we should change that in mixin file as well.
+so we simply divide all all pxs to 16
+------------------
+
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == big-desktop {
+    @media only screen and (min-width: 112.5em) {
+      @content;
+    } // 1800px - using min-width instead of max-width
+  }
+  @if $breakpoint == tab-land {
+    // width < 1200?
+    @media only screen and (max-width: 75em) {
+      @content;
+    } // 1200px
+  }
+  @if $breakpoint == tab-port {
+    // width < 900?
+    @media only screen and (max-width: 56.25em) {
+      @content;
+    } // 900px
+  }
+  @if $breakpoint == phone {
+    // width < 600?
+    @media only screen and (max-width: 37.5em) {
+      @content;
+    } // 600px
+  }
+}
+------------------
+
+*** the order should be from largest screen to smallest one. =>
+------------------
+@include respond(big-desktop) {
+    // font-size: 100%;
+}
+
+@include respond(tab-land) {
+    // font-size: 70%;
+}
+
+@include respond(tab-port) {
+    // font-size: 60%;
+}
+
+@include respond(phone) {
+    // font-size: 50%;
+}
+------------------
+
+*** the best order to start changing media queries in files is:
+Base + typography => general layout + grid => page layout => components
+
+**************************************
+whenever we have some colomns in the desktop size, and we want to responsive it into mobile size,
+we just need to set the width of all columns to 100%. so any column will be in a single row!
+and also remove any margin from these columns
+**************************************
+.row{
+  [class^="col-"] {
+    float: left;
+
+    &:not(:last-child) {
+      margin-right: $gutter-horizontal;
+
+      @include respond(tab-port) {
+        margin-right: 0;
+      }
+    }
+
+    @include respond(tab-port) {
+      width: 100% !important;
+    }
+  }
+}
+---------------------------------------------------------
+
+***
+Density Switching: art direction
+
+we use high resolution images for same image for big versions of screen, and low resolution for small screens
+so we use the 'srcset' instead of 'src'. so we can specify 2 images.
+now we should use a density descriptor for each picture.
+to do that, we just add '1x' and '2x' for small and big image.
+-------------------
+<img
+  srcset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x"
+  alt="Full logo"
+  class="footer__logo"
+/>
+-------------------
+
+and also we should use 'art direction' to specify in which resolution, we should use which image.
+we use <picture> and we specify a <source> and an <img>
+in <picture> we should have at least 1 img and at least 1 or more sources.
+
+in <source>, we have 'srcset' and 'media'. and media is where we can put our media query.
+like:
+-------------------
+<picture class="footer__logo">
+  <source
+    srcset="
+      img/logo-green-small-1x.png 1x,
+      img/logo-green-small-2x.png 2x
+    "
+    media="(max-width: 37.5em)"
+  />
+  <img
+    srcset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x"
+    alt="Full logo"
+  />
+</picture>
+-------------------
+so if the width was equal or less than 37.5em, the <picture> will use the first srcset
+if it wasn't, <picture> will use the second srcset.
+
+-------------------
+
+there is another way to tell browser which image should it download!
+and the way is telling the width.
+srcset shows that we have 2 images here. one with 300px, one with 1000px
+
+so we should specify the width for each photos like '300w' == 'width:300px' => the width of the actual picture
+and also specify the width by 'sizes' attribute. to show exactly which photo, browser should choose.
+
+it works this way: 
+for breakpoint of 900px, our photo is 20% of all width of the page
+for breakpoint of 600px, our photo is 30% of all width of the page
+for breakpoint of wide size, our photo is 300px.
+
+after all, we also specify the 'src' fro older browsers which do not support 'srcset'
+-------------------
+<img srcset="img/nat-1.jpg 300w, img/nat-1-large.jpg 1000w" 
+     alt="photo 1" 
+     sizes="(max-width: 900px) 20vw, (max-width: 600px) 30vw, 300px"
+     class="composition__photo composition__photo--p1"
+     src="img/nat-1-large.jpg"
+/>
+---------------------------------------------------------
+
+***
+Responsive Images In CSS:
+
+we should use a kind of media query, named: 'target resolution'
+
+// whenever the resolution was higher than 192dpi and greater than 600px, this code will be applied.
+// 192dpi is the resolution of apple retina screen
+dpi == dots per inch.
+-------------------
+  @media (min-width: 192dpi) and (min-width: 600px) {
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8),
+        rgba($color-primary-dark, 0.8)
+      ),
+      url(../img/hero.jpg);
+  }
+---------------------------------------------------------
+
+Backdrop filter makes the background of an element, blure
+
+-------------------
+-webkit-backdrop-filter: blur(10px);
+backdrop-filter: blur(10px);
+-------------------
+
+with writing it at the popup window, we can popup the window and blur everything behind it.
+
+---------------------------------------------------------
+Now imagine we want to write a code that maybe some browsers won't support it.
+so we use '@supports' to make sure if browser support the element, run this part of the code.
+
+-------------------
+@supports (background-color: rgba($color-black, 0.3)) or (backdrop-filter: blur(10px)){
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-color: rgba($color-black, 0.3);
+}
+---------------------------------------------------------
+
+Now we want to compile the code for final deployment.
+
+so we add this line to the scripts of package.json:
+
+-------------------
+"compile:sass": "node-sass sass/main.scss css/style..comp.css"
+-------------------
+so: $ npm run compile:sass
+-------------------
+
+the next step is concatenate (attach) our existing css files.
+we should install it first:
+$ npm i concat --save-dev
+so we add a line to package.json like this:
+-------------------
+"concat:css": "concat -o output.css ./1.css ./2.css ./3.css"
+-------------------
+'-o' stands for output then the name of output file like: css/style.concat.css
+then we should specify the input files. like: 'css/icon-font.css' and 'css/style.comp.css'
+like:
+-------------------
+"concat:css": "concat -o css/style.concat.css css/icon-font.css css/style.comp.css"
+-------------------
+$ npm run concat:css
+
+so it will create a file name 'style.concat.css'
+now we have one single css file for all sass files.
+-------------------
+next step is 'prefix'
+so we install it:
+
+-------------------
+$ npm i autoprefixer --save-dev
+-------------------
+
+and in order to make it work, we need another package name 'postcss-cli'. because the autoprefixer is 
+a part of postcss plugin so:
+-------------------
+$ npm i postcss-cli save-dev
+-------------------
+so we add this script:
+-------------------
+
+-------------------
+'-b' stands for browsers => for last 10 versions of browsers
+then the input file,
+then the output with -o
+
+now we should compress the last file. 'node-sass' can do this compression
+add this script:
+-------------------
+"compress:css":"node-sass css/style.prefix.css css/style.css"
+-------------------
+
+But we want to have a script to run all of these scripts together at the same time.
+that's why we install a npm module name 'npm-run-all'
+-------------------
+$ npm i npm-run-all --save-dev
+-------------------
+so the script will be like:
+-------------------
+"build:css": "npm-run-all compile:sass concat:css prefix:css compress:css"
+-------------------
+
+so all scripts are look like: it contains building scripts and deployment scripts
+-------------------
+"scripts": {
+  "compile:sass-watch-mode": "node-sass sass/main.scss css/style.css -w",
+  "devserver": "live-server",
+  "start": "npm-run-all --parallel compile:sass-watch-mode devserver",
+  
+  "compile:sass": "node-sass sass/main.scss css/style.comp.css",
+  "concat:css": "concat -o css/style.concat.css css/icon-font.css css/style.comp.css",
+  "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.concat.css -o css/style.prefix.css",
+  "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
+  "build:css": "npm-run-all compile:sass concat:css prefix:css compress:css"
+},
+-------------------
+
+we can use 'npm run start' to run the watch mode and live server simultaneously.
+but we should use 'npm-run-all' and '--parallel'.
+----------------------------------------------------------------------------
+
+Changing the effect of selected texts:
+
+-------------------
+::selection {
+  background-color: $color-primary;
+  color: $color-white;
+}
+-------------------
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+writing this media query is so important
+----------------------------------------------------------------------------
+
+FlexBox:
+
+flexbox is a new module in CSS3, that makes it easy to align elements to one another, in different directions and orders
+the main idea behind flexbox is to give the container the ability to expand and to shrink elements to best use all the available space.
+flexbox replace float layouts, using less, and more readable and logical code.
+
+all we have to do to make a flex container, is to set 'display' to 'flex'.
+or 'flex-inline'
+
+-------------------
+display: flex;  // more common
+display: flex-inline; 
+-------------------
+
+so any items which are in the flex container, are called flex items.
+flex container, has 2 axis (mehvar), 'Main axis'(mehvare ofphgi) and 'Cross axis'(mehvare amoodi).
+
+there are couple of properties and possible values the can take and the first value, is the
+initial value or default:
+----
+Container:
+***
+flex-direction: row | row-reverse | column | column-reverse
+
+flex-wrap: nowrap | wrap | wrap-reverse
+
+justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly
+
+align-items: stretch | flex-start | flex-end | center | baseline    
+// similar to 'justify-content' but used for cross axis.
+
+align-content: stretch | flex-start | flex-end | center | space-between | space-around
+// which only applies when there is more than one row of flex items
+// in that case align-content controls how the rows are aligned along the cross axis. if there is some empty space.
+***
+
+Item
+***
+align-self: auto | stretch | flex-start | flex-end | center | baseline
+// imagine we set the align-items to center, but then we want one of the items, be aligned to the bottom. so we use align-self
+
+order: 0 | <integer>
+// defines the order in which specific flex item should appear inside the container. this is useful for small screens.
+
+flex-grow: 0 | <integer>
+// defines how much an item can grow
+
+flex-shrink:  1 | <integer>             --------\
+// defines how much an item can shrink          |
+                                                |
+flex-basis: auto | <length>                     |==> flex: 0 1 auto | <int> <int> <int>
+                                                |    alternitive
+// define it's base length                      |
+                                        --------/
+***
+
+the initial value for order is 0 , so if we want to bring one element before the first one, 
+we should set a lower value than 0. like: -1
+
+-------------------
+.i4{
+ align-self: flex-end;
+ order: -1;
+}
+-------------------
+it means all the elements have the order of '0', but i4 has the order of '1'.
+
+flex-grow, is the ability of an element to grow
+
+flex-grow: 1;       // all elements will occupy the entire space they can.
+                    // or in other words, they growed as much as they can
+
+but if we specify flex-grow to a higher number like '2', for one specific item,
+it will double the size of that element.
+so this item has twice ability to grow to other items.
+
+-------------------
+.i2{
+ height:200px;
+ flex-grow:2;
+}
+-------------------
+
+if we set it to 3, so it 3 times bigger than others.
+a good shortener for 'flex-grow:1' is using just 'flex:1'
+
+usually instead of using 'width' for an item, we use 'flex-basis'
+the defaukt value for that is auto.
+-------------------
+.i2{
+ height:200px;
+ flex-basis: 20%;
+}
+-------------------
+so '.i2' will occupy 20% of all container. or we can say:
+flex-basis: 300px;  // == width: 300px;
+
+but there is one difference here.
+although we specify 300px as flex-basis for one item, if we resize the window, 
+the item will start to resize, when there's no more available space.
+
+so we can change that using the flex-shrink property. because it controls how an element can shrink.
+flex-shrink: 1;   // the default value is 1, that's why we see this behavior.
+
+if we don't want it to happen we set it to 0;
+flex-shrink: 0;   // so that element will get clipped by window and doesn't shrink.
+
+so best practice is using 'flex'
+
+---
+flex: 0 0 300px;
+---
+first 0 means we don't want this element to grow as much as it can
+second 0 means we don't want it to shrink
+and the flex-basis will 300px.
+
+-----------------------------------------------------------
+
+***
+sometimes we have for example 10 items in one single row, so whenever we resize the window,
+some of them get clipped. in order to avoid that, we use 'flex-wrap'
+---
+.container{
+  flex-wrap: wrap;
+}
+---
+with this procedure, by resizing the window, the container automatically creates a
+row and lead the final items into the next row.(second line)
+it's really helpfull for responsive design.
+
+if we have a container with high height, the lines that created by flex-wrap,
+will have a huge space between lines.
+that's why we can use 'align-content'
+
+.container{
+  height: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;          // it align items.
+  flex-wrap: wrap;
+  align-content: flex-start;    // it align rows. - now all lines move up.
+}
+
+align-content: space-between;    // it pushs one line to the top, and one line to the bottom.
+
+
+
+
+https://codepen.io/armando-gonzales/pen/MWgqeQK?editors=1100
+-----------------------------------------------------------
+
+Custom properties (CSS variables):
+they're just like SASS variables
+we write them in root pseudo class. by putting all of our variables in here, they will
+be accessible throughout the entire document. because that's what the root of document is. 
+it's like the global parent element.
+we use double dash (--) before any variable.
+---------------
+:root{
+    --color-primary: #eb2f64;
+    --color-primary-light: #FF3366;
+    --color-primary-dark: #BA265D;   
+}
+---------------
+and whenever we wanted to use them, we use 'var()' property like:
+---------------
+background-image: linear-gradient(to right bottom, var());
+
+---------------
+background-image: linear-gradient(
+  to right bottom,
+  var(--color-primary-light),
+  var(--color-primary-dark)
+);
+---------------
+
+*** ***
+one of the best websites for icons is: 'https://icomoon.io/'
+select the icon pack and select the icons you want, and click on add>settings> unable the png format,
+because we don't want the png, we just want svg.
+and then download.
+then it has a folder name 'SVG' in it.
+and more importantly, there is a file name 'symbol-defs.svg' that has all selected icon in it.
+and we call this file 'sprite.svg'
+---------------
+<button class="search__button">
+  <svg class="search__icon">
+    <use xlink:href="img/sprite.svg#icon-magnifying-glass"></use>
+  </svg>
+</button>
+---------------
+so we bring the icon like above.
+
+---------------------------------------------------------------------------
+
+transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s;
+
+// we can specify different transition for different properties.
+// here, for transform, we set 0.2s as duration, and for width we set 0.4s as duration and 0.2s as delay.
+// also we set the cubic-bezier() for width, so the animation starts smoothly and then run fast and end slowly
+---------------------------------------------------------------------------
+
+we don't specify height for container, because we want the content to define the height of the box as usual.
+---------------------------------------------------------------------------
+
+masks:
+a mask defines an erea where we can look through the element, and see what's behind the element.
+---------------------------------------------------------------------------
+
+*** CSS Grid:
+
+we can set the display as 'grid'. it's more modern than flexbox. and easier.
+the structure contains 'grid container' and 'grid items' with 2 axis: row and column.
+the horizontal and vertical lines that separate the columns and rows are named 'grid lines'.
+and they automatically numbered for the columns as well as the rows, starting from one.
+and the space between the rows or columns, is called 'the gutter'
+the row gutter can be different from the column gutter.
+space between 2 grid lines is called a 'track'. no matter it's vertical or horizontal.
+the area between two vertical and two horizontal grid lines is called a 'grid area'.
+and if that area is between two adjacent (mojaver) grid lines and two adjacent column lines,
+then that area is called a 'grid cell'
+
+----------------------------------------------------------------------
+for Container
+----------------
+grid-template-rows    |
+grid-template-columns |=> grid-template
+grid-template-areas   |
+
+grid-row-gap          |
+grid-column-gap       |=> grid-gap
+
+justify-items
+align-items
+justify-content
+align-content
+
+grid-auto-rows
+grid-auto-columns
+grid-auto-flow
+----------------------------------------------------------------------
+
+for individual item
+----------------
+grid-row-start    |
+grid-row-end      |=> grid-row    |
+                                  |
+grid-column-start |               |=> grid-area
+grid-column-end   |=> grid-column |
+
+justify-self
+align-self
+
+order
+----------------------------------------------------------------------
+
+
+trick: in emmet, we can write sth like this:
+-----
+.container>.item.item--$*6
+-----
+the dollor sign will start numbering from 1 to up.
+
+----------------------------------------------------------------------
+
+.container{
+  background-color: #eee;
+  width: 1000px;
+  margin: 30px auto;
+  
+  display: grid;
+}
+----
+with this line, we sat a grid container, but there is nothing happend yet. because 
+we didn't define any columns or any rows.
+
+let's say we have 6 elements, and we want to divide them in two rows and three columns.
+so we use 'grid-template-rows' and define the height of each of them.
+here both first and second rows have a height of 150px.
+for columns we have a same approach but we use 'grid-template-columns' and define the width of each column.
+--------------------
+.container{
+  background-color: #eee;
+  width: 1000px;
+  margin: 30px auto;
+  
+  display: grid;
+  grid-template-rows: 150px 150px;
+  grid-template-columns: 150px 150px 150px;
+}
+--------------------
+
+firefox has better options for inspect elements.
+
+we can also make a gap between rows with 'grid-row-gap'
+or make a gap between columns with 'grid-column-gap'
+---
+grid-row-gap: 30px;
+grid-column-gap: 50px;
+---
+
+if we want the same gap for everything, we can use 'grid-gap'
+---
+grid-gap: 30px;
+----------------------------------------------------------------
+
+we can define each rows one by one. but imagine we had 5 rows, each of them 150px. it's not helpful to
+define all of them one by one. that's why we have a function called 'repeat()'
+it takes the number of rows or columns we want, and the value for all of them.
+---
+grid-template-rows: repeat(2, 150px);
+grid-template-columns: repeat(3, 150px);
+---
+
+let's say we want 2 columns with 150px and one with 300px. we should write:
+---
+grid-template-rows: repeat(2, 150px);
+grid-template-columns: repeat(2, 150px) 300px;
+---
+
+***
+so thease are called the 'tracks', here we have 2 tracks for the rows, and 3 tracks for the columns.
+
+if we want the last column to occupy the rest of our container, we use 'fractional unit' !
+just like flexbox, that we were using 'flex: 1;'
+
+fractional unit, is a functionallity that we use to expand the element to all space it can occupy.
+like:
+---
+grid-template-columns: repeat(2, 150px) 1fr;
+---
+
+so '1fr' stands for '1 fractional unit'. so here we have 3 grid tracks. the first and second one has the width of 150px,
+but the third one expanded to entire container.
+
+imagine we want to have 3 elements with same size, occuping the entire container,
+---
+grid-template-columns: repeat(3, 1fr);
+---
+
+we can expand the middle element, twice:
+---
+grid-template-columns: 1fr 2fr 1fr;
+---
+
+we can expand all elements to entire container:
+---
+grid-template-columns: 1fr;
+---
+
+we can use all kind of units here:
+---
+grid-template-columns: 50% 1fr 1fr;
+grid-gap: 30px;
+---
+** so here the first element has the width of 50% of the container.
+** and other 50% is for the other 2 tracks and also the gaps!
+
+we can also change the order of elements (or grid cells). that's where the number of rows and columns, come to play.
+so we should define the position of one cell.
+--------
+&--1{
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+--------
+so we say, the cell should get started at row 2 and ended at the row 3 .
+it also starts at column 2 and ends at column 3 .
+
+but this is a long code to write. so:
+--------
+&--1{
+  grid-row: 2 / 3;          // it starts at 2 and ends at 3
+  grid-column: 2 / 3;       // it starts at 2 and ends at 3
+}
+--------
+
+there is even a shortener for these lines of code. and that's 'grid-area'
+--------
+&--1{
+  grid-area: 1 / 3 / 2 / 4;
+}
+--------
+it says this cell should start at the row 1 and column 3, and ends at the row 2 and column 4
+
+we can simply expand a cell to occupy the space of 2 or more cells.
+--------
+&--1{
+  grid-row: 2 / 3;
+  grid-column: 2 / 4;   // it starts at 2 and ends at 4
+}
+--------
+with this having done, CSS Grid, creates a new line for previous cells.
+
+if we set the same 'grid-row' and 'grid-column' for two items, they both will be at the same cell
+so we can always have multiple grid items in the same cell.
+but maybe the under layout items get hidden, so we can use 'z-index' to bring them up.
+
+instead of specifing the grid-column number, we can use 'span'
+like:
+---
+&--1{
+  grid-column: 1 / span 2;
+}
+---
+it means the item, starts at column 1, and expands to 2 cells.
+grid-column: 1 / span 3;  // it expands to the third cells.
+
+---
+&--1{
+  grid-column: 2 / -1;
+}
+---
+it starts at the column 2 and goes all the way until the end.
+
+till now , we were using the automate generated numbers for lines.
+but we can even name these grid lines. for doing that, we use brackets => []
+
+----------------------------------
+.container{
+  background-color: #eee;
+  width: 1000px;
+  height: auto;
+  margin: 30px auto;
+  
+  display: grid;
+  grid-template-rows: [header-start] 100px [header-end box-start] 200px [box-end main-start] 400px [main-end footer-start] 100px [footer-end];
+  grid-template-columns: repeat(3, 1fr) 200px;
+  
+  grid-gap: 30px;
+}
+----------------------------------
+so in:
+---
+grid-template-rows: [header-start] 100px [header-end box-start] 200px [box-end main-start] 400px [main-end footer-start] 100px [footer-end];
+---
+we called the first row 'header-start', the second row has 2 names [header-end] and [box-start]
+the third row also has 2 names: [box-end] and [main-start]
+the fourth row also has 2 names: [main-end] and [footer-start]
+the fifth row has 1 names: [footer-end].
+
+so in order to use that, we use names instead of numbers:
+---
+&--1{
+  grid-row: box-start / main-end;
+}
+---
+so the cell is between the line of 'box-start' and 'main-end'
+
+in order to name lines in at the repeat() function, we write like this:
+---
+.container{
+  display: grid;
+  grid-template-columns: repeat(3, [col-start] 1fr [col-end]) 200px [grid-end];
+}
+---
+with this having written, we create 3 columns that each of them starts with a line called 'col-start' and ends at [col-end]
+it means for first one, the cell is between [col-start 1] and [col-end 1]
+it means for second one, the cell is between [col-start 2] and [col-end 2]
+it means for third one, the cell is between [col-start 3] and [col-end 3]
+-----
+
+in order to use that, we say:
+---
+.header{
+  grid-column: col-start 1 / grid-end;
+}
+
+.slide-bar{
+  grid-column: col-start 3 / grid-end;
+}
+
+.main-content{
+  grid-column: col-start 1 / col-start 3;
+}
+--------------------------------------------------------------
+
+third approach:
+
+naming entire grid areas:
+
+so here we give each cell item, a name !
+-----------------
+.container{
+  display: grid;
+  
+  grid-template-rows: 100px 200px 400px 100px;
+  grid-template-columns: repear(3, 1fr) 200px;
+  grid-gap: 30px;
+
+  grid-template-areas: "head head head head"
+                       "box box box side"
+                       "main main main side"
+                       "foot foot foot foot";
+}
+-----------------
+
+here we called the first four cells as 'head', because we want the header for all thease four cells.
+we called the next four cells as "box box box side"
+we called the next four cells as "main main main side"
+we called the next four cells as "foot foot foot foot"
+
+in order to use them, we have:
+---
+.header{
+  grid-area: head;
+}
+.sidebar{
+  grid-area: side;
+}
+.main-content{
+  grid-area: main;
+}
+.footer{
+  grid-area: foot;
+}
+---
+
+Attention: we should name all cells in order to make it work.
+if we want to leave a cell-name, empty, we should use '.' like:
+
+grid-template-areas: ". head head ."
+                     "box box box side"
+                     "main main main side"
+                     "foot foot foot foot";
+
+
+------------------------------------------------------------
+
+Explicit grid: the items that we explicitly define their rows and columns are called explicit grid.
+Implicit grid: the items that we added and specified just their rows, or just their columns.
+actually the implicit grids are the parts that automatically added in order to fit the content that doesn't fit
+in our explicit grids. so they are not in ths exact shape that we want.
+
+so we can define a default value for the items that are going to be created automatically.
+we use 'grid-auto-rows' or 'grid-auto-columns'
+---------------
+.container{
+  display: grid;
+  grid-template-rows: repeat(2, 150px);
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 30px;
+  
+  grid-auto-rows: 80px; 
+}
+---------------
+
+the implicit items will be added as the next rows, because 
+the default value of 'grid-auto-flow' is row. but we can change it:
+---
+grid-auto-flow: column;
+---
+so the implicit items will be added as next columns.
+
+we can use some flexbox properties like 'align-items'
+---
+align-items: center;  // center the item in the cell vertically.
+---
+align-items by default set to stretch.
+
+or 'justify-items'
+---
+justify-items: center;  // center the item in the cell horizontally.
+---
+justify-items by default set to stretch.
+
+
+for individual item, we can use 'justify-self' or 'align-self'
+like:
+justify-self: start / center / end / stretch
+align-self: start / center / end / stretch
+
+------------------------
+
+in order to align tracks among the container, we should use 
+'justify-content' for horizontal align and
+'align-content' for vertical align.
+
+justify-content: start / center / end / stretch / space-between / space-around / space-evenly 
+align-content: start / center / end / stretch / space-between / space-around / space-evenly
+
+previously we mentioned that we have a property for auto insertion of cells.
+but sometimes because of adding more conditions to the items, some free space gets generated.
+so we can use the word of 'dense' in 'grid-auto-flow' to avoid that.
+---
+grid-auto-flow: row dense;
+---
+so there won't be any other free gaps in project.
+it's helpful when we have an image gallery, so the cells will automatically be shaped.
+
+-----------------------------------------------------------
+max-content / min-content / minmax()
+
+'max-content' will expand the item in cell till the content needs.
+so it makes that individual column as wide as it has to be to fit this conent.
+in fact 'max-content' tries not to make any lines breaks.
+------------
+.container{
+  display: grid;
+  grid-template-rows: repeat(2, 150px);
+  grid-template-columns: max-content 1fr 1fr max-content;
+}
+------------
+
+'min-content' makes the column track takes the latgest width that is needed to fit the content without overflowing!
+---
+.container{
+  .grid-template-rows: repeat(2, min-content);
+  .grid-template-columns: ; max-content 1fr 1fr min-content
+}
+---
+
+minmax() function takes 2 values and always ensure that the track will stay between the two values.
+so imagine that we pass into the minmax() 100px and 200px for a column.
+and CSS grid will ensure that no matter what happens, this grid column will always stay between 100px and 200px width.
+---
+.grid-template-rows: repeat(2, minmax(150px, min-content));
+---
+here we want the row to be at least 150px high, and allow CSS grid to size simewhere between 150px and the min-content
+
+or
+---
+.grid-template-columns: minmax(200px, 300px) repeat(3, 1fr);   
+---
+the width of first cell, should be minimom 200px and maximom 300px, other 3 cells should have 1 fractional unit for their width.
+
+we can do that by precentage:
+---
+.grid-template-columns: minmax(200px, 50%) repeat(3, 1fr);
+--------------------------------------------------------------
+
+Using 'auto-fill' and 'auto-fit':
+
+by using 'auto-fill', CSS grid will automatically tries ro fill the container with all available tracks.
+---
+grid-template-columns: repeat(auto-fill, 100px);
+---
+
+so instead of just using numbers, we used 'auto-fill' and CSS grid will add items one after another
+to fill that 1 row, then if there wasn't enough space for next items, it will automatically create a new row.
+'auto-fit' although, collapse the grid specifiction and create columns or rows till it really needed.
+
+for example if we have a container with width of 1000px,
+if we have 8 items with 100px,
+'auto-fill' will create 10 tracks and only fill 8 of them. so it devide 1000px to 100px and got 10
+but
+'auto-fit' also create 10 tracks but reperesent only 8 of them. so we can say the number of tracks is 8 .
+
+but we can use a trick to occupy all entire grid with 'auto-fit' and not create useless tracks.
+---
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+---
+with this having written, the items will have minimom width of 100px, and also maximom width of 1 fractional.
+
+if we resize the webpage and have the width in precentage, the items that are can't be resized less than 100px, will go 
+to the next line.
+---
+width: 90%;
+grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+---
+so the tracks (the number of columns) will be reduced.
+
+*** the usual column tracks for most designes, are 8 or 12 or 16 predefined columns.
+bootstrap for example, uses the 12 column grid system.
+
+so if we want our page to be at 8 column grid system, we have:
+---
+.container{
+  grid-template-columns:  repeat(8, minmax(min-content , 140px));
+}
+---
+the reasonable width for a webpage is 1140pxa (sth between 1100px and 1200px)
+so 1140px / 8 = 142.5px ≈ 14rem;
+here we want 8 column and the width of each of them is maximom 140px and never smaller than the content width.
+we also have a column for slide bar (the first column)
+we also want all the 8 columns to be centered. so we define 2 flexible columns at both side of these 8 columns, so whentver we
+resize the page, these 2 columns will be resized.
+---
+.container{
+  grid-template-columns: 8rem 1fr  repeat(8, minmax(min-content , 140px)) 1fr;
+}
+---
+
+now it's time to name the columns:
+---
+grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] 1fr [center-start] repeat(8, [col-start] minmax(min-content, 140px) [col-end]) [center-end] 1fr [full-end];
+---
+
+now that we named all columns, we should go to any component, and specify the exact columns the should occupy.
+for example in .sidebar{} =>
+
+.sidebar{
+  grid-column: sidebar-start / sidebar-end;
+}
+
+-----
+** we don't need to name the rows, the focus is always is on columns
+
+the header should get started from 'full-start' and ended at end of column number 6 = col-end 6
+grid-column: full-start / col-end 6;
+
+and for realtors, starts at the first of column number 7.
+grid-column: col-start 7 /full-start;
+
+
+-------------
+
+in Emmet, 
+---
+.feature{feature $}*4
+---
+has the resoult of:
+---
+<div class="feature">feature 1</div>
+<div class="feature">feature 2</div>
+<div class="feature">feature 3</div>
+<div class="feature">feature 4</div>
+---
+
+the feature element is a grid item of the container. but now we want this grid item, 
+to also be a grid container. we call them subgrid
+
+------
+
+*** most of the times we use both grid display and flexbox display in our projects.
+
+the code bellow are as the same as each other.
+---
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; // the default is stretch
+---
+and
+---
+  display: grid;
+  align-content: center;
+  justify-items: start;
+---------------------------------------------------------------------
+
+Object fit:
+
+imagine we want to have a gallery in our page, but not all the images have the same size! so 
+we should take the advantage of 'object-fit'
+so we put each images in specific parent container, and add object-fit to that element.
+then set the object-fit to cover.
+---
+&__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+----------------------------------------------------------------------
+
+Emmet trick:
+---
+  (figure.gallery__item.gallery__item--$>img.gallery__img[src="img/gal-$.jpeg"][alt="Gallery image $"])*4
+---
+<figure class="gallery__item gallery__item--1"><img src="img/gal-1.jpeg" alt="Gallery image 1" class="gallery__img"></figure>
+<figure class="gallery__item gallery__item--2"><img src="img/gal-2.jpeg" alt="Gallery image 2" class="gallery__img"></figure>
+<figure class="gallery__item gallery__item--3"><img src="img/gal-3.jpeg" alt="Gallery image 3" class="gallery__img"></figure>
+<figure class="gallery__item gallery__item--4"><img src="img/gal-4.jpeg" alt="Gallery image 4" class="gallery__img"></figure>
+--- 

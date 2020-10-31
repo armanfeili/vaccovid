@@ -1,0 +1,644 @@
+If you want to scrape sth, you should always check if the website you want
+to scrape from, 
+1. has an API or not
+2. can you just make a request and get the data or not
+3. can you get the data with developer tools like: Puppeteer
+
+if you couldn't get the data with the above presedure, you can go for scraping.
+
+how to select an HTML element?
+Press Command+Option+I to open developer tools. the places
+which we use to scrape the web are mostly: Elements, Console, Network
+
+imagine you go to a website and want to select an element.
+you can right-click on the element and press 'inspect'
+then you can observe that in what tag, the element is, in the Element section
+once you got the element, you can open the Console and write such this code
+to get the value of that element.
+
+>  const h1Element = document.querySelector("h1")
+>  h1Element
+<. <h1>Simple select of HTML element</h1>
+
+so we got the <h1> tag. if you want to get the value of the tag, 
+you can use textContent
+
+>  h1Element.textContent
+
+with this approach, we can use Nodejs to go to the page, 
+select the element and get the text.
+
+but there is an easier way: we use jQuery selectors instead of vanila selectors.
+we can use "inject jquery chrome" and click on the icon to add jQuery to the developer tool.
+
+>  $("h1").text()
+<. "Simple select of HTML element"
+-----------------------------------------------------------------------------------------
+
+in terminal:
+---
+$ 
+npm init --yes
+npm install request request-promise cheerio
+---
+the request and request-promise are 2 packages that we're going to use to download a website.
+sth like 'curl' command to download things from website.
+or Phoenix in Linux. it does'nt parse the site. it just download it.
+and cheerio is used for using jQuery selectors inside of NodeJs.
+-----------------------------------------------------------------------------------------
+const request = require("request-promise")
+const fs = require("fs");
+const cheerio = require("cheerio")
+
+
+async function main() {
+    // it gets all the HTML codes and tags from the url
+    const html = await request.get("https://github.com/puppeteer/puppeteer")
+    // writes all the html code in a file.
+    fs.writeFileSync("./test.html", html)
+    // associate the jQuery to the '$' sign
+    const $ = await cheerio.load(html);
+    // get the text of the HTML tag.
+    const theText = $("h1").text()
+    console.log(theText);
+}
+
+main();
+-----------------------------------------------------------------------------------------
+
+how to select multiple elements. how do we get all <h2> elements? how do we get the list of
+these elements?
+
+in the console of the browser, it just needs to write: $("h2")
+it returns all <h2> tags.
+if we write $("h2").text() , it returns all the values of all h2, in a string
+
+we can write each of these h2 in a new line.
+----
+$("h2").each((index, element)=>{
+    console.log($(element).text())
+});
+-----------------------------------------------------------------------------------------
+
+How to select an element based on its CSS style?
+imagine there is an <h2> element with id of "red"
+
+<h2 id="red">I'm a h2 element with "red" id! </h2>
+
+in console:
+>  $("#red").text()     // select by id 
+
+** note that: an element always have a unique id. you can't find 2 elements with the same id.
+
+class selector:
+>  $(".red").text();    // we get all elements with the ".red" class.
+
+combine selectors:
+>  $("h2.red").text();  // returns all h2 elements with red class
+
+select element with their attribiute. you shuold select attribiute with bracets: $("[]")
+>  $('[data-customer="22293"]').text();     // we used single qoutes because we have double qoutes in bracets
+-----------------------------------------------------------------------------------------
+
+now we want to scrape a job website and gets all below information:
+- Job Title
+- Date Posted
+- Loacation
+- Description
+- Compensation
+from:
+https://sfbay.craigslist.org/d/software-qa-dba-etc/search/sof
+
+a sample object will be like this:
+----
+const scrapeResult = {
+  title: 'Google Tech Entrepreneur Seeks AR Engineer',
+  descrption: 'long text',
+  datePosted: new Date('2018-07-13'),
+  url:
+    '"https://sfbay.craigslist.org/sby/sof/d/mountain-view-google-tech-entrepreneur/7191508111.html"', // the url of an specific job
+  hood: '(Silicon Valley)', // neighborhood of the job
+  address: '1201 Bryant St.', // address of the job
+  compensation: '23/hr', // salary
+};
+----
+
+every job has a ".result-info" class inside of <p> element
+in this page we have '1 to 120' jobs of 255 jobs. 
+$(".result-info")   // we get all 120 jobs.
+
+if we get the <a> we can get all job titles.
+there are some <p> tags with class of ".result-info"
+in each <p> there is a <a> tag with class of (".result-title")
+----
+$(".result-info").each((index,element)=>{
+    console.log($(element).children(".result-title").text())
+})
+----
+
+------------scape craigslist project-------------------------------------
+const request = require('request-promise');
+const cheerio = require('cheerio');
+const ObjectsToCsv = require('objects-to-csv');
+
+const mailUrl = 'https://sfbay.craigslist.org/d/software-qa-dba-etc/search/sof';
+
+const scrapeSample = {
+  title: 'Google Tech Entrepreneur Seeks AR Engineer',
+  descrption: 'long text',
+  datePosted: new Date('2018-07-13'),
+  url:
+    '"https://sfbay.craigslist.org/sby/sof/d/mountain-view-google-tech-entrepreneur/7191508111.html"', // the url of an specific job
+  hood: '(Silicon Valley)', // neighborhood of the job
+  address: '1201 Bryant St.', // address of the job
+  compensation: '23/hr', // salary
+};
+
+const scrapeResults = [];
+
+async function scrapeJobHeader() {
+  try {
+    const htmlRequest = await request.get(mailUrl);
+    const $ = await cheerio.load(htmlRequest);
+
+    $('.result-info').each((index, element) => {
+      const resultTitle = $(element).children('.result-title'); // <a> tags
+      const title = resultTitle.text();
+      const url = resultTitle.attr('href');
+      // if we use 'new Date()' we will have our time as epoch time based on milliseconds
+      // so we can also save it as text
+      const datePosted = new Date($(element).children('time').attr('datetime')); // convert the text date into Date
+      const hood = $(element).find('.result-hood').text();
+
+      const scrapeResult = {
+        title,
+        url,
+        datePosted,
+        hood,
+      };
+      scrapeResults.push(scrapeResult);
+    });
+
+    // console.log(scrapeResults);
+    return scrapeResults;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function scrapeDescription(jobsWithHeaders) {
+  // this takes an array of promises, and it's gonna resolve once all of
+  // the promises have resolved. so it waits for all jobsWithHeaders to be resolved.
+  return await Promise.all(
+    // it's gonna return all the jobs with their description.
+    jobsWithHeaders.map(async (job) => {
+      try {
+        const htmlResult = await request.get(job.url); // takes the url of each job
+        const $ = await cheerio.load(htmlResult); // it loads the url of the job.
+        // the tag <div class = "postingbody"> has all the job's description
+        // but it has a no-needed <div class="print-qrcode-container"> tag which we should delete first.
+        $('.print-qrcode-container').remove();
+        job.description = $('#postingbody').text();
+        job.address = $('div.mapaddress').text();
+        // we take the first child element of '.attrgroup' below:
+        const compensationText = $('.attrgroup').children().first().text();
+        // then we replace the word 'compensation: ' with empty string to get pure data.
+        job.compensation = compensationText.replace('compensation: ', '');
+        return job;
+      } catch (error) {
+        console.log();
+      }
+    })
+  );
+}
+
+// gets data as a job array of objects
+async function createCsvFile(data) {
+  // create new CSV Object
+  const csv = new ObjectsToCsv(data);
+
+  // Save to file:
+  await csv.toDisk('./test.csv');
+}
+
+async function scrapeCraigslist() {
+  const jobsWithHeaders = await scrapeJobHeader();
+  const jobsFullData = await scrapeDescription(jobsWithHeaders);
+  await createCsvFile(jobsFullData);
+}
+
+scrapeCraigslist();
+
+-------------------------------------------------------------------------
+
+A CSV is a comma-separated values file, which allows data to be 
+saved in a tabular format. CSVs look like a garden-variety 
+spreadsheet but with a . csv extension. CSV files can be used 
+with most any spreadsheet program, such as Microsoft Excel or 
+Google Spreadsheets.
+
+How to convert an object to the CSV file?
+there is a npm package name 'objects-to-csv':
+https://www.npmjs.com/package/objects-to-csv
+
+*** note that the format of 'datePoste' is epoch time based on milliseconds.
+
+what if we are in some place with bad connectivity or the server is a bad server and sometimes drops the connection:
+you should use the 'requestretry'. it's just like request or request-promise, except
+it retry the connection everytime the connection is droped
+so:
+$ npm i --save requestretry
+
+so we use requestretry instead of request-promise !
+----
+const request = require('requestretry').defaults({ fullResponse: false , maxAttempts: 100, delay: 20000});
+----
+fullResponse (default true) - To resolve the promise with the full response or just the body
+we changed the fullResponse to false. with this approach, we're gonna get only the HTML string
+otherwise we would have gotten all properties instead of just the <body>
+
+by default it tries 5 times to retry the request, but if you want to adjust the attempts, 
+you can use the 'maxAttempts: 100'
+
+by default it has a delay of 5 seconds. modify it with: 'delay: 20000'
+
+
+Pagination:
+it's for the time that a web page has several pages.
+actually a page is devided to several pages instead of having one long page.
+
+so how to scrape a page with pagination?
+whenever we click on the next button, the url of the page will get changed.
+
+assume this url: 
+'https://sfbay.craigslist.org/search/acc'
+which is eaual to:
+'https://sfbay.craigslist.org/search/acc?s=0'
+by clicking on next, it will be:
+https://sfbay.craigslist.org/search/acc?s=120
+
+so the part '?s=120' gets shown.
+
+imagine we have 360 pages. in index.js we have:
+----------------------------------------------------------------------------
+const request = require("request-promise");
+const cheerio = require("cheerio");
+
+async function scrape(){
+    for(let i=0 ; i<=360 ; i = i + 120){
+        const html = await request.get(
+            "https://sfbay.craigslist.org/search/acc?s=" + i
+        );
+        const $ = await cheerio.load(html);
+        $(".result-title").each((index, element) => {
+            console.log($(element).text());
+        })
+        console.log("At page number "+ index)
+    }
+}
+
+----------------------------------------------------------------------------
+
+now if we had different number of pages, we should devide the whole pages into divaidable numbers.
+for an instance, if we had 232 items, we should see that in what number the whole pages are devided.
+if they devide 232 into 4 pages, we can scarpe all items 58 by 58.
+  for (let i = 0; i <= 232; i = i + 58) {
+  }
+----------------------------------------------------------------------------
+
+how to scrape a page with Authentication?
+1. Request
+2. Puppeteer
+
+the goal here, is to login to a page and access to specific page of a website.
+
+first go to inspect and in the netwrok tab. make sure that you have 'preserve Log' enabled.
+it doesn't care that we navigate a page or not, it always logs. then click on the recording button
+make sure that it's recording.(click on the red circle)
+then press the 'Login' button.
+Now you have logged in and you can stop recording.
+we will see a file named 'login'. when we click on it. 
+we can see there is a request available, this is a post request to a specific route for logging in.
+we also can see the response headers, the coocike.
+we also have a request and the coocike already we post the request.
+and then we have the Form data, which is being past from our form when we log in.
+at the bottom, we can see the email we passed and the password we used to login.
+at the same time, a session coocike will be set that shows that we are authenticated.
+
+we can make these http requests with Postman too. paste the url to postman and adjust the
+http request as POST. then in the body tab, choose 'x-www-form-urlencoded'. it's a content type
+mostly used in websites. you can find the type as "Content-Type:" in the Request Header of the developer tool.
+
+in the Form data part of the POST request, we can see the property-key and value of a input data
+which are be needed for logginig in. sth like:
+----
+inputEmailHandle: armanfc.enter@yahoo.com
+inputPassword: armandobatmando756
+----
+they are different in different websites. but they are not enough. if it didn't work,
+you should try other datas in Form Data.
+if you tried all the Form data and it stil doesn't work, you should maybe take a look at Reqyest Headers.
+tags like Accept, Origin, User Agent, Referer... etc.
+
+then, when we have found the right values, we can disable the others to see which one was nessesary.
+
+now that you have found the essential key-value pairs, you can go and code in NodeJs.
+----------------------------------------------------------------------
+const request = require('request-promise').defaults({jar : true})
+// set saving coockie jar to be true - we should make it 'able' to all the routes
+const fs = require('fs');
+
+async function main() {
+  try {
+    const html = await request.post('https://accounts.craigslist.org/login', {
+      form: {
+        inputEmailHandle: 'armanfc.enter@yahoo.com',
+        inputPassword: 'armandobatmando756',
+      },
+      headers: {
+        Referer: 'https://accounts.craigslist.org/login',
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36',
+      },
+      // By default, http response codes other than 2xx will cause the promise
+      // to be rejected. This can be overwritten by setting options.simple = false.
+      simple: false,
+      followAllRedirects: true // in Request documentation
+    });
+    fs.writeFileSync('./login.html', html);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+main();
+----------------------------------------------------------------------
+
+now that we logged in, we should navigate the site. suppose we want to go to 'billing' tab
+because we logged in before, with this part of code, we can acess to any route like ./billing
+----------------------------------------------------------------------
+const billingHtml = await request.get(
+   'https://accounts.craigslist.org/login/home?show_tab=billing'
+);
+
+fs.writeFileSync('./billing.html', billingHtml);
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+Now, if this approach didn't work, the last choice is using Puppeteer
+we should install it as an npm module:
+https://www.npmjs.com/package/puppeteer
+----------------------------------------------------------------------
+
+const puppeteer = require('puppeteer');
+const cheerio = require('cheerio');
+
+async function main() {
+  try {
+    // we define the browser, launch the puppeteer and adjust the headless to false.
+    // because we want to see the browser, if we're running the puppeteer on a server,
+    // headless should be true.
+    const browser = await puppeteer.launch({ headless: false });
+    // create a new page
+    const page = await browser.newPage();
+    // go to a specific url => to the login route
+    await page.goto('https://accounts.craigslist.org/login');
+    // then if we run '$node index.js' , chrome will be open and we can insert our username and password
+    // directly in the user-interface. But inside the puppeteer we do like this:
+    // we need to insert the CSS selector for this element that we want to type into. and what we want to insert
+    // for email, there is an <input type="text" id="inputEmailHandle"> tag
+    await page.type('input#inputEmailHandle', 'armanfc.enter@yahoo.com', {
+      delay: 50,
+    });
+    // we also can add a delay to each of the input or bottem tags. to make it more like humans
+    await page.type('input#inputPassword', 'armandobatmando756', {
+      delay: 50,
+    });
+    // the code will be executed in an order, so after it filled the email & passwrd, it clicks the login
+    await page.click('button#login');
+    // wate for redirect to happen compeletly
+    await page.waitForNavigation();
+    // going to a specific route
+    await page.goto(
+      'https://accounts.craigslist.org/login/home?show_tab=billing'
+    );
+
+    // access to the page content:
+    const content = await page.content();
+    const $ = await cheerio.load(content);
+    console.log($('body > article > section > fieldset > b').text());
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+main();
+----------------------------------------------------------------------
+
+if you want to catch the API instead of scarping HTML, 
+we should make sure that the site works without javascript. so we can use request
+at first we disable the javascript of the page with 'Quick Javascript Switcher' extension of the chrome.
+if the webpage was stil running without javascript (mostly in the shopping list page, where we can search for vriaty of clothes),
+there is more chance to scrape this website.
+
+then you should make a request to download the site: but you will need the API_KEY
+whenever you search in a website, you're making a query, and each query needs an API_KEY
+so we should record the requests while we're searching in the site.
+we should go to Network tab, click on a search button in the page and record http requests in the Network.
+then look for a GET request for API and API_KEY. most of the times, they're not in the
+'document' type of files. instead, look for 'xhr' or 'json' response.
+then in the Network tab, you should search for keywords like: 'api', 'API', 'query'
+you will probably find 1 or more GET request to catch the data of the webpage.
+by clicking on the 'Response' button, you can access to the source code of the page as just one line of code.
+copy the line and paste it in a json file in VS code. you can find the data in 'page.json' file here.
+
+sometimes it is worth looking for API in the http Request and API_KEY in the source code
+
+if you couldn't render a site without javascript, use Puppeteer.
+
+now that we have found a way to access the data, we want to catch them through postman.
+
+the http request is like:
+----
+General:
+Request URL: https://query.ecommerce.api.nordstrom.com/api/queryresults/keywordsearch/?top=3&IncludeFacets=false&Keyword=reformation%20dresses
+Request Method: GET
+Status Code: 200 OK
+
+Request Headers:
+Authorization: apikey 8ea31c48-95c3-4bcf-9db1-d6ada47565f2
+NordApiVersion: 2
+----
+
+paste the url in the postman and send a GET request.
+
+when we post it, it says: 'A valid apikey is required'
+if we look at the Headers of the request, we can find the 'Authorization' with API_KEY
+
+when we paste Authorization as the api, it says:
+---
+"Message": "Unable to parse the request version. Include a valid 'NordApiVersion' version header in the request"
+---
+
+it says that we also need a header named NordApiVersion in the Headers.
+
+as we paste the url of the api, it automatically sets some variables like:
+---
+top: 3,
+includeFacets: false,
+Keyword: red%20dresses
+---
+
+with changing the 'top' we can specify how manu items we want to catch.
+the 'Keyword' is the word we can search and make a query to get data.
+
+the next step is to make our backend. so we will need express
+in the node js, we should send the headears into the Request Optoins
+
+here is the Restful code for a GET request to the website and catch all data:
+----------------------------------------------------------------
+const express = require('express');
+const request = require('request-promise').defaults({
+  headers: {
+    Authorization: 'apikey 8ea31c48-95c3-4bcf-9db1-d6ada47565f2',
+    NordApiVersion: 2,
+  },
+});
+const app = express();
+
+app.listen(4000, () => {
+  console.log('Server running on port 4000');
+});
+
+// req is for how you're calling API and what parameter do you use
+// res is what you use to send the response, back from the api to the user
+// next is sth like middleware stuff
+app.get('/nordstrom', async (req, res, next) => {
+  // it looks at the query object of the request and get the top parameter.
+  const numberOfTop = req.query.top;
+  // we should encode the url to pass into the url.
+  const keyword = encodeURIComponent(req.query.keyword);
+  const url = `https://query.ecommerce.api.nordstrom.com/api/queryresults/keywordsearch/?top=${numberOfTop}&IncludeFacets=false&Keyword=${keyword}`;
+  console.log(url);
+  const json = await request.get(url);
+  res.setHeader('Content-Type', 'application/json'); // make postman recognize that this is json file.
+  res.send(json);
+});
+----------------------------------------------------------------
+
+now we can create the react application:
+$ npx create-react-app client
+
+if we directly send a request to fetch data from react, chrome will prevent us.
+because of cors-policy
+that's why we have created our own backend to catch data from.
+therefore we should install the cors npm package in server package.json file
+
+----------------------------------------------------------------
+
+scraping IMDB with NightmareJs:
+
+Nightmare is a high-level browser automation library.
+https://github.com/segmentio/nightmare#api
+https://www.electronjs.org/
+
+*** if we right-click on a html tag and click on 'copy selector', we can access to it's class path .
+with $("td.titleColumn > a").text() we can get all the titles of the movies
+
+we can scrape website like IMDB with finding the tags and href of them. but
+we're going to use NightmareJs because we cannot use the request for this website.
+whenever we disable the javascript on this website, everything will go black.
+but instead of request, with NightmareJs, we can automatically render images.
+
+---
+$ npm i request request-promise cheerio nightmare
+---
+
+*** Using Puppeteer:
+
+*** sometimes when we copy the selector from Elements tab in browser, we get sth like this:
+
+---
+#site-content > div > div > div._tc5d4u > div:nth-child(1) > div > div 
+> div > div > div > div > div._13vog1a > div > div._1t8wo4cs > div > 
+span > span._pgfqnw
+---
+
+there is no specific classname or id to use here. likewise, we don't want to
+use random classNames like '._pgfqnw' . Therefroe, we should get rid of all classnames,
+and choose a mother element and go through the children to access the right element.
+so we change the above selector into this:
+
+---
+#site-content > div > div > div > div:nth-child(1) > div > div 
+> div > div > div > div > div > div > div > div > span > span
+---
+
+we can get the text of the element by:
+---
+$("#site-content > div > div > div > div:nth-child(1) > div > div > div > div > div > div > div > div > div > div > span > span").text()
+---
+
+*** sometimes it's a really good idea to select a selector with different approach 
+so if one didn't work, it can try the next one.
+-----
+let guestsAllowed = $(#room > div > div > div > span).text();
+
+if( guestsAllowed === "" ) {
+  guestsAllowed = $('[divClass="blue"]']).text();
+
+  if( guestsAllowed === "" ) {
+    guestsAllowed = $('#divId="123"]']).text();
+  }
+}
+-----
+
+*** imagine we want to look at all texts on a page and grab the number of 'guest' in any webpage.
+1.  one solusion is to search for their CSS selector.
+2.  another way is to get all the texts of the page (or the texts inside a parent tag) by:
+    #("#room").text()
+    and then, search for a specific word in that text:
+
+-----------------------------
+  const roomText = $('#room').text(); // get all the text in the tag with id of "room"
+  const guestMatches = roomText.match(/\d+ guest/); // search for the word "guest"
+  let guestAllowed = 'N/A'; //  initialize it with N/A => there is no data
+  if (guestMatches.length > 0) {
+    // if it did find something,
+    guestsAllowed = guestMatches[0]; // find the first match
+  }
+  return { pricePerNight, guestAllowed };
+-----------------------------
+/\d+ guest/ : means that it's looking for a number and space and guest
+
+imagine we had words like '3 coupled guests' so it couldn't match to /\d+ guest/
+therefore we need an optional word in the phrase:
+/\d+ (coupled )?guest/
+-----------------------------
+  const guestAllowed = returnMatches(roomText, /\d+ guest/);
+  const bedrooms = returnMatches(roomText, /\d+ bedroom/);
+  const bath = returnMatches(roomText, /\d+ (shared )?bath/); // the word 'shared ' is optional
+  const beds = returnMatches(roomText, /\d+ beds/);
+-----------------------------
+
+
+How to build an API which is connected to our scraper?
+2 ways to apporach this:
+1.  for scaraper which is on Timed interval:
+    Every X min/hour/day scraper is run - for example a scraper which is rrunning every hour
+    save the data to the database
+    and a seperate API which is fetching the data from our database.
+    this means that the Scraper and the API are not really connected but independent.
+
+2.  On-demand scraping by calling API:
+    if the scraper is fast enough, maybe we can just have a GET request forward the scraper
+    and returns the resolve from the website (if you're using REST, POST requests are better if it's a slow scrape
+    so once the scraping has finished, you can use this id to get the data)
+
+if we go with just the second way, and make a request for any user who is coming to our web
+to the scraper website, the destination website will ban us!
+therefore we need to store all the data in our database and make an API to our servers
+for our users.
+with the first approach, our site will just make One request every hour to the destination website.
