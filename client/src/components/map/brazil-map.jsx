@@ -25,6 +25,7 @@ export class BrazilMapComponent extends Component {
     }
 
     async componentDidMount() {
+        document.title = "covid-19 Brazil map";
         this.onGetAllStatesData();
     }
 

@@ -367,7 +367,7 @@ td {
   display: grid;
   grid-template-rows: [quick-facts-start] 180px [quick-facts-end title-start] 5px [title-end stats-start] 1fr [regions-and-stats-end guide-start] 80px [guide-end];
   grid-template-columns: [regions-start] minmax(150px, 1fr) [regions-end stats-start] minmax(200px, 6fr) [stats-end];
-  height: 85vh;
+  height: 87vh;
   border-radius: 10px;
   padding: 10px 8px; }
   @media only screen and (min-width: 112.5em) {
@@ -3120,7 +3120,7 @@ svg {
   display: grid;
   grid-template-rows: [first-part-start] 470px [first-part-end second-part-start] 90px [second-part-end];
   grid-template-columns: 1fr;
-  color: #eee;
+  color: #bbb;
   background: #14274e;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #14274e, #232526);
@@ -3203,7 +3203,7 @@ svg {
           margin-bottom: 5px; }
           .footer-first-part-maps-list-item-link {
             text-decoration: none;
-            color: #eee;
+            color: #ddd;
             transition: 0.2s; }
           .footer-first-part-maps-list-item-link:hover {
             color: #fff;
@@ -3247,7 +3247,7 @@ svg {
           margin-bottom: 5px; }
           .footer-first-part-covid19-list-item-link {
             text-decoration: none;
-            color: #eee;
+            color: #ddd;
             transition: 0.2s; }
           .footer-first-part-covid19-list-item-link:hover {
             color: #fff;
@@ -3286,7 +3286,7 @@ svg {
           margin-bottom: 5px; }
           .footer-first-part-news-list-item-link {
             text-decoration: none;
-            color: #eee;
+            color: #ddd;
             transition: 0.2s; }
           .footer-first-part-news-list-item-link:hover {
             color: #fff;
@@ -3324,7 +3324,7 @@ svg {
           width: 100%;
           height: 100%;
           text-decoration: none;
-          color: #e6e6e6;
+          color: #ddd;
           transition: 0.2s; }
         .footer-second-part-icons-instagram-logo:hover {
           color: #fff;
@@ -3335,7 +3335,7 @@ svg {
           width: 100%;
           height: 100%;
           text-decoration: none;
-          color: #e6e6e6;
+          color: #ddd;
           transition: 0.2s; }
         .footer-second-part-icons-tweeter-logo:hover {
           color: #fff;
@@ -3346,7 +3346,7 @@ svg {
           width: 100%;
           height: 100%;
           text-decoration: none;
-          color: #e6e6e6;
+          color: #ddd;
           transition: 0.2s; }
         .footer-second-part-icons-facebook-logo:hover {
           color: #fff;
@@ -3357,7 +3357,7 @@ svg {
           width: 100%;
           height: 100%;
           text-decoration: none;
-          color: #e6e6e6;
+          color: #ddd;
           transition: 0.2s; }
         .footer-second-part-icons-linkedIn-logo:hover {
           color: #fff;
@@ -3368,8 +3368,17 @@ svg {
           width: 100%;
           height: 100%;
           text-decoration: none;
-          color: #e6e6e6;
+          color: #ddd;
           transition: 0.2s; }
         .footer-second-part-icons-spotify-logo:hover {
           color: #fff;
           text-shadow: 0px 0px 1px #ffffff; }
+
+.notfound {
+  width: 100%;
+  height: 120%; }
+  .notfound-text {
+    background: -webkit-linear-gradient(left, #1FA2FF, #12D8FA, #A6FFCB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 300%; }

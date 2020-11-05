@@ -1,0 +1,28 @@
+.notfound {
+    width: 100%;
+    height: 120%;
+
+    &-text {
+        // background: -webkit-linear-gradient(left, #11998e, #38ef7d);
+        background: -webkit-linear-gradient(left, #1FA2FF, #12D8FA, #A6FFCB);
+        // background: -webkit-linear-gradient(left, #4B79A1, #283E51);
+        // background: -webkit-linear-gradient(left, #2c3e50, #3498db);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 300%;
+
+        // width: 168.3px;
+    }
+
+    // &-text2 {
+    //     background: -webkit-linear-gradient(left, #ED213A, #93291E);
+    //     -webkit-background-clip: text;
+    //     -webkit-text-fill-color: transparent;
+    //     font-size: 3000%;
+    //     margin-left: 33%;
+    //     margin-top: -50px;
+    //     position: absolute;
+    //     top: 0;
+    //     left: 0;
+    // }
+}

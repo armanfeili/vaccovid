@@ -25,6 +25,7 @@ export class AustraliaMapComponent extends Component {
     }
 
     async componentDidMount() {
+        document.title = "covid-19 Australia map";
         this.onGetAllStatesData();
     }
 

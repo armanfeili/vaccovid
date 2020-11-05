@@ -20,7 +20,7 @@ const app = express();
 (async () => {
     // const firstConnection: Connection = await createConnection('db1-connection');
     // firstConnection;
-    const red = await createConnection();
+    const connection = await createConnection();
 
     // app.use('/api', createProxyMiddleware({ target: 'http://www.example.org', changeOrigin: true }));
     // app.use(
@@ -36,6 +36,6 @@ const app = express();
     // const port = 8080;
     const port = 5000;
 
-    const server = new Server(app, red);
+    const server = new Server(app, connection);
     server.start(port);
 })();

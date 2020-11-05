@@ -13,6 +13,7 @@ export class About extends Component {
     }
 
     async componentDidMount() {
+        document.title = `About Vaccovid`;
     }
 
 

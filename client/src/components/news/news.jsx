@@ -48,6 +48,10 @@ export class NewsComponent extends Component {
         this.onClickGetVaccineNews(this.state.page);
     }
 
+    async componentDidUpdate() {
+        document.title = `${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news`;
+    }
+
 
     async onClickGetVaccineNews() {
         this.setState({ active_btn: "vaccine" });

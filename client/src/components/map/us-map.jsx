@@ -41,6 +41,7 @@ export class USMapComponent extends Component {
     }
 
     async onGetAllStatesData() {
+        document.title = "covid-19 USA map";
         await this.props.getUSAStatesData();
     };
 

@@ -42,6 +42,8 @@ export class CoronavirusEachContinentComponent extends Component {
     }
 
     async componentDidMount() {
+        let { continentName } = this.props.match.params;
+        document.title = `covid-19 ${continentName} table`;
         // this.onClickGetCovidWorldData();
         this.onClickGetDynamicCovidData();
     }
@@ -49,6 +51,8 @@ export class CoronavirusEachContinentComponent extends Component {
     async componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
         // this.onClickGetDynamicCovidData();
+        let { continentName } = this.props.match.params;
+        document.title = `covid-19 ${continentName} table`;
         if (this.props.countries !== prevProps.countries) {
             // this.setState({ active_btn: "world" });
             // this.onClickGetDynamicCovidData();

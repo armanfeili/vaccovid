@@ -11,6 +11,7 @@ export class NotFound extends Component {
     }
 
     async componentDidMount() {
+        document.title = "not found"
     }
 
 
@@ -18,8 +19,9 @@ export class NotFound extends Component {
     render() {
 
         return (
-            <div className="not-found">
-                <h1>PAGE NOT FOUND !!!</h1>
+            <div className="notfound">
+                <h1 className="notfound-text">Page not found !!!</h1>
+                {/* <h1 className="notfound-text">V</h1> */}
             </div>
         );
     }

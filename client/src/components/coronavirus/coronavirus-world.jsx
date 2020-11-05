@@ -41,6 +41,7 @@ export class CoronavirusWorldComponent extends Component {
     }
 
     async componentDidMount() {
+        document.title = `covid-19 world map`;
         this.onClickGetCovidWorldData();
     }
 

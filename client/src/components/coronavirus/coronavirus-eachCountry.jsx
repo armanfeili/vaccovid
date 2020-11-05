@@ -66,10 +66,17 @@ export class countryEachCountryComponent extends Component {
     }
 
     async componentDidMount() {
+        let { countryName } = this.props.match.params;
+        console.log(countryName);
+        document.title = `${countryName} covid-19 statistical table of data and charts`;
+        // document.title = `covid-19 countries data`;
         await this.props.getAllCountriesDataNameOrdered();
     }
 
     async componentDidUpdate(prevProps) {
+        let { countryName } = this.props.match.params;
+        console.log(countryName);
+        document.title = `${countryName} covid-19 statistical table of data and charts`;
         if (this.state.iso !== this.props.location.state.iso) {
             this.setState({ iso: this.props.location.state.iso })
             await this.getProvinceCovidData();
@@ -299,17 +306,20 @@ export class countryEachCountryComponent extends Component {
                 events: ['click'],
                 title: {
                     display: true,
-                    text: "The condition of all cases in the country"
+                    text: "The condition of all cases in the country",
+                    fontColor: 'white'
                 },
                 legend: {
                     labels: {
                         // This more specific font property overrides the global property
+                        fontColor: 'white'
                     }
                 },
                 defaultFontSize: 12,
                 scales: {
                     yAxes: [{
                         ticks: {
+                            fontColor: 'white',
                             beginAtZero: true,
                         }
                     }]
