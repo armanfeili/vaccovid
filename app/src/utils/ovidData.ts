@@ -44,6 +44,7 @@ async function downloadOvid() {
 }
 
 export const updateDailyOwid = async () => {
+    updateOwid();
     setInterval(
         updateOwid,
         // Min * Sec * Ms

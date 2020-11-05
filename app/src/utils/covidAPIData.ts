@@ -180,6 +180,15 @@ export async function updateProvinces() {
     }
 }
 
+export const addDailyReports = async () => {
+    addReports();
+    setInterval(
+        addReports,
+        // Min * Sec * Ms
+        24 * 60 * 60 * 1000
+    );
+};
+
 export async function addReports() {
     console.log("start 2");
     const connect = await _connect();
@@ -330,7 +339,8 @@ export async function addUSStates() {
                 newData.confirmed = element.positive;
                 newData.deaths = element.death;
                 // newData.recovered = element.recovered;
-                newData.recovered = element.recovered === null || element.recovered === undefined ? 0 : element.recovered;
+                newData.recovered =
+                    element.recovered === null || element.recovered === undefined ? 0 : element.recovered;
                 newData.Case_Fatality_Rate = Case_Fatality_Rate;
                 newData.Recovery_Proporation = Recovery_Proporation;
                 newData.confirmed_diff = element.positiveIncrease;
@@ -426,17 +436,15 @@ export async function getReports(iso: String) {
 }
 
 // sort array of objects based on their values: string or number
-function compareValues(key: any, order = 'asc') {
+function compareValues(key: any, order = "asc") {
     return function innerSort(a: any, b: any) {
         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
             // property doesn't exist on either object
             return 0;
         }
 
-        const varA = (typeof a[key] === 'string')
-            ? a[key].toUpperCase() : a[key];
-        const varB = (typeof b[key] === 'string')
-            ? b[key].toUpperCase() : b[key];
+        const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
+        const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
 
         let comparison = 0;
         if (varA > varB) {
@@ -445,9 +453,7 @@ function compareValues(key: any, order = 'asc') {
             comparison = -1;
         }
         // console.log(comparison)
-        return (
-            (order === 'desc') ? (comparison * -1) : comparison
-        );
+        return order === "desc" ? comparison * -1 : comparison;
     };
 }
 
@@ -463,7 +469,7 @@ export async function getProvincesBasedOnISO(iso: String) {
         // }
         // relations: ["reports", "cities", "cities.reports"],
     });
-    data.forEach(element => {
+    data.forEach((element) => {
         let obj: any = {};
         obj.province_id = element.province_id;
         obj.name = element.name;
@@ -491,10 +497,10 @@ export async function getProvincesBasedOnISO(iso: String) {
         }
 
         // console.log(obj);
-        mixedData.push(obj)
+        mixedData.push(obj);
     });
 
-    mixedData = mixedData.sort(compareValues('confirmed', 'desc'));
+    mixedData = mixedData.sort(compareValues("confirmed", "desc"));
 
     return mixedData;
 }
@@ -518,11 +524,11 @@ export async function getCitiesBasedOnISO(iso: String) {
         //     province: 'ASC',
         // }
     });
-    data.forEach(province => {
+    data.forEach((province) => {
         let obj: any = {};
         obj.province = province.province;
         if (province.cities.length > 0) {
-            province.cities.forEach(city => {
+            province.cities.forEach((city) => {
                 obj.reports = true;
                 obj.name = city.name;
                 // if (condition) {
@@ -533,11 +539,11 @@ export async function getCitiesBasedOnISO(iso: String) {
                 // obj.deaths = city.reports[0].deaths;
                 // obj.confirmed_diff = city.reports[0].confirmed_diff;
                 // obj.deaths_diff = city.reports[0].deaths_diff;
-            })
+            });
         }
 
         // console.log(obj);
-        mixedData.push(obj)
+        mixedData.push(obj);
     });
 
     // mixedData = mixedData.sort(compareValues('confirmed', 'desc'));
