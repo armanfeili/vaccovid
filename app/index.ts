@@ -10,15 +10,7 @@ import bodyParser from "body-parser";
 // import passport from "passport";
 
 import { AppRoutes } from "./src/routes/index";
-import { Fetcher } from "./src/utils/fetch";
-import {
-    firstTimeFetchAndSaveNews,
-    firstTimeFetchNewsImages,
-    fetchAndSaveNewsImages,
-    deleteAllOldNews,
-    fetchAndSaveNews,
-} from "./src/utils/newsData";
-import { updateProvinces } from "./src/utils/covidAPIData";
+import { timers } from "./src/utils/timer";
 
 export class Server {
     private app: Express;
@@ -29,22 +21,8 @@ export class Server {
         this.app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded -> parse the code from url
         this.app.use(bodyParser.json()); // parse application/json -> parse the code from json code
 
-        // red;
-        //Start Fetcher
-        //in this function we fetch data from covid19 npm every 30 min and fetch data from owid Json and update Database
-        // Fetcher();
-
-        //countries
-        // updateProvinces();
-
-        // gets called once and fetch and save data into DB
-        // firstTimeFetchAndSaveNews();
-        // firstTimeFetchNewsImages();
-
-        // gets called every 2 hours.
-        fetchAndSaveNews();
-        // fetchAndSaveNewsImages();
-        // deleteAllOldNews();
+        //timer
+        timers();
 
         //Add routes
         AppRoutes(this.app);
