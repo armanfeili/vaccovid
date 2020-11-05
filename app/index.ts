@@ -30,17 +30,17 @@ export class Server {
         // app.use('/', createProxyMiddleware({ target: 'http://localhost:5000/', changeOrigin: true }));
 
         // https://expressjs.com/en/starter/static-files.html
-        this.app.use(express.static(path.resolve("./") + "/build/client"));
+        // this.app.use(express.static(path.resolve("./") + "/build/client"));
 
-        this.app.use(express.static(path.resolve("./") + "/build/frontend"));
+        this.app.use(express.static(path.resolve("./") + "/client/build"));
 
         this.app.get("/api", (req: Request, res: Response): void => {
             res.send("You have reached the API!");
         });
 
-        this.app.get("*", (req: Request, res: Response): void => {
-            res.sendFile(path.resolve("./") + "/build/client/index.html");
-        });
+        // this.app.get("*", (req: Request, res: Response): void => {
+        //     res.sendFile(path.resolve("./") + "/client/build/");
+        // });
     }
 
     public start(port: number): void {

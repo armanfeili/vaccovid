@@ -43,6 +43,14 @@ async function downloadOvid() {
     });
 }
 
+export const updateDailyOwid = async () => {
+    setInterval(
+        updateOwid,
+        // Min * Sec * Ms
+        24 * 60 * 60 * 1000
+    );
+};
+
 export const updateOwid = async () => {
     const connection = getConnection();
     // const queryRunner = connection.createQueryRunner();
@@ -148,7 +156,7 @@ export async function getOvidISOBased(iso: String) {
     const symbol = iso.toUpperCase();
     const data = await CovidDataRepository.findOne({ where: { symbol: symbol } });
 
-    if (!data) return ({ error: "Not Exists" });
+    if (!data) return { error: "Not Exists" };
     const dateData = await CovidDataDateRepository.find({
         where: { symbol: data, date: MoreThan(sixMonthAgo) },
         order: { date: "DESC" },
