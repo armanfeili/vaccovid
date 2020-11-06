@@ -1,4 +1,4 @@
-import { GET_CORONAVIRUS_NEWS, GET_VACCINE_NEWS, GET_HEALTH_NEWS, NEWS_LOADING,GET_NEXT_CORONAVIRUS_NEWS,GET_PREVIOUS_CORONAVIRUS_NEWS,GET_NEXT_VACCINE_NEWS,GET_PREVIOUS_VACCINE_NEWS,GET_NEXT_HEALTH_NEWS,GET_PREVIOUS_HEALTH_NEWS} from '../actions/types';
+import { CLEAR_DATA, GET_CORONAVIRUS_NEWS, GET_VACCINE_NEWS, GET_HEALTH_NEWS, NEWS_LOADING,GET_NEXT_CORONAVIRUS_NEWS,GET_PREVIOUS_CORONAVIRUS_NEWS,GET_NEXT_VACCINE_NEWS,GET_PREVIOUS_VACCINE_NEWS,GET_NEXT_HEALTH_NEWS,GET_PREVIOUS_HEALTH_NEWS} from '../actions/types';
 
 
 const initialState = {
@@ -9,6 +9,10 @@ const initialState = {
 
 export function newsReducer (state = initialState, action) {
     switch (action.type) {
+        case CLEAR_DATA:
+        return {
+            state : initialState,
+        };
         // Loading
         case NEWS_LOADING:
             return {

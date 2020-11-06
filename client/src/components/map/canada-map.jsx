@@ -25,7 +25,7 @@ export class CanadaMapComponent extends Component {
     }
 
     async componentDidMount() {
-        document.title = "covid-19 Canada map";
+        document.title = "covid-19 Canada map - vaccovid.live";
         this.onGetAllStatesData();
     }
 

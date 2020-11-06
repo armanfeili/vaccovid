@@ -49,7 +49,7 @@ export class NewsComponent extends Component {
     }
 
     async componentDidUpdate() {
-        document.title = `${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news`;
+        document.title = `${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live`;
     }
 
 
@@ -253,7 +253,7 @@ export class NewsComponent extends Component {
                                     <div className="news-item--news-list-eachNews-content">{news.content}</div>
                                     <img
                                         className='news-item--news-list-eachNews-newsImg'
-                                        src={news.reference !== "who" ? news.urlToImage : `${require('../../views/news-logo-resized/who.jpg')}`}
+                                        src={news.reference !== "who" ? news.urlToImage : `${require(`../../views/who-pics/who-${Math.floor(Math.random() * 13) + 1}.jpg`)}`}
                                         // src={`${require(`../../../../pics${news.imageInLocalStorage}`)}`}
                                         alt="..."
                                     // style={{ width: '25px', marginRight: '5px' }}

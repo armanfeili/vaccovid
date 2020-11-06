@@ -31,7 +31,7 @@ export class WorldMapComponent extends Component {
     // with caution because it often causes performance issues.In most cases, 
     // you should be able to assign the initial state in the constructor() instead.
     async componentDidMount() {
-        document.title = "covid-19 world map";
+        document.title = "covid-19 world map - vaccovid.live";
         this.onGetAllCountriesData();
     }
 

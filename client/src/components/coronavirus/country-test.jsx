@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, history } from 'react-router-dom';
 import Chart from 'chart.js';
 import Footer from '../common/footer';
 
@@ -9,7 +9,7 @@ import {
     getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered, getAsiaCountriesData, getAfricaCountriesData, getEuropeCountriesData, getNorthAmericaCountriesData, getSouthAmericaCountriesData, getAustraliaOceaniaCountriesData,
     getCountryISOBased, getProvinceReportISOBased, getCitiesReportISOBased,
     getOvidData,
-    clearData
+    clearData, clearAllCountriesNameOrderedData, clearProvinceReportISOBasedData, clearCountryISOBasedData, clearOvidData, clearWorldData
 } from '../../actions/covid_countries';
 // import * as Scroll from 'react-scroll';
 // import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
@@ -68,39 +68,93 @@ export class countryEachCountryComponent extends Component {
     async componentDidMount() {
         let { countryName } = this.props.match.params;
         console.log(countryName);
-        document.title = `${countryName} covid-19 statistical table of data and charts`;
+        document.title = `${countryName} covid-19 statistical table of data and charts - vaccovid.live`;
         // document.title = `covid-19 countries data`;
         await this.props.getAllCountriesDataNameOrdered();
     }
 
-    async componentDidUpdate(prevProps) {
-        let { countryName } = this.props.match.params;
-        console.log(countryName);
-        document.title = `${countryName} covid-19 statistical table of data and charts`;
-        if (this.state.iso !== this.props.location.state.iso) {
-            this.setState({ iso: this.props.location.state.iso })
-            await this.getProvinceCovidData();
-            console.log("happens");
-        }
+    // async componentDidUpdate(prevProps) {
 
-        if (
-            this.props.countryISOBased !== prevProps.countryISOBased
-            && (this.props.world.length > 0 || this.props.world !== prevProps.world)
-            && (this.props.ovidData.length > 0 || this.props.ovidData !== prevProps.ovidData)
-        ) {
-            // this.setState({ data: this.props.countryISOBased, world: this.props.world });
+    //     // history.listen((location, action) => {
+    //     //     console.log("on route change");
+    //     //     // Do stuff.
+    //     // })
+    //     let { countryName } = this.props.match.params;
+    //     console.log(countryName);
+    //     document.title = `${countryName} covid-19 statistical table of data and charts - vaccovid.live`;
 
-            this.quickFactsChart(this.props.countryISOBased);
-            this.compareToWorldChart(this.props.countryISOBased, this.props.world);
+    //     this.props.history.listen(async (location, action) => {
+    //         console.log("on route change");
 
-            this.totalCasesChart(this.props.ovidData);
-            this.newCasesChart(this.props.ovidData);
-            this.totalDeathsChart(this.props.ovidData);
-            this.newDeathsChart(this.props.ovidData);
-        }
-    }
+    //         // await this.props.clearData();
+    //         let iso = this.props.location.state.iso;
+    //         // countryName = this.props.location.state.countryName;
+    //         // await this.props.getAllCountriesDataNameOrdered();
+
+    //         // clear old data
+    //         await this.props.clearProvinceReportISOBasedData();
+    //         await this.props.clearCountryISOBasedData();
+    //         // await this.props.clearWorldData();
+    //         await this.props.clearAllCountriesNameOrderedData();
+
+    //         // // await this.props.clearOvidData();
+
+    //         // // get data
+    //         await this.props.getAllCountriesDataNameOrdered();
+    //         // await this.props.getWorldData();
+    //         // // await this.props.getOvidData(iso.toUpperCase());
+    //         // await this.props.getCountryISOBased(countryName, iso.toUpperCase());
+    //         // await this.props.getProvinceReportISOBased(iso.toUpperCase());
+    //         // await this.getProvinceCovidData();
+    //         console.log("happens");
+    //     });
+
+    //     // if (this.state.iso !== this.props.location.state.iso) {
+    //     //     // this.setState({ iso: this.props.location.state.iso })
+    //     //     // // await this.props.clearData();
+    //     //     // let iso = this.props.location.state.iso;
+    //     //     // // countryName = this.props.location.state.countryName;
+    //     //     // // await this.props.getAllCountriesDataNameOrdered();
+
+    //     //     // // clear old data
+    //     //     // await this.props.clearProvinceReportISOBasedData();
+    //     //     // await this.props.clearCountryISOBasedData();
+    //     //     // // await this.props.clearWorldData();
+    //     //     // await this.props.clearAllCountriesNameOrderedData();
+
+    //     //     // // // await this.props.clearOvidData();
+
+    //     //     // // // get data
+    //     //     // await this.props.getAllCountriesDataNameOrdered();
+    //     //     // // await this.props.getWorldData();
+    //     //     // // // await this.props.getOvidData(iso.toUpperCase());
+    //     //     // // await this.props.getCountryISOBased(countryName, iso.toUpperCase());
+    //     //     // // await this.props.getProvinceReportISOBased(iso.toUpperCase());
+    //     //     // // await this.getProvinceCovidData();
+    //     //     // console.log("happens");
+    //     // }
+
+    //     // if (
+    //     //     this.props.countryISOBased !== prevProps.countryISOBased
+    //     //     && this.props.ovidData !== undefined
+    //     //     && this.props.world !== undefined
+    //     //     && (this.props.world.length > 0 || this.props.world !== prevProps.world)
+    //     //     && (this.props.ovidData.length > 0 || this.props.ovidData !== prevProps.ovidData)
+    //     // ) {
+    //     //     // this.setState({ data: this.props.countryISOBased, world: this.props.world });
+
+    //     //     // this.quickFactsChart(this.props.countryISOBased);
+    //     //     // this.compareToWorldChart(this.props.countryISOBased, this.props.world);
+
+    //     //     // this.totalCasesChart(this.props.ovidData);
+    //     //     // this.newCasesChart(this.props.ovidData);
+    //     //     // this.totalDeathsChart(this.props.ovidData);
+    //     //     // this.newDeathsChart(this.props.ovidData);
+    //     // }
+    // }
 
     async componentWillUnmount() {
+        // await this.props.clearProvinceReportISOBasedData();
     }
 
     async getProvinceCovidData() {
@@ -109,11 +163,18 @@ export class countryEachCountryComponent extends Component {
             iso = this.props.location.state.iso;
             countryName = this.props.location.state.countryName;
             // await this.props.getAllCountriesDataNameOrdered();
-            await this.props.getWorldData();
-            await this.props.getOvidData(iso.toUpperCase());
-            await this.props.getCountryISOBased(countryName, iso.toUpperCase());
-            await this.props.getProvinceReportISOBased(iso.toUpperCase());
-            await this.props.getCitiesReportISOBased(iso.toUpperCase());
+
+            // clear old data
+            // await this.props.clearProvinceReportISOBasedData();
+            // await this.props.clearCountryISOBasedData();
+            // await this.props.clearOvidData();
+
+            // get data
+            // await this.props.getWorldData();
+            // await this.props.getOvidData(iso.toUpperCase());
+            // await this.props.getCountryISOBased(countryName, iso.toUpperCase());
+            // await this.props.getProvinceReportISOBased(iso.toUpperCase());
+            // await this.props.getCitiesReportISOBased(iso.toUpperCase());
 
             this.setState({ iso: iso });
         } else if (this.props.location.state === null || this.props.location.state === undefined) {
@@ -271,6 +332,8 @@ export class countryEachCountryComponent extends Component {
 
 
     quickFactsChart(data) {
+        console.log(data);
+
         let ctx = document.getElementById('quick-facts-chart');
         let myChart = new Chart(ctx, {
             type: 'doughnut',
@@ -648,8 +711,10 @@ export class countryEachCountryComponent extends Component {
         let { countriesNameOrdered } = this.props;
         let { countryISOBased } = this.props;
         let { eachCountryProvinces } = this.props;
+        let { world } = this.props;
         // let { eachCountryCities } = this.props;
         let { ovidData } = this.props;
+        console.log(ovidData);
 
         let { continentName } = this.props.match.params; // url parameteres
         let url_state = this.props.location.state;       // url passing state
@@ -781,7 +846,7 @@ export class countryEachCountryComponent extends Component {
         return url_state &&
             countryISOBased !== undefined &&
             countriesNameOrdered !== undefined &&
-            ovidData !== undefined &&
+            // ovidData !== undefined &&
             eachCountryProvinces !== undefined
             // && world !== undefined
             ? (
@@ -811,34 +876,70 @@ export class countryEachCountryComponent extends Component {
                                 <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewd</h2>
                                 <Link to={{
                                     pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('USA', 'USA'); await this.props.getProvinceReportISOBased('USA'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                }}
+                                    onClick={async () => {
+                                        await this.props.getCountryISOBased('USA', 'USA');
+                                        await this.props.getProvinceReportISOBased('USA');
+                                        // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                        this.onClickShowRegions();
+                                    }} className={`country-responsive-allregions-btn 
                             ${'usa' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>United States</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('Canada', 'CAN'); await this.props.getProvinceReportISOBased('CAN'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                }}
+                                    onClick={async () => {
+                                        await this.props.getCountryISOBased('Canada', 'CAN');
+                                        await this.props.getProvinceReportISOBased('CAN');
+                                        // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                        this.onClickShowRegions();
+                                    }} className={`country-responsive-allregions-btn 
                             ${'can' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>Canada</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('Australia', 'AUS'); await this.props.getProvinceReportISOBased('AUS'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                }}
+                                    onClick={async () => {
+                                        await this.props.getCountryISOBased('Australia', 'AUS');
+                                        await this.props.getProvinceReportISOBased('AUS');
+                                        // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                        this.onClickShowRegions();
+                                    }} className={`country-responsive-allregions-btn 
                             ${'aus' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('UK', 'GBR'); await this.props.getProvinceReportISOBased('GBR'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                }}
+                                    onClick={async () => {
+                                        await this.props.getCountryISOBased('UK', 'GBR');
+                                        await this.props.getProvinceReportISOBased('GBR');
+                                        // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                        this.onClickShowRegions();
+                                    }} className={`country-responsive-allregions-btn 
                             ${'gbr' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>United Kingdom</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('India', 'IND'); await this.props.getProvinceReportISOBased('IND'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                }}
+                                    onClick={async () => {
+                                        await this.props.getCountryISOBased('India', 'IND');
+                                        await this.props.getProvinceReportISOBased('IND');
+                                        // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                        this.onClickShowRegions();
+                                    }} className={`country-responsive-allregions-btn 
                             ${'ind' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>India</Link>
 
                                 <h2 className={`country-responsive-allregions-title`}>Countries</h2>
                                 {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
                                     return <Link to={{
                                         pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
-                                    }} onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); this.onClickShowRegions(); }} key={country.id} className={`country-responsive-allregions-btn 
+                                    }}
+                                        onClick={async () => {
+                                            await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase());
+                                            await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase());
+                                            // await this.props.getOvidData(this.props.location.state.iso.toUpperCase()); 
+                                            this.onClickShowRegions();
+                                        }} key={country.id} className={`country-responsive-allregions-btn 
                             ${country.ThreeLetterSymbol.toLowerCase() === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>
                                         {country.Country}
                                     </Link>
@@ -871,27 +972,62 @@ export class countryEachCountryComponent extends Component {
                             <h2 className={`country-regions-title`}>Most Viewd</h2>
                             <Link to={{
                                 pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
+                            }} onClick={
+                                async () => {
+                                    await this.props.getCountryISOBased('USA', 'USA');
+                                    await this.props.getProvinceReportISOBased('USA');
+
+                                    // this.getProvinceCovidData();
+                                    // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                }}
                                 className={`country-regions-btn ${'usa' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>United States</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
+                            }} onClick={
+                                async () => {
+                                    await this.props.getCountryISOBased('Canada', 'CAN');
+                                    await this.props.getProvinceReportISOBased('CAN');
+
+                                    // this.getProvinceCovidData();
+                                    // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                }}
                                 className={`country-regions-btn ${'can' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>Canada</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
+                            }} onClick={
+                                async () => {
+                                    await this.props.getCountryISOBased('Australia', 'AUS');
+                                    await this.props.getProvinceReportISOBased('AUS');
+
+                                    // this.getProvinceCovidData();
+                                    // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                }}
                                 className={`country-regions-btn ${'aus' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>Australia</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
+                            }} onClick={
+                                async () => {
+                                    await this.props.getCountryISOBased('UK', 'GBR');
+                                    await this.props.getProvinceReportISOBased('GBR');
+
+                                    // this.getProvinceCovidData();
+                                    // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                }}
                                 className={`country-regions-btn ${'gbr' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>United Kingdom</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
+                            }} onClick={
+                                async () => {
+                                    await this.props.getCountryISOBased('India', 'IND');
+                                    await this.props.getProvinceReportISOBased('IND');
+
+                                    // this.getProvinceCovidData();
+                                    // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                }}
                                 className={`country-regions-btn ${'ind' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>India</Link>
 
 
@@ -901,7 +1037,13 @@ export class countryEachCountryComponent extends Component {
                                     pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
                                 }}
                                     // onClick={async () => { await this.props.getCountryISOBased(url_state.countryName, url_state.iso.toUpperCase()); await this.props.getProvinceReportISOBased(url_state.iso.toUpperCase()); }}
-                                    onClick={async () => { this.getProvinceCovidData(); }}
+                                    onClick={async () => {
+                                        await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase());
+                                        await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase());
+
+                                        // this.getProvinceCovidData(); 
+                                        // await this.props.getOvidData(this.props.location.state.iso.toUpperCase());
+                                    }}
                                     key={country.id} className={`country-regions-btn ${country.ThreeLetterSymbol.toLowerCase() === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
                             }) : (
                                     <div>
@@ -1180,5 +1322,5 @@ export default connect(
         getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered, getAsiaCountriesData, getAfricaCountriesData, getEuropeCountriesData, getNorthAmericaCountriesData, getSouthAmericaCountriesData, getAustraliaOceaniaCountriesData,
         getCountryISOBased, getProvinceReportISOBased, getCitiesReportISOBased,
         getOvidData,
-        clearData
+        clearData, clearAllCountriesNameOrderedData, clearProvinceReportISOBasedData, clearCountryISOBasedData, clearOvidData, clearWorldData
     })(countryEachCountryComponent);

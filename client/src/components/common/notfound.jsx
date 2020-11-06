@@ -11,7 +11,7 @@ export class NotFound extends Component {
     }
 
     async componentDidMount() {
-        document.title = "not found"
+        document.title = "not found - vaccovid.live"
     }
 
 

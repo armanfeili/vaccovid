@@ -1,5 +1,6 @@
-import { GET_USA_STATES_DATA,GET_CANADA_STATES_DATA, GET_BRAZIL_STATES_DATA, GET_GERMANY_STATES_DATA, GET_AUSTRALIA_STATES_DATA, GET_COUNTRY_STATES_AND_CITIES_DATA,GET_PROVINCE_ISO_REPORT_DATA, GET_CITIES_ISO_REPORT_DATA } from '../actions/types';
-
+import { GET_USA_STATES_DATA,GET_CANADA_STATES_DATA, GET_BRAZIL_STATES_DATA, GET_GERMANY_STATES_DATA, GET_AUSTRALIA_STATES_DATA, GET_COUNTRY_STATES_AND_CITIES_DATA,GET_PROVINCE_ISO_REPORT_DATA, GET_CITIES_ISO_REPORT_DATA,
+  CLEAR_DATA, CLEAR_ALL_COUNTRIES_COVID_DATA, CLEAR_COUNTRY_ISO_BASED_DATA, CLEAR_COUNTRY_STATES_AND_CITIES_DATA, CLEAR_PROVINCE_ISO_REPORT_DATA, CLEAR_CITIES_ISO_REPORT_DATA
+} from '../actions/types';
 
 const initialState = {
     provinces: [],
@@ -10,12 +11,18 @@ const initialState = {
 
 export function covidProvincesReducer(state = initialState, action) {
     switch (action.type) {
-        case GET_COUNTRY_STATES_AND_CITIES_DATA:
+        case CLEAR_PROVINCE_ISO_REPORT_DATA:
             return {
-                ...state,
-                eachCountryProvinceAndCities: action.payload,
+                eachCountryProvinces : [],
+                // eachCountryProvinceAndCities : [],
+                // eachCountryProvinces : [],
+                // eachCountryCities : [],
             };
-            
+        case GET_COUNTRY_STATES_AND_CITIES_DATA:
+        return {
+            ...state,
+            eachCountryProvinceAndCities: action.payload,
+        };
         case GET_PROVINCE_ISO_REPORT_DATA:
         return {
             ...state,

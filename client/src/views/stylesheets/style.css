@@ -3149,7 +3149,8 @@ svg {
           grid-column: res-start / res-end;
           text-align: center; } }
       .footer-first-part-about-name {
-        font-size: 200%; }
+        font-size: 200%;
+        color: #eee; }
       .footer-first-part-about-between {
         width: 70%;
         height: 1px;
@@ -3177,7 +3178,8 @@ svg {
           text-align: center; } }
       .footer-first-part-maps-title {
         font-size: 175%;
-        margin-bottom: 8px; }
+        margin-bottom: 8px;
+        color: #eee; }
       .footer-first-part-maps-between {
         width: 70%;
         height: 1px;
@@ -3216,7 +3218,8 @@ svg {
           text-align: center; } }
       .footer-first-part-covid19-title {
         font-size: 175%;
-        margin-bottom: 8px; }
+        margin-bottom: 8px;
+        color: #eee; }
       .footer-first-part-covid19-between {
         width: 70%;
         height: 1px;
@@ -3260,7 +3263,8 @@ svg {
           text-align: center; } }
       .footer-first-part-news-title {
         font-size: 175%;
-        margin-bottom: 8px; }
+        margin-bottom: 8px;
+        color: #eee; }
       .footer-first-part-news-between {
         width: 70%;
         height: 1px;
