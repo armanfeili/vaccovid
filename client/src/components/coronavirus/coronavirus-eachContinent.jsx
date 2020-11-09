@@ -65,7 +65,7 @@ export class CoronavirusEachContinentComponent extends Component {
 
     async componentWillUnmount() {
         // this.onClickGetDynamicCovidData();
-        await this.props.clearWorldData();
+        // await this.props.clearWorldData();
     }
 
     async onClickGetDynamicCovidData() {
@@ -86,27 +86,27 @@ export class CoronavirusEachContinentComponent extends Component {
             await this.props.getAllCountriesData();
             await this.props.getWorldData();
         } else if (continentName === 'Asia') {
-            await this.props.clearWorldData();
+            // await this.props.clearWorldData();
             await this.props.getAsiaCountriesData();
 
         } else if (continentName === 'Africa') {
-            await this.props.clearWorldData();
+            // await this.props.clearWorldData();
             await this.props.getAfricaCountriesData();
 
         } else if (continentName === 'Europe') {
-            await this.props.clearWorldData();
+            // await this.props.clearWorldData();
             await this.props.getEuropeCountriesData();
 
         } else if (continentName === 'North America') {
-            await this.props.clearWorldData();
+            // await this.props.clearWorldData();
             await this.props.getNorthAmericaCountriesData();
 
         } else if (continentName === 'South America') {
-            await this.props.clearWorldData();
+            // await this.props.clearWorldData();
             await this.props.getSouthAmericaCountriesData();
 
         } else if (continentName === 'Australia/Oceania') {
-            await this.props.clearWorldData();
+            // await this.props.clearWorldData();
             await this.props.getAustraliaOceaniaCountriesData();
 
         }
@@ -245,14 +245,11 @@ export class CoronavirusEachContinentComponent extends Component {
 
 
     render() {
-
-        // const links = this.props.news.news;
-        // const linksLoop = [];
         let { countries } = this.props;
         let { countriesNameOrdered } = this.props;
         let { world } = this.props;
-        let { continentCountries } = this.props;
-        let continentBasedCountriesArray = [];
+        // let { continentCountries } = this.props;
+        // let continentBasedCountriesArray = [];
         // const countriesOrdered = countries.sort(this.compareValues('Country', 'asc'));
 
         let { continentName } = this.props.match.params; // url parameteres
@@ -340,19 +337,6 @@ export class CoronavirusEachContinentComponent extends Component {
             }
         }
 
-        const continentBasedCountries = (continent) => {
-            console.log(continent);
-            countries = countries.filter(item => item.Continent === continent);
-            // continentBasedCountriesArray = countries.filter(item => item.Continent === continent);
-            // countries = countries.sort(this.compareValues('TotalCases', 'desc'));
-            // countries = countries.find(element => element.Continent === continent); // North America
-            // console.log(countries);
-            this.setState({ order_kind: 'dass khosh' })
-            return countries;
-            // this.setState({ active_btn: "continent changed" })
-            // this.setState({ active_btn: continent })
-        }
-
         return url_state && countriesNameOrdered !== undefined && countries !== undefined && world !== undefined ? (
             <div>
                 <div className={`coronavirus ${url_state.continentName !== "World" ? "coronavirus-removeQuickFactsHeight" : ""} ${url_state.continentName === "Australia/Oceania" ? "coronavirus-removeQuickFactsHeight-heightWhenAustralia" : ""}`}>
@@ -427,7 +411,7 @@ export class CoronavirusEachContinentComponent extends Component {
                                     pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
                                 }}
                                     // onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); }}
-                                    key={country.id} className={`coronavirus-responsive-allregions-btn`}>{country.Country}</Link>
+                                    key={index} className={`coronavirus-responsive-allregions-btn`}>{country.Country}</Link>
                             }) : (
                                     <div>
                                         {/* <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading`}></div> */}
@@ -455,7 +439,7 @@ export class CoronavirusEachContinentComponent extends Component {
 
                     >
                         <h2 className={`coronavirus-regions-title`}>Continents</h2>
-                        <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`coronavirus-regions-btn ${continentName === "world-data" ? "coronavirus-regions-btn-active" : ""}`} onClick={this.onClickGetCovidWorldData}>World</Link>
+                        <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`coronavirus-regions-btn ${continentName === "world-data" ? "coronavirus-regions-btn-active" : ""}`}>World</Link>
                         <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "asia-data" ? "coronavirus-regions-btn-active" : ""}`} >Asia</Link>
                         <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "africa-data" ? "coronavirus-regions-btn-active" : ""}`}>Africa</Link>
                         <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "australia-data" ? "coronavirus-regions-btn-active" : ""}`}>Australia</Link>
@@ -494,7 +478,7 @@ export class CoronavirusEachContinentComponent extends Component {
                                 pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
                             }}
                                 onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); }}
-                                key={country.id} className={`coronavirus-regions-btn`}>{country.Country}</Link>
+                                key={index} className={`coronavirus-regions-btn`}>{country.Country}</Link>
                         }) : (
                                 <div>
                                     {/* <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading`}></div> */}
@@ -515,7 +499,7 @@ export class CoronavirusEachContinentComponent extends Component {
 
                     <div className={`coronavirus-quick-facts ${url_state.continentName !== "World" ? "coronavirus-quick-facts-displayOff" : ""}`}>
                         {world.length > 0 ? world.map((world, index) => {
-                            return <ul className="coronavirus-quick-facts-world">
+                            return <ul key={index} className="coronavirus-quick-facts-world">
                                 <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-TotalCases" key={world.TotalCases}><h2 className="coronavirus-quick-facts-world-item-TotalCases-text">TOTAL CASES</h2><span className="coronavirus-quick-facts-world-item-TotalCases-number">{this.numberWithCommas(world.TotalCases)}</span></li>
                                 <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-ActiveCases" key={world.ActiveCases}><h2 className="coronavirus-quick-facts-world-item-ActiveCases-text">ACTIVE CASES</h2><span className="coronavirus-quick-facts-world-item-ActiveCases-number">{this.numberWithCommas(world.ActiveCases)}</span></li>
                                 <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-TotalDeaths" key={world.TotalDeaths}><h2 className="coronavirus-quick-facts-world-item-TotalDeaths-text">TOTAL DEATHS</h2><span className="coronavirus-quick-facts-world-item-TotalDeaths-number">{this.numberWithCommas(world.TotalDeaths)}</span></li>
@@ -578,7 +562,7 @@ export class CoronavirusEachContinentComponent extends Component {
                         <tbody>
                             {countries.length > 0 ? countries.map((country, index) => {
                                 // changeColor();
-                                return <tr key={country.id} className="coronavirus-table-stats-item">
+                                return <tr key={index} className="coronavirus-table-stats-item">
                                     {/* <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link to="eachCountry" params={{ iso: country.ThreeLetterSymbol.toUpperCase() }}>{country.Country}</Link></td> */}
                                     <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-number">{index + 1}</td>
                                     <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link className="coronavirus-table-stats-item-name-link" to={{
@@ -646,17 +630,32 @@ export class CoronavirusEachContinentComponent extends Component {
 }
 
 CoronavirusEachContinentComponent.propTypes = {
+    // world: PropTypes.object,
+    world: PropTypes.array,
     countries: PropTypes.array,
+    countriesNameOrdered: PropTypes.array,
+
     getAllCountriesData: PropTypes.func.isRequired,
-    // getVaccineNews: PropTypes.func.isRequired,
-    // getHealthNews: PropTypes.func.isRequired,
+    getWorldData: PropTypes.func.isRequired,
+    getAllCountriesDataNameOrdered: PropTypes.func.isRequired,
+    getAsiaCountriesData: PropTypes.func.isRequired,
+    getAfricaCountriesData: PropTypes.func.isRequired,
+    getEuropeCountriesData: PropTypes.func.isRequired,
+    getNorthAmericaCountriesData: PropTypes.func.isRequired,
+    getSouthAmericaCountriesData: PropTypes.func.isRequired,
+    getAustraliaOceaniaCountriesData: PropTypes.func.isRequired,
+
+    getCountryISOBased: PropTypes.func.isRequired,
+    getProvinceReportISOBased: PropTypes.func.isRequired,
+
+    clearWorldData: PropTypes.func.isRequired,
 };
 
 
 // pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     countries: state.countriesObject.countries,
-    continentCountries: state.countriesObject.continentCountries,
+    // continentCountries: state.countriesObject.continentCountries,
     countriesNameOrdered: state.countriesObject.countriesNameOrdered,
     world: state.countriesObject.world,
 });

@@ -152,7 +152,8 @@ export class WorldMapComponent extends Component {
                 <div className="map">
                     {countries ?
                         <div>
-                            <VectorMap map={"world_mill"}
+                            <VectorMap
+                                map={"world_mill"}
                                 backgroundColor="transparent" //change it to ocean blue: #0077be
                                 zoomOnScroll={true}
                                 containerStyle={{ width: "100%", height: "520px" }}

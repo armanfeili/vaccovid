@@ -54,26 +54,26 @@ td {
     }
 
     @include respond(tab-land) {
-    grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 250px [quick-facts-chart-end new-cases-chart-start] 250px [new-cases-chart-end total-cases-chart-start] 250px [total-cases-chart-end];
-}
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 250px [quick-facts-chart-end new-cases-chart-start] 250px [new-cases-chart-end total-cases-chart-start] 250px [total-cases-chart-end];
+    }
 
-@include respond(tab-port) {
-    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 450px [quick-facts-chart-end world-chart-start] 450px [world-chart-end new-cases-start] 450px [new-cases-end new-deaths-start] 450px [new-deaths-end total-cases-start] 450px [total-cases-end total-deaths-start] 450px [total-deaths-end];
-    grid-template-columns: [responsive-start] 100% [responsive-end];
-    height: auto;
-}
+    @include respond(tab-port) {
+        grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 450px [quick-facts-chart-end world-chart-start] 450px [world-chart-end new-cases-start] 450px [new-cases-end new-deaths-start] 450px [new-deaths-end total-cases-start] 450px [total-cases-end total-deaths-start] 450px [total-deaths-end];
+        grid-template-columns: [responsive-start] 100% [responsive-end];
+        height: auto;
+    }
 
-@include respond(middle-phone) {
-    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 350px [quick-facts-chart-end world-chart-start] 350px [world-chart-end new-cases-start] 350px [new-cases-end new-deaths-start] 350px [new-deaths-end total-cases-start] 350px [total-cases-end total-deaths-start] 350px [total-deaths-end];
-}
+    @include respond(middle-phone) {
+        grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 350px [quick-facts-chart-end world-chart-start] 350px [world-chart-end new-cases-start] 350px [new-cases-end new-deaths-start] 350px [new-deaths-end total-cases-start] 350px [total-cases-end total-deaths-start] 350px [total-deaths-end];
+    }
 
-@include respond(phone) {
-    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 230px [quick-facts-chart-end world-chart-start] 230px [world-chart-end new-cases-start] 230px [new-cases-end new-deaths-start] 230px [new-deaths-end total-cases-start] 230px [total-cases-end total-deaths-start] 230px [total-deaths-end];
-}
+    @include respond(phone) {
+        grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 230px [quick-facts-chart-end world-chart-start] 230px [world-chart-end new-cases-start] 230px [new-cases-end new-deaths-start] 230px [new-deaths-end total-cases-start] 230px [total-cases-end total-deaths-start] 230px [total-deaths-end];
+    }
 
-@include respond(small-phone) {
-    grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end world-chart-start] 200px [world-chart-end new-cases-start] 200px [new-cases-end new-deaths-start] 200px [new-deaths-end total-cases-start] 200px [total-cases-end total-deaths-start] 200px [total-deaths-end];
-}
+    @include respond(small-phone) {
+        grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end world-chart-start] 200px [world-chart-end new-cases-start] 200px [new-cases-end new-deaths-start] 200px [new-deaths-end total-cases-start] 200px [total-cases-end total-deaths-start] 200px [total-deaths-end];
+    }
 
 
     &-withProvince {
@@ -1567,6 +1567,122 @@ td {
     }
 }
 
+.country-loading {
+    display: grid;
+    grid-template-rows: [regions-and-stats-start] 70vh [stats-end chart-one-start] 20vh [regions-and-chart-one-end chart-two-start] 20vh [chart-two-end];
+    grid-template-columns: [regions-start] 14% [regions-end stats-left-start] 41% [stats-left-end stats-right-start] 41% [stats-right-end];
+    gap: 11px;
+    padding: 8px;
+
+    @include respond(tab-port) {
+        // grid-template-rows: [regions-and-stats-start] 70vh [stats-end chart-one-start] 20vh [regions-and-chart-one-end chart-two-start] 20vh [chart-two-end];
+        grid-template-columns: [regions-start] 0% [regions-end stats-left-start] 46% [stats-left-end stats-right-start] 46% [stats-right-end];
+
+    }
+
+    &-load {
+        background-color: #36506c;
+        padding: 0px 0px;
+        margin: 4px 0px;
+        color: #fff;
+        transition: 0.2s;
+        overflow: hidden;
+
+        &::after {
+            display: block;
+            content: '';
+            width: 100%;
+            height: 100%;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+            animation: loading 1.5s infinite;
+        }
+    }
+
+    &-regions {
+        grid-row: regions-and-stats-start/ regions-and-chart-one-end;
+        grid-column: regions-start/ regions-end;
+        border-radius: 8px;
+        width: 100%;
+        height: 100%;
+
+        @include respond(tab-port) {
+            display: none;
+        }
+
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #1a1a2e00, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    &-stats {
+        grid-row: regions-and-stats-start/ stats-end;
+        grid-column: stats-left-start/ stats-right-end;
+        border-radius: 8px;
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #1a1a2e00, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
+    &-chart-one {
+        grid-row: chart-one-start/ regions-and-chart-one-end;
+        grid-column: stats-left-start/ stats-left-end;
+        border-radius: 8px;
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #1a1a2e00, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    &-chart-two {
+        grid-row: chart-two-start/ chart-two-end;
+        grid-column: stats-right-start/ stats-right-end;
+        border-radius: 8px;
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #1a1a2e00, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    &-chart-three {
+        grid-row: chart-one-start/ regions-and-chart-one-end;
+        grid-column: stats-right-start/ stats-right-end;
+        border-radius: 8px;
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #1a1a2e00, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+
+    &-chart-four {
+        grid-row: chart-two-start/ chart-two-end;
+        grid-column: stats-left-start/ stats-left-end;
+        border-radius: 8px;
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top, #1a1a2e00, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+}
 
 .displayOff {
     display: none;

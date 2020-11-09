@@ -1,13 +1,8 @@
 import Parser from 'rss-parser';
 import axios from 'axios';
 import { getConnection, Like, Not } from 'typeorm';
-import Jimp from 'jimp'
-import micromatch from 'micromatch';
-import fs from 'fs';
-import path from 'path';
-
 import { News } from './../db/models/News';
-import { secretData } from './../config/newsapi';
+import { secretData } from './../config/secretData';
 
 // const pictureDirectory = path.join(__dirname, './../../../../pics');
 
@@ -21,12 +16,16 @@ interface newsType {
 }
 
 async function _connect() {
-  const connection = getConnection();
-  const queryRunner = connection.createQueryRunner();
-  await queryRunner.connect();
-  const manager = queryRunner.manager;
+  try {
+    const connection = getConnection();
+    const queryRunner = connection.createQueryRunner();
+    await queryRunner.connect();
+    const manager = queryRunner.manager;
 
-  return { connection, manager, queryRunner };
+    return { connection, manager, queryRunner };
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function _sortArrayOfObjects(a: any, b: any) {
@@ -49,7 +48,7 @@ async function _fetchOtherNews(whichSource: any) {
       sortBy: 'publishedAt',
       pageSize: 100,
       page: 1,
-      apiKey: secretData.apiKey,
+      apiKey: secretData.apiKey2,
       sources: secretData.sources,
     };
 
@@ -286,7 +285,7 @@ export async function deleteOldOtherNewsImages() {
 
 export async function saveOtherNews() {
   // getConnection to DB
-  const connect = await _connect();
+  const connect: any = await _connect();
 
   // entities to work with:
   const newsRepository = connect.connection.getRepository(News);
@@ -408,7 +407,7 @@ export async function saveOtherNews() {
 
 export async function saveWhoNews() {
   // getConnection to DB
-  const connect = await _connect();
+  const connect: any = await _connect();
 
   // entities to work with:
   const newsRepository = connect.connection.getRepository(News);
@@ -502,7 +501,7 @@ export async function saveWhoNews() {
 export async function getNews(search_term: any, page: any) {
 
   // getConnection to DB
-  const connect = await _connect();
+  const connect: any = await _connect();
 
   // entities to work with:
   const newsRepository = connect.connection.getRepository(News);
@@ -702,7 +701,7 @@ export async function getNews(search_term: any, page: any) {
 export async function deleteOldNews() {
 
   // getConnection to DB
-  const connect = await _connect();
+  const connect: any = await _connect();
 
   // entities to work with:
   const newsRepository = connect.connection.getRepository(News);

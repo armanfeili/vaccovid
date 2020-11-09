@@ -1,4 +1,5 @@
-import Express from "express";
+// import Express from "express";
+import express from "express";
 import {
     addReports,
     getAll,
@@ -15,7 +16,8 @@ import {
     addCityReports,
 } from "../utils/covidAPIData";
 
-const Router = Express.Router();
+// const Router = Express.Router();
+const Router = express.Router();
 
 Router.put("/clear-data", async (req, res) => {
     try {
@@ -84,8 +86,11 @@ Router.get("/reports/:iso", async (req, res) => {
 
 Router.get("/provinces-report-iso-based/:iso", async (req, res) => {
     try {
-        return res.send(await getProvincesBasedOnISO(req.params.iso.toUpperCase()));
+        // return res.send(await getProvincesBasedOnISO(req.params.iso.toUpperCase()));
+        const provinces = await getProvincesBasedOnISO(req.params.iso.toUpperCase());
+        res.status(200).json(provinces);
     } catch (error) {
+        res.status(400).json(error);
         console.log(error);
     }
 });

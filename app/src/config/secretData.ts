@@ -1,4 +1,8 @@
 export const secretData = {
+  // url for developement
+
+  // url for production
+  // news api
   apiKey: 'b44da9dd9729494496912e10db6c3985',
   apiKey2: '919654fb00064810b71177a35d544a2b',
 

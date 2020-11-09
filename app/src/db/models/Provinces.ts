@@ -53,14 +53,14 @@
 //     iso: string;
 
 //     @Column({
-//         type: "float8",
+//         type: "float",
 //         nullable: true,
 //         unique: false,
 //     })
 //     lat: number;
 
 //     @Column({
-//         type: "float8",
+//         type: "float",
 //         nullable: true,
 //         unique: false,
 //     })
@@ -120,14 +120,14 @@ export class Province {
     iso: string;
 
     @Column({
-        type: "float8",
+        type: "float",
         nullable: true,
         unique: false,
     })
     lat: number;
 
     @Column({
-        type: "float8",
+        type: "float",
         nullable: true,
         unique: false,
     })

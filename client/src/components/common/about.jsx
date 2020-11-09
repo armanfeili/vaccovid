@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import Footer from '../common/footer';
 
 export class About extends Component {
@@ -8,18 +7,13 @@ export class About extends Component {
         super();
         this.state = {
         };
-
-        // this.healthPrevious = this.healthPrevious.bind(this);
     }
 
     async componentDidMount() {
         document.title = `About Vaccovid`;
     }
 
-
-
     render() {
-
         return (
             <div>
                 <div className="about">
@@ -34,7 +28,7 @@ export class About extends Component {
                             <div className="about-whoweare-second-part-between"></div>
                             <div className="about-whoweare-second-part-Arman-Feili">
                                 <div className="about-whoweare-second-part-Arman-Feili-image">
-                                    <img className="about-whoweare-second-part-Arman-Feili-image-img" src={require(`./../../views/contributors/arman-feili.jpg`)} alt="co-founder picture" />
+                                    <img className="about-whoweare-second-part-Arman-Feili-image-img" src={require(`./../../views/contributors/arman-feili.jpg`)} alt="co-founder " />
                                 </div>
                                 <div className="about-whoweare-second-part-Arman-Feili-title">
                                     <h2 className="about-whoweare-second-part-Arman-Feili-title-name">Arman Feili</h2>
@@ -44,7 +38,7 @@ export class About extends Component {
                             </div>
                             <div className="about-whoweare-second-part-Parsa-Radfar">
                                 <div className="about-whoweare-second-part-Parsa-Radfar-image">
-                                    <img className="about-whoweare-second-part-Parsa-Radfar-image-img" src={require(`./../../views/contributors/parsa-radfar.jpg`)} alt="co-founder picture" />
+                                    <img className="about-whoweare-second-part-Parsa-Radfar-image-img" src={require(`./../../views/contributors/parsa-radfar.jpg`)} alt="co-founder " />
                                 </div>
                                 <div className="about-whoweare-second-part-Parsa-Radfar-title">
                                     <h2 className="about-whoweare-second-part-Parsa-Radfar-title-name">Parsa Radfar</h2>
@@ -54,7 +48,7 @@ export class About extends Component {
                             </div>
                             <div className="about-whoweare-second-part-Amin-Feili">
                                 <div className="about-whoweare-second-part-Amin-Feili-image">
-                                    <img className="about-whoweare-second-part-Amin-Feili-image-img" src={require(`./../../views/contributors/amin-feili.jpg`)} alt="data-analyser picture" />
+                                    <img className="about-whoweare-second-part-Amin-Feili-image-img" src={require(`./../../views/contributors/amin-feili.jpg`)} alt="data-analyser " />
                                 </div>
                                 <div className="about-whoweare-second-part-Amin-Feili-title">
                                     <h2 className="about-whoweare-second-part-Amin-Feili-title-name">Amin Feili</h2>

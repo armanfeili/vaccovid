@@ -1,21 +1,21 @@
 import axios from "axios";
-// import { nextTick } from "process";
-import { getConnection, Like, Not } from "typeorm";
-// import { Countries } from "../db/models/Countries";
+import { getConnection } from "typeorm";
 import { Province } from "../db/models/Provinces";
 import { Cities } from "../db/models/Cities";
 import { CovidCitiesAPI } from "../db/models/CovidCitiesAPI";
 import { CovidProvincesAPI } from "../db/models/CovidProvincesAPI";
 import { state_symbols } from "./provinces-object";
-// import { worldSymbols } from "./world";
 
 async function _connect() {
-    const connection = getConnection();
-    const queryRunner = connection.createQueryRunner();
-    await queryRunner.connect();
-    const manager = queryRunner.manager;
+    try {
+        const connection = getConnection();
+        const queryRunner = connection.createQueryRunner();
+        await queryRunner.connect();
 
-    return { connection, manager, queryRunner };
+        return { connection, queryRunner };
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const StrToFloat = (str: string | number): number => {
@@ -77,7 +77,7 @@ async function _fetchUSData() {
 export async function updateProvinces() {
     // getConnection to DB
     // console.log("start 1");
-    const connect = await _connect();
+    const connect: any = await _connect();
     // const countryRepository = connect.connection.getRepository(Countries);
     const provinceRepository = connect.connection.getRepository(Province);
     const citiesRepository = connect.connection.getRepository(Cities);
@@ -191,7 +191,7 @@ export const addDailyReports = async () => {
 
 export async function addReports() {
     console.log("start 2");
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
     const provinceReportRepository = connect.connection.getRepository(CovidProvincesAPI);
 
@@ -285,7 +285,7 @@ export async function addReports() {
 
 export async function addUSStates() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const provinceRepository = connect.connection.getRepository(Province);
@@ -370,7 +370,7 @@ export async function addUSStates() {
 }
 
 export async function addCityReports() {
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     const citiesRepository = connect.connection.getRepository(Cities);
 
@@ -418,21 +418,80 @@ export async function addCityReports() {
 
 export async function getAll() {
     console.log("start 2");
-    const connect = await _connect();
-    const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({ relations: ["cities", "reports", "cities.reports"] });
+    const connect: any = await _connect();
+    try {
+        const provinceRepository = connect.connection.getRepository(Province);
+        const data = await provinceRepository.find({ relations: ["cities", "reports", "cities.reports"] });
 
-    return data;
+        return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        await connect.queryRunner.release();
+    }
+
 }
 
 export async function getReports(iso: String) {
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: iso },
-        relations: ["cities", "reports", "cities.reports"],
-    });
-    return data;
+    try {
+        const data = await provinceRepository.find({
+            where: { iso: iso },
+            relations: ["cities", "reports", "cities.reports"],
+        });
+
+        let more_specific: any = [];
+        data.forEach((e: any) => {
+            let obj = {
+                name: "",
+                province: "",
+                TwoLetterSymbol: "",
+                iso: "",
+                reports: false,
+                date: "",
+                confirmed: "",
+                recovered: "",
+                deaths: "",
+                Case_Fatality_Rate: "",
+                datRecovery_Proporatione: "",
+                confirmed_diff: "",
+                deaths_diff: "",
+                recovered_diff: "",
+                active: "",
+                active_diff: "",
+                fatality_rate: "",
+                Recovery_Proporation: ""
+            };
+
+            obj.name = e.name;
+            obj.province = e.province;
+            obj.TwoLetterSymbol = e.TwoLetterSymbol;
+            obj.iso = e.iso;
+            obj.reports = e.reports;
+            obj.date = e.date;
+            obj.confirmed = e.confirmed;
+            obj.recovered = e.recovered;
+            obj.deaths = e.deaths;
+            obj.Case_Fatality_Rate = e.Case_Fatality_Rate;
+            obj.datRecovery_Proporatione = e.datRecovery_Proporatione;
+            obj.confirmed_diff = e.confirmed_diff;
+            obj.deaths_diff = e.deaths_diff;
+            obj.recovered_diff = e.recovered_diff;
+            obj.active = e.active;
+            obj.active_diff = e.active_diff;
+            obj.fatality_rate = e.fatality_rate;
+            obj.Recovery_Proporation = e.Recovery_Proporation;
+
+            more_specific.push(obj);
+        })
+        return more_specific;
+        // return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        await connect.queryRunner.release();
+    }
 }
 
 // sort array of objects based on their values: string or number
@@ -458,175 +517,225 @@ function compareValues(key: any, order = "asc") {
 }
 
 export async function getProvincesBasedOnISO(iso: String) {
-    let mixedData: any = [];
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: iso },
-        relations: ["reports"],
-        // order: {
-        //     province: 'ASC',
-        // }
-        // relations: ["reports", "cities", "cities.reports"],
-    });
-    data.forEach((element) => {
-        let obj: any = {};
-        obj.province_id = element.province_id;
-        obj.name = element.name;
-        obj.province = element.province;
-        obj.TwoLetterSymbol = element.TwoLetterSymbol;
-        obj.iso = element.iso;
-        obj.lat = element.lat;
-        obj.long = element.long;
-        if (element.reports.length > 0) {
-            obj.reports = true;
-            obj.CovidProvincesAPI_id = element.reports[0].CovidProvincesAPI_id;
-            obj.date = element.reports[0].date;
-            obj.confirmed = element.reports[0].confirmed;
-            obj.recovered = element.reports[0].recovered;
-            obj.deaths = element.reports[0].deaths;
-            obj.Case_Fatality_Rate = element.reports[0].Case_Fatality_Rate;
-            obj.datRecovery_Proporatione = element.reports[0].Recovery_Proporation;
-            obj.confirmed_diff = element.reports[0].confirmed_diff;
-            obj.deaths_diff = element.reports[0].deaths_diff;
-            obj.recovered_diff = element.reports[0].recovered_diff;
-            obj.active = element.reports[0].active;
-            obj.active_diff = element.reports[0].active_diff;
-            obj.fatality_rate = element.reports[0].fatality_rate;
-            obj.Recovery_Proporation = element.reports[0].Recovery_Proporation;
-        }
+    let mixedData: any = [];
+    try {
+        const data = await provinceRepository.find({
+            where: { iso: iso },
+            relations: ["reports"],
+            // order: {
+            //     province: 'ASC',
+            // }
+            // relations: ["reports", "cities", "cities.reports"],
+        });
+        data.forEach((element: any) => {
+            let obj: any = {};
+            // obj.province_id = element.province_id;
+            // obj.name = element.name;
+            obj.province = element.province;
+            // obj.TwoLetterSymbol = element.TwoLetterSymbol;
+            // obj.iso = element.iso;
+            // obj.lat = element.lat;
+            // obj.long = element.long;
+            if (element.reports.length > 0) {
+                obj.reports = true;
+                // obj.CovidProvincesAPI_id = element.reports[0].CovidProvincesAPI_id;
+                // obj.date = element.reports[0].date;
+                obj.confirmed = element.reports[0].confirmed;
+                obj.recovered = element.reports[0].recovered;
+                obj.deaths = element.reports[0].deaths;
+                obj.Case_Fatality_Rate = element.reports[0].Case_Fatality_Rate;
+                // obj.datRecovery_Proporatione = element.reports[0].Recovery_Proporation;
+                obj.confirmed_diff = element.reports[0].confirmed_diff;
+                obj.deaths_diff = element.reports[0].deaths_diff;
+                obj.recovered_diff = element.reports[0].recovered_diff;
+                obj.active = element.reports[0].active;
+                obj.active_diff = element.reports[0].active_diff;
+                obj.fatality_rate = element.reports[0].fatality_rate;
+                obj.Recovery_Proporation = element.reports[0].Recovery_Proporation;
+            }
 
-        // console.log(obj);
-        mixedData.push(obj);
-    });
+            // console.log(obj);
+            mixedData.push(obj);
+        });
 
-    mixedData = mixedData.sort(compareValues("confirmed", "desc"));
+        mixedData = mixedData.sort(compareValues("confirmed", "desc"));
 
-    return mixedData;
+        return mixedData;
+        // return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        await connect.queryRunner.release();
+    }
 }
 
 export async function getCitiesBasedOnISO(iso: String) {
-    let mixedData: any = [];
-    const connect = await _connect();
-    // const citiesRepository = connect.connection.getRepository(Cities);
-    // const data = await citiesRepository.find({
-    //     where: { iso: iso },
-    //     relations: ["reports"],
-    //     order: {
-    //         name: 'ASC',
-    //     }
-    // });
-    const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: iso },
-        relations: ["cities", "cities.reports"],
-        // order: {
-        //     province: 'ASC',
-        // }
-    });
-    data.forEach((province) => {
-        let obj: any = {};
-        obj.province = province.province;
-        if (province.cities.length > 0) {
-            province.cities.forEach((city) => {
-                obj.reports = true;
-                obj.name = city.name;
-                // if (condition) {
+    // let mixedData: any = [];
+    // const connect:any = await _connect();
+    // // const citiesRepository = connect.connection.getRepository(Cities);
+    // try {
+    //     // const data = await citiesRepository.find({
+    //     //     where: { iso: iso },
+    //     //     relations: ["reports"],
+    //     //     order: {
+    //     //         name: 'ASC',
+    //     //     }
+    //     // });
+    //     const provinceRepository = connect.connection.getRepository(Province);
+    //     const data = await provinceRepository.find({
+    //         where: { iso: iso },
+    //         relations: ["cities", "cities.reports"],
+    //         // order: {
+    //         //     province: 'ASC',
+    //         // }
+    //     });
+    //     data.forEach((province) => {
+    //         let obj: any = {};
+    //         obj.province = province.province;
+    //         if (province.cities.length > 0) {
+    //             province.cities.forEach((city) => {
+    //                 obj.reports = true;
+    //                 obj.name = city.name;
+    //                 // if (condition) {
 
-                // }
-                // obj.date = city.reports[0].date;
-                // obj.confirmed = city.reports[0].confirmed;
-                // obj.deaths = city.reports[0].deaths;
-                // obj.confirmed_diff = city.reports[0].confirmed_diff;
-                // obj.deaths_diff = city.reports[0].deaths_diff;
-            });
-        }
+    //                 // }
+    //                 // obj.date = city.reports[0].date;
+    //                 // obj.confirmed = city.reports[0].confirmed;
+    //                 // obj.deaths = city.reports[0].deaths;
+    //                 // obj.confirmed_diff = city.reports[0].confirmed_diff;
+    //                 // obj.deaths_diff = city.reports[0].deaths_diff;
+    //             });
+    //         }
 
-        // console.log(obj);
-        mixedData.push(obj);
-    });
+    //         // console.log(obj);
+    //         mixedData.push(obj);
+    //     });
 
-    // mixedData = mixedData.sort(compareValues('confirmed', 'desc'));
+    //     // mixedData = mixedData.sort(compareValues('confirmed', 'desc'));
 
-    console.log(mixedData);
+    //     console.log(mixedData);
 
-    // return mixedData;
-    return data;
+    //     // return mixedData;
+    //     return data;
+    // } catch (error) {
+    //  console.log(error);
+    // } finally {
+    //     // you need to release query runner which is manually created:
+    //     await connect.queryRunner.release();
+    // }
+
+    return 2;
 }
 
 // GET Province of Countries
 
 export async function getUsaProvinces() {
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: "USA" },
-        relations: ["reports"],
-    });
-    // data.forEach(e => {
-    //     if (e.reports.length > 0) {
-    //         console.log(`"US-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
-    //     }
-    // })
-    return data;
+    try {
+        const data = await provinceRepository.find({
+            where: { iso: "USA" },
+            relations: ["reports"],
+        });
+        // data.forEach(e => {
+        //     if (e.reports.length > 0) {
+        //         console.log(`"US-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
+        //     }
+        // })
+        return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        await connect.queryRunner.release();
+    }
 }
 
 export async function getCanadaProvinces() {
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: "CAN" },
-        relations: ["reports"],
-    });
-    // data.forEach(e => {
-    //     if (e.reports.length > 0) {
-    //         console.log(`"CA-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
-    //     }
-    // })
-    return data;
+    try {
+        const data = await provinceRepository.find({
+            where: { iso: "CAN" },
+            relations: ["reports"],
+        });
+        // data.forEach(e => {
+        //     if (e.reports.length > 0) {
+        //         console.log(`"CA-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
+        //     }
+        // })
+        return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        // you need to release query runner which is manually created:
+        await connect.queryRunner.release();
+    }
 }
 
 export async function getBrazilProvinces() {
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: "BRA" },
-        relations: ["reports"],
-    });
-    // data.forEach(e => {
-    //     if (e.reports.length > 0) {
-    //         console.log(`"${e.TwoLetterSymbol.toLowerCase()}": ${e.reports[0].confirmed},`);
-    //     }
-    // })
-    return data;
+    try {
+        const data = await provinceRepository.find({
+            where: { iso: "BRA" },
+            relations: ["reports"],
+        });
+        // data.forEach(e => {
+        //     if (e.reports.length > 0) {
+        //         console.log(`"${e.TwoLetterSymbol.toLowerCase()}": ${e.reports[0].confirmed},`);
+        //     }
+        // })
+        return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        // you need to release query runner which is manually created:
+        await connect.queryRunner.release();
+    }
 }
 
 export async function getGermanyProvinces() {
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: "DEU" },
-        relations: ["reports"],
-    });
-    // data.forEach(e => {
-    //     if (e.reports.length > 0) {
-    //         console.log(`"DE-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
-    //     }
-    // })
-    return data;
+    try {
+        const data = await provinceRepository.find({
+            where: { iso: "DEU" },
+            relations: ["reports"],
+        });
+        // data.forEach(e => {
+        //     if (e.reports.length > 0) {
+        //         console.log(`"DE-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
+        //     }
+        // })
+        return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        // you need to release query runner which is manually created:
+        await connect.queryRunner.release();
+    }
 }
 
 export async function getAustraliaProvinces() {
-    const connect = await _connect();
+    const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    const data = await provinceRepository.find({
-        where: { iso: "AUS" },
-        relations: ["reports"],
-    });
-    // data.forEach(e => {
-    //     if (e.reports.length > 0) {
-    //         console.log(`"AU-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
-    //     }
-    // })
-    return data;
+    try {
+        const data = await provinceRepository.find({
+            where: { iso: "AUS" },
+            relations: ["reports"],
+        });
+        // data.forEach(e => {
+        //     if (e.reports.length > 0) {
+        //         console.log(`"AU-${e.TwoLetterSymbol}": ${e.reports[0].confirmed},`);
+        //     }
+        // })
+        return data;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        // you need to release query runner which is manually created:
+        await connect.queryRunner.release();
+    }
 }

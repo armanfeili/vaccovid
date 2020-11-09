@@ -3,13 +3,12 @@ import React from 'react';
 // import './App.css'
 import './views/stylesheets/style.css';
 
-import { BrowserRouter as Router, Route, Switch,Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import Navbar from './components/nav-bar/navbar';
 
 import CoronavirusWorldComponent from './components/coronavirus/coronavirus-world';
-import CoronavirusAsiaComponent from './components/coronavirus/coronavirus-asia';
 import CoronavirusEachContinentComponent from './components/coronavirus/coronavirus-eachContinent';
 import CoronavirusEachCountryComponent from './components/coronavirus/coronavirus-eachCountry';
 import NotFound from './components/common/notfound';
@@ -48,7 +47,9 @@ class App extends React.Component {
                 <Route exact path='/covid-19/south-america-data' component={CoronavirusAsiaComponent} />
                 <Route exact path='/covid-19/oceania-data' component={CoronavirusAsiaComponent} /> */}
                 <Switch>
-                  <Route exact name="eachCountry" path="/covid-19/:countryName/:iso" handler={CoronavirusEachCountryComponent} component={CoronavirusEachCountryComponent} />
+                  <Route exact name="eachCountry" path="/covid-19/:countryName/:iso" 
+                  // handler={CoronavirusEachCountryComponent}
+                   component={CoronavirusEachCountryComponent} />
                 </Switch>
                 <Switch>
                   <Route exact name="eachContinent" path='/covid-19/:continentName' component={CoronavirusEachContinentComponent} />

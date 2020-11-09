@@ -58,8 +58,10 @@ export class NewsComponent extends Component {
         this.setState({ page: 0 });
         await this.props.getVaccineNews(0);
         const allNews = this.props.news.news;
+        // console.log(await this.props.news);
+        // console.log(await this.props.news.news);
         this.setState({ news: allNews });
-        console.log(this.state.news); // it still returens old data (previous state)
+        // console.log(this.state.news); // it still returens old data (previous state)
     };
 
 
@@ -186,22 +188,22 @@ export class NewsComponent extends Component {
             if (this.state.active_btn === "covid19") {
                 return (
                     <div className="news-item--news-button">
-                        <Link onClick={this.coronavirusPrevious} className="news-item--news-button--previous">RECENT NEWS</Link>
-                        <Link onClick={this.coronavirusNext} className="news-item--news-button--next">OLDER NEWS</Link>
+                        <Link to=" " onClick={this.coronavirusPrevious} className="news-item--news-button--previous">RECENT NEWS</Link>
+                        <Link to=" " onClick={this.coronavirusNext} className="news-item--news-button--next">OLDER NEWS</Link>
                     </div>
                 )
             } else if (this.state.active_btn === "vaccine") {
                 return (
                     <div className="news-item--news-button">
-                        <Link onClick={this.vaccinePrevious} className="news-item--news-button--previous">RECENT NEWS</Link>
-                        <Link onClick={this.vaccineNext} className="news-item--news-button--next">OLDER NEWS</Link>
+                        <Link to=" " onClick={this.vaccinePrevious} className="news-item--news-button--previous">RECENT NEWS</Link>
+                        <Link to=" " onClick={this.vaccineNext} className="news-item--news-button--next">OLDER NEWS</Link>
                     </div>
                 )
             } else if (this.state.active_btn === "health") {
                 return (
                     <div className="news-item--news-button">
-                        <Link onClick={this.healthPrevious} className="news-item--news-button--previous">RECENT NEWS</Link>
-                        <Link onClick={this.healthNext} className="news-item--news-button--next">OLDER NEWS</Link>
+                        <Link to=" " onClick={this.healthPrevious} className="news-item--news-button--previous">RECENT NEWS</Link>
+                        <Link to=" " onClick={this.healthNext} className="news-item--news-button--next">OLDER NEWS</Link>
                     </div>
                 )
             }
@@ -210,7 +212,7 @@ export class NewsComponent extends Component {
         // console.log(news);
         return (
             <div>
-                <div className="news">
+                <div id="news" className="news">
 
                     <div className="news-btnAndTitle">
                         <button className="news-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your topic &#9662;</button>
@@ -263,7 +265,7 @@ export class NewsComponent extends Component {
                                 </a>
                             }
                             ) : (
-                                    <div>
+                                    <div className="news-loading">
                                         <div className="news-item--news-list-eachNews news-item--news-list-eachNews-loading loading"></div>
                                         <div className="news-item--news-list-eachNews news-item--news-list-eachNews-loading loading"></div>
                                         <div className="news-item--news-list-eachNews news-item--news-list-eachNews-loading loading"></div>
@@ -287,8 +289,8 @@ export class NewsComponent extends Component {
 }
 
 NewsComponent.propTypes = {
-    news: PropTypes.array,
-    // news: PropTypes.object,
+    // news: PropTypes.array,
+    news: PropTypes.object,
     getCoronavirusNews: PropTypes.func.isRequired,
     getVaccineNews: PropTypes.func.isRequired,
     getHealthNews: PropTypes.func.isRequired,

@@ -85,21 +85,19 @@
 // }
 
 // title,link,pubDate,content,content,guid,isoDate
-import { Entity, PrimaryGeneratedColumn, Column, Index, Tree, ManyToOne } from "typeorm";
+import {
+    Entity, PrimaryGeneratedColumn, Column,
+    Index,
+    // Tree,
+    ManyToOne
+} from "typeorm";
 
 import { Province } from "./Provinces";
 
 @Entity({ database: "default" })
 @Index([
-    "date",
-    "province",
     "confirmed",
-    "recovered",
     "deaths",
-    "confirmed_diff",
-    "deaths_diff",
-    "recovered_diff",
-    "active",
     "fatality_rate",
 ])
 export class CovidProvincesAPI {
@@ -137,10 +135,10 @@ export class CovidProvincesAPI {
     })
     deaths: number;
 
-    @Column({ nullable: true, type: "float8", default: 0 })
+    @Column({ nullable: true, type: "float", default: 0 })
     Case_Fatality_Rate: number;
 
-    @Column({ nullable: true, type: "float8", default: 0 })
+    @Column({ nullable: true, type: "float", default: 0 })
     Recovery_Proporation: number;
 
     @Column({
@@ -179,7 +177,7 @@ export class CovidProvincesAPI {
     active_diff: number;
 
     @Column({
-        type: "float4",
+        type: "float",
         nullable: true,
         unique: false,
     })

@@ -1,27 +1,24 @@
 import { getConnection, getManager, Not, In } from "typeorm";
 import { Statistics } from "../db/models/Statistics";
-import { USStatistics } from "../db/models/US-Statistics";
-import { CovidData } from "../db/models/CovidData";
-import { CovidDataDate } from "../db/models/CovidDataDate";
 import { worldSymbols } from "./world";
 import { Province } from "../db/models/Provinces";
 import { CovidProvincesAPI } from "../db/models/CovidProvincesAPI";
 
 // import covid from 'covid19-api';
 const covid = require("covid19-api");
-import fs from "fs";
-import { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
 
 
 async function _connect() {
-    const connection = getConnection();
-    const queryRunner = connection.createQueryRunner();
-    await queryRunner.connect();
-    const manager = queryRunner.manager;
+    try {
+        const connection = getConnection();
+        const queryRunner = connection.createQueryRunner();
+        await queryRunner.connect();
 
-    return { connection, manager, queryRunner };
+        return { connection, queryRunner };
+    } catch (error) {
+        console.log(error);
+    }
 }
-
 
 const StrToFloat = (str: string): number => {
     if (str == "") return 0;
@@ -49,69 +46,77 @@ function searchCountry3LetterCode(countryName: any, worldSymbols: any) {
 //Run For One at Start
 
 const fetch_getdata = async () => {
-    const connection = getConnection();
-    const StatRepository = connection.getRepository(Statistics);
-    //code run every 30 Min
-    const data = await covid.getReports();
+    const connect: any = await _connect();
+    const StatRepository = connect.connection.getRepository(Statistics);
+    try {
+        //code run every 30 Min
+        const data = await covid.getReports();
 
-    let flag = 0;
-    if ((await StatRepository.find()).length < 1) flag = 1;
-    data[0][0].table[0].forEach(async (e: any, num: number) => {
-        const temp = new Statistics();
-        const alpha2: any = searchCountry2LetterCode(e["Country"], worldSymbols);
-        const alpha3: any = searchCountry3LetterCode(e["Country"], worldSymbols);
-        const Infection_Risk = parseFloat(((StrToFloat(e["TotalCases"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
-        const Case_Fatality_Rate = parseFloat(((StrToFloat(e["TotalDeaths"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
-        const Test_Percentage = parseFloat(((StrToFloat(e["TotalTests"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
-        const Recovery_Proporation = parseFloat(((StrToFloat(e["TotalRecovered"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
-        // console.log(alpha);
-        // console.log(alpha[0]);
+        let flag = 0;
+        if ((await StatRepository.find()).length < 1) flag = 1;
+        data[0][0].table[0].forEach(async (e: any, num: number) => {
+            const temp = new Statistics();
+            const alpha2: any = searchCountry2LetterCode(e["Country"], worldSymbols);
+            const alpha3: any = searchCountry3LetterCode(e["Country"], worldSymbols);
+            const Infection_Risk = parseFloat(((StrToFloat(e["TotalCases"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
+            const Case_Fatality_Rate = parseFloat(((StrToFloat(e["TotalDeaths"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
+            const Test_Percentage = parseFloat(((StrToFloat(e["TotalTests"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
+            const Recovery_Proporation = parseFloat(((StrToFloat(e["TotalRecovered"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
+            // console.log(alpha);
+            // console.log(alpha[0]);
 
-        temp.rank = StrToFloat(e["#"]);
-        temp.Country = e["Country"];
-        temp.Continent = e["Continent"];
-        temp.TwoLetterSymbol = alpha2
-        temp.ThreeLetterSymbol = alpha3
+            temp.rank = StrToFloat(e["#"]);
+            temp.Country = e["Country"];
+            temp.Continent = e["Continent"];
+            temp.TwoLetterSymbol = alpha2
+            temp.ThreeLetterSymbol = alpha3
 
-        temp.Infection_Risk = Infection_Risk;
-        temp.Case_Fatality_Rate = Case_Fatality_Rate;
-        temp.Recovery_Proporation = Recovery_Proporation;
-        temp.Test_Percentage = Test_Percentage;
+            temp.Infection_Risk = Infection_Risk;
+            temp.Case_Fatality_Rate = Case_Fatality_Rate;
+            temp.Recovery_Proporation = Recovery_Proporation;
+            temp.Test_Percentage = Test_Percentage;
 
-        temp.ActiveCases = StrToFloat(e["ActiveCases"]);
-        temp.TotalCases = StrToFloat(e["TotalCases"]);
-        temp.NewCases = StrToFloat(e["NewCases"]);
-        temp.TotalDeaths = StrToFloat(e["TotalDeaths"]);
-        temp.NewDeaths = StrToFloat(e["NewDeaths"]);
-        temp.TotalRecovered = StrToFloat(e["TotalRecovered"]);
-        temp.NewRecovered = StrToFloat(e["NewRecovered"]);
-        temp.TotalTests = StrToFloat(e["TotalTests"]);
-        temp.Population = StrToFloat(e["Population"]);
-        temp.Deaths_1M_pop = StrToFloat(e["Deaths_1M_pop"]);
-        temp.Serious_Critical = StrToFloat(e["Serious_Critical"]);
-        temp.Tests_1M_Pop = StrToFloat(e["Tests_1M_Pop"]);
-        temp.TotCases_1M_Pop = StrToFloat(e["TotCases_1M_Pop"]);
-        temp.one_Caseevery_X_ppl = StrToFloat(e["1 Caseevery X ppl"]);
-        temp.one_Deathevery_X_ppl = StrToFloat(e["1 Deathevery X ppl"]);
-        temp.one_Testevery_X_ppl = StrToFloat(e["1 Testevery X ppl"]);
-        try {
-            if (flag == 0) {
-                await StatRepository.update({ Country: e["Country"] }, temp);
-            } else if (flag == 1) {
-                await StatRepository.save(temp);
+            temp.ActiveCases = StrToFloat(e["ActiveCases"]);
+            temp.TotalCases = StrToFloat(e["TotalCases"]);
+            temp.NewCases = StrToFloat(e["NewCases"]);
+            temp.TotalDeaths = StrToFloat(e["TotalDeaths"]);
+            temp.NewDeaths = StrToFloat(e["NewDeaths"]);
+            temp.TotalRecovered = StrToFloat(e["TotalRecovered"]);
+            temp.NewRecovered = StrToFloat(e["NewRecovered"]);
+            temp.TotalTests = StrToFloat(e["TotalTests"]);
+            temp.Population = StrToFloat(e["Population"]);
+            temp.Deaths_1M_pop = StrToFloat(e["Deaths_1M_pop"]);
+            temp.Serious_Critical = StrToFloat(e["Serious_Critical"]);
+            temp.Tests_1M_Pop = StrToFloat(e["Tests_1M_Pop"]);
+            temp.TotCases_1M_Pop = StrToFloat(e["TotCases_1M_Pop"]);
+            temp.one_Caseevery_X_ppl = StrToFloat(e["1 Caseevery X ppl"]);
+            temp.one_Deathevery_X_ppl = StrToFloat(e["1 Deathevery X ppl"]);
+            temp.one_Testevery_X_ppl = StrToFloat(e["1 Testevery X ppl"]);
+            try {
+                if (flag == 0) {
+                    await StatRepository.update({ Country: e["Country"] }, temp);
+                } else if (flag == 1) {
+                    await StatRepository.save(temp);
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
-        }
-        // console.log(num / data[0][0].table[0].length);
-    });
+            // console.log(num / data[0][0].table[0].length);
+        });
+    } catch (error) {
+        console.log(error);
+    } finally {
+        // you need to release query runner which is manually created:
+        await connect.queryRunner.release();
+    }
+
 };
 
 
 
 //This function fetch data every 30 min from APIs
 export const Fetcher = async () => {
-    
+
     fetch_getdata();
     setInterval(
         fetch_getdata,
@@ -122,7 +127,7 @@ export const Fetcher = async () => {
 
 export async function fetchCasesInAllUSStates() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     // const usRepository = connect.connection.getRepository(USStatistics);
@@ -220,13 +225,13 @@ export async function fetchCasesInAllUSStates() {
 
 export async function getWorldData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let worldData: Object | undefined = {}
     try {
+        let worldData: Object | undefined = {}
         worldData = await StatRepository.find({ Country: 'World' })
         return worldData;
 
@@ -240,14 +245,15 @@ export async function getWorldData() {
 
 export async function getAllCountriesNameOrdered() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
-    const StatRepository = connect.connection.getRepository(Statistics);
+    const allCountriesData = connect.connection.getRepository(Statistics);
 
-    let countriesData: any = {}
     try {
-        countriesData = await StatRepository.find({
+        let countriesData: any = [];
+        let names: any = [];
+        countriesData = await allCountriesData.find({
             where: [
                 {
                     Country: Not(In(['World', 'Total:']))
@@ -258,7 +264,17 @@ export async function getAllCountriesNameOrdered() {
             }
         })
 
-        return countriesData;
+        countriesData.forEach((e: any) => {
+            let obj = {
+                Country: "",
+                ThreeLetterSymbol: ""
+            };
+            obj.Country = e.Country;
+            obj.ThreeLetterSymbol = e.ThreeLetterSymbol;
+            names.push(obj);
+        })
+        return names;
+        // return countriesData;
 
     } catch (error) {
         console.log(error);
@@ -271,13 +287,14 @@ export async function getAllCountriesNameOrdered() {
 
 export async function getAllCountriesData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let countriesData: any = {}
     try {
+        let countriesData: any = [];
+        let more_specific: any = [];
         countriesData = await StatRepository.find({
             where: [
                 {
@@ -289,7 +306,48 @@ export async function getAllCountriesData() {
             }
         })
 
-        return countriesData;
+        countriesData.forEach((e: any) => {
+            let obj = {
+                Country: "",
+                TwoLetterSymbol: "",
+                ThreeLetterSymbol: "",
+                Infection_Risk: "",
+                Case_Fatality_Rate: "",
+                Test_Percentage: "",
+                Recovery_Proporation: "",
+                TotalCases: "",
+                NewCases: "",
+                TotalDeaths: "",
+                NewDeaths: "",
+                TotalRecovered: "",
+                NewRecovered: "",
+                ActiveCases: "",
+                TotalTests: "",
+                Population: "",
+                Serious_Critical: ""
+            };
+            obj.Country = e.Country;
+            obj.TwoLetterSymbol = e.TwoLetterSymbol;
+            obj.ThreeLetterSymbol = e.ThreeLetterSymbol;
+            obj.Infection_Risk = e.Infection_Risk;
+            obj.Case_Fatality_Rate = e.Case_Fatality_Rate;
+            obj.Test_Percentage = e.Test_Percentage;
+            obj.Recovery_Proporation = e.Recovery_Proporation;
+            obj.TotalCases = e.TotalCases;
+            obj.NewCases = e.NewCases;
+            obj.TotalDeaths = e.TotalDeaths;
+            obj.NewDeaths = e.NewDeaths;
+            obj.TotalRecovered = e.TotalRecovered;
+            obj.NewRecovered = e.NewRecovered;
+            obj.ActiveCases = e.ActiveCases;
+            obj.TotalTests = e.TotalTests;
+            obj.Population = e.Population;
+            obj.Serious_Critical = e.Serious_Critical;
+
+            more_specific.push(obj);
+        })
+        return more_specific;
+        // return countriesData;
 
     } catch (error) {
         console.log(error);
@@ -299,13 +357,12 @@ export async function getAllCountriesData() {
     }
 }
 
-
-export async function getProvincesBasedOnISO(countryName: String, iso: String) {
-    const connect = await _connect();
+export async function getNPMProvincesBasedOnISO(countryName: String, iso: String) {
+    const connect: any = await _connect();
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let country: any = {}
     try {
+        let country: any = {}
         country = await StatRepository.find({
             where: [
                 {
@@ -325,13 +382,13 @@ export async function getProvincesBasedOnISO(countryName: String, iso: String) {
 
 export async function getAsiaCountriesData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let AsiaData: any = {}
     try {
+        let AsiaData: any = {}
         AsiaData = await StatRepository.find({
             where: [
                 {
@@ -357,13 +414,13 @@ export async function getAsiaCountriesData() {
 
 export async function getAfricaCountriesData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let AfricaData: any = {}
     try {
+        let AfricaData: any = {}
         AfricaData = await StatRepository.find({
             where: [
                 {
@@ -389,13 +446,13 @@ export async function getAfricaCountriesData() {
 
 export async function getEuropeCountriesData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let EuropeData: any = {}
     try {
+        let EuropeData: any = {}
         EuropeData = await StatRepository.find({
             where: [
                 {
@@ -421,13 +478,13 @@ export async function getEuropeCountriesData() {
 
 export async function getNorthAmericaCountriesData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let NorthAmericaData: any = {}
     try {
+        let NorthAmericaData: any = {}
         NorthAmericaData = await StatRepository.find({
             where: [
                 {
@@ -453,13 +510,13 @@ export async function getNorthAmericaCountriesData() {
 
 export async function getSouthAmericaCountriesData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let SouthAmericaData: any = {}
     try {
+        let SouthAmericaData: any = {}
         SouthAmericaData = await StatRepository.find({
             where: [
                 {
@@ -485,13 +542,13 @@ export async function getSouthAmericaCountriesData() {
 
 export async function getAustraliaOceaniaCountriesData() {
     // getConnection to DB
-    const connect = await _connect();
+    const connect: any = await _connect();
 
     // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
-    let AustraliaOceaniaData: any = {}
     try {
+        let AustraliaOceaniaData: any = {}
         AustraliaOceaniaData = await StatRepository.find({
             where: [
                 {
