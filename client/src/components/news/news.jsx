@@ -255,7 +255,7 @@ export class NewsComponent extends Component {
                                     <div className="news-item--news-list-eachNews-content">{news.content}</div>
                                     <img
                                         className='news-item--news-list-eachNews-newsImg'
-                                        src={news.reference !== "who" ? news.urlToImage : `${require(`../../views/who-pics/who-${Math.floor(Math.random() * 13) + 1}.jpg`)}`}
+                                        src={news.reference !== "who" ? news.urlToImage : `${require(`../../views/who-pics/who-${Math.floor(Math.random() * 21) + 1}.jpg`)}`}
                                         // src={`${require(`../../../../pics${news.imageInLocalStorage}`)}`}
                                         alt="..."
                                     // style={{ width: '25px', marginRight: '5px' }}

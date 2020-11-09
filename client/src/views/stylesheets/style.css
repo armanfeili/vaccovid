@@ -1118,6 +1118,9 @@ td {
 .take_underground {
   margin-top: 300%; }
 
+.sign {
+  font-size: 70%; }
+
 th,
 td {
   text-align: left; }
@@ -2980,6 +2983,37 @@ svg {
             @media only screen and (max-width: 75em) {
               .about-whoweare-second-part-Arman-Feili-title-act {
                 margin-left: 0px; } }
+          .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+            height: 30px;
+            width: 100%; }
+            @media only screen and (max-width: 75em) {
+              .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+                margin-left: 0px; } }
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item {
+              font-size: 100%;
+              color: #19d3da;
+              text-decoration: none;
+              height: 30px;
+              display: grid;
+              grid-template-columns: 23px auto; }
+              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo {
+                width: 18px;
+                height: 100%;
+                color: #eee; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Arman-Feili-title-instagram {
+              margin-left: 0px; } }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item {
+            font-size: 100%;
+            color: #19d3da;
+            text-decoration: none;
+            height: 30px;
+            display: grid;
+            grid-template-columns: 23px auto; }
+            .about-whoweare-second-part-Arman-Feili-title-instagram-item-logo {
+              width: 18px;
+              height: 100%;
+              color: #eee; }
       .about-whoweare-second-part-Parsa-Radfar {
         grid-row: names-start / names-end;
         display: grid;

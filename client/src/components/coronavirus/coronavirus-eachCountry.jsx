@@ -1204,20 +1204,6 @@ export class countryEachCountryComponent extends Component {
                         <div className="country-total-deaths-chart">
                             <canvas id="total-deaths-chart"></canvas>
                         </div>
-                        {/* </div> */}
-                        {/* {
-                            ovidData.length > 1 ?
-                                (
-                                    ""
-                                )
-                                : <div>charts loading</div>
-
-                        } */}
-
-                        {/* country data diagram */}
-                        {/* cities if exist */}
-                        {/* country health diagram based on the free beds. */}
-
                     </div>
                     <Footer />
                 </div >

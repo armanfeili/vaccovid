@@ -214,6 +214,57 @@
                             margin-left: 0px;
                         }
                     }
+
+                    &-linkedIn {
+                        height: 30px;
+                        width: 100%;
+
+                        @include respond(tab-land) {
+                            margin-left: 0px;
+                        }
+
+                        &-item {
+                            font-size: 100%;
+                            color: #19d3da;
+                            text-decoration: none;
+                            height: 30px;
+                            display: grid;
+                            grid-template-columns: 23px auto;
+
+                            &-logo {
+                                width: 18px;
+                                height: 100%;
+                                color: #eee;
+                            }
+
+                            &-text {}
+                        }
+
+
+                    }
+
+                    &-instagram {
+                        @include respond(tab-land) {
+                            margin-left: 0px;
+                        }
+
+                        &-item {
+                            font-size: 100%;
+                            color: #19d3da;
+                            text-decoration: none;
+                            height: 30px;
+                            display: grid;
+                            grid-template-columns: 23px auto;
+
+                            &-logo {
+                                width: 18px;
+                                height: 100%;
+                                color: #eee;
+                            }
+
+                            &-text {}
+                        }
+                    }
                 }
             }
 
