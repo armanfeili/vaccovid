@@ -70,7 +70,7 @@ export const updateOwid = async () => {
     await downloadOvid();
     const path = Path.resolve(__dirname, "owid-covid-data.json");
     const covData = await JSON.parse(Fs.readFileSync(path).toString());
-
+    await connect.queryRunner.startTransaction();
     try {
         Object.keys(covData).forEach(async (e: any, nn: number) => {
             const x = covData[e];
