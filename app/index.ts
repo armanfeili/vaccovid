@@ -4,6 +4,7 @@ import { Express, Request, Response } from "express";
 import express from "express";
 import * as path from "path";
 import bodyParser from "body-parser";
+import cors from 'cors';
 // import { createProxyMiddleware, Filter, Options, RequestHandler } from 'http-proxy-middleware';
 
 // import dotenv from 'dotenv';
@@ -17,6 +18,7 @@ export class Server {
 
     constructor(app: Express, red: any) {
         this.app = app;
+        this.app.use(cors());
 
         this.app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded -> parse the code from url
         this.app.use(bodyParser.json()); // parse application/json -> parse the code from json code

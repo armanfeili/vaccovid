@@ -609,7 +609,12 @@ td {
           .coronavirus-quick-facts-world-item {
             border-radius: 0px; } }
         .coronavirus-quick-facts-world-item-loading {
-          background-color: #36506c;
+          background: #141E30;
+          /* fallback for old browsers */
+          background: -webkit-linear-gradient(to left, #1a1a2e00, #141E30);
+          /* Chrome 10-25, Safari 5.1-6 */
+          background: linear-gradient(to left, #1a1a2e00, #141E30);
+          /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
           color: #fff;
           transition: 0.2s;
           overflow: hidden; }
@@ -972,7 +977,12 @@ td {
       grid-template-rows: 1fr;
       grid-template-columns: 1fr;
       height: 100%;
-      background-color: #36506c; }
+      background: #141E30;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to top, #1a1a2e00, #141E30);
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
     .coronavirus-table-stats-item {
       height: 30px;
       text-decoration: none;
@@ -1107,6 +1117,9 @@ td {
 
 .take_underground {
   margin-top: 300%; }
+
+.sign {
+  font-size: 70%; }
 
 th,
 td {
@@ -1978,6 +1991,96 @@ td {
         grid-row: total-deaths-start / total-deaths-end;
         grid-column: responsive-start / responsive-end; } }
 
+.country-loading {
+  display: grid;
+  grid-template-rows: [regions-and-stats-start] 70vh [stats-end chart-one-start] 20vh [regions-and-chart-one-end chart-two-start] 20vh [chart-two-end];
+  grid-template-columns: [regions-start] 14% [regions-end stats-left-start] 41% [stats-left-end stats-right-start] 41% [stats-right-end];
+  gap: 11px;
+  padding: 8px; }
+  @media only screen and (max-width: 56.25em) {
+    .country-loading {
+      grid-template-columns: [regions-start] 0% [regions-end stats-left-start] 46% [stats-left-end stats-right-start] 46% [stats-right-end]; } }
+  .country-loading-load {
+    background-color: #36506c;
+    padding: 0px 0px;
+    margin: 4px 0px;
+    color: #fff;
+    transition: 0.2s;
+    overflow: hidden; }
+    .country-loading-load::after {
+      display: block;
+      content: '';
+      width: 100%;
+      height: 100%;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: loading 1.5s infinite; }
+  .country-loading-regions {
+    grid-row: regions-and-stats-start/ regions-and-chart-one-end;
+    grid-column: regions-start/ regions-end;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #1a1a2e00, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+    @media only screen and (max-width: 56.25em) {
+      .country-loading-regions {
+        display: none; } }
+  .country-loading-stats {
+    grid-row: regions-and-stats-start/ stats-end;
+    grid-column: stats-left-start/ stats-right-end;
+    border-radius: 8px;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #1a1a2e00, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .country-loading-chart-one {
+    grid-row: chart-one-start/ regions-and-chart-one-end;
+    grid-column: stats-left-start/ stats-left-end;
+    border-radius: 8px;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #1a1a2e00, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .country-loading-chart-two {
+    grid-row: chart-two-start/ chart-two-end;
+    grid-column: stats-right-start/ stats-right-end;
+    border-radius: 8px;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #1a1a2e00, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .country-loading-chart-three {
+    grid-row: chart-one-start/ regions-and-chart-one-end;
+    grid-column: stats-right-start/ stats-right-end;
+    border-radius: 8px;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #1a1a2e00, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .country-loading-chart-four {
+    grid-row: chart-two-start/ chart-two-end;
+    grid-column: stats-left-start/ stats-left-end;
+    border-radius: 8px;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #1a1a2e00, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+
 .displayOff {
   display: none; }
 
@@ -2211,7 +2314,7 @@ td {
         .news-item--news {
           grid-row: news-start / news-end;
           grid-column: res-start / res-end;
-          grid-template-columns: 1fr; } }
+          grid-template-columns: [res-start] 1fr [res-end]; } }
       .news-item--news-list {
         -moz-box-shadow: inset 0 0 10px #172a3f;
         -webkit-box-shadow: inset 0 0 10px #172a3f;
@@ -2221,7 +2324,9 @@ td {
         margin: 1px 14px; }
         @media only screen and (max-width: 75em) {
           .news-item--news-list {
-            margin: 1px 1px; } }
+            width: 100%;
+            margin: 1px 1px;
+            grid-column: res-start / res-end; } }
         .news-item--news-list-eachNews {
           display: grid;
           grid-template-rows: [title-start] 1fr [title-end between-start] 1px [between-end content-start] 2fr [content-end];
@@ -2878,6 +2983,37 @@ svg {
             @media only screen and (max-width: 75em) {
               .about-whoweare-second-part-Arman-Feili-title-act {
                 margin-left: 0px; } }
+          .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+            height: 30px;
+            width: 100%; }
+            @media only screen and (max-width: 75em) {
+              .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+                margin-left: 0px; } }
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item {
+              font-size: 100%;
+              color: #19d3da;
+              text-decoration: none;
+              height: 30px;
+              display: grid;
+              grid-template-columns: 23px auto; }
+              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo {
+                width: 18px;
+                height: 100%;
+                color: #eee; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Arman-Feili-title-instagram {
+              margin-left: 0px; } }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item {
+            font-size: 100%;
+            color: #19d3da;
+            text-decoration: none;
+            height: 30px;
+            display: grid;
+            grid-template-columns: 23px auto; }
+            .about-whoweare-second-part-Arman-Feili-title-instagram-item-logo {
+              width: 18px;
+              height: 100%;
+              color: #eee; }
       .about-whoweare-second-part-Parsa-Radfar {
         grid-row: names-start / names-end;
         display: grid;

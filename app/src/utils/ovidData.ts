@@ -4,43 +4,50 @@ import Axios from "axios";
 import { getConnection, MoreThan } from "typeorm";
 import { CovidData } from "../db/models/CovidData";
 import { CovidDataDate } from "../db/models/CovidDataDate";
-import { Console } from "console";
+// import { Console } from "console";
 
 async function _connect() {
-    const connection = getConnection();
-    const queryRunner = connection.createQueryRunner();
-    await queryRunner.connect();
-    const manager = queryRunner.manager;
+    try {
+        const connection = getConnection();
+        const queryRunner = connection.createQueryRunner();
+        await queryRunner.connect();
 
-    return { connection, manager, queryRunner };
+        return { connection, queryRunner };
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function downloadOvid() {
-    const url = "https://covid.ourworldindata.org/data/owid-covid-data.json";
-    const path = Path.resolve(__dirname, "owid-covid-data.json");
-    console.log(path);
-    // axios image download with response type "stream"
-    const response = await Axios({
-        method: "GET",
-        url: url,
-        responseType: "stream",
-    });
-
-    // pipe the result stream into a file on disc
-    response.data.pipe(Fs.createWriteStream(path));
-
-    // return a promise and resolve when download finishes
-    return new Promise((resolve, reject) => {
-        response.data.on("end", () => {
-            resolve();
-            console.log("end");
+    try {
+        const url = "https://covid.ourworldindata.org/data/owid-covid-data.json";
+        const path = Path.resolve(__dirname, "owid-covid-data.json");
+        console.log(path);
+        // axios image download with response type "stream"
+        const response = await Axios({
+            method: "GET",
+            url: url,
+            responseType: "stream",
         });
 
-        response.data.on("error", (err: any) => {
-            reject();
-            console.log("error", err);
+        // pipe the result stream into a file on disc
+        response.data.pipe(Fs.createWriteStream(path));
+
+        // return a promise and resolve when download finishes
+        return new Promise((resolve, reject) => {
+            response.data.on("end", () => {
+                resolve();
+                console.log("end");
+            });
+
+            response.data.on("error", (err: any) => {
+                reject();
+                console.log("error", err);
+            });
         });
-    });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const updateDailyOwid = async () => {
@@ -56,14 +63,14 @@ export const updateDailyOwid = async () => {
 };
 
 export const updateOwid = async () => {
-    const connection = getConnection();
-    // const queryRunner = connection.createQueryRunner();
+    const connect: any = await _connect();
+    const CovidDataRepository = connect.connection.getRepository(CovidData);
+    const CovidDataDateRepository = connect.connection.getRepository(CovidDataDate);
 
-    const CovidDataRepository = connection.getRepository(CovidData);
-    const CovidDataDateRepository = connection.getRepository(CovidDataDate);
     await downloadOvid();
     const path = Path.resolve(__dirname, "owid-covid-data.json");
     const covData = await JSON.parse(Fs.readFileSync(path).toString());
+
     try {
         Object.keys(covData).forEach(async (e: any, nn: number) => {
             const x = covData[e];
@@ -143,7 +150,7 @@ export const updateOwid = async () => {
     } catch (error) {
         return false;
     } finally {
-        return true;
+        await connect.queryRunner.release();
     }
 };
 
@@ -153,17 +160,23 @@ export async function getOvidISOBased(iso: String) {
     let twoMonthAgo = new Date(today.getTime() - 2 * 30 * 24 * 60 * 60 * 1000);
     let sixMonthAgo = new Date(today.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
 
-    const connect = await _connect();
+    const connect: any = await _connect();
     const CovidDataRepository = connect.connection.getRepository(CovidData);
     const CovidDataDateRepository = connect.connection.getRepository(CovidDataDate);
 
-    const symbol = iso.toUpperCase();
-    const data = await CovidDataRepository.findOne({ where: { symbol: symbol } });
+    try {
+        const symbol = iso.toUpperCase();
+        const data = await CovidDataRepository.findOne({ where: { symbol: symbol } });
 
-    if (!data) return { error: "Not Exists" };
-    const dateData = await CovidDataDateRepository.find({
-        where: { symbol: data, date: MoreThan(sixMonthAgo) },
-        order: { date: "DESC" },
-    });
-    return dateData;
+        if (!data) return { error: "Not Exists" };
+        const dateData = await CovidDataDateRepository.find({
+            where: { symbol: data, date: MoreThan(sixMonthAgo) },
+            order: { date: "DESC" },
+        });
+        return dateData;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        await connect.queryRunner.release();
+    }
 }

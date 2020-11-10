@@ -391,7 +391,12 @@ td {
                 }
 
                 &-loading {
-                    background-color: #36506c;
+                    background: #141E30;
+                    /* fallback for old browsers */
+                    background: -webkit-linear-gradient(to left, #1a1a2e00, #141E30);
+                    /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to left, #1a1a2e00, #141E30);
+                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
                     color: #fff;
                     transition: 0.2s;
                     overflow: hidden;
@@ -954,7 +959,12 @@ td {
             grid-template-rows: 1fr;
             grid-template-columns: 1fr;
             height: 100%;
-            background-color: #36506c;
+            background: #141E30;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to top, #1a1a2e00, #141E30);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         }
 
         // &-loading {
@@ -1228,4 +1238,8 @@ td {
 .take_underground {
     // margin-top: -120vh;
     margin-top: 300%;
+}
+
+.sign {
+    font-size: 70%;
 }

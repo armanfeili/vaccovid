@@ -335,7 +335,7 @@
                 grid-row: news-start / news-end;
                 grid-column: res-start / res-end;
 
-                grid-template-columns: 1fr;
+                grid-template-columns: [res-start]1fr[res-end];
             }
 
             &-list {
@@ -352,7 +352,9 @@
                 // margin-left: 20%;
                 // width: auto;
                 @include respond(tab-land) {
+                    width: 100%;
                     margin: 1px 1px;
+                    grid-column: res-start / res-end;
                 }
 
                 &-eachNews {
@@ -619,6 +621,10 @@
             }
         }
     }
+}
+
+.news-item--news-list {
+    // width: 100%;
 }
 
 .news-item--searchfor-btn--vaccine--active-btn {}

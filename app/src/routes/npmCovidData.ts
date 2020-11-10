@@ -1,7 +1,9 @@
 import { getConnection, getManager } from "typeorm";
 import { Statistics } from "../db/models/Statistics";
 import express from "express";
-import { getWorldData, getAllCountriesData, getAustraliaOceaniaCountriesData, getSouthAmericaCountriesData, getNorthAmericaCountriesData, getEuropeCountriesData, getAfricaCountriesData, getAsiaCountriesData, fetchCasesInAllUSStates, getAllCountriesNameOrdered, getProvincesBasedOnISO } from "../utils/fetch";
+import {
+    getWorldData, getAllCountriesData, getAustraliaOceaniaCountriesData, getSouthAmericaCountriesData, getNorthAmericaCountriesData, getEuropeCountriesData, getAfricaCountriesData, getAsiaCountriesData, fetchCasesInAllUSStates, getAllCountriesNameOrdered, getNPMProvincesBasedOnISO,
+} from "../utils/fetch";
 
 const Router = express.Router();
 
@@ -60,18 +62,15 @@ Router.get("/countries", async (req, res) => {
     }
 });
 
-
-
 Router.get("/country-report-iso-based/:countryname/:iso", async (req, res) => {
     try {
         // return res.send(await getProvincesBasedOnISO(req.params.iso.toUpperCase()));
-        const countryArray = await getProvincesBasedOnISO(req.params.countryname, req.params.iso.toLowerCase());
+        const countryArray = await getNPMProvincesBasedOnISO(req.params.countryname, req.params.iso.toLowerCase());
         res.status(200).json(countryArray);
     } catch (error) {
         console.log(error);
     }
 });
-
 
 Router.get("/asia", async (req, res) => {
     try {

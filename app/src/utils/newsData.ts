@@ -1,13 +1,8 @@
-import Parser from "rss-parser";
-import axios from "axios";
-import { getConnection, Like, Not } from "typeorm";
-import Jimp from "jimp";
-import micromatch from "micromatch";
-import fs from "fs";
-import path from "path";
-
-import { News } from "./../db/models/News";
-import { secretData } from "./../config/newsapi";
+import Parser from 'rss-parser';
+import axios from 'axios';
+import { getConnection, Like, Not } from 'typeorm';
+import { News } from './../db/models/News';
+import { secretData } from './../config/secretData';
 
 // const pictureDirectory = path.join(__dirname, './../../../../pics');
 
@@ -21,12 +16,16 @@ interface newsType {
 }
 
 async function _connect() {
+  try {
     const connection = getConnection();
     const queryRunner = connection.createQueryRunner();
     await queryRunner.connect();
     const manager = queryRunner.manager;
 
     return { connection, manager, queryRunner };
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function _sortArrayOfObjects(a: any, b: any) {
@@ -41,27 +40,27 @@ function _sortArrayOfObjects(a: any, b: any) {
 }
 
 async function _fetchOtherNews(whichSource: any) {
-    // https://newsapi.org/docs/endpoints/top-headlines
+  // https://newsapi.org/docs/endpoints/top-headlines
 
-    try {
-        const options = {
-            url: "http://newsapi.org/v2/top-headlines",
-            sortBy: "publishedAt",
-            pageSize: 100,
-            page: 1,
-            apiKey: secretData.apiKey,
-            sources: secretData.sources,
-        };
+  try {
+    const options = {
+      url: 'http://newsapi.org/v2/top-headlines',
+      sortBy: 'publishedAt',
+      pageSize: 100,
+      page: 1,
+      apiKey: secretData.apiKey2,
+      sources: secretData.sources,
+    };
 
-        const response = await axios.get(
-            `${options.url}?sortBy=${options.sortBy}&pageSize=${options.pageSize}&page=${options.page}&apiKey=${options.apiKey}&sources=${options.sources[whichSource]}`
-        );
+    const response = await axios.get(
+      `${options.url}?sortBy=${options.sortBy}&pageSize=${options.pageSize}&page=${options.page}&apiKey=${options.apiKey}&sources=${options.sources[whichSource]}`
+    );
 
-        // should return an array of objects
-        return response.data;
-    } catch (error) {
-        console.log("couldn't update news - external api problem or exceed limitation");
-    }
+    // should return an array of objects
+    return response.data;
+  } catch (error) {
+    console.log("couldn't update news - external api problem or exceed limitation");
+  }
 }
 
 async function _fetchWhoNews() {
@@ -252,41 +251,20 @@ export async function deleteOldOtherNewsImages() {
 }
 
 export async function saveOtherNews() {
-    // getConnection to DB
-    const connect = await _connect();
+  // getConnection to DB
+  const connect: any = await _connect();
 
-    // entities to work with:
-    const newsRepository = connect.connection.getRepository(News);
+  // entities to work with:
+  const newsRepository = connect.connection.getRepository(News);
 
-    try {
-        await connect.queryRunner.startTransaction();
+  try {
+    await connect.queryRunner.startTransaction();
 
-        // initialize an array of objects
-        let eachNews: any = [];
+    // initialize an array of objects
+    let eachNews: any = [];
 
-        // new objects to insert to DB
-        let new_News: any = [];
-
-        // existed objects in DB
-        let existed_News: any = [];
-
-        // send 26 request - call fetchOtherNews() for 26 times
-        const broadcasting: any = [];
-        // allNews will be an array of all news objects.
-        const allNews: any = [];
-        for (let i = 0; i < 26; i++) {
-            broadcasting[i] = await _fetchOtherNews(i);
-
-            // check if we got data
-            if (broadcasting[i] === undefined) {
-                console.log("we couldn't fetch news from some broadcastings");
-                await connect.queryRunner.rollbackTransaction();
-            } else {
-                for (let j = 0; j < broadcasting[i].articles.length; j++) {
-                    allNews.push(await broadcasting[i].articles[j]);
-                }
-            }
-        }
+    // new objects to insert to DB
+    let new_News: any = [];
 
         // check if we copied data
         if (allNews.length === 0) {
@@ -371,8 +349,8 @@ export async function saveOtherNews() {
 }
 
 export async function saveWhoNews() {
-    // getConnection to DB
-    const connect = await _connect();
+  // getConnection to DB
+  const connect: any = await _connect();
 
     // entities to work with:
     const newsRepository = connect.connection.getRepository(News);
@@ -467,8 +445,44 @@ export async function getNews(search_term: any, page: any) {
     // getConnection to DB
     const connect = await _connect();
 
-    // entities to work with:
-    const newsRepository = connect.connection.getRepository(News);
+  // getConnection to DB
+  const connect: any = await _connect();
+
+  // entities to work with:
+  const newsRepository = connect.connection.getRepository(News);
+
+  let news: Array<newsType> = [];
+  let uniqueNews: any = [];
+  let newsForKeyword: any = [];
+
+  let whoNews: Array<newsType> = [];
+  let uniqueWhoNews: any = [];
+  let whoNewsForKeyword: any = [];
+
+  let today = new Date();
+  let oneMonthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+  let tenDaysAgo = new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000);
+  let otherNewsPubDate = [];
+  let whoNewsPubDate = [];
+
+  let recentWhoNews: Array<newsType> = [];
+  let recentNews: Array<newsType> = [];
+
+  let pureText: string;
+  const validLength = 200;
+  let realLength = 0;
+
+  try {
+    if (search_term.length === 0) {
+      // search all news
+      news = await newsRepository.find({
+        where: {
+          reference: Not('World')
+        },
+        order: {
+          pubDate: 'DESC',
+        }
+      });
 
     let news: Array<newsType> = [];
     let uniqueNews: any = [];
@@ -678,13 +692,38 @@ export async function deleteOldNews() {
             },
         });
 
-        // separate recent news from 45 days ago.
-        for (let i = 0; i < news.length; i++) {
-            newsPubDate[i] = news[i].pubDate;
-            if (newsPubDate[i].getTime() < fortyFiveDaysAgo.getTime()) {
-                oldNews.push(news[i]);
-            }
-        }
+  // getConnection to DB
+  const connect: any = await _connect();
+
+  // entities to work with:
+  const newsRepository = connect.connection.getRepository(News);
+
+  let today = new Date();
+  // let oneMonthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+  // let oneDayAgo = new Date(today.getTime() - 1 * 24 * 60 * 60 * 1000);
+  let fortyFiveDaysAgo = new Date(today.getTime() - 45 * 24 * 60 * 60 * 1000);
+
+  let news: Array<newsType> = [];
+  let newsPubDate = [];
+  let oldNews: Array<newsType> = [];
+
+  try {
+    await connect.queryRunner.startTransaction();
+
+    // search all news
+    news = await newsRepository.find({
+      order: {
+        pubDate: 'DESC',
+      }
+    });
+
+    // separate recent news from 45 days ago.
+    for (let i = 0; i < news.length; i++) {
+      newsPubDate[i] = news[i].pubDate;
+      if (newsPubDate[i].getTime() < fortyFiveDaysAgo.getTime()) {
+        oldNews.push(news[i]);
+      }
+    }
 
         // delete old news
         oldNews.forEach(async (oldNews) => {

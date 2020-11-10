@@ -1,10 +1,8 @@
 import { Fetcher } from "./fetch";
 import {
     firstTimeFetchAndSaveNews,
-    firstTimeFetchNewsImages,
-    fetchAndSaveNewsImages,
-    deleteAllOldNews,
     fetchAndSaveNews,
+    deleteAllOldNews,
 } from "./newsData";
 import { updateProvinces } from "./covidAPIData";
 import { updateDailyOwid } from "./ovidData";
@@ -20,9 +18,14 @@ export const timers = () => {
     updateDailyOwid();
     // gets called once and fetch and save data into DB
     firstTimeFetchAndSaveNews();
+<<<<<<< app/src/utils/timer.ts
     firstTimeFetchNewsImages();
     // gets called every 2 hours.
     fetchAndSaveNews();
     fetchAndSaveNewsImages();
+=======
+    // gets called every 2 hours.
+    fetchAndSaveNews();
+>>>>>>> app/src/utils/timer.ts
     deleteAllOldNews();
 };

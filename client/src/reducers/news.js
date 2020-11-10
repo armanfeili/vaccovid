@@ -2,7 +2,7 @@ import { CLEAR_DATA, GET_CORONAVIRUS_NEWS, GET_VACCINE_NEWS, GET_HEALTH_NEWS, NE
 
 
 const initialState = {
-    news: [], 
+    news: {}, 
     newsLoading: false,
 
 };

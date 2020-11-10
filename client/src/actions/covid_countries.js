@@ -2,7 +2,9 @@ import { GET_ERRORS, GET_WORLD_COVID_DATA, GET_ALL_COUNTRIES_COVID_DATA, GET_ASI
   CLEAR_DATA, CLEAR_WORLD_DATA, CLEAR_ALL_COUNTRIES_COVID_DATA_NAME_ORDERED_DATA, CLEAR_ALL_COUNTRIES_COVID_DATA, CLEAR_COUNTRY_ISO_BASED_DATA, CLEAR_COUNTRY_STATES_AND_CITIES_DATA, CLEAR_PROVINCE_ISO_REPORT_DATA, CLEAR_CITIES_ISO_REPORT_DATA,CLEAR_OVID_DATA
 } from './types';
 import axios from 'axios';
+import {secretData} from './config';
 
+const baseURL = secretData.baseURL;
 export const clearData = () => dispatch => {
   try {
     dispatch(
@@ -16,9 +18,8 @@ export const clearData = () => dispatch => {
 };
 
 export const getWorldData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/world`)
+  axios.get(`${baseURL}/npm-covid-data/world`)
     .then(res => {
-      // console.log(res.data)
       dispatch({
         type: GET_WORLD_COVID_DATA,
         payload: res.data
@@ -43,7 +44,7 @@ export const clearWorldData = () => dispatch => {
 };
 
 export const getAllCountriesDataNameOrdered = () => dispatch => {
-  axios.get(`/api/npm-covid-data/countries-name-ordered`)
+  axios.get(`${baseURL}/npm-covid-data/countries-name-ordered`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -69,7 +70,7 @@ export const clearAllCountriesNameOrderedData = () => dispatch => {
 };
 
 export const getAllCountriesData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/countries`)
+  axios.get(`${baseURL}/npm-covid-data/countries`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -96,7 +97,7 @@ export const clearAllCountriesData = () => dispatch => {
 };
 
 export const getCountryISOBased = (countryName, iso) => dispatch => {
-  axios.get(`/api/npm-covid-data/country-report-iso-based/${countryName}/${iso}`)
+  axios.get(`${baseURL}/npm-covid-data/country-report-iso-based/${countryName}/${iso}`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -122,7 +123,7 @@ export const clearCountryISOBasedData = () => dispatch => {
 };
 
 export const getPrrovinceAndCities = (iso) => dispatch => {
-  axios.get(`/api/api-covid-data/reports/${iso}`)
+  axios.get(`${baseURL}/api-covid-data/reports/${iso}`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -148,7 +149,7 @@ export const clearPrrovinceAndCitiesData = () => dispatch => {
 };
 
 export const getProvinceReportISOBased = (iso) => dispatch => {
-  axios.get(`/api/api-covid-data/provinces-report-iso-based/${iso}`)
+  axios.get(`${baseURL}/api-covid-data/provinces-report-iso-based/${iso}`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -175,7 +176,7 @@ export const clearProvinceReportISOBasedData = () => dispatch => {
 };
 
 export const getCitiesReportISOBased = (iso) => dispatch => {
-  axios.get(`/api/api-covid-data/cities-report-iso-based/${iso}`)
+  axios.get(`${baseURL}/api-covid-data/cities-report-iso-based/${iso}`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -202,7 +203,7 @@ export const clearCitiesReportISOBasedData = () => dispatch => {
 };
 
 export const getUSAStatesData = () => dispatch => {
-  axios.get(`/api/api-covid-data/usa-states`)
+  axios.get(`${baseURL}/api-covid-data/usa-states`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -216,7 +217,7 @@ export const getUSAStatesData = () => dispatch => {
 };
 
 export const getCanadaStatesData = () => dispatch => {
-  axios.get(`/api/api-covid-data/canada-states`)
+  axios.get(`${baseURL}/api-covid-data/canada-states`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -230,7 +231,7 @@ export const getCanadaStatesData = () => dispatch => {
 };
 
 export const getBrazilStatesData = () => dispatch => {
-  axios.get(`/api/api-covid-data/brazil-states`)
+  axios.get(`${baseURL}/api-covid-data/brazil-states`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -244,7 +245,7 @@ export const getBrazilStatesData = () => dispatch => {
 };
 
 export const getGermanyStatesData = () => dispatch => {
-  axios.get(`/api/api-covid-data/germany-states`)
+  axios.get(`${baseURL}/api-covid-data/germany-states`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -258,7 +259,7 @@ export const getGermanyStatesData = () => dispatch => {
 };
 
 export const getAustraliaStatesData = () => dispatch => {
-  axios.get(`/api/api-covid-data/australia-states`)
+  axios.get(`${baseURL}/api-covid-data/australia-states`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -272,7 +273,7 @@ export const getAustraliaStatesData = () => dispatch => {
 };
 
 export const getAsiaCountriesData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/asia`)
+  axios.get(`${baseURL}/npm-covid-data/asia`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -286,7 +287,7 @@ export const getAsiaCountriesData = () => dispatch => {
 };
 
 export const getAfricaCountriesData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/africa`)
+  axios.get(`${baseURL}/npm-covid-data/africa`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -300,7 +301,7 @@ export const getAfricaCountriesData = () => dispatch => {
 };
 
 export const getEuropeCountriesData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/europe`)
+  axios.get(`${baseURL}/npm-covid-data/europe`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -314,7 +315,7 @@ export const getEuropeCountriesData = () => dispatch => {
 };
 
 export const getNorthAmericaCountriesData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/northamerica`)
+  axios.get(`${baseURL}/npm-covid-data/northamerica`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -328,7 +329,7 @@ export const getNorthAmericaCountriesData = () => dispatch => {
 };
 
 export const getSouthAmericaCountriesData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/southamerica`)
+  axios.get(`${baseURL}/npm-covid-data/southamerica`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -342,7 +343,7 @@ export const getSouthAmericaCountriesData = () => dispatch => {
 };
 
 export const getAustraliaOceaniaCountriesData = () => dispatch => {
-  axios.get(`/api/npm-covid-data/australia`)
+  axios.get(`${baseURL}/npm-covid-data/australia`)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -356,7 +357,7 @@ export const getAustraliaOceaniaCountriesData = () => dispatch => {
 };
 
 export const getOvidData = (iso) => dispatch => {
-  axios.get(`/api/covid-ovid-data/sixmonth/${iso}`)
+  axios.get(`${baseURL}/covid-ovid-data/sixmonth/${iso}`)
     .then(res => {
       // console.log(res.data)
       dispatch({

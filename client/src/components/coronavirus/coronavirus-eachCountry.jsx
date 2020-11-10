@@ -9,10 +9,8 @@ import {
     getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered, getAsiaCountriesData, getAfricaCountriesData, getEuropeCountriesData, getNorthAmericaCountriesData, getSouthAmericaCountriesData, getAustraliaOceaniaCountriesData,
     getCountryISOBased, getProvinceReportISOBased, getCitiesReportISOBased,
     getOvidData,
-    clearData
+    clearData, clearOvidData
 } from '../../actions/covid_countries';
-// import * as Scroll from 'react-scroll';
-// import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 export class countryEachCountryComponent extends Component {
     constructor() {
@@ -66,30 +64,25 @@ export class countryEachCountryComponent extends Component {
     }
 
     async componentDidMount() {
-        let { countryName } = this.props.match.params;
-        console.log(countryName);
-        document.title = `${countryName} covid-19 statistical table of data and charts`;
-        // document.title = `covid-19 countries data`;
         await this.props.getAllCountriesDataNameOrdered();
+        await this.getProvinceCovidData();
     }
 
     async componentDidUpdate(prevProps) {
         let { countryName } = this.props.match.params;
-        console.log(countryName);
-        document.title = `${countryName} covid-19 statistical table of data and charts`;
+        document.title = `${countryName} covid-19 statistical table of data and charts - vaccovid.live`;
+
+        // this.props.history.listen(async (location, action) => {
+        //     console.log("on route change");
+        //     await this.getProvinceCovidData();
+        // });
         if (this.state.iso !== this.props.location.state.iso) {
             this.setState({ iso: this.props.location.state.iso })
             await this.getProvinceCovidData();
-            console.log("happens");
+            // console.log("happens");
         }
 
-        if (
-            this.props.countryISOBased !== prevProps.countryISOBased
-            && (this.props.world.length > 0 || this.props.world !== prevProps.world)
-            && (this.props.ovidData.length > 0 || this.props.ovidData !== prevProps.ovidData)
-        ) {
-            // this.setState({ data: this.props.countryISOBased, world: this.props.world });
-
+        if (this.props.ovidData.length > 1) {
             this.quickFactsChart(this.props.countryISOBased);
             this.compareToWorldChart(this.props.countryISOBased, this.props.world);
 
@@ -97,7 +90,24 @@ export class countryEachCountryComponent extends Component {
             this.newCasesChart(this.props.ovidData);
             this.totalDeathsChart(this.props.ovidData);
             this.newDeathsChart(this.props.ovidData);
+            // console.log("ovid");
         }
+
+        // if (
+        //     this.props.countryISOBased !== prevProps.countryISOBased
+        //     && (this.props.world.length > 0 || this.props.world !== prevProps.world)
+        //     && (this.props.ovidData.length > 0 || this.props.ovidData !== prevProps.ovidData)
+        // ) {
+        //     // this.setState({ data: this.props.countryISOBased, world: this.props.world });
+
+        //     this.quickFactsChart(this.props.countryISOBased);
+        //     this.compareToWorldChart(this.props.countryISOBased, this.props.world);
+
+        //     this.totalCasesChart(this.props.ovidData);
+        //     this.newCasesChart(this.props.ovidData);
+        //     this.totalDeathsChart(this.props.ovidData);
+        //     this.newDeathsChart(this.props.ovidData);
+        // }
     }
 
     async componentWillUnmount() {
@@ -109,11 +119,14 @@ export class countryEachCountryComponent extends Component {
             iso = this.props.location.state.iso;
             countryName = this.props.location.state.countryName;
             // await this.props.getAllCountriesDataNameOrdered();
+
+            await this.props.clearOvidData();
+
             await this.props.getWorldData();
             await this.props.getOvidData(iso.toUpperCase());
             await this.props.getCountryISOBased(countryName, iso.toUpperCase());
             await this.props.getProvinceReportISOBased(iso.toUpperCase());
-            await this.props.getCitiesReportISOBased(iso.toUpperCase());
+            // await this.props.getCitiesReportISOBased(iso.toUpperCase());
 
             this.setState({ iso: iso });
         } else if (this.props.location.state === null || this.props.location.state === undefined) {
@@ -272,7 +285,7 @@ export class countryEachCountryComponent extends Component {
 
     quickFactsChart(data) {
         let ctx = document.getElementById('quick-facts-chart');
-        let myChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['TotalRecovered', 'ActiveCases', 'Serious_Critical', 'TotalDeaths'],
@@ -303,7 +316,7 @@ export class countryEachCountryComponent extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                events: ['click'],
+                // events: ['click'],
                 title: {
                     display: true,
                     text: "The condition of all cases in the country",
@@ -331,7 +344,7 @@ export class countryEachCountryComponent extends Component {
 
     compareToWorldChart(data, worldData) {
         let ctx = document.getElementById('compare-to-world-chart');
-        let myChart = new Chart(ctx, {
+        new Chart(ctx, {
             // type: 'pie',
             type: 'bar',
             data: {
@@ -339,13 +352,16 @@ export class countryEachCountryComponent extends Component {
                 datasets: [
                     {
                         label: 'Country percentage',
-                        data: [
-                            (data[0].TotalCases / data[0].Population) * 100,
-                            (data[0].ActiveCases / data[0].Population) * 100,
-                            (data[0].Serious_Critical / data[0].Population) * 100,
-                            (data[0].TotalDeaths / data[0].Population) * 100,
-                            (data[0].TotalRecovered / data[0].Population) * 100,
-                        ],
+                        data:
+                            data[0] !== undefined ?
+                                [
+                                    ((data[0].TotalCases / data[0].Population) * 100).toFixed(3),
+                                    ((data[0].ActiveCases / data[0].Population) * 100).toFixed(3),
+                                    ((data[0].Serious_Critical / data[0].Population) * 100).toFixed(3),
+                                    ((data[0].TotalDeaths / data[0].Population) * 100).toFixed(3),
+                                    ((data[0].TotalRecovered / data[0].Population) * 100).toFixed(3),
+                                ]
+                                : [0, 0, 0, 0, 0],
                         backgroundColor: [
                             'rgba(75, 192, 192, 0.6)',
                             'rgba(255, 206, 86, 0.6)',
@@ -364,13 +380,15 @@ export class countryEachCountryComponent extends Component {
                         fontColor: '#eee',
                     }, {
                         label: 'World percentage',
-                        data: [
-                            (worldData[0].TotalCases / 7782884635) * 100,
-                            (worldData[0].ActiveCases / 7782884635) * 100,
-                            (worldData[0].Serious_Critical / 7782884635) * 100,
-                            (worldData[0].TotalDeaths / 7782884635) * 100,
-                            (worldData[0].TotalRecovered / 7782884635) * 100,
-                        ],
+                        data:
+                            worldData[0] !== undefined ?
+                                [
+                                    ((worldData[0].TotalCases / 7782884635) * 100).toFixed(3),
+                                    ((worldData[0].ActiveCases / 7782884635) * 100).toFixed(3),
+                                    ((worldData[0].Serious_Critical / 7782884635) * 100).toFixed(3),
+                                    ((worldData[0].TotalDeaths / 7782884635) * 100).toFixed(3),
+                                    ((worldData[0].TotalRecovered / 7782884635) * 100).toFixed(3),
+                                ] : [0, 0, 0, 0, 0],
                         backgroundColor: [
                             'rgba(153, 102, 255, 0.6)',
                             'rgba(153, 102, 255, 0.6)',
@@ -395,13 +413,13 @@ export class countryEachCountryComponent extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                events: [],
+                // events: [],
                 title: {
                     display: true,
                     text: "The comparison of country data/its population and the world data/its population"
                 },
                 tooltips: {
-                    enabled: false,
+                    enabled: true,
                 },
                 labels: {
                 },
@@ -433,7 +451,7 @@ export class countryEachCountryComponent extends Component {
             totalCases.push(eachDayDeaths);
         });
         let ctx = document.getElementById('total-cases-chart');
-        let myChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: [
@@ -442,10 +460,10 @@ export class countryEachCountryComponent extends Component {
                         data: totalCases
                         ,
                         backgroundColor: [
-                            'rgba(75, 192, 192, 0.6)'
+                            '#19dac079'
                         ],
                         borderColor: [
-                            'rgba(75, 192, 192, 1)'
+                            '#19dac0'
                         ],
                         borderWidth: 1
                     }
@@ -455,7 +473,7 @@ export class countryEachCountryComponent extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                events: [],
+                // events: [],
                 title: {
                     display: true,
                     text: "Total Cases of the country for last six months"
@@ -464,6 +482,15 @@ export class countryEachCountryComponent extends Component {
                     labels: {
                         // This more specific font property overrides the global property
                     }
+                },
+                elements: {
+                    line: {
+                        // borderWidth: 3,
+                        // fill: false
+                    },
+                    point: {
+                        backgroundColor: "#19dac0",
+                    },
                 },
                 defaultFontSize: 12,
                 scales: {
@@ -488,7 +515,7 @@ export class countryEachCountryComponent extends Component {
             newCases.push(eachDayDeaths);
         });
         let ctx = document.getElementById('new-cases-chart');
-        let myChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: [
@@ -497,10 +524,10 @@ export class countryEachCountryComponent extends Component {
                         data: newCases
                         ,
                         backgroundColor: [
-                            'rgba(75, 192, 192, 0.6)'
+                            '#19dac079'
                         ],
                         borderColor: [
-                            'rgba(75, 192, 192, 1)'
+                            '#19dac0'
                         ],
                         borderWidth: 1
                     }
@@ -510,7 +537,7 @@ export class countryEachCountryComponent extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                events: [],
+                // events: [],
                 title: {
                     display: true,
                     text: "New Cases of the country for last six months"
@@ -519,6 +546,15 @@ export class countryEachCountryComponent extends Component {
                     labels: {
                         // This more specific font property overrides the global property
                     }
+                },
+                elements: {
+                    line: {
+                        // borderWidth: 3,
+                        // fill: false
+                    },
+                    point: {
+                        backgroundColor: "#19dac0",
+                    },
                 },
                 defaultFontSize: 12,
                 scales: {
@@ -543,7 +579,7 @@ export class countryEachCountryComponent extends Component {
             totalDeaths.push(eachDayDeaths);
         });
         let ctx = document.getElementById('total-deaths-chart');
-        let myChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: [
@@ -552,10 +588,10 @@ export class countryEachCountryComponent extends Component {
                         data: totalDeaths
                         ,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
+                            '#f62a6783',
                         ],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)',
+                            '#f62a66',
                         ],
                         borderWidth: 1
                     }
@@ -565,10 +601,19 @@ export class countryEachCountryComponent extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                events: [],
+                // events: [],
                 title: {
                     display: true,
                     text: "Total Deaths of the country for last six months"
+                },
+                elements: {
+                    line: {
+                        // borderWidth: 3,
+                        // fill: false
+                    },
+                    point: {
+                        backgroundColor: "#f62a66",
+                    },
                 },
                 legend: {
                     labels: {
@@ -598,7 +643,7 @@ export class countryEachCountryComponent extends Component {
             newDeaths.push(eachDayDeaths);
         });
         let ctx = document.getElementById('new-deaths-chart');
-        let myChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: [
@@ -607,10 +652,10 @@ export class countryEachCountryComponent extends Component {
                         data: newDeaths
                         ,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
+                            '#f62a6783',
                         ],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)',
+                            '#f62a66',
                         ],
                         borderWidth: 1
                     }
@@ -620,23 +665,41 @@ export class countryEachCountryComponent extends Component {
                 animation: {
                     duration: 0 // general animation time
                 },
-                events: [],
+                // events: [],
                 title: {
                     display: true,
                     text: "New Deaths of the country for last six months"
                 },
                 legend: {
+
                     labels: {
                         // This more specific font property overrides the global property
                     }
                 },
                 defaultFontSize: 12,
+                elements: {
+                    line: {
+                        // borderWidth: 3,
+                        // fill: false
+                    },
+                    point: {
+                        backgroundColor: "#f62a66",
+                    },
+                },
                 scales: {
                     xAxes: [{
                         type: 'time',
                         time: {
                             unit: 'week'
-                        }
+                        },
+                        gridLines: {
+                            // color: "#00293559"
+                        },
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            // color: "#00293559"
+                        },
                     }]
                 }
             }
@@ -778,15 +841,16 @@ export class countryEachCountryComponent extends Component {
         //     }
         // }
 
-        return url_state &&
-            countryISOBased !== undefined &&
-            countriesNameOrdered !== undefined &&
-            ovidData !== undefined &&
-            eachCountryProvinces !== undefined
-            // && world !== undefined
+        return url_state
+            &&
+            // eachCountryProvinces !== undefined &&
+            ovidData.length > 1
             ? (
                 <div>
-                    <div className={`country ${eachCountryProvinces.length > 1 ? "country-withProvince" : ""}`}>
+                    <div className={`country ${eachCountryProvinces !== undefined ?
+                        eachCountryProvinces.length > 1 ? "country-withProvince" : ""
+                        : ""
+                        }`}>
                         <div className="country-btnAndTitle">
                             <button className="country-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
                             {/* <h1 className="country-regions-name">SOUTH AMERICA</h1> */}
@@ -838,7 +902,7 @@ export class countryEachCountryComponent extends Component {
                                 {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
                                     return <Link to={{
                                         pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
-                                    }} onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); this.onClickShowRegions(); }} key={country.id} className={`country-responsive-allregions-btn 
+                                    }} onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); this.onClickShowRegions(); }} key={index} className={`country-responsive-allregions-btn 
                             ${country.ThreeLetterSymbol.toLowerCase() === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>
                                         {country.Country}
                                     </Link>
@@ -859,7 +923,7 @@ export class countryEachCountryComponent extends Component {
 
                         >
                             <h2 className={`country-regions-title`}>Continents</h2>
-                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`} onClick={this.onClickGetCovidWorldData}>World</Link>
+                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
                             <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`country-regions-btn ${continentName === "asia-data" ? "country-regions-btn-active" : ""}`} >Asia</Link>
                             <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`country-regions-btn ${continentName === "africa-data" ? "country-regions-btn-active" : ""}`}>Africa</Link>
                             <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "australia-data" ? "country-regions-btn-active" : ""}`}>Australia</Link>
@@ -902,7 +966,7 @@ export class countryEachCountryComponent extends Component {
                                 }}
                                     // onClick={async () => { await this.props.getCountryISOBased(url_state.countryName, url_state.iso.toUpperCase()); await this.props.getProvinceReportISOBased(url_state.iso.toUpperCase()); }}
                                     onClick={async () => { this.getProvinceCovidData(); }}
-                                    key={country.id} className={`country-regions-btn ${country.ThreeLetterSymbol.toLowerCase() === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
+                                    key={index} className={`country-regions-btn ${country.ThreeLetterSymbol.toLowerCase() === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
                             }) : (
                                     <div>
                                         {/* <div className={`country-regions-btn country-regions-btn-loading`}></div> */}
@@ -926,7 +990,7 @@ export class countryEachCountryComponent extends Component {
                         {
                             countryISOBased.length > 0 ? countryISOBased.map((country, index) => {
                                 return (
-                                    <div className="country-name_and_flag">
+                                    <div key={index} className="country-name_and_flag">
                                         <h1 className="country-name_and_flag-name">{countryISOBased.length > 0 ? countryISOBased[0].Country.toUpperCase() : "Loading"}</h1>
                                         <ul className="country-name_and_flag-stats">
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalCases">{countryISOBased[0].TotalCases !== null && countryISOBased[0].TotalCases !== undefined ? this.numberWithCommas(countryISOBased[0].TotalCases) : "No Data"}</span></li>
@@ -1003,9 +1067,8 @@ export class countryEachCountryComponent extends Component {
                         >
                             <tbody>
                                 {eachCountryProvinces.length > 1 ? eachCountryProvinces.map((country, index) => {
-
                                     if (country.confirmed !== 0 && country.province !== "Grand Princess" && country.province !== "Recovered" && country.province !== "Diamond Princess") {
-                                        return <tr key={country.id} className="country-table-stats-item">
+                                        return <tr key={index} className="country-table-stats-item">
                                             {/* <td className="country-table-stats-item-each country-table-stats-item-name"><Link to="eachCountry" params={{ iso: country.ThreeLetterSymbol.toUpperCase() }}>{country.Country}</Link></td> */}
                                             <td className="country-table-stats-item-each country-table-stats-item-number">{index + 1}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-name">{country.province.substr(0, 24)}</td>
@@ -1025,6 +1088,7 @@ export class countryEachCountryComponent extends Component {
                                             {/* <td className="country-table-stats-item-each country-table-stats-item-population">{country.Population !== null ? this.numberWithCommas(country.Population) : "No Data"}</td> */}
                                         </tr>
                                     }
+                                    return <tr key={index}></tr>
                                 }
 
                                 ) : (
@@ -1116,6 +1180,7 @@ export class countryEachCountryComponent extends Component {
                     </tbody>
                 </table> */}
 
+                        {/* <div> */}
                         <div className="country-quick-facts-chart">
                             <canvas id="quick-facts-chart"></canvas>
                         </div>
@@ -1139,39 +1204,62 @@ export class countryEachCountryComponent extends Component {
                         <div className="country-total-deaths-chart">
                             <canvas id="total-deaths-chart"></canvas>
                         </div>
-
-                        {/* country data diagram */}
-                        {/* cities if exist */}
-                        {/* country health diagram based on the free beds. */}
-
                     </div>
                     <Footer />
                 </div >
-            ) : <h6>loading</h6 >
+            ) : (
+                <div className="country-loading">
+                    <div className="country-loading-regions country-loading-load"></div>
+                    <div className="country-loading-stats country-loading-load"></div>
+                    <div className="country-loading-chart-one country-loading-load"></div>
+                    <div className="country-loading-chart-two country-loading-load"></div>
+                    <div className="country-loading-chart-three country-loading-load"></div>
+                    <div className="country-loading-chart-four country-loading-load"></div>
+                </div>
+            );
 
 
     }
 }
-
 countryEachCountryComponent.propTypes = {
-    countries: PropTypes.array,
+    countriesNameOrdered: PropTypes.array,
+    world: PropTypes.array,
+    ovidData: PropTypes.array,
+    countryISOBased: PropTypes.array,
+    eachCountryProvinces: PropTypes.array,
+
     getAllCountriesData: PropTypes.func.isRequired,
-    // getVaccineNews: PropTypes.func.isRequired,
-    // getHealthNews: PropTypes.func.isRequired,
+    getWorldData: PropTypes.func.isRequired,
+    getAllCountriesDataNameOrdered: PropTypes.func.isRequired,
+    getAsiaCountriesData: PropTypes.func.isRequired,
+    getAfricaCountriesData: PropTypes.func.isRequired,
+    getEuropeCountriesData: PropTypes.func.isRequired,
+    getNorthAmericaCountriesData: PropTypes.func.isRequired,
+    getSouthAmericaCountriesData: PropTypes.func.isRequired,
+    getAustraliaOceaniaCountriesData: PropTypes.func.isRequired,
+
+    getCountryISOBased: PropTypes.func.isRequired,
+    getProvinceReportISOBased: PropTypes.func.isRequired,
+    getOvidData: PropTypes.func.isRequired,
+
+    clearData: PropTypes.func.isRequired,
+    // clearAllCountriesNameOrderedData: PropTypes.func.isRequired,
+    // clearProvinceReportISOBasedData: PropTypes.func.isRequired,
+    // clearCountryISOBasedData: PropTypes.func.isRequired,
+    clearOvidData: PropTypes.func.isRequired,
+    // clearWorldData: PropTypes.func.isRequired,
 };
 
 
 // pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
-    countries: state.countriesObject.countries,
-    continentCountries: state.countriesObject.continentCountries,
     countriesNameOrdered: state.countriesObject.countriesNameOrdered,
     world: state.countriesObject.world,
     ovidData: state.countriesObject.ovidData,
 
     countryISOBased: state.countriesObject.countryISOBased,
-    eachCountryProvinces: state.provincesObject.eachCountryProvinces,
-    eachCountryCities: state.provincesObject.eachCountryCities,
+    eachCountryProvinces: state.countriesObject.eachCountryProvinces,
+    // eachCountryCities: state.provincesObject.eachCountryCities,
 });
 
 export default connect(
@@ -1180,5 +1268,5 @@ export default connect(
         getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered, getAsiaCountriesData, getAfricaCountriesData, getEuropeCountriesData, getNorthAmericaCountriesData, getSouthAmericaCountriesData, getAustraliaOceaniaCountriesData,
         getCountryISOBased, getProvinceReportISOBased, getCitiesReportISOBased,
         getOvidData,
-        clearData
+        clearData, clearOvidData
     })(countryEachCountryComponent);

@@ -21,6 +21,52 @@
 
 // export default store;
 
+// ****************************************** //
+// ****************************************** //
+// ****************************************** //
+
+// import { createStore, applyMiddleware, compose } from "redux";
+// import { composeWithDevTools } from 'redux-devtools-extension';
+
+// import thunk from "redux-thunk";
+// import rootReducer from "./reducers";
+
+// const initialState = {};
+
+// const middleware = [thunk];
+
+// // In development, use the browser's Redux dev tools extension if installed
+// const enhancers = [];
+// const isDevelopment = process.env.NODE_ENV === "development";
+// if (
+//   isDevelopment &&
+//   typeof window !== "undefined" &&
+//   window.devToolsExtension
+// ) {
+//   enhancers.push(window.devToolsExtension());
+// }
+
+// const composeEnhancers = composeWithDevTools({ actionCreators, trace: true, traceLimit: 25 });
+// const store = createStore(
+//   rootReducer,
+//   initialState,
+//   // compose(
+//   //   applyMiddleware(...middleware),
+//   //   ...enhancers
+//   // ),
+//   composeWithDevTools(
+//   applyMiddleware(...middleware),
+//     ...enhancers
+//   // other store enhancers if any
+// )
+// );
+
+// export default store;
+
+// ****************************************** //
+// ****************************************** //
+// ****************************************** //
+
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
@@ -35,9 +81,10 @@ const isDevelopment = process.env.NODE_ENV === "development";
 if (
   isDevelopment &&
   typeof window !== "undefined" &&
-  window.devToolsExtension
+  // window.devToolsExtension
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ) {
-  enhancers.push(window.devToolsExtension());
+  enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
 }
 
 const store = createStore(
@@ -48,5 +95,10 @@ const store = createStore(
     ...enhancers
   )
 );
+
+// const store = createStore(
+//    reducer, /* preloadedState, */
+// +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//  );
 
 export default store;
