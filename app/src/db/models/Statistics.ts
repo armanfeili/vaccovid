@@ -3,20 +3,10 @@ import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
 @Entity({ database: 'default' })
 @Index([
   'Country',
-  'Infection_Risk',
-  'Case_Fatality_Rate',
-  'Test_Percentage',
-  'Recovery_Proporation',
   'TotalCases',
   'NewCases',
   'TotalDeaths',
   'NewDeaths',
-  'TotalRecovered',
-  'NewRecovered',
-  'ActiveCases',
-  'TotalTests',
-  'Population',
-  'Serious_Critical',
 ])
 export class Statistics {
   @PrimaryGeneratedColumn('uuid')

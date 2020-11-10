@@ -1,6 +1,7 @@
 export const secretData = {
     // url for developement
-    baseURL: "/api",
+    baseURL: "http://127.0.0.1:5000/api",
+    // baseURL: "/api",
     // url for production
     // baseURL: "http://vaccovid.live/api",
 };

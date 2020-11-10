@@ -67,11 +67,12 @@ export const updateOwid = async () => {
     const CovidDataRepository = connect.connection.getRepository(CovidData);
     const CovidDataDateRepository = connect.connection.getRepository(CovidDataDate);
 
-    await downloadOvid();
-    const path = Path.resolve(__dirname, "owid-covid-data.json");
-    const covData = await JSON.parse(Fs.readFileSync(path).toString());
-    await connect.queryRunner.startTransaction();
     try {
+        await downloadOvid();
+        const path = Path.resolve(__dirname, "owid-covid-data.json");
+        const covData = await JSON.parse(Fs.readFileSync(path).toString());
+        await connect.queryRunner.startTransaction();
+
         Object.keys(covData).forEach(async (e: any, nn: number) => {
             const x = covData[e];
             const existData = await CovidDataRepository.findOne({
@@ -85,12 +86,7 @@ export const updateOwid = async () => {
                 newData.Country = x.location;
                 newData.Continent = x.continent;
                 newData.population = x.population;
-                try {
-                    newDataid = await CovidDataRepository.save(newData);
-                } catch (error) {
-                    console.log(error);
-                }
-
+                newDataid = await CovidDataRepository.save(newData);
                 // console.log(nn);
             } else {
                 newData = existData;
@@ -113,11 +109,10 @@ export const updateOwid = async () => {
                     newDataDate.total_tests = ex.total_tests;
                     try {
                         await CovidDataDateRepository.save(newDataDate);
+
                     } catch (error) {
                         console.log("++++++", error);
                     }
-
-                    // console.log('        ' + nnn);
                 }
             });
         });

@@ -83,6 +83,7 @@ export class countryEachCountryComponent extends Component {
         }
 
         if (this.props.ovidData.length > 1) {
+            // console.log(this.props.ovidData);
             this.quickFactsChart(this.props.countryISOBased);
             this.compareToWorldChart(this.props.countryISOBased, this.props.world);
 
@@ -514,6 +515,7 @@ export class countryEachCountryComponent extends Component {
             eachDayDeaths.y = e.new_cases;
             newCases.push(eachDayDeaths);
         });
+        console.log(newCases);
         let ctx = document.getElementById('new-cases-chart');
         new Chart(ctx, {
             type: 'line',

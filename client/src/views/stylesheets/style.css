@@ -2866,7 +2866,8 @@ svg {
       display: grid;
       grid-template-rows: auto auto;
       grid-template-columns: 1fr;
-      text-align: center; }
+      text-align: center;
+      margin-left: 11px; }
       @media only screen and (max-width: 75em) {
         .about-whoweare-first-part {
           grid-column: res-start / res-end; } }

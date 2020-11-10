@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index } from "typeor
 import { CovidData } from "./CovidData";
 
 @Entity({ database: "default" })
-@Index(["total_cases", "new_cases", "total_deaths", "new_deaths", "new_tests", "total_tests"])
+@Index(["total_cases", "new_cases", "new_deaths"])
 export class CovidDataDate {
     @PrimaryGeneratedColumn("uuid")
     id: number;

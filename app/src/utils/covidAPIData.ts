@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getConnection } from "typeorm";
 import { Province } from "../db/models/Provinces";
-import { Cities } from "../db/models/Cities";
-import { CovidCitiesAPI } from "../db/models/CovidCitiesAPI";
+// import { Cities } from "../db/models/Cities";
+// import { CovidCitiesAPI } from "../db/models/CovidCitiesAPI";
 import { CovidProvincesAPI } from "../db/models/CovidProvincesAPI";
 import { state_symbols } from "./provinces-object";
 
@@ -80,13 +80,13 @@ export async function updateProvinces() {
     const connect: any = await _connect();
     // const countryRepository = connect.connection.getRepository(Countries);
     const provinceRepository = connect.connection.getRepository(Province);
-    const citiesRepository = connect.connection.getRepository(Cities);
+    // const citiesRepository = connect.connection.getRepository(Cities);
     // await
     // await citiesRepository.clear();
     // if ((await provinceRepository.find()).length > 0) provinceRepository.query("DROP TABLE province CASCADE;");
 
-    await connect.queryRunner.startTransaction();
     try {
+        await connect.queryRunner.startTransaction();
         const data = await _fetchData();
         // console.log((await provinceRepository.find()).length);
         // console.log("test 2");
@@ -100,16 +100,6 @@ export async function updateProvinces() {
         await data.forEach(async (element: any, num: any) => {
             // const countryAlpha: any = searchCountryCode(element.region.name, worldSymbols);
             const alpha: any = _searchProvinceCode(element.region.province, state_symbols);
-
-            // console.log(alpha);
-
-            // let newCountry = new Countries();
-            // newCountry.name = element.region.name;
-            // newCountry.iso = element.region.iso;
-            // newCountry.province = element.region.province;
-            // newCountry.TwoLetterSymbol = alpha;
-            // newCountry.lat = element.region.lat;
-            // newCountry.long = element.region.long;
 
             // const element = data[20];
             let newProvince = new Province();
@@ -130,48 +120,50 @@ export async function updateProvinces() {
                 newProvince.province_id = exist.province_id;
                 dataId = await provinceRepository.preload(newProvince);
                 // console.log("preload");
+                // await connect.queryRunner.rollbackTransaction();
             } else {
                 dataId = await provinceRepository.save(newProvince);
                 // console.log("save");
+                await connect.queryRunner.commitTransaction();
             }
 
-            // console.log(dataId);
-            // console.log(dataId.);
-            if (element.region.cities.length >= 1) {
-                await element.region.cities.forEach(async (element2: any) => {
-                    let newCity = new Cities();
-                    newCity.iso = element.region.iso;
-                    newCity.lat = element2.lat;
-                    newCity.long = element2.long;
-                    newCity.name = element2.name;
-                    newCity.province = dataId;
-                    try {
-                        let exist = await citiesRepository.findOne({
-                            lat: element2.lat,
-                            long: element2.long,
-                        });
-                        if (exist) {
-                            newCity.city_id = exist.city_id;
-                            dataId = await citiesRepository.preload(newCity);
-                            // console.log("preload");
-                            return;
-                        } else {
-                            dataId = await citiesRepository.save(newCity);
-                            // console.log("save");
-                        }
 
-                        await connect.queryRunner.commitTransaction();
-                    } catch (error) {
-                        return;
-                    }
-                });
-            }
-            // if (element.region.iso.length > 5) console.log(element);
+            // // console.log(dataId);
+            // // console.log(dataId.);
+            // if (element.region.cities.length >= 1) {
+            //     await element.region.cities.forEach(async (element2: any) => {
+            //         let newCity = new Cities();
+            //         newCity.iso = element.region.iso;
+            //         newCity.lat = element2.lat;
+            //         newCity.long = element2.long;
+            //         newCity.name = element2.name;
+            //         newCity.province = dataId;
+            //         try {
+            //             let exist = await citiesRepository.findOne({
+            //                 lat: element2.lat,
+            //                 long: element2.long,
+            //             });
+            //             if (exist) {
+            //                 newCity.city_id = exist.city_id;
+            //                 dataId = await citiesRepository.preload(newCity);
+            //                 // console.log("preload");
+            //                 return;
+            //             } else {
+            //                 dataId = await citiesRepository.save(newCity);
+            //                 // console.log("save");
+            //             }
+
+            //             await connect.queryRunner.commitTransaction();
+            //         } catch (error) {
+            //             return;
+            //         }
+            //     });
+            // }
+            // // if (element.region.iso.length > 5) console.log(element);
         });
     } catch (error) {
         console.log(error);
         await connect.queryRunner.rollbackTransaction();
-
         return "Not Done";
     } finally {
         // you need to release query runner which is manually created:
@@ -181,16 +173,24 @@ export async function updateProvinces() {
 }
 
 export const addDailyReports = async () => {
-    addReports();
-    setInterval(
-        addReports,
-        // Min * Sec * Ms
-        24 * 60 * 60 * 1000
-    );
+    // await addReports();
+    // await addUSStates();
+    try {
+        setTimeout(async () => {
+            await addReports();
+            await addUSStates();
+            setInterval(async () => {
+                await addReports();
+                await addUSStates();
+            }, 24 * 60 * 60 * 1000); // Min * Sec * Ms - every day 
+        }, 2 * 60 * 1000); // after 2 minutes   
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 export async function addReports() {
-    console.log("start 2");
+    console.log("start adding province reports");
     const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
     const provinceReportRepository = connect.connection.getRepository(CovidProvincesAPI);
@@ -198,22 +198,24 @@ export async function addReports() {
     await connect.queryRunner.startTransaction();
     try {
         const data = await _fetchData();
+        // console.log(data);
+
         // console.log((await provinceRepository.find()).length);
-        console.log("test 2");
-        if (data === undefined) {
+        if (data === undefined || data === "no data") {
             console.log("couldn't fetch data");
             await connect.queryRunner.rollbackTransaction();
             // return "No Data";
         }
+        console.log("test 2");
+
         await data.forEach(async (element: any, num: any) => {
             // const element = data[30];
             const existProvince = await provinceRepository.findOne({
                 iso: element.region.iso,
                 name: element.region.name,
                 province: element.region.province,
-                lat: element.region.lat,
-                long: element.region.long,
             });
+
             if (!existProvince) {
                 console.log("no such province");
                 await connect.queryRunner.rollbackTransaction();
@@ -221,9 +223,9 @@ export async function addReports() {
             }
 
             if (element.region.iso === "USA") {
-                console.log("Province of USA");
-                await connect.queryRunner.rollbackTransaction();
-                // return "no such province";
+                // console.log("Province of USA");
+                // await connect.queryRunner.rollbackTransaction();
+                return "We get USA data from another API";
             }
 
             const provinceReportExist = await provinceReportRepository.findOne({
@@ -239,6 +241,8 @@ export async function addReports() {
             const Recovery_Proporation = parseFloat(((totalRecovered / StrToFloat(element.deaths)) * 100).toFixed(2));
 
             if (!provinceReportExist) {
+                // console.log("yo");
+
                 const newData: any = new CovidProvincesAPI();
                 newData.confirmed = element.confirmed;
                 newData.deaths = element.deaths;
@@ -257,14 +261,11 @@ export async function addReports() {
                 // newData.province = element.province;
                 await provinceReportRepository.save(newData);
             } else {
-                console.log("report already exists");
-                await connect.queryRunner.rollbackTransaction();
-                // return "report already exists";
+                // console.log("report already exists");
+                return "report already exists";
             }
 
-            console.log(num);
-
-            await connect.queryRunner.commitTransaction();
+            // console.log(num);
 
             // else {
             //     console.log("no data for city to add");
@@ -272,6 +273,8 @@ export async function addReports() {
             //     return "no data for city to add";
             // }
         });
+        console.log("all reports added - all updated");
+        await connect.queryRunner.commitTransaction();
     } catch (error) {
         console.log(error);
         await connect.queryRunner.rollbackTransaction();
@@ -284,6 +287,7 @@ export async function addReports() {
 }
 
 export async function addUSStates() {
+    console.log("start adding US states");
     // getConnection to DB
     const connect: any = await _connect();
 
@@ -302,15 +306,15 @@ export async function addUSStates() {
             // return "No Data";
         }
 
-        // const existProvince = await provinceRepository.findOne({
-        //     iso: "USA",
-        // });
+        const existProvince = await provinceRepository.findOne({
+            iso: "USA",
+        });
 
-        // if (!existProvince) {
-        //     console.log("no such province");
-        //     await connect.queryRunner.rollbackTransaction();
-        //     // return "no such province";
-        // }
+        if (!existProvince) {
+            console.log("no such province");
+            await connect.queryRunner.rollbackTransaction();
+            // return "no such province";
+        }
 
         await data.forEach(async (element: any, num: any) => {
             const Case_Fatality_Rate = parseFloat(
@@ -332,7 +336,7 @@ export async function addUSStates() {
                 // name: existProvince
             });
 
-            console.log(provinceReportExist);
+            // console.log(provinceReportExist);
 
             if (!provinceReportExist) {
                 const newData: any = new CovidProvincesAPI();
@@ -354,15 +358,17 @@ export async function addUSStates() {
                 newData.province = existProvince;
                 // newData.province = element.province;
                 await provinceReportRepository.save(newData);
-                await connect.queryRunner.commitTransaction();
+                return "one us state updated";
             } else {
-                console.log("report already exists");
-                await connect.queryRunner.rollbackTransaction();
-                // return "report already exists";
+                // console.log("report already exists");
+                return "report already exists";
             }
         });
+        console.log("all us states are updated");
+        await connect.queryRunner.commitTransaction();
     } catch (error) {
         console.log(error);
+        await connect.queryRunner.rollbackTransaction();
     } finally {
         // you need to release query runner which is manually created:
         await connect.queryRunner.release();
@@ -370,58 +376,60 @@ export async function addUSStates() {
 }
 
 export async function addCityReports() {
-    const connect: any = await _connect();
+    // const connect: any = await _connect();
 
-    const citiesRepository = connect.connection.getRepository(Cities);
+    // const citiesRepository = connect.connection.getRepository(Cities);
 
-    const citiesReportRepository = connect.connection.getRepository(CovidCitiesAPI);
-    await connect.queryRunner.startTransaction();
-    try {
-        const data = await _fetchData();
-        data.forEach((element: any) => {
-            if (element.region.cities.length >= 1) {
-                element.region.cities.forEach(async (element2: any) => {
-                    const existCity = await citiesRepository.findOne({
-                        name: element2.name,
-                        lat: element2.lat,
-                        long: element2.long,
-                    });
-                    if (!existCity) return;
-                    const cityReportExist = await citiesReportRepository.findOne({
-                        date: new Date(element2.date),
-                        city: existCity,
-                    });
-                    if (!cityReportExist) {
-                        const newCityData = new CovidCitiesAPI();
-                        newCityData.date = new Date(element2.date);
-                        newCityData.confirmed = element2.confirmed;
-                        newCityData.confirmed_diff = element2.confirmed_diff;
-                        newCityData.deaths = element2.deaths;
-                        newCityData.deaths_diff = element2.deaths_diff;
-                        newCityData.city = existCity;
-                        await citiesReportRepository.save(newCityData);
-                    }
-                });
-            }
-        });
-        await connect.queryRunner.commitTransaction();
-    } catch (error) {
-        console.log(error);
-        await connect.queryRunner.rollbackTransaction();
-        return "Not Done";
-    } finally {
-        // you need to release query runner which is manually created:
-        await connect.queryRunner.release();
-        return "done";
-    }
-} // Get Data from database
+    // const citiesReportRepository = connect.connection.getRepository(CovidCitiesAPI);
+    // await connect.queryRunner.startTransaction();
+    // try {
+    //     const data = await _fetchData();
+    //     data.forEach((element: any) => {
+    //         if (element.region.cities.length >= 1) {
+    //             element.region.cities.forEach(async (element2: any) => {
+    //                 const existCity = await citiesRepository.findOne({
+    //                     name: element2.name,
+    //                     lat: element2.lat,
+    //                     long: element2.long,
+    //                 });
+    //                 if (!existCity) return;
+    //                 const cityReportExist = await citiesReportRepository.findOne({
+    //                     date: new Date(element2.date),
+    //                     city: existCity,
+    //                 });
+    //                 if (!cityReportExist) {
+    //                     const newCityData = new CovidCitiesAPI();
+    //                     newCityData.date = new Date(element2.date);
+    //                     newCityData.confirmed = element2.confirmed;
+    //                     newCityData.confirmed_diff = element2.confirmed_diff;
+    //                     newCityData.deaths = element2.deaths;
+    //                     newCityData.deaths_diff = element2.deaths_diff;
+    //                     newCityData.city = existCity;
+    //                     await citiesReportRepository.save(newCityData);
+    //                 }
+    //             });
+    //         }
+    //     });
+    //     await connect.queryRunner.commitTransaction();
+    // } catch (error) {
+    //     console.log(error);
+    //     await connect.queryRunner.rollbackTransaction();
+    //     return "Not Done";
+    // } finally {
+    //     // you need to release query runner which is manually created:
+    //     await connect.queryRunner.release();
+    //     return "done";
+    // }
+}
 
+// Get Data from database
 export async function getAll() {
     console.log("start 2");
     const connect: any = await _connect();
     try {
         const provinceRepository = connect.connection.getRepository(Province);
-        const data = await provinceRepository.find({ relations: ["cities", "reports", "cities.reports"] });
+        // const data = await provinceRepository.find({ relations: ["cities", "reports", "cities.reports"] });
+        const data = await provinceRepository.find({ relations: ["reports"] });
 
         return data;
     } catch (error) {
@@ -438,50 +446,32 @@ export async function getReports(iso: String) {
     try {
         const data = await provinceRepository.find({
             where: { iso: iso },
-            relations: ["cities", "reports", "cities.reports"],
+            // relations: ["cities", "reports", "cities.reports"],
+            relations: ["reports"],
         });
 
         let more_specific: any = [];
         data.forEach((e: any) => {
-            let obj = {
-                name: "",
-                province: "",
-                TwoLetterSymbol: "",
-                iso: "",
-                reports: false,
-                date: "",
-                confirmed: "",
-                recovered: "",
-                deaths: "",
-                Case_Fatality_Rate: "",
-                datRecovery_Proporatione: "",
-                confirmed_diff: "",
-                deaths_diff: "",
-                recovered_diff: "",
-                active: "",
-                active_diff: "",
-                fatality_rate: "",
-                Recovery_Proporation: ""
-            };
+            let obj: any = {};
 
             obj.name = e.name;
             obj.province = e.province;
             obj.TwoLetterSymbol = e.TwoLetterSymbol;
             obj.iso = e.iso;
-            obj.reports = e.reports;
-            obj.date = e.date;
-            obj.confirmed = e.confirmed;
-            obj.recovered = e.recovered;
-            obj.deaths = e.deaths;
-            obj.Case_Fatality_Rate = e.Case_Fatality_Rate;
-            obj.datRecovery_Proporatione = e.datRecovery_Proporatione;
-            obj.confirmed_diff = e.confirmed_diff;
-            obj.deaths_diff = e.deaths_diff;
-            obj.recovered_diff = e.recovered_diff;
-            obj.active = e.active;
-            obj.active_diff = e.active_diff;
-            obj.fatality_rate = e.fatality_rate;
-            obj.Recovery_Proporation = e.Recovery_Proporation;
+            // obj.reports = e.reports;
+            obj.date = e.reports[0].date;
+            obj.confirmed = e.reports[0].confirmed;
+            obj.recovered = e.reports[0].recovered;
+            obj.deaths = e.reports[0].deaths;
+            obj.Case_Fatality_Rate = e.reports[0].Case_Fatality_Rate;
+            obj.datRecovery_Proporatione = e.reports[0].datRecovery_Proporatione;
+            obj.confirmed_diff = e.reports[0].confirmed_diff;
+            obj.deaths_diff = e.reports[0].deaths_diff;
+            obj.recovered_diff = e.reports[0].recovered_diff;
+            obj.active = e.reports[0].active;
+            obj.active_diff = e.reports[0].active_diff;
+            obj.fatality_rate = e.reports[0].fatality_rate;
+            obj.Recovery_Proporation = e.reports[0].Recovery_Proporation;
 
             more_specific.push(obj);
         })
@@ -519,17 +509,16 @@ function compareValues(key: any, order = "asc") {
 export async function getProvincesBasedOnISO(iso: String) {
     const connect: any = await _connect();
     const provinceRepository = connect.connection.getRepository(Province);
-    let mixedData: any = [];
     try {
         const data = await provinceRepository.find({
             where: { iso: iso },
+            // relations: ["cities", "reports", "cities.reports"],
             relations: ["reports"],
-            // order: {
-            //     province: 'ASC',
-            // }
-            // relations: ["reports", "cities", "cities.reports"],
         });
+        let mixedData: any = [];
         data.forEach((element: any) => {
+            // console.log(element);
+
             let obj: any = {};
             // obj.province_id = element.province_id;
             // obj.name = element.name;

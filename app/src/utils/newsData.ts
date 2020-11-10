@@ -284,6 +284,8 @@ export async function deleteOldOtherNewsImages() {
 }
 
 export async function saveOtherNews() {
+  console.log("start saving other news");
+
   // getConnection to DB
   const connect: any = await _connect();
 
@@ -406,6 +408,7 @@ export async function saveOtherNews() {
 }
 
 export async function saveWhoNews() {
+  console.log("start saving who news");
   // getConnection to DB
   const connect: any = await _connect();
 

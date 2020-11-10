@@ -69,7 +69,7 @@
 
 // title,link,pubDate,content,content,guid,isoDate
 import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, TreeChildren } from "typeorm";
-import { Cities } from "./Cities";
+// import { Cities } from "./Cities";
 import { CovidProvincesAPI } from "./CovidProvincesAPI";
 // import { ProvincesCovidReports } from "./ProvincesCovidReports";
 //
@@ -81,8 +81,8 @@ export class Province {
 
     // @Oneciti
 
-    @OneToMany((type) => Cities, (cities) => cities.province)
-    cities: Cities[];
+    // @OneToMany((type) => Cities, (cities) => cities.province)
+    // cities: Cities[];
 
     @OneToMany((type) => CovidProvincesAPI, (reports) => reports.province)
     reports: CovidProvincesAPI[];
