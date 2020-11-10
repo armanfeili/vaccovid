@@ -7,7 +7,6 @@ import { CovidProvincesAPI } from "../db/models/CovidProvincesAPI";
 // import covid from 'covid19-api';
 const covid = require("covid19-api");
 
-
 async function _connect() {
     try {
         const connection = getConnection();
@@ -27,8 +26,11 @@ const StrToFloat = (str: string): number => {
 
 function searchCountry2LetterCode(countryName: any, worldSymbols: any) {
     for (var i = 0; i < worldSymbols.length; i++) {
-        if (worldSymbols[i].name === countryName && (countryName !== 'Channel Islands' || countryName !== 'MS Zaandam' || countryName !== 'Diamond Princess')) {
-            return worldSymbols[i].alpha2
+        if (
+            worldSymbols[i].name === countryName &&
+            (countryName !== "Channel Islands" || countryName !== "MS Zaandam" || countryName !== "Diamond Princess")
+        ) {
+            return worldSymbols[i].alpha2;
             // return [worldSymbols[i].alpha2, worldSymbols[i].alpha3, countryName];
         }
     }
@@ -36,8 +38,11 @@ function searchCountry2LetterCode(countryName: any, worldSymbols: any) {
 
 function searchCountry3LetterCode(countryName: any, worldSymbols: any) {
     for (var i = 0; i < worldSymbols.length; i++) {
-        if (worldSymbols[i].name === countryName && (countryName !== 'Channel Islands' || countryName !== 'MS Zaandam' || countryName !== 'Diamond Princess')) {
-            return worldSymbols[i].alpha3
+        if (
+            worldSymbols[i].name === countryName &&
+            (countryName !== "Channel Islands" || countryName !== "MS Zaandam" || countryName !== "Diamond Princess")
+        ) {
+            return worldSymbols[i].alpha3;
             // return [worldSymbols[i].alpha2, worldSymbols[i].alpha3, countryName];
         }
     }
@@ -112,12 +117,12 @@ const fetch_getdata = async () => {
 
 };
 
-
-
 //This function fetch data every 30 min from APIs
 export const Fetcher = async () => {
+    setTimeout(async () => {
+        await fetch_getdata();
+    }, 60 * 1000); // after 1 minutes
 
-    fetch_getdata();
     setInterval(
         fetch_getdata,
         // Min * Sec * Ms
@@ -137,7 +142,6 @@ export async function fetchCasesInAllUSStates() {
     await connect.queryRunner.startTransaction();
     // let worldData: Object | undefined = {}
     try {
-
         // const data = await covid.getCasesInAllUSStates();
         const data = await covid.getUnitedStateCasesByStates();
         console.log(data[0][0].table[0]);
@@ -156,7 +160,7 @@ export async function fetchCasesInAllUSStates() {
                 console.log("no such province");
                 await connect.queryRunner.rollbackTransaction();
                 // return "no such province";
-            };
+            }
 
             const provinceReportExist = await provinceReportRepository.findOne({
                 date: new Date(element.dateModified),
@@ -164,10 +168,11 @@ export async function fetchCasesInAllUSStates() {
                 // name: existProvince
             });
 
-            const Case_Fatality_Rate = parseFloat(((StrToFloat(element.death) / StrToFloat(element.positive)) * 100).toFixed(2));
+            const Case_Fatality_Rate = parseFloat(
+                ((StrToFloat(element.death) / StrToFloat(element.positive)) * 100).toFixed(2)
+            );
             const activeCases = element.positive - (element.death + element.recovered);
             const Recovery_Proporation = parseFloat(((element.recovered / StrToFloat(element.death)) * 100).toFixed(2));
-
 
             if (!provinceReportExist) {
                 // const newData: any = new CovidProvincesAPI();
@@ -211,9 +216,7 @@ export async function fetchCasesInAllUSStates() {
                 await connect.queryRunner.rollbackTransaction();
                 // return "report already exists";
             }
-
         });
-
     } catch (error) {
         console.log(error);
     } finally {
@@ -221,7 +224,6 @@ export async function fetchCasesInAllUSStates() {
         await connect.queryRunner.release();
     }
 }
-
 
 export async function getWorldData() {
     // getConnection to DB
@@ -234,7 +236,6 @@ export async function getWorldData() {
         let worldData: Object | undefined = {}
         worldData = await StatRepository.find({ Country: 'World' })
         return worldData;
-
     } catch (error) {
         console.log(error);
     } finally {
@@ -256,13 +257,13 @@ export async function getAllCountriesNameOrdered() {
         countriesData = await allCountriesData.find({
             where: [
                 {
-                    Country: Not(In(['World', 'Total:']))
-                }
+                    Country: Not(In(["World", "Total:"])),
+                },
             ],
             order: {
-                Country: 'ASC',
-            }
-        })
+                Country: "ASC",
+            },
+        });
 
         countriesData.forEach((e: any) => {
             let obj = {
@@ -284,7 +285,6 @@ export async function getAllCountriesNameOrdered() {
     }
 }
 
-
 export async function getAllCountriesData() {
     // getConnection to DB
     const connect: any = await _connect();
@@ -298,13 +298,13 @@ export async function getAllCountriesData() {
         countriesData = await StatRepository.find({
             where: [
                 {
-                    Country: Not(In(['World', 'Total:']))
-                }
+                    Country: Not(In(["World", "Total:"])),
+                },
             ],
             order: {
-                TotalCases: 'DESC',
-            }
-        })
+                TotalCases: "DESC",
+            },
+        });
 
         countriesData.forEach((e: any) => {
             let obj = {
@@ -367,10 +367,10 @@ export async function getNPMProvincesBasedOnISO(countryName: String, iso: String
             where: [
                 {
                     Country: countryName,
-                    ThreeLetterSymbol: iso
-                }
-            ]
-        })
+                    ThreeLetterSymbol: iso,
+                },
+            ],
+        });
         return country;
     } catch (error) {
         console.log(error);
@@ -392,18 +392,17 @@ export async function getAsiaCountriesData() {
         AsiaData = await StatRepository.find({
             where: [
                 {
-                    Continent: 'Asia'
-                }
+                    Continent: "Asia",
+                },
             ],
             order: {
-                TotalCases: 'DESC',
-            }
-        })
+                TotalCases: "DESC",
+            },
+        });
 
         // console.log(AsiaData.length);
 
         return AsiaData;
-
     } catch (error) {
         console.log(error);
     } finally {
@@ -424,18 +423,17 @@ export async function getAfricaCountriesData() {
         AfricaData = await StatRepository.find({
             where: [
                 {
-                    Continent: 'Africa'
-                }
+                    Continent: "Africa",
+                },
             ],
             order: {
-                TotalCases: 'DESC',
-            }
-        })
+                TotalCases: "DESC",
+            },
+        });
 
         // console.log(AfricaData.length);
 
         return AfricaData;
-
     } catch (error) {
         console.log(error);
     } finally {
@@ -456,18 +454,17 @@ export async function getEuropeCountriesData() {
         EuropeData = await StatRepository.find({
             where: [
                 {
-                    Continent: 'Europe'
-                }
+                    Continent: "Europe",
+                },
             ],
             order: {
-                TotalCases: 'DESC',
-            }
-        })
+                TotalCases: "DESC",
+            },
+        });
 
         // console.log(EuropeData.length);
 
         return EuropeData;
-
     } catch (error) {
         console.log(error);
     } finally {
@@ -488,18 +485,17 @@ export async function getNorthAmericaCountriesData() {
         NorthAmericaData = await StatRepository.find({
             where: [
                 {
-                    Continent: 'North America'
-                }
+                    Continent: "North America",
+                },
             ],
             order: {
-                TotalCases: 'DESC',
-            }
-        })
+                TotalCases: "DESC",
+            },
+        });
 
         // console.log(NorthAmericaData.length);
 
         return NorthAmericaData;
-
     } catch (error) {
         console.log(error);
     } finally {
@@ -520,18 +516,17 @@ export async function getSouthAmericaCountriesData() {
         SouthAmericaData = await StatRepository.find({
             where: [
                 {
-                    Continent: 'South America'
-                }
+                    Continent: "South America",
+                },
             ],
             order: {
-                TotalCases: 'DESC',
-            }
-        })
+                TotalCases: "DESC",
+            },
+        });
 
         // console.log(SouthAmericaData.length);
 
         return SouthAmericaData;
-
     } catch (error) {
         console.log(error);
     } finally {
@@ -552,18 +547,17 @@ export async function getAustraliaOceaniaCountriesData() {
         AustraliaOceaniaData = await StatRepository.find({
             where: [
                 {
-                    Continent: 'Australia/Oceania'
-                }
+                    Continent: "Australia/Oceania",
+                },
             ],
             order: {
-                TotalCases: 'DESC',
-            }
-        })
+                TotalCases: "DESC",
+            },
+        });
 
         // console.log(AustraliaOceaniaData.length);
 
         return AustraliaOceaniaData;
-
     } catch (error) {
         console.log(error);
     } finally {
