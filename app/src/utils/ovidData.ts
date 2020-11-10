@@ -85,17 +85,6 @@ export const updateOwid = async () => {
                 newData.Country = x.location;
                 newData.Continent = x.continent;
                 newData.population = x.population;
-                newData.population_density = x.population_density;
-                newData.median_age = x.median_age;
-                newData.aged_65_older = x.aged_65_older;
-                newData.aged_70_older = x.aged_70_older;
-                newData.gdp_per_capita = x.gdp_per_capita;
-                newData.cardiovasc_death_rate = x.cardiovasc_death_rate;
-                newData.diabetes_prevalence = x.diabetes_prevalence;
-                newData.female_smokers = x.female_smokers;
-                newData.male_smokers = x.male_smokers;
-                newData.hospital_beds_per_thousand = x.hospital_beds_per_thousand;
-                newData.life_expectancy = x.life_expectancy;
                 try {
                     newDataid = await CovidDataRepository.save(newData);
                 } catch (error) {
@@ -118,25 +107,10 @@ export const updateOwid = async () => {
                     newDataDate.date = ex.date;
                     newDataDate.total_cases = ex.total_cases;
                     newDataDate.new_cases = ex.new_cases;
-                    newDataDate.new_cases_smoothed = ex.new_cases_smoothed;
                     newDataDate.total_deaths = ex.total_deaths;
                     newDataDate.new_deaths = ex.new_deaths;
-                    newDataDate.new_deaths_smoothed = ex.new_deaths_smoothed;
-                    newDataDate.total_cases_per_million = ex.total_cases_per_million;
-                    newDataDate.new_cases_per_million = ex.new_cases_per_million;
-                    newDataDate.new_cases_smoothed_per_million = ex.new_cases_smoothed_per_million;
-                    newDataDate.total_deaths_per_million = ex.total_deaths_per_million;
-                    newDataDate.new_deaths_per_million = ex.new_deaths_per_million;
-                    newDataDate.new_deaths_smoothed_per_million = ex.new_deaths_smoothed_per_million;
                     newDataDate.new_tests = ex.new_tests;
                     newDataDate.total_tests = ex.total_tests;
-                    newDataDate.total_tests_per_thousand = ex.total_tests_per_thousand;
-                    newDataDate.new_tests_smoothed = ex.new_tests_smoothed;
-                    newDataDate.new_tests_smoothed_per_thousand = ex.new_tests_smoothed_per_thousand;
-                    newDataDate.tests_per_case = ex.tests_per_case;
-                    newDataDate.positive_rate = ex.positive_rate;
-                    newDataDate.stringency_index = ex.stringency_index;
-                    newDataDate.tests_units = ex.tests_units;
                     try {
                         await CovidDataDateRepository.save(newDataDate);
                     } catch (error) {
