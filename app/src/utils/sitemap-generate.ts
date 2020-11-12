@@ -9,7 +9,6 @@ export async function generateSitemap(res: any) {
     let sitemap;
     const smStream = new SitemapStream({
         hostname: 'https://vaccovid.live/',
-        xslUrl: "https://example.com/style.xsl",
         lastmodDateOnly: false, // print date not time
     })
     const pipeline = smStream.pipe(createGzip())
