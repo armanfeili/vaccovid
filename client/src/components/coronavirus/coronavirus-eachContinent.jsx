@@ -481,11 +481,10 @@ export class CoronavirusEachContinentComponent extends Component {
                             )
                         }
                     </div>
-
                     <div className="coronavirus-table-title">
                         <input className="coronavirus-table-title-searchbar" type="text" id="input" placeholder="Your Country" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
                         <table className="coronavirus-table-title-stats" id="t01">
-                            <caption className="coronavirus-table-title-stats-caption">{url_state.continentName} Data</caption>
+                            <caption className="coronavirus-table-title-stats-caption"><h1 className="coronavirus-table-title-stats-caption-h1">{url_state.continentName} Data</h1></caption>
                             {/* <caption className="coronavirus-table-title-stats-caption">World Data</caption> */}
                             <thead className="coronavirus-table-title-stats-thead">
                                 <tr className="coronavirus-table-title-stats-columns" id="columns"

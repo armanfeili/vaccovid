@@ -913,6 +913,8 @@ td {
         text-align: left;
         padding: 0px 15px;
         font-size: 160%; }
+        .coronavirus-table-title-stats-caption-h1 {
+          font-size: 100%; }
         @media only screen and (max-width: 56.25em) {
           .coronavirus-table-title-stats-caption {
             grid-row: cap-start / cap-end;

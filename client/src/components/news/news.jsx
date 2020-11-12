@@ -127,10 +127,10 @@ export class NewsComponent extends Component {
         this.setState({ active_btn: "health" });
         this.setState({ page: 0 });
         const health = await this.props.getHealthNews(0);
-        console.log(health);
+        // console.log(health);
         const allNews = this.props.news.news;
         this.setState({ news: allNews });
-        console.log(this.state.news); // it still returens old data (previous state)
+        // console.log(this.state.news); // it still returens old data (previous state)
     };
 
 

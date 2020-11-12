@@ -515,7 +515,7 @@ export class countryEachCountryComponent extends Component {
             eachDayDeaths.y = e.new_cases;
             newCases.push(eachDayDeaths);
         });
-        console.log(newCases);
+        // console.log(newCases);
         let ctx = document.getElementById('new-cases-chart');
         new Chart(ctx, {
             type: 'line',

@@ -802,6 +802,10 @@ td {
                 padding: 0px 15px;
                 font-size: 160%;
 
+                &-h1 {
+                    font-size: 100%;
+                }
+
                 @include respond(tab-port) {
                     grid-row: cap-start / cap-end;
                     grid-column: cap-and-title-start / cap-and-title-end;

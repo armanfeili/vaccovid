@@ -2,6 +2,7 @@
 
 import { Express, Request, Response } from "express";
 import express from "express";
+
 import * as path from "path";
 import bodyParser from "body-parser";
 import cors from 'cors';
@@ -11,7 +12,7 @@ import cors from 'cors';
 // import passport from "passport";
 
 import { AppRoutes } from "./src/routes/index";
-import { timers } from "./src/utils/timer";
+// import { timers } from "./src/utils/timer";
 
 export class Server {
     private app: Express;
@@ -28,6 +29,7 @@ export class Server {
 
         //Add routes
         AppRoutes(this.app);
+
 
         // app.use('/', createProxyMiddleware({ target: 'http://localhost:5000/', changeOrigin: true }));
 
