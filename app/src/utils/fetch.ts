@@ -119,10 +119,9 @@ const fetch_getdata = async () => {
 
 //This function fetch data every 30 min from APIs
 export const Fetcher = async () => {
-    setTimeout(async () => {
-        await fetch_getdata();
-    }, 60 * 1000); // after 1 minutes
-
+    // setTimeout(async () => {
+    await fetch_getdata();
+    // }, 60 * 1000); // after 1 minutes
     setInterval(
         fetch_getdata,
         // Min * Sec * Ms

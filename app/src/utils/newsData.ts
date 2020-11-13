@@ -39,7 +39,7 @@ function _sortArrayOfObjects(a: any, b: any) {
   return 0;
 }
 
-async function _fetchOtherNews(whichSource: any) {
+async function _fetchOtherNewsFirstAPI(whichSource: any) {
   // https://newsapi.org/docs/endpoints/top-headlines
 
   try {
@@ -59,7 +59,33 @@ async function _fetchOtherNews(whichSource: any) {
     // should return an array of objects
     return response.data;
   } catch (error) {
+    console.log("couldn't update news with first API - external api problem or exceed limitation");
+
+  }
+}
+
+async function _fetchOtherNewsSecondAPI(whichSource: any) {
+  // https://newsapi.org/docs/endpoints/top-headlines
+
+  try {
+    const options = {
+      url: 'http://newsapi.org/v2/top-headlines',
+      sortBy: 'publishedAt',
+      pageSize: 100,
+      page: 1,
+      apiKey: secretData.apiKey,
+      sources: secretData.sources,
+    };
+
+    const response = await axios.get(
+      `${options.url}?sortBy=${options.sortBy}&pageSize=${options.pageSize}&page=${options.page}&apiKey=${options.apiKey}&sources=${options.sources[whichSource]}`
+    );
+
+    // should return an array of objects
+    return response.data;
+  } catch (error) {
     console.log("couldn't update news - external api problem or exceed limitation");
+
   }
 }
 
@@ -292,8 +318,8 @@ export async function saveOtherNews() {
   // entities to work with:
   const newsRepository = connect.connection.getRepository(News);
 
+  await connect.queryRunner.startTransaction();
   try {
-    await connect.queryRunner.startTransaction();
 
     // initialize an array of objects
     let eachNews: any = [];
@@ -305,20 +331,30 @@ export async function saveOtherNews() {
     let existed_News: any = [];
 
     // send 26 request - call fetchOtherNews() for 26 times
-    const broadcasting: any = [];
+    const broadcasting1: any = [];
+    const broadcasting2: any = [];
     // allNews will be an array of all news objects.
     const allNews: any = [];
     for (let i = 0; i < 26; i++) {
-      broadcasting[i] = await _fetchOtherNews(i);
+      broadcasting1[i] = await _fetchOtherNewsFirstAPI(i);
 
       // check if we got data
-      if (broadcasting[i] === undefined) {
-        console.log("we couldn't fetch news from some broadcastings");
-        await connect.queryRunner.rollbackTransaction();
+      if (broadcasting1[i] === undefined) {
+        // console.log(broadcasting1[i]);
+        console.log("trying with different API_KEY");
+        broadcasting2[i] = await _fetchOtherNewsSecondAPI(i);
+        if (broadcasting2[i] === undefined) {
+          console.log("Couldn't fetch with second API - News API services prroblem");
+          return "we couldn't fetch news from some broadcastings";
+        } else {
+          for (let j = 0; j < broadcasting2[i].articles.length; j++) {
+            allNews.push(await broadcasting2[i].articles[j]);
+          }
+        }
 
       } else {
-        for (let j = 0; j < broadcasting[i].articles.length; j++) {
-          allNews.push(await broadcasting[i].articles[j]);
+        for (let j = 0; j < broadcasting1[i].articles.length; j++) {
+          allNews.push(await broadcasting1[i].articles[j]);
         }
       }
     }
@@ -397,6 +433,7 @@ export async function saveOtherNews() {
       ]);
     }
 
+    console.log("News database is updated.");
     await connect.queryRunner.commitTransaction();
   } catch (error) {
     console.log(error);
@@ -491,6 +528,7 @@ export async function saveWhoNews() {
       pureText = '';
     }
 
+    console.log("WHO news database is updated.");
     await connect.queryRunner.commitTransaction();
   } catch (error) {
     console.log(error);
@@ -702,6 +740,7 @@ export async function getNews(search_term: any, page: any) {
 }
 
 export async function deleteOldNews() {
+  console.log("start deleting old news");
 
   // getConnection to DB
   const connect: any = await _connect();
@@ -740,6 +779,7 @@ export async function deleteOldNews() {
     oldNews.forEach(async (oldNews) => {
       await newsRepository.delete({ link: `${oldNews.link}` });
     })
+    console.log("old news deleted");
 
     await connect.queryRunner.commitTransaction();
   } catch (error) {
@@ -772,12 +812,12 @@ export async function fetchAndSaveNewsImages() {
 }
 
 export async function firstTimeFetchAndSaveNews() {
-  setTimeout(async () => {
-    await saveOtherNews();
-  }, 240000); // after 4 minutes
-  setTimeout(async () => {
-    await saveWhoNews();
-  }, 180000); // after 3 minutes
+  // setTimeout(async () => {
+  await saveOtherNews();
+  // }, 240000); // after 4 minutes
+  // setTimeout(async () => {
+  await saveWhoNews();
+  // }, 180000); // after 3 minutes
 }
 
 export async function fetchAndSaveNews() {
@@ -786,11 +826,14 @@ export async function fetchAndSaveNews() {
   }, 7200000); // gets called every 2 hours.
   setInterval(async () => {
     await saveWhoNews();
-  }, 7200100); // gets called almost every 2 hours.
+  }, 7203000); // gets called almost every 2 hours.
 }
 
 export async function deleteAllOldNews() {
+  // setTimeout(async () => {
+  await deleteOldNews();
+  // }, 300000); // after 5 minutes
   setInterval(async () => {
     await deleteOldNews();
-  }, 18000300); // gets called every 5 hours.
+  }, 18003000); // gets called every 5 hours.
 }

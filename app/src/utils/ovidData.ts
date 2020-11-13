@@ -20,9 +20,11 @@ async function _connect() {
 
 async function downloadOvid() {
     try {
+        console.log("downloading ovid data");
+
         const url = "https://covid.ourworldindata.org/data/owid-covid-data.json";
         const path = Path.resolve(__dirname, "owid-covid-data.json");
-        console.log(path);
+        // console.log(path);
         // axios image download with response type "stream"
         const response = await Axios({
             method: "GET",
@@ -37,7 +39,7 @@ async function downloadOvid() {
         return new Promise((resolve, reject) => {
             response.data.on("end", () => {
                 resolve();
-                console.log("end");
+                console.log("ovid data downloaded");
             });
 
             response.data.on("error", (err: any) => {

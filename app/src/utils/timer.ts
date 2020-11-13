@@ -12,21 +12,21 @@ export const timers = async () => {
         console.log("Load Fetcher");
         // countries
         await updateProvinces();
-        console.log("updateProvinces finished");
+        console.log("calling updateProvinces finished");
         await addDailyReports();
-        console.log("addDailyReports finished");
+        console.log("calling addDailyReports finished");
         //update Owid
         await updateDailyOwid();
-        console.log("updateDailyOwid finished");
+        console.log("calling updateDailyOwid finished");
         // gets called once and fetch and save data into DB
         await firstTimeFetchAndSaveNews();
-        console.log("firstTimeFetchAndSaveNews finished");
+        console.log("calling firstTimeFetchAndSaveNews finished");
         // gets called every 2 hours.
         await fetchAndSaveNews();
-        console.log("fetchAndSaveNews finished");
+        console.log("calling fetchAndSaveNews finished");
         // gets called every 2 hours.
         await deleteAllOldNews();
-        console.log("deleting old news finished");
+        console.log("calling deleteAllOldNews finished");
     } catch (error) {
         console.log(error);
     }

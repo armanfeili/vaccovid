@@ -48,6 +48,7 @@ async function _fetchData() {
     // https://documenter.getpostman.com/view/8854915/SzS7NkAS?version=latest
     try {
         const data = (await axios.get(`https://covid-api.com/api/reports/`)).data.data;
+
         if (data === undefined) {
             console.error("couldn't fetch data from API");
             return "no data";
@@ -75,6 +76,7 @@ async function _fetchUSData() {
 }
 
 export async function updateProvinces() {
+    console.log("start updating provinces");
     // getConnection to DB
     // console.log("start 1");
     const connect: any = await _connect();
@@ -85,82 +87,92 @@ export async function updateProvinces() {
     // await citiesRepository.clear();
     // if ((await provinceRepository.find()).length > 0) provinceRepository.query("DROP TABLE province CASCADE;");
 
+    await connect.queryRunner.startTransaction();
     try {
-        await connect.queryRunner.startTransaction();
-        const data = await _fetchData();
-        // console.log((await provinceRepository.find()).length);
-        // console.log("test 2");
-        // if (data === undefined) {
-        if (!data) {
-            console.log("couldn't fetch data");
+
+        let existProvince = await provinceRepository.find({
+            where: { iso: "USA" }
+        });
+        if (existProvince.length > 40) {
+            console.log("provinces already existed");
             await connect.queryRunner.rollbackTransaction();
-            return "no data";
-        }
-
-        await data.forEach(async (element: any, num: any) => {
-            // const countryAlpha: any = searchCountryCode(element.region.name, worldSymbols);
-            const alpha: any = _searchProvinceCode(element.region.province, state_symbols);
-
-            // const element = data[20];
-            let newProvince = new Province();
-            newProvince.iso = element.region.iso;
-            newProvince.name = element.region.name;
-            newProvince.province = element.region.province;
-            newProvince.TwoLetterSymbol = alpha;
-            newProvince.lat = element.region.lat;
-            newProvince.long = element.region.long;
-            // console.log(num);
-            let dataId: any;
-            let exist = await provinceRepository.findOne({
-                iso: element.region.iso,
-                name: element.region.name,
-                province: element.region.province,
-            });
-            if (exist) {
-                newProvince.province_id = exist.province_id;
-                dataId = await provinceRepository.preload(newProvince);
-                // console.log("preload");
-                // await connect.queryRunner.rollbackTransaction();
-            } else {
-                dataId = await provinceRepository.save(newProvince);
-                // console.log("save");
-                await connect.queryRunner.commitTransaction();
+            return "provinces already existed";
+        } else {
+            const data = await _fetchData();
+            // console.log((await provinceRepository.find()).length);
+            // console.log("test 2");
+            // if (data === undefined) {
+            if (!data) {
+                console.log("couldn't fetch provinces data");
+                await connect.queryRunner.rollbackTransaction();
+                return "no data";
             }
 
+            await data.forEach(async (element: any, num: any) => {
+                // const countryAlpha: any = searchCountryCode(element.region.name, worldSymbols);
+                const alpha: any = _searchProvinceCode(element.region.province, state_symbols);
 
-            // // console.log(dataId);
-            // // console.log(dataId.);
-            // if (element.region.cities.length >= 1) {
-            //     await element.region.cities.forEach(async (element2: any) => {
-            //         let newCity = new Cities();
-            //         newCity.iso = element.region.iso;
-            //         newCity.lat = element2.lat;
-            //         newCity.long = element2.long;
-            //         newCity.name = element2.name;
-            //         newCity.province = dataId;
-            //         try {
-            //             let exist = await citiesRepository.findOne({
-            //                 lat: element2.lat,
-            //                 long: element2.long,
-            //             });
-            //             if (exist) {
-            //                 newCity.city_id = exist.city_id;
-            //                 dataId = await citiesRepository.preload(newCity);
-            //                 // console.log("preload");
-            //                 return;
-            //             } else {
-            //                 dataId = await citiesRepository.save(newCity);
-            //                 // console.log("save");
-            //             }
+                // const element = data[20];
+                let newProvince = new Province();
+                newProvince.iso = element.region.iso;
+                newProvince.name = element.region.name;
+                newProvince.province = element.region.province;
+                newProvince.TwoLetterSymbol = alpha;
+                newProvince.lat = element.region.lat;
+                newProvince.long = element.region.long;
+                // console.log(num);
+                let dataId: any;
+                let exist = await provinceRepository.findOne({
+                    iso: element.region.iso,
+                    name: element.region.name,
+                    province: element.region.province,
+                });
+                if (exist) {
+                    newProvince.province_id = exist.province_id;
+                    dataId = await provinceRepository.preload(newProvince);
+                    console.log(`province ${newProvince.name} preload`);
+                    // await connect.queryRunner.rollbackTransaction();
+                } else {
+                    dataId = await provinceRepository.save(newProvince);
+                    // console.log("save");
+                }
 
-            //             await connect.queryRunner.commitTransaction();
-            //         } catch (error) {
-            //             return;
-            //         }
-            //     });
-            // }
-            // // if (element.region.iso.length > 5) console.log(element);
-        });
+
+                // // console.log(dataId);
+                // // console.log(dataId.);
+                // if (element.region.cities.length >= 1) {
+                //     await element.region.cities.forEach(async (element2: any) => {
+                //         let newCity = new Cities();
+                //         newCity.iso = element.region.iso;
+                //         newCity.lat = element2.lat;
+                //         newCity.long = element2.long;
+                //         newCity.name = element2.name;
+                //         newCity.province = dataId;
+                //         try {
+                //             let exist = await citiesRepository.findOne({
+                //                 lat: element2.lat,
+                //                 long: element2.long,
+                //             });
+                //             if (exist) {
+                //                 newCity.city_id = exist.city_id;
+                //                 dataId = await citiesRepository.preload(newCity);
+                //                 // console.log("preload");
+                //                 return;
+                //             } else {
+                //                 dataId = await citiesRepository.save(newCity);
+                //                 // console.log("save");
+                //             }
+
+                //             await connect.queryRunner.commitTransaction();
+                //         } catch (error) {
+                //             return;
+                //         }
+                //     });
+                // }
+                // // if (element.region.iso.length > 5) console.log(element);
+            });
+            await connect.queryRunner.commitTransaction();
+        }
     } catch (error) {
         console.log(error);
         await connect.queryRunner.rollbackTransaction();
@@ -176,14 +188,14 @@ export const addDailyReports = async () => {
     // await addReports();
     // await addUSStates();
     try {
-        setTimeout(async () => {
+        // setTimeout(async () => {
+        await addReports();
+        await addUSStates();
+        setInterval(async () => {
             await addReports();
             await addUSStates();
-            setInterval(async () => {
-                await addReports();
-                await addUSStates();
-            }, 24 * 60 * 60 * 1000); // Min * Sec * Ms - every day 
-        }, 2 * 60 * 1000); // after 2 minutes   
+        }, 24 * 60 * 60 * 1000); // Min * Sec * Ms - every day 
+        // }, 2 * 60 * 1000); // after 2 minutes   
     } catch (error) {
         console.log(error);
     }
@@ -206,7 +218,7 @@ export async function addReports() {
             await connect.queryRunner.rollbackTransaction();
             // return "No Data";
         }
-        console.log("test 2");
+        // console.log("test 2");
 
         await data.forEach(async (element: any, num: any) => {
             // const element = data[30];
