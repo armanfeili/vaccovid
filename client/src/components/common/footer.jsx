@@ -80,9 +80,9 @@ export class Footer extends Component {
                         <h3 className="footer-first-part-news-title">NEWS</h3>
                         <div className="footer-first-part-news-between"></div>
                         <ul className="footer-first-part-news-list">
-                            <li className="footer-first-part-news-list-item"><Link className="footer-first-part-news-list-item-link" onClick={this.changeOffset} to="/news">Vaccine news</Link></li>
-                            <li className="footer-first-part-news-list-item"><Link className="footer-first-part-news-list-item-link" onClick={this.changeOffset} to="/news">COVID-19 news</Link></li>
-                            <li className="footer-first-part-news-list-item"><Link className="footer-first-part-news-list-item-link" onClick={this.changeOffset} to="/news">Health news</Link></li>
+                            <li className="footer-first-part-news-list-item"><Link className="footer-first-part-news-list-item-link" onClick={this.changeOffset} to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }}>Vaccine news</Link></li>
+                            <li className="footer-first-part-news-list-item"><Link className="footer-first-part-news-list-item-link" onClick={this.changeOffset} to={{ pathname: `/news/covid19`, state: { topic: 'covid19' } }}>COVID-19 news</Link></li>
+                            <li className="footer-first-part-news-list-item"><Link className="footer-first-part-news-list-item-link" onClick={this.changeOffset} to={{ pathname: `/news/health`, state: { topic: 'health' } }}>Health news</Link></li>
                         </ul>
                     </div>
                 </div>

@@ -207,7 +207,7 @@ export async function addReports() {
     const provinceRepository = connect.connection.getRepository(Province);
     const provinceReportRepository = connect.connection.getRepository(CovidProvincesAPI);
 
-    await connect.queryRunner.startTransaction();
+    // await connect.queryRunner.startTransaction();
     try {
         const data = await _fetchData();
         // console.log(data);
@@ -215,7 +215,7 @@ export async function addReports() {
         // console.log((await provinceRepository.find()).length);
         if (data === undefined || data === "no data") {
             console.log("couldn't fetch data");
-            await connect.queryRunner.rollbackTransaction();
+            // await connect.queryRunner.rollbackTransaction();
             return "No Data";
         }
         // console.log("test 2");
@@ -286,10 +286,10 @@ export async function addReports() {
             // }
         });
         console.log("all reports added - all updated");
-        await connect.queryRunner.commitTransaction();
+        // await connect.queryRunner.commitTransaction();
     } catch (error) {
         console.log(error);
-        await connect.queryRunner.rollbackTransaction();
+        // await connect.queryRunner.rollbackTransaction();
         return "Not Done";
     } finally {
         // you need to release query runner which is manually created:
