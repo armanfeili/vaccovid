@@ -216,7 +216,7 @@ export async function addReports() {
         if (data === undefined || data === "no data") {
             console.log("couldn't fetch data");
             await connect.queryRunner.rollbackTransaction();
-            // return "No Data";
+            return "No Data";
         }
         // console.log("test 2");
 
@@ -230,8 +230,8 @@ export async function addReports() {
 
             if (!existProvince) {
                 console.log("no such province");
-                await connect.queryRunner.rollbackTransaction();
-                // return "no such province";
+                // await connect.queryRunner.rollbackTransaction();
+                return "no such province";
             }
 
             if (element.region.iso === "USA") {
