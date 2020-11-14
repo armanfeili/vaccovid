@@ -126,7 +126,8 @@ export class NewsComponent extends Component {
     async onClickGetHealthNews() {
         this.setState({ active_btn: "health" });
         this.setState({ page: 0 });
-        const health = await this.props.getHealthNews(0);
+        // const health = 
+        await this.props.getHealthNews(0);
         // console.log(health);
         const allNews = this.props.news.news;
         this.setState({ news: allNews });
