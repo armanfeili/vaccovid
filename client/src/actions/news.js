@@ -46,7 +46,7 @@ export const getHealthNews = (page) => dispatch => {
   // dispatch(setProfileLoading())
   axios.get(`${baseURL}/news/get-health-news/${page}`)
     .then(res => {
-      console.log(res.data.news);
+      // console.log(res.data.news);
       dispatch({
         type: GET_HEALTH_NEWS,
         payload: res.data

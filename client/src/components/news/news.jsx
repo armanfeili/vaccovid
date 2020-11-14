@@ -50,6 +50,22 @@ export class NewsComponent extends Component {
 
     async componentDidUpdate() {
         document.title = `${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live`;
+        // console.log(this.props.match.params.topic);
+        if (this.props.match.params.topic === "vaccine" && this.state.active_btn !== this.props.match.params.topic) {
+            // if (this.props.match.params.topic === "vaccine") {
+            // console.log("vaccine");
+            this.onClickGetVaccineNews()
+        } else if (this.props.match.params.topic === "covid19" && this.state.active_btn !== this.props.match.params.topic) {
+            // console.log("covid19");
+            this.onClickGetCoronavirusNews()
+        } else if (this.props.match.params.topic === "health" && this.state.active_btn !== this.props.match.params.topic) {
+            // console.log("health");
+            this.onClickGetHealthNews()
+        }
+        // this.props.history.listen(async (location, action) => {
+        //     console.log("on route change");
+        //     // await this.getProvinceCovidData();
+        // });
     }
 
 
@@ -64,7 +80,6 @@ export class NewsComponent extends Component {
         // console.log(this.state.news); // it still returens old data (previous state)
     };
 
-
     async vaccineNext() {
         if (this.props.news.news.length === 10) {
             await this.props.getVaccineNews(this.state.page + 1);
@@ -77,6 +92,7 @@ export class NewsComponent extends Component {
             }
         }
     }
+
     async vaccinePrevious() {
         if (this.state.page > 0) {
             await this.props.getVaccineNews(this.state.page - 1);
@@ -110,6 +126,7 @@ export class NewsComponent extends Component {
             }
         }
     }
+
     async coronavirusPrevious() {
         if (this.state.page > 0) {
             await this.props.getCoronavirusNews(this.state.page - 1);
@@ -135,7 +152,6 @@ export class NewsComponent extends Component {
         // console.log(this.state.news); // it still returens old data (previous state)
     };
 
-
     async healthNext() {
         if (this.props.news.news.length === 10) {
             await this.props.getHealthNews(this.state.page + 1);
@@ -148,6 +164,7 @@ export class NewsComponent extends Component {
             }
         }
     }
+
     async healthPrevious() {
         if (this.state.page > 0) {
             await this.props.getHealthNews(this.state.page - 1);
@@ -224,18 +241,18 @@ export class NewsComponent extends Component {
                     <div className={`news-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
                         <button className="news-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                         <ul className={`news-responsive-allregions`} id="region">
-                            <Link to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }} onClick={async () => { this.onClickShowRegions(); this.onClickGetVaccineNews(); }} className={`news-responsive-allregions-btn ${this.state.active_btn === "vaccine" ? "news-responsive-allregions-btn-active" : ""}`}>VACCINE</Link>
-                            <Link to={{ pathname: `/news/covid19`, state: { topic: 'covid19' } }} onClick={async () => { this.onClickShowRegions(); this.onClickGetCoronavirusNews(); }} className={`news-responsive-allregions-btn ${this.state.active_btn === "covid19" ? "news-responsive-allregions-btn-active" : ""}`} >COVID-19</Link>
-                            <Link to={{ pathname: `/news/health`, state: { topic: 'health' } }} onClick={async () => { this.onClickShowRegions(); this.onClickGetHealthNews(); }} className={`news-responsive-allregions-btn ${this.state.active_btn === "health" ? "news-responsive-allregions-btn-active" : ""}`}>HEALTH</Link>
+                            <Link to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }} onClick={async () => { this.onClickShowRegions(); }} className={`news-responsive-allregions-btn ${this.state.active_btn === "vaccine" ? "news-responsive-allregions-btn-active" : ""}`}>VACCINE</Link>
+                            <Link to={{ pathname: `/news/covid19`, state: { topic: 'covid19' } }} onClick={async () => { this.onClickShowRegions(); }} className={`news-responsive-allregions-btn ${this.state.active_btn === "covid19" ? "news-responsive-allregions-btn-active" : ""}`} >COVID-19</Link>
+                            <Link to={{ pathname: `/news/health`, state: { topic: 'health' } }} onClick={async () => { this.onClickShowRegions(); }} className={`news-responsive-allregions-btn ${this.state.active_btn === "health" ? "news-responsive-allregions-btn-active" : ""}`}>HEALTH</Link>
                         </ul>
                     </div>
 
 
 
                     <div className="news-item news-item--searchfor">
-                        <Link to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }} className={`news-item--searchfor-btn news-item--searchfor-btn--vaccine ${this.state.active_btn === "vaccine" ? "news-item--searchfor-btn--vaccine-active-btn" : ""}`} onClick={this.onClickGetVaccineNews}>VACCINE</Link>
-                        <Link to={{ pathname: `/news/covid19`, state: { topic: 'covid19' } }} className={`news-item--searchfor-btn news-item--searchfor-btn--corona ${this.state.active_btn === "covid19" ? "news-item--searchfor-btn--corona-active-btn" : ""}`} onClick={this.onClickGetCoronavirusNews}>COVID19</Link>
-                        <Link to={{ pathname: `/news/health`, state: { topic: 'health' } }} className={`news-item--searchfor-btn news-item--searchfor-btn--health ${this.state.active_btn === "health" ? "news-item--searchfor-btn--health-active-btn" : ""}`} onClick={this.onClickGetHealthNews}>HEALTH</Link>
+                        <Link to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }} className={`news-item--searchfor-btn news-item--searchfor-btn--vaccine ${this.state.active_btn === "vaccine" ? "news-item--searchfor-btn--vaccine-active-btn" : ""}`}>VACCINE</Link>
+                        <Link to={{ pathname: `/news/covid19`, state: { topic: 'covid19' } }} className={`news-item--searchfor-btn news-item--searchfor-btn--corona ${this.state.active_btn === "covid19" ? "news-item--searchfor-btn--corona-active-btn" : ""}`} >COVID19</Link>
+                        <Link to={{ pathname: `/news/health`, state: { topic: 'health' } }} className={`news-item--searchfor-btn news-item--searchfor-btn--health ${this.state.active_btn === "health" ? "news-item--searchfor-btn--health-active-btn" : ""}`} >HEALTH</Link>
 
                     </div>
                     <div className="news-item news-item--news">

@@ -16,6 +16,7 @@ map
 stats
 ssr-1
 fixing_bugs
+fixing-front
 
 killall -9 node
 
