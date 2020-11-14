@@ -37,11 +37,28 @@ export class CoronavirusEachContinentComponent extends Component {
         this.numberWithCommas = this.numberWithCommas.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.search = this.search.bind(this);
+        this.changeOffset = this.changeOffset.bind(this);
     }
 
     async componentDidMount() {
         let { continentName } = this.props.match.params;
-        document.title = `covid-19 ${continentName} table - vaccovid.live`;
+        if (continentName === 'world-data') {
+            document.title = `Vaccine and Covid-19 tracker - covid-19 World table of data - vaccovid.live`;
+        } else if (continentName === 'asia-data') {
+            document.title = `covid-19 Asia table of data - vaccovid.live`;
+        } else if (continentName === 'africa-data') {
+            document.title = `covid-19 Africa table of data - vaccovid.live`;
+        } else if (continentName === 'australia-data') {
+            document.title = `covid-19 Australia table of data - vaccovid.live`;
+        } else if (continentName === 'europe-data') {
+            document.title = `covid-19 Europe table of data - vaccovid.live`;
+        } else if (continentName === 'north-america-data') {
+            document.title = `covid-19 North America table of data - vaccovid.live`;
+        } else if (continentName === 'south_america-data') {
+            document.title = `covid-19 South America table of data - vaccovid.live`;
+        } else if (continentName === 'oceania-data') {
+            document.title = `covid-19 Oceania table of data - vaccovid.live`;
+        }
         // this.onClickGetCovidWorldData();
         this.onClickGetDynamicCovidData();
     }
@@ -50,7 +67,23 @@ export class CoronavirusEachContinentComponent extends Component {
         // Typical usage (don't forget to compare props):
         // this.onClickGetDynamicCovidData();
         let { continentName } = this.props.match.params;
-        document.title = `covid-19 ${continentName} table - vaccovid.live`;
+        if (continentName === 'world-data') {
+            document.title = `Vaccine and Covid-19 tracker - covid-19 World table of data - vaccovid.live`;
+        } else if (continentName === 'asia-data') {
+            document.title = `covid-19 Asia table of data - vaccovid.live`;
+        } else if (continentName === 'africa-data') {
+            document.title = `covid-19 Africa table of data - vaccovid.live`;
+        } else if (continentName === 'australia-data') {
+            document.title = `covid-19 Australia table of data - vaccovid.live`;
+        } else if (continentName === 'europe-data') {
+            document.title = `covid-19 Europe table of data - vaccovid.live`;
+        } else if (continentName === 'north-america-data') {
+            document.title = `covid-19 North America table of data - vaccovid.live`;
+        } else if (continentName === 'south_america-data') {
+            document.title = `covid-19 South America table of data - vaccovid.live`;
+        } else if (continentName === 'oceania-data') {
+            document.title = `covid-19 Oceania table of data - vaccovid.live`;
+        }
         if (this.props.countries !== prevProps.countries) {
             // this.setState({ active_btn: "world" });
             // this.onClickGetDynamicCovidData();
@@ -128,6 +161,10 @@ export class CoronavirusEachContinentComponent extends Component {
         // const allNews = this.props.news.news;
         // console.log(this.state.news); // it still returens old data (previous state)
     };
+
+    changeOffset() {
+        window.scrollBy(0, -4000);
+    }
 
     onClickShowRegions() {
         if (this.state.showRegions === "on") {
@@ -406,7 +443,7 @@ export class CoronavirusEachContinentComponent extends Component {
                         <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "africa-data" ? "coronavirus-regions-btn-active" : ""}`}>Africa</Link>
                         <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "australia-data" ? "coronavirus-regions-btn-active" : ""}`}>Australia</Link>
                         <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "europe-data" ? "coronavirus-regions-btn-active" : ""}`}>Europe</Link>
-                        <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "north_america-data" ? "coronavirus-regions-btn-active" : ""}`}>North America</Link>
+                        <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "north-america-data" ? "coronavirus-regions-btn-active" : ""}`}>North America</Link>
                         <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "south_america-data" ? "coronavirus-regions-btn-active" : ""}`}>South America</Link>
                         <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "oceania-data" ? "coronavirus-regions-btn-active" : ""}`}>Oceania</Link>
 
@@ -524,7 +561,7 @@ export class CoronavirusEachContinentComponent extends Component {
                                     <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-number">{index + 1}</td>
                                     <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link className="coronavirus-table-stats-item-name-link" to={{
                                         pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
-                                    }}>{country.Country} <span className="sign">&#9662;</span></Link></td>
+                                    }} onClick={this.changeOffset} >{country.Country} <span className="sign">&#9662;</span></Link></td>
                                     <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmed">{country.TotalCases !== null ? this.numberWithCommas(country.TotalCases) : "No Data"}</td>
                                     <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newcases">{country.NewCases !== null ? this.numberWithCommas(country.NewCases) : "No Data"}</td>
                                     <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmedpermil">{country.Infection_Risk !== null ? country.Infection_Risk + "%" : "No Data"}</td>

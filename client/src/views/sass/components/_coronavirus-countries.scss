@@ -45,12 +45,13 @@ td {
     border-radius: 10px;
     padding: 10px 8px;
 
-    @include respond(very-big-desktop) {
-        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end new-cases-chart-start] 200px [new-cases-chart-end total-cases-chart-start] 200px [total-cases-chart-end];
-    }
 
     @include respond(big-desktop) {
-        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 650px [quick-facts-chart-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end];
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 450px [quick-facts-chart-end new-cases-chart-start] 450px [new-cases-chart-end total-cases-chart-start] 450px [total-cases-chart-end];
+    }
+
+    @include respond(very-big-desktop) {
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 550px [quick-facts-chart-end new-cases-chart-start] 550px [new-cases-chart-end total-cases-chart-start] 550px [total-cases-chart-end];
     }
 
     @include respond(tab-land) {
@@ -79,12 +80,14 @@ td {
     &-withProvince {
         grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 400px [quick-facts-chart-end new-cases-chart-start] 400px [new-cases-chart-end total-cases-chart-start] 400px [total-cases-chart-end];
 
-        @include respond(very-big-desktop) {
-            grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end new-cases-chart-start] 200px [new-cases-chart-end total-cases-chart-start] 200px [total-cases-chart-end];
-        }
 
         @include respond(big-desktop) {
-            grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 650px [quick-facts-chart-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end];
+            grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 420px [quick-facts-chart-end new-cases-chart-start] 420px [new-cases-chart-end total-cases-chart-start] 420px [total-cases-chart-end];
+        }
+
+        @include respond(very-big-desktop) {
+            grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 650px [quick-facts-chart-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end];
+
         }
 
         @include respond(tab-land) {
@@ -728,6 +731,8 @@ td {
                 &-active_btn {
                     color: #3feaf0;
                     text-shadow: 0px 0px 1px #19d3da;
+                    background-color: #07568b;
+
                 }
 
                 &-name {
@@ -877,6 +882,7 @@ td {
                 color: #eee;
                 font-size: 105%;
                 transition: 0.1s;
+                cursor: default;
 
                 &-link {
                     color: #eee;

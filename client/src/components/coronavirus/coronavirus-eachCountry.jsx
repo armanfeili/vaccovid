@@ -76,8 +76,8 @@ export class countryEachCountryComponent extends Component {
         //     console.log("on route change");
         //     await this.getProvinceCovidData();
         // });
-        if (this.state.iso !== this.props.location.state.iso) {
-            this.setState({ iso: this.props.location.state.iso })
+        if (this.state.iso !== this.props.match.params.iso) {
+            this.setState({ iso: this.props.match.params.iso })
             await this.getProvinceCovidData();
             // console.log("happens");
         }
@@ -116,9 +116,9 @@ export class countryEachCountryComponent extends Component {
 
     async getProvinceCovidData() {
         let iso, countryName;
-        if (this.state.iso !== this.props.location.state.iso) {
-            iso = this.props.location.state.iso;
-            countryName = this.props.location.state.countryName;
+        if (this.state.iso !== this.props.match.params.iso) {
+            iso = this.props.match.params.iso;
+            countryName = this.props.match.params.countryName;
             // await this.props.getAllCountriesDataNameOrdered();
 
             await this.props.clearOvidData();
@@ -130,7 +130,7 @@ export class countryEachCountryComponent extends Component {
             // await this.props.getCitiesReportISOBased(iso.toUpperCase());
 
             this.setState({ iso: iso });
-        } else if (this.props.location.state === null || this.props.location.state === undefined) {
+        } else if (this.props.match.params === null || this.props.match.params === undefined) {
         }
     }
 
@@ -139,9 +139,9 @@ export class countryEachCountryComponent extends Component {
     //     await this.props.getAllCountriesDataNameOrdered();
 
     //     let continentName;
-    //     if (this.props.location.state) {
-    //         continentName = this.props.location.state.continentName;
-    //     } else if (this.props.location.state === null || this.props.location.state === undefined) {
+    //     if (this.props.match.params) {
+    //         continentName = this.props.match.params.continentName;
+    //     } else if (this.props.match.params === null || this.props.match.params === undefined) {
     //         await this.props.getAllCountriesData();
     //         await this.props.getWorldData();
     //     }
@@ -292,12 +292,16 @@ export class countryEachCountryComponent extends Component {
                 labels: ['TotalRecovered', 'ActiveCases', 'Serious_Critical', 'TotalDeaths'],
                 datasets: [{
                     label: '# of Votes',
-                    data: [
-                        data[0].TotalRecovered,
-                        data[0].ActiveCases,
-                        data[0].Serious_Critical,
-                        data[0].TotalDeaths
-                    ],
+                    data:
+                        data[0] !== undefined ?
+                            [
+                                data[0].TotalRecovered,
+                                data[0].ActiveCases,
+                                data[0].Serious_Critical,
+                                data[0].TotalDeaths
+                            ]
+                            : [0, 0, 0, 0]
+                    ,
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.6)',
                         'rgba(255, 206, 86, 0.6)',
@@ -717,7 +721,8 @@ export class countryEachCountryComponent extends Component {
         let { ovidData } = this.props;
 
         let { continentName } = this.props.match.params; // url parameteres
-        let url_state = this.props.location.state;       // url passing state
+        let url_state = this.props.match.params;       // url parameteres
+        // let url_state = this.props.location.state;       // url passing state
 
         // let { iso } = this.props.match.params; // url parameteres
         // let { iso } = this.props.location.params; // state parameteres
@@ -878,34 +883,34 @@ export class countryEachCountryComponent extends Component {
                                 <Link to={{
                                     pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                                 }} onClick={async () => { await this.props.getCountryISOBased('USA', 'USA'); await this.props.getProvinceReportISOBased('USA'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'usa' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>United States</Link>
+                            ${'USA' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United States</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
                                 }} onClick={async () => { await this.props.getCountryISOBased('Canada', 'CAN'); await this.props.getProvinceReportISOBased('CAN'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'can' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>Canada</Link>
+                            ${'CAN' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Canada</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
                                 }} onClick={async () => { await this.props.getCountryISOBased('Australia', 'AUS'); await this.props.getProvinceReportISOBased('AUS'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'aus' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
+                            ${'AUS' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
                                 }} onClick={async () => { await this.props.getCountryISOBased('UK', 'GBR'); await this.props.getProvinceReportISOBased('GBR'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'gbr' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>United Kingdom</Link>
+                            ${'GBR' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United Kingdom</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
                                 }} onClick={async () => { await this.props.getCountryISOBased('India', 'IND'); await this.props.getProvinceReportISOBased('IND'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'ind' === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>India</Link>
+                            ${'IND' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>India</Link>
 
                                 <h2 className={`country-responsive-allregions-title`}>Countries</h2>
                                 {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
                                     return <Link to={{
                                         pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
                                     }} onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); this.onClickShowRegions(); }} key={index} className={`country-responsive-allregions-btn 
-                            ${country.ThreeLetterSymbol.toLowerCase() === this.props.location.state.iso ? "country-responsive-allregions-btn-active" : ""}`}>
+                            ${country.ThreeLetterSymbol.toUpperCase() === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>
                                         {country.Country}
                                     </Link>
                                 }) : (
@@ -938,27 +943,27 @@ export class countryEachCountryComponent extends Component {
                             <Link to={{
                                 pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                             }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'usa' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>United States</Link>
+                                className={`country-regions-btn ${'USA' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United States</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
                             }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'can' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>Canada</Link>
+                                className={`country-regions-btn ${'CAN' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Canada</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
                             }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'aus' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>Australia</Link>
+                                className={`country-regions-btn ${'AUS' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Australia</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
                             }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'gbr' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>United Kingdom</Link>
+                                className={`country-regions-btn ${'GBR' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United Kingdom</Link>
 
                             <Link to={{
                                 pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
                             }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'ind' === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>India</Link>
+                                className={`country-regions-btn ${'IND' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>India</Link>
 
 
                             <h2 className={`country-regions-title`}>Countries</h2>
@@ -968,7 +973,7 @@ export class countryEachCountryComponent extends Component {
                                 }}
                                     // onClick={async () => { await this.props.getCountryISOBased(url_state.countryName, url_state.iso.toUpperCase()); await this.props.getProvinceReportISOBased(url_state.iso.toUpperCase()); }}
                                     onClick={async () => { this.getProvinceCovidData(); }}
-                                    key={index} className={`country-regions-btn ${country.ThreeLetterSymbol.toLowerCase() === this.props.location.state.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
+                                    key={index} className={`country-regions-btn ${country.ThreeLetterSymbol.toUpperCase() === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
                             }) : (
                                     <div>
                                         {/* <div className={`country-regions-btn country-regions-btn-loading`}></div> */}

@@ -260,7 +260,7 @@ nav {
       background-color: #fff;
       margin: 0px 7px;
       border-radius: 5px; }
-  .navigation-open:hover, .navigation-open:active {
+  .navigation-open:hover {
     background-color: #00adb5; }
   .navigation-btns {
     grid-row: nav-start / nav-end;
@@ -938,7 +938,7 @@ td {
         display: grid;
         overflow: hidden;
         grid-template-rows: [table-start] 1fr [table-end];
-        grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(90px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
+        grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
         .coronavirus-table-title-stats-columns-item {
           color: #eee;
           padding: 2px 2px;
@@ -958,7 +958,8 @@ td {
           padding: 2px 0px 0px 4px; }
         .coronavirus-table-title-stats-columns-active_btn {
           color: #3feaf0;
-          text-shadow: 0px 0px 1px #19d3da; }
+          text-shadow: 0px 0px 1px #19d3da;
+          background-color: #07568b; }
   .coronavirus-table-stats {
     grid-row: stats-start / regions-and-stats-end;
     grid-column: stats-start / stats-end;
@@ -993,7 +994,7 @@ td {
       color: #fff;
       display: grid;
       grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-      grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(90px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
+      grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
       .coronavirus-table-stats-item-each {
         font-weight: bold; }
       .coronavirus-table-stats-item-number {
@@ -1137,12 +1138,12 @@ td {
   height: 100%;
   border-radius: 10px;
   padding: 10px 8px; }
-  @media only screen and (min-width: 125em) {
-    .country {
-      grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end new-cases-chart-start] 200px [new-cases-chart-end total-cases-chart-start] 200px [total-cases-chart-end]; } }
   @media only screen and (min-width: 112.5em) {
     .country {
-      grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 650px [quick-facts-chart-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end]; } }
+      grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 450px [quick-facts-chart-end new-cases-chart-start] 450px [new-cases-chart-end total-cases-chart-start] 450px [total-cases-chart-end]; } }
+  @media only screen and (min-width: 125em) {
+    .country {
+      grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 550px [quick-facts-chart-end new-cases-chart-start] 550px [new-cases-chart-end total-cases-chart-start] 550px [total-cases-chart-end]; } }
   @media only screen and (max-width: 75em) {
     .country {
       grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 250px [quick-facts-chart-end new-cases-chart-start] 250px [new-cases-chart-end total-cases-chart-start] 250px [total-cases-chart-end]; } }
@@ -1162,12 +1163,12 @@ td {
       grid-template-rows: [header-start] 90px [header-end flag-quick-facts-start] 650px [flag-quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end world-chart-start] 200px [world-chart-end new-cases-start] 200px [new-cases-end new-deaths-start] 200px [new-deaths-end total-cases-start] 200px [total-cases-end total-deaths-start] 200px [total-deaths-end]; } }
   .country-withProvince {
     grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 400px [quick-facts-chart-end new-cases-chart-start] 400px [new-cases-chart-end total-cases-chart-start] 400px [total-cases-chart-end]; }
-    @media only screen and (min-width: 125em) {
-      .country-withProvince {
-        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 200px [quick-facts-chart-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end new-cases-chart-start] 200px [new-cases-chart-end total-cases-chart-start] 200px [total-cases-chart-end]; } }
     @media only screen and (min-width: 112.5em) {
       .country-withProvince {
-        grid-template-rows: [quick-facts-start] 300px [quick-facts-end quick-facts-chart-start] 650px [quick-facts-chart-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end]; } }
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 420px [quick-facts-chart-end new-cases-chart-start] 420px [new-cases-chart-end total-cases-chart-start] 420px [total-cases-chart-end]; } }
+    @media only screen and (min-width: 125em) {
+      .country-withProvince {
+        grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 650px [quick-facts-chart-end new-cases-chart-start] 650px [new-cases-chart-end total-cases-chart-start] 650px [total-cases-chart-end]; } }
     @media only screen and (max-width: 75em) {
       .country-withProvince {
         grid-template-rows: [quick-facts-start] 300px [quick-facts-end title-start] 5px [title-end province-stats-start] 350px [province-stats-end guide-start] 55px [guide-end quick-facts-chart-start] 270px [quick-facts-chart-end new-cases-chart-start] 270px [new-cases-chart-end total-cases-chart-start] 270px [total-cases-chart-end]; } }
@@ -1609,7 +1610,8 @@ td {
           padding: 2px 0px 0px 4px; }
         .country-table-title-stats-columns-active_btn {
           color: #3feaf0;
-          text-shadow: 0px 0px 1px #19d3da; }
+          text-shadow: 0px 0px 1px #19d3da;
+          background-color: #07568b; }
   .country-table-stats {
     grid-row: province-stats-start / province-stats-end;
     grid-column: stats-start / stats-end;
@@ -1648,7 +1650,8 @@ td {
       .country-table-stats-item-name {
         color: #eee;
         font-size: 105%;
-        transition: 0.1s; }
+        transition: 0.1s;
+        cursor: default; }
         .country-table-stats-item-name-link {
           color: #eee;
           font-weight: bold;
@@ -2397,7 +2400,8 @@ td {
             margin-top: 7px;
             font-family: 'Playfair Display', serif;
             letter-spacing: 0.4px;
-            line-height: 29px; }
+            line-height: 29px;
+            z-index: 3; }
             @media only screen and (max-width: 75em) {
               .news-item--news-list-eachNews-title {
                 margin-top: 7px; } }
@@ -2418,13 +2422,15 @@ td {
             background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab1e);
             /* Chrome 10-25, Safari 5.1-6 */
             background: linear-gradient(to right, #eef2f3, #8e9eab1e);
-            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            z-index: 3; }
           .news-item--news-list-eachNews-content {
             grid-row: content-start / content-end;
             grid-column: titleAndContent-start / titleAndContent-end;
             font-size: 90%;
             color: silver;
-            line-height: 20px; }
+            line-height: 20px;
+            z-index: 3; }
             @media only screen and (max-width: 56.25em) {
               .news-item--news-list-eachNews-content {
                 font-size: 70%; } }
@@ -2437,12 +2443,25 @@ td {
             font-size: 85%;
             justify-self: center;
             color: #b8ecff;
-            margin-top: 100px; }
+            margin-top: 100px;
+            z-index: 3; }
+            @media only screen and (max-width: 56.25em) {
+              .news-item--news-list-eachNews-pubDate {
+                margin-top: 110px; } }
+            @media only screen and (max-width: 37.5em) {
+              .news-item--news-list-eachNews-pubDate {
+                margin-top: 140px; } }
           .news-item--news-list-eachNews-newsImg {
             grid-row: title-start / content-end;
             grid-column: newsImg-start / newsImg-end;
             width: 120%;
-            height: 130px; }
+            height: 130px;
+            z-index: 1; }
+            @media only screen and (max-width: 56.25em) {
+              .news-item--news-list-eachNews-newsImg {
+                width: 190%;
+                height: 100%;
+                margin-left: -30%; } }
           .news-item--news-list-eachNews-newsImg-cover {
             grid-row: title-start / content-end;
             grid-column: newsImg-start / newsImg-end;
@@ -2453,7 +2472,13 @@ td {
             background: -webkit-linear-gradient(to left, #1a1a2e00, #141E30);
             /* Chrome 10-25, Safari 5.1-6 */
             background: linear-gradient(to left, #1a1a2e00, #141E30);
+            z-index: 2;
             /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+            @media only screen and (max-width: 56.25em) {
+              .news-item--news-list-eachNews-newsImg-cover {
+                width: 190%;
+                height: 100%;
+                margin-left: -30%; } }
         .news-item--news-list-eachNews:hover, .news-item--news-list-eachNews:active {
           color: #c5d5ff; }
     .news-item--news-button {
@@ -3003,6 +3028,11 @@ svg {
                 width: 18px;
                 height: 100%;
                 color: #eee; }
+              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text {
+                transition: 0.3s; }
+              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text:hover {
+                text-shadow: 0px 0px 1px #19d3da;
+                font-size: 101%; }
           @media only screen and (max-width: 75em) {
             .about-whoweare-second-part-Arman-Feili-title-instagram {
               margin-left: 0px; } }
@@ -3017,6 +3047,11 @@ svg {
               width: 18px;
               height: 100%;
               color: #eee; }
+            .about-whoweare-second-part-Arman-Feili-title-instagram-item-text {
+              transition: 0.3s; }
+            .about-whoweare-second-part-Arman-Feili-title-instagram-item-text:hover {
+              text-shadow: 0px 0px 1px #19d3da;
+              font-size: 101%; }
       .about-whoweare-second-part-Parsa-Radfar {
         grid-row: names-start / names-end;
         display: grid;
@@ -3286,7 +3321,9 @@ svg {
       @media only screen and (max-width: 75em) {
         .footer-first-part-about {
           grid-column: res-start / res-end;
-          text-align: center; } }
+          text-align: center;
+          width: 90%;
+          margin-left: 5%; } }
       .footer-first-part-about-name {
         font-size: 200%;
         color: #eee; }

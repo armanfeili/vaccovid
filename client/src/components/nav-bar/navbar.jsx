@@ -14,6 +14,7 @@ export default class NavBar extends Component {
         };
 
         this.onClickShowNavbar = this.onClickShowNavbar.bind(this);
+        this.changeOffset = this.changeOffset.bind(this);
 
     }
 
@@ -25,11 +26,16 @@ export default class NavBar extends Component {
         }
     };
 
+
+    changeOffset() {
+        window.scrollBy(0, -4000);
+    }
+
     render() {
         return (
             <div>
                 <nav className="navigation" id="navOne" >
-                    <NavLink className="navigation-brand" to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }}>
+                    <NavLink className="navigation-brand" onClick={this.changeOffset} to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }}>
                         VACCOVID<span className="navigation-brand__secondpart">.LIVE</span><span className=" navigation-brand__livepoint"></span><span className=" navigation-brand__shiningpoint"></span>
                     </NavLink>
                     <div className={`navigation-open ${this.state.showNavbar === "on" ? "activeNav" : ""}`} onClick={this.onClickShowNavbar}>
