@@ -42,6 +42,8 @@
       @include respond(tab-land) {
         grid-column: res-start / res-end;
         text-align: center;
+        width: 90%;
+        margin-left: 5%;
       }
 
       &-name {
@@ -72,7 +74,7 @@
         }
       }
 
-      &-text {}
+      // &-text {}
     }
 
     &-maps {

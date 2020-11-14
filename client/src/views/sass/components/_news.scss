@@ -442,6 +442,7 @@
                         font-family: 'Playfair Display', serif;
                         letter-spacing: 0.4px;
                         line-height: 29px;
+                        z-index: 3;
 
                         @include respond(tab-land) {
                             margin-top: 7px;
@@ -474,7 +475,7 @@
                         /* Chrome 10-25, Safari 5.1-6 */
                         background: linear-gradient(to right, #eef2f3, #8e9eab1e);
                         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+                        z-index: 3;
                     }
 
                     &-content {
@@ -483,19 +484,15 @@
                         font-size: 90%;
                         color: rgb(192, 192, 192);
                         line-height: 20px;
-
+                        z-index: 3;
 
                         @include respond(tab-port) {
                             font-size: 70%;
                         }
 
-                        @include respond(middle-phone) {}
-
                         @include respond(phone) {
                             line-height: 18px;
                         }
-
-                        @include respond(small-phone) {}
                     }
 
                     &-pubDate {
@@ -506,7 +503,15 @@
                         justify-self: center;
                         color: #b8ecff;
                         margin-top: 100px;
+                        z-index: 3;
 
+                        @include respond(tab-port) {
+                            margin-top: 110px;
+                        }
+
+                        @include respond(phone) {
+                            margin-top: 140px;
+                        }
                     }
 
                     &-newsImg {
@@ -514,6 +519,14 @@
                         grid-column: newsImg-start / newsImg-end;
                         width: 120%;
                         height: 130px;
+                        z-index: 1;
+
+                        @include respond(tab-port) {
+                            width: 190%;
+                            height: 100%;
+                            margin-left: -30%;
+                        }
+
                     }
 
                     &-newsImg-cover {
@@ -526,7 +539,14 @@
                         background: -webkit-linear-gradient(to left, #1a1a2e00, #141E30);
                         /* Chrome 10-25, Safari 5.1-6 */
                         background: linear-gradient(to left, #1a1a2e00, #141E30);
+                        z-index: 2;
+
                         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                        @include respond(tab-port) {
+                            width: 190%;
+                            height: 100%;
+                            margin-left: -30%;
+                        }
                     }
                 }
 

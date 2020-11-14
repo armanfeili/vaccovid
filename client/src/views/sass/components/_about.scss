@@ -238,7 +238,14 @@
                                 color: #eee;
                             }
 
-                            &-text {}
+                            &-text {
+                                transition: 0.3s;
+                            }
+
+                            &-text:hover {
+                                text-shadow: 0px 0px 1px #19d3da;
+                                font-size: 101%;
+                            }
                         }
 
 
@@ -263,7 +270,14 @@
                                 color: #eee;
                             }
 
-                            &-text {}
+                            &-text {
+                                transition: 0.3s;
+                            }
+
+                            &-text:hover {
+                                text-shadow: 0px 0px 1px #19d3da;
+                                font-size: 101%;
+                            }
                         }
                     }
                 }
