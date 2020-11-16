@@ -191,11 +191,11 @@ export const addDailyReports = async () => {
         // setTimeout(async () => {
         await addReports();
         await addUSStates();
-        setInterval(async () => {
-            await addReports();
-            await addUSStates();
-        }, 24 * 60 * 60 * 1000); // Min * Sec * Ms - every day 
-        // }, 2 * 60 * 1000); // after 2 minutes   
+        // setInterval(async () => {
+        //     await addReports();
+        //     await addUSStates();
+        // }, 24 * 60 * 60 * 1000); // Min * Sec * Ms - every day 
+        // // }, 2 * 60 * 1000); // after 2 minutes   
     } catch (error) {
         console.log(error);
     }
@@ -285,7 +285,7 @@ export async function addReports() {
             //     return "no data for city to add";
             // }
         });
-        console.log("all reports added - all updated");
+        console.log("all reports are updated");
         // await connect.queryRunner.commitTransaction();
     } catch (error) {
         console.log(error);

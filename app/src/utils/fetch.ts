@@ -51,6 +51,8 @@ function searchCountry3LetterCode(countryName: any, worldSymbols: any) {
 //Run For One at Start
 
 const fetch_getdata = async () => {
+    console.log("start fetching countries data from npm");
+
     const connect: any = await _connect();
     const StatRepository = connect.connection.getRepository(Statistics);
     try {
@@ -122,11 +124,11 @@ export const Fetcher = async () => {
     // setTimeout(async () => {
     await fetch_getdata();
     // }, 60 * 1000); // after 1 minutes
-    setInterval(
-        fetch_getdata,
-        // Min * Sec * Ms
-        30 * 60 * 1000
-    );
+    // setInterval(
+    //     fetch_getdata,
+    //     // Min * Sec * Ms
+    //     30 * 60 * 1000
+    // );
 };
 
 export async function fetchCasesInAllUSStates() {
@@ -143,7 +145,7 @@ export async function fetchCasesInAllUSStates() {
     try {
         // const data = await covid.getCasesInAllUSStates();
         const data = await covid.getUnitedStateCasesByStates();
-        console.log(data[0][0].table[0]);
+        // console.log(data[0][0].table[0]);
         if (data === undefined) {
             console.log("couldn't fetch data");
             await connect.queryRunner.rollbackTransaction();

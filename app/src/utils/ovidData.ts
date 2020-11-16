@@ -20,7 +20,7 @@ async function _connect() {
 
 async function downloadOvid() {
     try {
-        console.log("downloading ovid data");
+        console.log("start downloading owid file");
 
         const url = "https://covid.ourworldindata.org/data/owid-covid-data.json";
         const path = Path.resolve(__dirname, "owid-covid-data.json");
@@ -32,21 +32,26 @@ async function downloadOvid() {
             responseType: "stream",
         });
 
-        // pipe the result stream into a file on disc
-        response.data.pipe(Fs.createWriteStream(path));
+        if (response) {
+            // pipe the result stream into a file on disc
+            response.data.pipe(Fs.createWriteStream(path));
 
-        // return a promise and resolve when download finishes
-        return new Promise((resolve, reject) => {
-            response.data.on("end", () => {
-                resolve();
-                console.log("ovid data downloaded");
-            });
+            // return a promise and resolve when download finishes
+            return new Promise((resolve, reject) => {
+                response.data.on("end", () => {
+                    resolve();
+                    console.log("owid json file is updated");
+                });
 
-            response.data.on("error", (err: any) => {
-                reject();
-                console.log("error", err);
+                response.data.on("error", (err: any) => {
+                    console.log(err);
+                    console.log("couldn't write completely to the owid json file");
+                    reject();
+                });
             });
-        });
+        } else {
+            console.log("couldn't download owid file");
+        }
     } catch (error) {
         console.log(error);
     }
@@ -57,71 +62,102 @@ export const updateDailyOwid = async () => {
     await updateOwid();
     // }, 2 * 60 * 1000); // after 1 minutes
 
-    setInterval(
-        updateOwid,
-        // Min * Sec * Ms
-        24 * 60 * 60 * 1000
-    );
+    // setInterval(
+    //     updateOwid,
+    //     // Min * Sec * Ms
+    //     24 * 60 * 60 * 1000
+    // );
 };
 
 export const updateOwid = async () => {
+
     const connect: any = await _connect();
     const CovidDataRepository = connect.connection.getRepository(CovidData);
     const CovidDataDateRepository = connect.connection.getRepository(CovidDataDate);
 
     try {
         await downloadOvid();
+
+        console.log("updating database with ovid data");
+
         const path = Path.resolve(__dirname, "owid-covid-data.json");
-        const covData = await JSON.parse(Fs.readFileSync(path).toString());
-        await connect.queryRunner.startTransaction();
+        console.log(path);
 
-        Object.keys(covData).forEach(async (e: any, nn: number) => {
-            const x = covData[e];
-            const existData = await CovidDataRepository.findOne({
-                where: { symbol: e },
-            });
-            let newData: any;
-            let newDataid: any;
-            if (!existData) {
-                newData = new CovidData();
-                newData.symbol = e;
-                newData.Country = x.location;
-                newData.Continent = x.continent;
-                newData.population = x.population;
-                newDataid = await CovidDataRepository.save(newData);
-                // console.log(nn);
-            } else {
-                newData = existData;
-                newDataid = existData;
-            }
-            // console.log(x.data[1].date);
-            await x.data.forEach(async (ex: any, nnn: number) => {
-                const existdate = await CovidDataDateRepository.findOne({
-                    where: { symbol: newDataid.id, date: ex.date },
+        // const covData = await JSON.parse(Fs.readFileSync(path).toString());
+        // const covData = await JSON.parse(Fs.readFileSync(path, 'utf8').stringify());
+        // const covData = await JSON.parse(Fs.readFileSync(path, 'utf8').toString());
+        // const covData = await JSON.parse(Fs.readFileSync(path, 'utf8'));
+        // const covData = await JSON.parse(path);
+        let covDataContent: any;
+        let covData: any;
+
+        Fs.readFile(path, 'utf-8', (err, data) => {
+            if (err) throw err;
+            covDataContent = data;
+            let student = JSON.parse(data);
+            console.log(student);
+        })
+
+        covData = await JSON.parse(covDataContent);
+
+        console.log(covData.stringify());
+
+        if (covData) {
+            console.log("ovid json parsed");
+            Object.keys(covData).forEach(async (e: any, nn: number) => {
+                const x = covData[e];
+                const existData = await CovidDataRepository.findOne({
+                    where: { symbol: e },
                 });
-                if (!existdate) {
-                    const newDataDate = new CovidDataDate();
-                    newDataDate.symbol = newData;
-                    newDataDate.date = ex.date;
-                    newDataDate.total_cases = ex.total_cases;
-                    newDataDate.new_cases = ex.new_cases;
-                    newDataDate.total_deaths = ex.total_deaths;
-                    newDataDate.new_deaths = ex.new_deaths;
-                    newDataDate.new_tests = ex.new_tests;
-                    newDataDate.total_tests = ex.total_tests;
-                    try {
-                        await CovidDataDateRepository.save(newDataDate);
-
-                    } catch (error) {
-                        console.log("++++++", error);
-                    }
+                let newData: any;
+                let newDataid: any;
+                if (!existData) {
+                    newData = new CovidData();
+                    newData.symbol = e;
+                    newData.Country = x.location;
+                    newData.Continent = x.continent;
+                    newData.population = x.population;
+                    newDataid = await CovidDataRepository.save(newData);
+                    // console.log(nn);
+                } else {
+                    newData = existData;
+                    newDataid = existData;
                 }
+                // console.log(x.data[1].date);
+                await x.data.forEach(async (ex: any, nnn: number) => {
+                    const existdate = await CovidDataDateRepository.findOne({
+                        where: { symbol: newDataid.id, date: ex.date },
+                    });
+                    if (!existdate) {
+                        const newDataDate = new CovidDataDate();
+                        newDataDate.symbol = newData;
+                        newDataDate.date = ex.date;
+                        newDataDate.total_cases = ex.total_cases;
+                        newDataDate.new_cases = ex.new_cases;
+                        newDataDate.total_deaths = ex.total_deaths;
+                        newDataDate.new_deaths = ex.new_deaths;
+                        newDataDate.new_tests = ex.new_tests;
+                        newDataDate.total_tests = ex.total_tests;
+                        try {
+                            await CovidDataDateRepository.save(newDataDate);
+
+                        } catch (error) {
+                            console.log("++++++", error);
+                        }
+                    }
+                });
             });
-        });
+            console.log("ovid database is updated");
+        } else {
+            console.log("couldn't update ovid database");
+        }
     } catch (error) {
+        console.log(error);
+        console.log("couldn't update ovid database");
         return false;
     } finally {
         await connect.queryRunner.release();
+        // return true;
     }
 };
 

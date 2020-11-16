@@ -22,7 +22,11 @@ Router.get("/", async (req, res) => {
 });
 
 Router.put("/updateOvid", async (req, res) => {
-    res.json(await updateOwid());
+    try {
+        res.status(200).json(await updateOwid());
+    } catch (error) {
+        console.log(error);
+    }
 });
 //
 
@@ -34,7 +38,7 @@ Router.put("/updateOvid", async (req, res) => {
 Router.get("/:symbol", async (req, res) => {
     const CovidDataRepository = getManager().getRepository(CovidData);
     const symbol = req.params.symbol.toUpperCase();
-    console.log(symbol);
+    // console.log(symbol);
     const data = await CovidDataRepository.findOne({ where: { symbol: symbol } });
     if (!data) return res.send({ error: "Not Exists" });
     return res.send(data);
@@ -49,7 +53,7 @@ Router.get("/:symbol/data", async (req, res) => {
     const CovidDataRepository = getManager().getRepository(CovidData);
     const CovidDataDateRepository = getManager().getRepository(CovidDataDate);
     const symbol = req.params.symbol.toUpperCase();
-    console.log(symbol);
+    // console.log(symbol);
     const data = await CovidDataRepository.findOne({ where: { symbol: symbol } });
     if (!data) return res.send({ error: "Not Exists" });
     const dateData = await CovidDataDateRepository.find({
@@ -94,7 +98,7 @@ Router.get("/:symbol/data/:date", async (req, res) => {
     const CovidDataRepository = getManager().getRepository(CovidData);
     const CovidDataDateRepository = getManager().getRepository(CovidDataDate);
     const symbol = req.params.symbol.toUpperCase();
-    console.log(symbol);
+    // console.log(symbol);
     const data = await CovidDataRepository.findOne({ where: { symbol: symbol } });
     if (!data) return res.send({ error: "Not Exists" });
     const dateData = await CovidDataDateRepository.find({
