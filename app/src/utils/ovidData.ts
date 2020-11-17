@@ -75,9 +75,24 @@ async function _convertCsvToJsonOvid() {
         csv()
             .fromFile(csvFilePath)
             .then(async (jsonObj) => {
-                // console.log(jsonObj[0]);
-                let data = JSON.stringify(jsonObj);
+
                 // console.log(jsonObj);
+                let today = new Date();
+                // let sixMonthAgo = new Date(today.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
+                // let fourMonthAgo = new Date(today.getTime() - 4 * 30 * 24 * 60 * 60 * 1000);
+                let oneMonthAgo = new Date(today.getTime() - 1 * 30 * 24 * 60 * 60 * 1000);
+                let properedArary: any = [];
+                jsonObj.forEach(e => {
+                    // console.log(new Date(e.date).getTime());
+
+                    if (new Date(e.date).getTime() > oneMonthAgo.getTime()) {
+                        properedArary.push(e);
+                    }
+                });
+
+                // let data = JSON.stringify(jsonObj[0]);
+                // console.log(properedArary);
+                let data = JSON.stringify(properedArary);
 
                 // let data = JSON.stringify(jsonObj);
                 // let data3 = [jsonObj[0], jsonObj[1]];
@@ -95,9 +110,11 @@ async function _convertCsvToJsonOvid() {
                         return false;
                     };
                     console.log('the owid json file has been saved!');
-                    return true;
+                    return true
                 });
+                data = "";
             });
+        return true;
     } catch (error) {
         console.log(error);
         return false;
