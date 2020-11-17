@@ -22,5 +22,8 @@ production-phase-1
 
 killall -9 node
 
+rm -rf build/
+
+
   "proxy": "http://127.0.0.1:5000/",
   "secure": false,

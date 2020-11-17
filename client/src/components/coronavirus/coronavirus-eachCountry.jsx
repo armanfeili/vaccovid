@@ -80,6 +80,8 @@ export class countryEachCountryComponent extends Component {
         //     await this.getProvinceCovidData();
         // });
         if (this.state.iso !== this.props.match.params.iso) {
+            this.onload();
+
             this.setState({ iso: this.props.match.params.iso })
             await this.getProvinceCovidData();
             // setTimeout(() => {
@@ -88,7 +90,6 @@ export class countryEachCountryComponent extends Component {
         }
 
         if (this.props.ovidData.length > 1) {
-            this.onload();
             // console.log(this.props.ovidData);
             this.quickFactsChart(this.props.countryISOBased);
             this.compareToWorldChart(this.props.countryISOBased, this.props.world);
@@ -199,13 +200,18 @@ export class countryEachCountryComponent extends Component {
     }
 
     onload() {
-        if (this.props.eachCountryProvinces !== null && this.props.eachCountryProvinces !== undefined && this.props.eachCountryProvinces.length > 1) {
-            let fiveMinutes = 60 * 5,
-                display = document.querySelector('#time');
-            if (display !== null) {
-                this.countDown(fiveMinutes, display);
+        setTimeout(() => {
+            if (
+                this.props.eachCountryProvinces !== null && this.props.eachCountryProvinces !== undefined && this.props.eachCountryProvinces.length > 1 &&
+                this.props.ovidData.length > 1
+            ) {
+                let fiveMinutes = 60 * 5,
+                    display = document.querySelector('#time');
+                if (display !== null) {
+                    this.countDown(fiveMinutes, display);
+                }
             }
-        }
+        }, 5000);
     };
 
     onClickShowRegions() {
@@ -455,7 +461,7 @@ export class countryEachCountryComponent extends Component {
                 // events: [],
                 title: {
                     display: true,
-                    text: "The comparison of country data/its population and the world data/its population"
+                    text: "The comparison of (country data/its population) and (the world data/its population)"
                 },
                 tooltips: {
                     enabled: true,
