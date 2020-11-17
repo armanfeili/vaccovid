@@ -36,6 +36,7 @@ export class countryEachCountryComponent extends Component {
             showRegions: "off",
             data: [],
             world: [],
+            timer: 5,
 
             iso: "",
             countryName: "",
@@ -60,6 +61,8 @@ export class countryEachCountryComponent extends Component {
         this.newCasesChart = this.newCasesChart.bind(this);
         this.totalDeathsChart = this.totalDeathsChart.bind(this);
         this.newDeathsChart = this.newDeathsChart.bind(this);
+        this.onload = this.onload.bind(this);
+        this.countDown = this.countDown.bind(this);
 
     }
 
@@ -70,7 +73,7 @@ export class countryEachCountryComponent extends Component {
 
     async componentDidUpdate(prevProps) {
         let { countryName } = this.props.match.params;
-        document.title = `${countryName} covid-19 statistical table of data and charts - vaccovid.live`;
+        document.title = `${countryName} Coronavirus table of statistical data and charts - vaccovid.live`;
 
         // this.props.history.listen(async (location, action) => {
         //     console.log("on route change");
@@ -79,10 +82,13 @@ export class countryEachCountryComponent extends Component {
         if (this.state.iso !== this.props.match.params.iso) {
             this.setState({ iso: this.props.match.params.iso })
             await this.getProvinceCovidData();
+            // setTimeout(() => {
+            // }, 8000);
             // console.log("happens");
         }
 
         if (this.props.ovidData.length > 1) {
+            this.onload();
             // console.log(this.props.ovidData);
             this.quickFactsChart(this.props.countryISOBased);
             this.compareToWorldChart(this.props.countryISOBased, this.props.world);
@@ -173,6 +179,34 @@ export class countryEachCountryComponent extends Component {
     //     // const allNews = this.props.news.news;
     //     // console.log(this.state.news); // it still returens old data (previous state)
     // };
+
+
+    countDown(duration, display) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                timer = duration;
+            }
+        }, 1000);
+    }
+
+    onload() {
+        if (this.props.eachCountryProvinces !== null && this.props.eachCountryProvinces !== undefined && this.props.eachCountryProvinces.length > 1) {
+            let fiveMinutes = 60 * 5,
+                display = document.querySelector('#time');
+            if (display !== null) {
+                this.countDown(fiveMinutes, display);
+            }
+        }
+    };
 
     onClickShowRegions() {
         if (this.state.showRegions === "on") {
@@ -727,9 +761,9 @@ export class countryEachCountryComponent extends Component {
         // let { iso } = this.props.match.params; // url parameteres
         // let { iso } = this.props.location.params; // state parameteres
 
-        if (window.location.pathname === "/covid-19" || window.location.pathname === "/covid-19/" || url_state === undefined) {
-            return <Redirect to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} push />
-        }
+        // if (window.location.pathname === "/covid-19" || window.location.pathname === "/covid-19/" || url_state === undefined) {
+        //     return <Redirect to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} push />
+        // }
 
         if (url_state.iso === null || url_state.iso === undefined || url_state.countryName === null || url_state.countryName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
@@ -1003,15 +1037,15 @@ export class countryEachCountryComponent extends Component {
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalCases">{countryISOBased[0].TotalCases !== null && countryISOBased[0].TotalCases !== undefined ? this.numberWithCommas(countryISOBased[0].TotalCases) : "No Data"}</span></li>
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalDeaths">{countryISOBased[0].TotalDeaths !== null && countryISOBased[0].TotalDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].TotalDeaths) : "No Data"}</span></li>
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewCases">{countryISOBased[0].NewCases !== null && countryISOBased[0].NewCases !== undefined ? this.numberWithCommas(countryISOBased[0].NewCases) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">{countryISOBased[0].TotalNewDeathsCases !== null && countryISOBased[0].NewDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].NewDeaths) : "No Data"}</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">{countryISOBased[0].NewDeaths !== null && countryISOBased[0].NewDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].NewDeaths) : "No Data"}</span></li>
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Infection Risk: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Infection_Risk">{countryISOBased[0].Infection_Risk !== null && countryISOBased[0].Infection_Risk !== undefined ? this.numberWithCommas(countryISOBased[0].Infection_Risk) + "%" : "No Data"}</span></li>
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Case Fatality Rate: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Case_Fatality_Rate">{countryISOBased[0].Case_Fatality_Rate !== null && countryISOBased[0].Case_Fatality_Rate !== undefined ? this.numberWithCommas(countryISOBased[0].Case_Fatality_Rate) + "%" : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">{countryISOBased[0].ActiveCases !== null && countryISOBased[0].ActiveCases !== undefined ? this.numberWithCommas(countryISOBased[0].ActiveCases) : "No Data"}</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">{countryISOBased[0].ActiveCases !== null && countryISOBased[0].ActiveCases !== 0 && countryISOBased[0].ActiveCases !== undefined ? this.numberWithCommas(countryISOBased[0].ActiveCases) : "No Data"}</span></li>
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Tests: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalTests">{countryISOBased[0].TotalTests !== null && countryISOBased[0].TotalTests !== undefined ? this.numberWithCommas(countryISOBased[0].TotalTests) : "No Data"}</span></li>
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Serious Critical: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Serious_Critical">{countryISOBased[0].Serious_Critical !== null && countryISOBased[0].Serious_Critical !== undefined ? this.numberWithCommas(countryISOBased[0].Serious_Critical) : "No Data"}</span></li>
                                             <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Test Percentage: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Test_Percentage">{countryISOBased[0].Test_Percentage !== null && countryISOBased[0].Test_Percentage !== undefined ? this.numberWithCommas(countryISOBased[0].Test_Percentage) + "%" : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Recovered: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalRecovered">{countryISOBased[0].TotalRecovered !== null && countryISOBased[0].TotalRecovered !== undefined ? this.numberWithCommas(countryISOBased[0].TotalRecovered) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Recovery Proporation: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Recovery_Proporation">{countryISOBased[0].Recovery_Proporation !== null && countryISOBased[0].Recovery_Proporation !== undefined ? this.numberWithCommas(countryISOBased[0].Recovery_Proporation) + "%" : "No Data"}</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Recovered: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalRecovered">{countryISOBased[0].TotalRecovered !== null && countryISOBased[0].TotalRecovered !== 0 && countryISOBased[0].TotalRecovered !== "0" && countryISOBased[0].TotalRecovered !== undefined ? this.numberWithCommas(countryISOBased[0].TotalRecovered) : "No Data"}</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Recovery Proporation: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Recovery_Proporation">{countryISOBased[0].Recovery_Proporation !== null && countryISOBased[0].Recovery_Proporation !== 0 && countryISOBased[0].Recovery_Proporation !== undefined ? this.numberWithCommas(countryISOBased[0].Recovery_Proporation) + "%" : "No Data"}</span></li>
                                         </ul>
                                         <div className="country-name_and_flag-cover"></div>
                                         <img className="country-name_and_flag-flag" src={`${require(`./../../views/flags/${country.TwoLetterSymbol.toLowerCase()}.svg`) ?
@@ -1035,7 +1069,7 @@ export class countryEachCountryComponent extends Component {
                                 <div className="country-table-title">
                                     <input className="country-table-title-searchbar" type="text" id="input" placeholder="Your State" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
                                     <table className="country-table-title-stats" id="t01">
-                                        <caption className="country-table-title-stats-caption">{countryISOBased.length > 0 ? countryISOBased[0].Country + " States" : "Data"}</caption>
+                                        <caption className="country-table-title-stats-caption"><h2 className="country-table-title-stats-caption-h2">{countryISOBased.length > 0 ? countryISOBased[0].Country + " States" : "Data"}<span className="country-table-title-stats-caption-update-text">- Live Update in <span id="time">05:00</span></span><span className="country-table-title-stats-caption-livepoint"></span><span className="country-table-title-stats-caption-shiningpoint"></span></h2></caption>
                                         {/* <caption className="country-table-title-stats-caption">World Data</caption> */}
                                         <thead className="country-table-title-stats-thead">
                                             <tr className="country-table-title-stats-columns" id="columns"
@@ -1044,21 +1078,15 @@ export class countryEachCountryComponent extends Component {
                                                 onScroll={() => this.onScroll('columns')}
                                             >
                                                 <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-number`}>NUM</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-name ${this.state.activeTitle === 'province' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName() }}>STATES</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-confirmed ${this.state.activeTitle === 'confirmed' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderConfirmed() }}>TOTAL CASES</th>
-                                                {/* <th className="country-table-title-stats-columns-item country-table-title-stats-columns-confirmed"><button onClick={() => countries.sort(this.compareValues('TotalCases', 'desc'))}>CONFIRMED</button></th> */}
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newcases ${this.state.activeTitle === 'NewCases' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newcases', 'confirmed_diff') }}>NEW CASES</th>
-                                                {/* <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-confirmedpermil ${this.state.activeTitle === 'Infection_Risk' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('confirmedpermil', 'Infection_Risk') }}>INFECTION RISK</th> */}
-                                                {/* <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-critical ${this.state.activeTitle === 'Serious_Critical' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('critical', 'Serious_Critical') }}>SERIOUS, CRITICAL</th> */}
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-active ${this.state.activeTitle === 'active' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('active', 'active') }}>ACTIVE CASES</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deceased ${this.state.activeTitle === 'deaths' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deceased', 'deaths') }}>TOTAL DEATHS</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newdeaths ${this.state.activeTitle === 'deaths_diff' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newdeaths', 'deaths_diff') }}>NEW DEATHS</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deathspermil ${this.state.activeTitle === 'Case_Fatality_Rate' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deathspermil', 'Case_Fatality_Rate') }}>CASE FATALITY RATE (CFR)</th>
-                                                {/* <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-giventests ${this.state.activeTitle === 'TotalTests' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('giventests', 'TotalTests') }}>TOTAL TESTS</th> */}
-                                                {/* <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-testspermil ${this.state.activeTitle === 'Test_Percentage' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('testspermil', 'Test_Percentage') }}>TEST PERCENTAGE</th> */}
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recovered ${this.state.activeTitle === 'recovered' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recovered', 'recovered') }}>TOTAL RECOVERED</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recoveredrate ${this.state.activeTitle === 'Recovery_Proporation' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recoveredrate', 'Recovery_Proporation') }}>RECOVERY PERCENTAGE</th>
-                                                {/* <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-population ${this.state.activeTitle === 'Population' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('population', 'Population') }}>POPULATION</th> */}
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-name ${this.state.activeTitle === 'province' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName() }}>STATES <span className="sign">&#9662;</span></th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-confirmed ${this.state.activeTitle === 'confirmed' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderConfirmed() }}>TOTAL CASES <span className="sign">&#9662;</span></th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newcases ${this.state.activeTitle === 'NewCases' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newcases', 'confirmed_diff') }}>NEW CASES <span className="sign">&#9662;</span></th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-active ${this.state.activeTitle === 'active' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('active', 'active') }}>ACTIVE CASES <span className="sign">&#9662;</span></th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deceased ${this.state.activeTitle === 'deaths' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deceased', 'deaths') }}>TOTAL DEATHS <span className="sign">&#9662;</span></th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newdeaths ${this.state.activeTitle === 'deaths_diff' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newdeaths', 'deaths_diff') }}>NEW DEATHS <span className="sign">&#9662;</span></th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deathspermil ${this.state.activeTitle === 'Case_Fatality_Rate' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deathspermil', 'Case_Fatality_Rate') }}>CASE FATALITY RATE (CFR <span className="sign">&#9662;</span>)</th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recovered ${this.state.activeTitle === 'recovered' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recovered', 'recovered') }}>TOTAL RECOVERED <span className="sign">&#9662;</span></th>
+                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recoveredrate ${this.state.activeTitle === 'Recovery_Proporation' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recoveredrate', 'Recovery_Proporation') }}>RECOVERY PERCENTAGE <span className="sign">&#9662;</span></th>
                                             </tr>
                                         </thead>
                                     </table>

@@ -864,7 +864,7 @@ td {
     grid-column: stats-start / stats-end;
     display: grid;
     grid-template-rows: [caption-start] 45px [caption-end table-start] 48px [table-end];
-    grid-template-columns: [caption-and-titles-start] 5fr [caption-end searchbar-start] minmax(100px, 1fr) [title-and-searchbar-end];
+    grid-template-columns: [caption-and-titles-start] 1fr [caption-end update-text-start] 3fr [update-text-end searchbar-start] minmax(100px, 1fr) [title-and-searchbar-end];
     z-index: 3;
     background-color: #1a1a2e;
     border-radius: 10px 10px 0px 0px;
@@ -896,6 +896,9 @@ td {
       padding: 1px 6px;
       margin: 5px 3px;
       background-color: #074f80; }
+    .coronavirus-table-title-update-text {
+      grid-row: caption-start / caption-end;
+      grid-column: update-text-start / update-text-end; }
     .coronavirus-table-title-stats {
       grid-row: caption-start / table-end;
       grid-column: caption-and-titles-start / title-and-searchbar-end; }
@@ -912,9 +915,25 @@ td {
         -webkit-text-fill-color: transparent;
         text-align: left;
         padding: 0px 15px;
-        font-size: 160%; }
+        font-size: 160%;
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: auto auto 1fr; }
         .coronavirus-table-title-stats-caption-h1 {
           font-size: 100%; }
+        .coronavirus-table-title-stats-caption-update-text {
+          font-size: 60%;
+          vertical-align: text-bottom; }
+        .coronavirus-table-title-stats-caption-livepoint {
+          position: absolute;
+          color: #f62a66;
+          border: #f62a66 1px solid;
+          width: 5px;
+          height: 5px;
+          margin-top: 14px;
+          margin-left: 5px;
+          border-radius: 100%;
+          background-color: #f62a66; }
         @media only screen and (max-width: 56.25em) {
           .coronavirus-table-title-stats-caption {
             grid-row: cap-start / cap-end;
@@ -938,7 +957,7 @@ td {
         display: grid;
         overflow: hidden;
         grid-template-rows: [table-start] 1fr [table-end];
-        grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
+        grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
         .coronavirus-table-title-stats-columns-item {
           color: #eee;
           padding: 2px 2px;
@@ -994,7 +1013,7 @@ td {
       color: #fff;
       display: grid;
       grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-      grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
+      grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end]; }
       .coronavirus-table-stats-item-each {
         font-weight: bold; }
       .coronavirus-table-stats-item-number {
@@ -1122,6 +1141,9 @@ td {
   margin-top: 300%; }
 
 .sign {
+  font-size: 70%; }
+
+.sign-2 {
   font-size: 70%; }
 
 th,
@@ -1564,6 +1586,21 @@ td {
         text-align: left;
         padding: 0px 15px;
         font-size: 160%; }
+        .country-table-title-stats-caption-h2 {
+          font-size: 100%; }
+        .country-table-title-stats-caption-update-text {
+          font-size: 60%;
+          vertical-align: text-bottom; }
+        .country-table-title-stats-caption-livepoint {
+          position: absolute;
+          color: #f62a66;
+          border: #f62a66 1px solid;
+          width: 5px;
+          height: 5px;
+          margin-top: 14px;
+          margin-left: 5px;
+          border-radius: 100%;
+          background-color: #f62a66; }
         @media only screen and (max-width: 56.25em) {
           .country-table-title-stats-caption {
             grid-row: cap-start / cap-end;

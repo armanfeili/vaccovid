@@ -120,7 +120,7 @@ export const updateOwid = async () => {
 
         let covData: any = {};
 
-        fs.readFile(jsonFilePath, 'utf-8', (err, data) => {
+        fs.readFile(jsonFilePath, 'utf-8', async (err, data) => {
             if (err) {
                 console.log("couldn't read the owid json file");
                 return false;
@@ -138,7 +138,7 @@ export const updateOwid = async () => {
                 let today = new Date();
                 let sixMonthAgo = new Date(today.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
 
-                covData.forEach(async (e: any, i: number) => {
+                await covData.forEach(async (e: any, i: number) => {
                     const existData = await OwidRepository.findOne({
                         // where: { date: e.date },
                         where: { date: new Date(e.date) },
@@ -153,12 +153,12 @@ export const updateOwid = async () => {
                             newData.Country = e.location;
                             newData.Continent = e.continent;
                             newData.date = new Date(e.date);
-                            newData.total_cases = e.total_cases === null || e.total_cases === "" ? 0 : parseInt(e.total_cases);
-                            newData.new_cases = e.new_cases === null || e.new_cases === "" ? 0 : parseInt(e.new_cases);
-                            newData.total_deaths = e.total_deaths === null || e.total_deaths === "" ? 0 : parseInt(e.total_deaths);
-                            newData.new_deaths = e.new_deaths === null || e.new_deaths === "" ? 0 : parseInt(e.new_deaths);
-                            newData.total_tests = e.total_tests === null || e.total_tests === "" ? 0 : parseInt(e.total_tests);
-                            newData.new_tests = e.new_tests === null || e.new_tests === "" ? 0 : parseInt(e.new_tests);
+                            newData.total_cases = e.total_cases === null || e.total_cases === "" ? 0 : Math.abs(parseInt(e.total_cases));
+                            newData.new_cases = e.new_cases === null || e.new_cases === "" ? 0 : Math.abs(parseInt(e.new_cases));
+                            newData.total_deaths = e.total_deaths === null || e.total_deaths === "" ? 0 : Math.abs(parseInt(e.total_deaths));
+                            newData.new_deaths = e.new_deaths === null || e.new_deaths === "" ? 0 : Math.abs(parseInt(e.new_deaths));
+                            newData.total_tests = e.total_tests === null || e.total_tests === "" ? 0 : Math.abs(parseInt(e.total_tests));
+                            newData.new_tests = e.new_tests === null || e.new_tests === "" ? 0 : Math.abs(parseInt(e.new_tests));
 
                             try {
                                 await OwidRepository.save(newData);
@@ -171,8 +171,8 @@ export const updateOwid = async () => {
                         // nothing to do. go to next item
                     }
                 });
-                console.log("owid database is getting updated.");
-                return true;
+                console.log("owid database is getting updated in a second.");
+                return covData;
             }
         })
     } catch (error) {

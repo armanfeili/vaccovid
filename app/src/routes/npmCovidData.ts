@@ -2,7 +2,7 @@ import { getConnection, getManager } from "typeorm";
 import { Statistics } from "../db/models/Statistics";
 import express from "express";
 import {
-    getWorldData, getAllCountriesData, getAustraliaOceaniaCountriesData, getSouthAmericaCountriesData, getNorthAmericaCountriesData, getEuropeCountriesData, getAfricaCountriesData, getAsiaCountriesData, fetchCasesInAllUSStates, getAllCountriesNameOrdered, getNPMProvincesBasedOnISO,
+    fetch_npmData, getWorldData, getAllCountriesData, getAustraliaOceaniaCountriesData, getSouthAmericaCountriesData, getNorthAmericaCountriesData, getEuropeCountriesData, getAfricaCountriesData, getAsiaCountriesData, fetchCasesInAllUSStates, getAllCountriesNameOrdered, getNPMProvincesBasedOnISO,
 } from "../utils/fetch";
 
 const Router = express.Router();
@@ -24,6 +24,15 @@ Router.get("/", async (req, res) => {
             },
         })
     );
+});
+
+Router.post("/fetch-npm-data", async (req, res) => {
+    try {
+        const data = await fetch_npmData();
+        res.status(200).json({ message: "all countries are updated from npm", data: data })
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 Router.put("/update-us-states", async (req, res) => {

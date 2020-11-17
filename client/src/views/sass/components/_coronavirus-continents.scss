@@ -729,7 +729,7 @@ td {
 
         display: grid;
         grid-template-rows: [caption-start] 45px [caption-end table-start] 48px [table-end];
-        grid-template-columns: [caption-and-titles-start] 5fr [caption-end searchbar-start] minmax(100px, 1fr) [title-and-searchbar-end];
+        grid-template-columns: [caption-and-titles-start] 1fr [caption-end update-text-start] 3fr [update-text-end searchbar-start] minmax(100px, 1fr) [title-and-searchbar-end];
         z-index: 3;
         background-color: #1a1a2e;
         border-radius: 10px 10px 0px 0px;
@@ -781,6 +781,11 @@ td {
             // text-shadow: 0px 0px 1px #fff;
         }
 
+        &-update-text {
+            grid-row: caption-start / caption-end;
+            grid-column: update-text-start / update-text-end;
+        }
+
         &-stats {
             grid-row: caption-start / table-end;
             grid-column: caption-and-titles-start / title-and-searchbar-end;
@@ -801,10 +806,49 @@ td {
                 text-align: left;
                 padding: 0px 15px;
                 font-size: 160%;
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-template-columns: auto auto 1fr;
 
                 &-h1 {
                     font-size: 100%;
                 }
+
+                &-update-text {
+                    font-size: 60%;
+                    vertical-align: text-bottom;
+                }
+
+                &-livepoint {
+                    position: absolute;
+                    color: #f62a66;
+                    border: #f62a66 1px solid;
+                    width: 5px;
+                    height: 5px;
+                    margin-top: 14px;
+                    margin-left: 5px;
+                    border-radius: 100%;
+                    background-color: #f62a66;
+                }
+
+                // &-shiningpoint {
+    //     position: absolute;
+    //     color: #f62a66;
+    //     border: #f62a66 1px solid;
+    //     background-color: #f62a66;
+    //     width: 4px;
+    //     height: 4px;
+    //     margin-top: 14.5px;
+    //     margin-left: 5.7px;
+    //     border-radius: 100%;
+    //     animation: shiningLiveLogo 2s;
+    //     animation-iteration-count: 1;
+    //     animation-fill-mode: none;
+    //     animation-iteration-count: 1;
+    //     animation-fill-mode: none;
+    //     animation-fill-mode: both;
+    //     animation-iteration-count: infinite;
+    // }
 
                 @include respond(tab-port) {
                     grid-row: cap-start / cap-end;
@@ -841,7 +885,7 @@ td {
                 display: grid;
                 overflow: hidden;
                 grid-template-rows: [table-start] 1fr [table-end];
-                grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+                grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
                 // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
 
                 &-item {
@@ -1011,7 +1055,7 @@ td {
 
             display: grid;
             grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-            grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(70px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(80px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+            grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
             // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
 
 
@@ -1246,5 +1290,9 @@ td {
 }
 
 .sign {
+    font-size: 70%;
+}
+
+.sign-2 {
     font-size: 70%;
 }

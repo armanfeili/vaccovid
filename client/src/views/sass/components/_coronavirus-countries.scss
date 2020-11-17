@@ -655,6 +655,46 @@ td {
                 padding: 0px 15px;
                 font-size: 160%;
 
+                &-h2 {
+                    font-size: 100%;
+                }
+
+                &-update-text {
+                    font-size: 60%;
+                    vertical-align: text-bottom;
+                }
+
+                &-livepoint {
+                    position: absolute;
+                    color: #f62a66;
+                    border: #f62a66 1px solid;
+                    width: 5px;
+                    height: 5px;
+                    margin-top: 14px;
+                    margin-left: 5px;
+                    border-radius: 100%;
+                    background-color: #f62a66;
+                }
+
+//                 &-shiningpoint {
+    //     position: absolute;
+    //     color: #f62a66;
+    //     border: #f62a66 1px solid;
+    //     background-color: #f62a66;
+    //     width: 4px;
+    //     height: 4px;
+    //     margin-top: 14.5px;
+    //     margin-left: 5.7px;
+    //     border-radius: 100%;
+    //     animation: shiningLiveLogo 2s;
+    //     animation-iteration-count: 1;
+    //     animation-fill-mode: none;
+    //     animation-iteration-count: 1;
+    //     animation-fill-mode: none;
+    //     animation-fill-mode: both;
+    //     animation-iteration-count: infinite;
+    // }
+
                 @include respond(tab-port) {
                     grid-row: cap-start / cap-end;
                     grid-column: cap-and-title-start / cap-and-title-end;

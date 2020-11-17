@@ -20,9 +20,10 @@ Router.get("/", async (req, res) => {
     return res.send(data);
 });
 
-Router.put("/updateOvid", async (req, res) => {
+Router.put("/update-ovid", async (req, res) => {
     try {
-        res.status(200).json(await updateOwid());
+        const covData = await updateOwid();
+        res.status(200).json(covData);
     } catch (error) {
         console.log(error);
     }
