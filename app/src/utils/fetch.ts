@@ -24,6 +24,11 @@ const StrToFloat = (str: string): number => {
     return parseFloat(str.replace(/,/g, ""));
 };
 
+const StrToInt = (str: string): number => {
+    if (str == "") return 0;
+    return parseInt(str.replace(/,/g, ""));
+};
+
 function searchCountry2LetterCode(countryName: any, worldSymbols: any) {
     for (var i = 0; i < worldSymbols.length; i++) {
         if (
@@ -50,7 +55,9 @@ function searchCountry3LetterCode(countryName: any, worldSymbols: any) {
 
 //Run For One at Start
 
-const fetch_getdata = async () => {
+export const fetch_npmData = async () => {
+    console.log("start fetching countries data from npm");
+
     const connect: any = await _connect();
     const StatRepository = connect.connection.getRepository(Statistics);
     try {
@@ -63,10 +70,10 @@ const fetch_getdata = async () => {
             const temp = new Statistics();
             const alpha2: any = searchCountry2LetterCode(e["Country"], worldSymbols);
             const alpha3: any = searchCountry3LetterCode(e["Country"], worldSymbols);
-            const Infection_Risk = parseFloat(((StrToFloat(e["TotalCases"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
-            const Case_Fatality_Rate = parseFloat(((StrToFloat(e["TotalDeaths"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
-            const Test_Percentage = parseFloat(((StrToFloat(e["TotalTests"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
-            const Recovery_Proporation = parseFloat(((StrToFloat(e["TotalRecovered"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
+            const Infection_Risk = e["TotalCases"] === "" || e["TotalCases"] === "N/A" || e["Population"] === "" || e["Population"] === "N/A" ? 0 : parseFloat(((StrToFloat(e["TotalCases"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
+            const Case_Fatality_Rate = e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" || e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : parseFloat(((StrToFloat(e["TotalDeaths"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
+            const Test_Percentage = e["TotalTests"] === "" || e["TotalTests"] === "N/A" || e["Population"] === "" || e["Population"] === "N/A" ? 0 : parseFloat(((StrToFloat(e["TotalTests"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
+            const Recovery_Proporation = e["TotalRecovered"] === "" || e["TotalRecovered"] === "N/A" || e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : parseFloat(((StrToFloat(e["TotalRecovered"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
             // console.log(alpha);
             // console.log(alpha[0]);
 
@@ -80,23 +87,24 @@ const fetch_getdata = async () => {
             temp.Case_Fatality_Rate = Case_Fatality_Rate;
             temp.Recovery_Proporation = Recovery_Proporation;
             temp.Test_Percentage = Test_Percentage;
+            // console.log(e["ActiveCases"]);
 
-            temp.ActiveCases = StrToFloat(e["ActiveCases"]);
-            temp.TotalCases = StrToFloat(e["TotalCases"]);
-            temp.NewCases = StrToFloat(e["NewCases"]);
-            temp.TotalDeaths = StrToFloat(e["TotalDeaths"]);
-            temp.NewDeaths = StrToFloat(e["NewDeaths"]);
-            temp.TotalRecovered = StrToFloat(e["TotalRecovered"]);
-            temp.NewRecovered = StrToFloat(e["NewRecovered"]);
-            temp.TotalTests = StrToFloat(e["TotalTests"]);
-            temp.Population = StrToFloat(e["Population"]);
-            temp.Deaths_1M_pop = StrToFloat(e["Deaths_1M_pop"]);
-            temp.Serious_Critical = StrToFloat(e["Serious_Critical"]);
-            temp.Tests_1M_Pop = StrToFloat(e["Tests_1M_Pop"]);
-            temp.TotCases_1M_Pop = StrToFloat(e["TotCases_1M_Pop"]);
-            temp.one_Caseevery_X_ppl = StrToFloat(e["1 Caseevery X ppl"]);
-            temp.one_Deathevery_X_ppl = StrToFloat(e["1 Deathevery X ppl"]);
-            temp.one_Testevery_X_ppl = StrToFloat(e["1 Testevery X ppl"]);
+            temp.ActiveCases = e["ActiveCases"] === "" || e["ActiveCases"] === "N/A" ? 0 : StrToInt(e["ActiveCases"]);
+            temp.TotalCases = e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : StrToInt(e["TotalCases"]);
+            temp.NewCases = e["NewCases"] === "" || e["NewCases"] === "N/A" ? 0 : StrToInt(e["NewCases"]);
+            temp.TotalDeaths = e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" ? 0 : StrToInt(e["TotalDeaths"]);
+            temp.NewDeaths = e["NewDeaths"] === "" || e["NewDeaths"] === "N/A" ? 0 : StrToInt(e["NewDeaths"]);
+            temp.TotalRecovered = e["TotalRecovered"] === "" || e["TotalRecovered"] === "N/A" ? 0 : StrToInt(e["TotalRecovered"]);
+            temp.NewRecovered = e["NewRecovered"] === "" || e["NewRecovered"] === "N/A" ? 0 : StrToInt(e["NewRecovered"]);
+            temp.TotalTests = e["TotalTests"] === "" || e["TotalTests"] === "N/A" ? 0 : StrToInt(e["TotalTests"]);
+            temp.Population = e["Population"] === "" || e["Population"] === "N/A" ? 0 : StrToInt(e["Population"]);
+            temp.Serious_Critical = e["Serious_Critical"] === "" || e["Serious_Critical"] === "N/A" ? 0 : StrToInt(e["Serious_Critical"]);
+            temp.Deaths_1M_pop = e["Deaths_1M_pop"] === "" || e["Deaths_1M_pop"] === "N/A" ? 0 : StrToFloat(e["Deaths_1M_pop"]);
+            temp.Tests_1M_Pop = e["Tests_1M_Pop"] === "" || e["Tests_1M_Pop"] === "N/A" ? 0 : StrToFloat(e["Tests_1M_Pop"]);
+            temp.TotCases_1M_Pop = e["TotCases_1M_Pop"] === "" || e["TotCases_1M_Pop"] === "N/A" ? 0 : StrToFloat(e["TotCases_1M_Pop"]);
+            temp.one_Caseevery_X_ppl = e["one_Caseevery_X_ppl"] === "" || e["one_Caseevery_X_ppl"] === "N/A" ? 0 : StrToFloat(e["1 Caseevery X ppl"]);
+            temp.one_Deathevery_X_ppl = e["one_Deathevery_X_ppl"] === "" || e["one_Deathevery_X_ppl"] === "N/A" ? 0 : StrToFloat(e["1 Deathevery X ppl"]);
+            temp.one_Testevery_X_ppl = e["one_Testevery_X_ppl"] === "" || e["one_Testevery_X_ppl"] === "N/A" ? 0 : StrToFloat(e["1 Testevery X ppl"]);
             try {
                 if (flag == 0) {
                     await StatRepository.update({ Country: e["Country"] }, temp);
@@ -108,6 +116,8 @@ const fetch_getdata = async () => {
             }
             // console.log(num / data[0][0].table[0].length);
         });
+        console.log("all countries are updated from npm");
+        return data;
     } catch (error) {
         console.log(error);
     } finally {
@@ -115,18 +125,6 @@ const fetch_getdata = async () => {
         await connect.queryRunner.release();
     }
 
-};
-
-//This function fetch data every 30 min from APIs
-export const Fetcher = async () => {
-    // setTimeout(async () => {
-    await fetch_getdata();
-    // }, 60 * 1000); // after 1 minutes
-    setInterval(
-        fetch_getdata,
-        // Min * Sec * Ms
-        30 * 60 * 1000
-    );
 };
 
 export async function fetchCasesInAllUSStates() {
@@ -143,7 +141,7 @@ export async function fetchCasesInAllUSStates() {
     try {
         // const data = await covid.getCasesInAllUSStates();
         const data = await covid.getUnitedStateCasesByStates();
-        console.log(data[0][0].table[0]);
+        // console.log(data[0][0].table[0]);
         if (data === undefined) {
             console.log("couldn't fetch data");
             await connect.queryRunner.rollbackTransaction();

@@ -35,7 +35,7 @@ export default class NavBar extends Component {
         return (
             <div>
                 <nav className="navigation" id="navOne" >
-                    <NavLink className="navigation-brand" onClick={this.changeOffset} to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }}>
+                    <NavLink className="navigation-brand" onClick={this.changeOffset} to={{ pathname: `/`, state: { continentName: 'World' } }}>
                         VACCOVID<span className="navigation-brand__secondpart">.LIVE</span><span className=" navigation-brand__livepoint"></span><span className=" navigation-brand__shiningpoint"></span>
                     </NavLink>
                     <div className={`navigation-open ${this.state.showNavbar === "on" ? "activeNav" : ""}`} onClick={this.onClickShowNavbar}>
@@ -57,7 +57,7 @@ export default class NavBar extends Component {
                             </li> */}
                             <li className="navigation-btns-li">
                                 {/* <NavLink className="nav-link" activeClassName='is-active' to="/covid-19/world-data"> */}
-                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }}>
+                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/covid-19`, state: { continentName: 'World' } }}>
                                     COVID-19
                                 </NavLink>
                             </li>
@@ -105,7 +105,7 @@ export default class NavBar extends Component {
                             </li> */}
                             <li className="res-navigation-responsive-li">
                                 {/* <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to="/covid-19/world-data"> */}
-                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} exact={true} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }}>
+                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} exact={true} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/covid-19`, state: { continentName: 'World' } }}>
                                     COVID-19
                                 </NavLink>
                             </li>

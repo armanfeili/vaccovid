@@ -28,7 +28,7 @@ Router.put("/clear-data", async (req, res) => {
 });
 
 Router.put("/updateProvinces", async (req, res) => {
-    console.log("We are here");
+    // console.log("We are here");
     try {
         return res.send(await updateProvinces());
     } catch (error) {
@@ -37,7 +37,7 @@ Router.put("/updateProvinces", async (req, res) => {
 });
 
 Router.put("/addReports", async (req, res) => {
-    console.log("We are here 2");
+    // console.log("We are here 2");
     try {
         await addReports();
         return res.send({ message: "all reports are updated" });
@@ -47,7 +47,7 @@ Router.put("/addReports", async (req, res) => {
 });
 
 Router.put("/addUsReports", async (req, res) => {
-    console.log("We are here 2");
+    // console.log("We are here 2");
     try {
         await addUSStates();
         return res.send({ message: "all US reports are updated" });

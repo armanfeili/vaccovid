@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import Footer from '../common/footer';
 
-import { getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered } from '../../actions/covid_countries';
-// import * as Scroll from 'react-scroll';
-// import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import {
+    getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered, getAsiaCountriesData, getAfricaCountriesData, getEuropeCountriesData, getNorthAmericaCountriesData, getSouthAmericaCountriesData, getAustraliaOceaniaCountriesData, getCountryISOBased, getProvinceReportISOBased,
+    clearWorldData
+} from '../../actions/covid_countries';
 
 export class CoronavirusWorldComponent extends Component {
     constructor() {
@@ -25,10 +27,8 @@ export class CoronavirusWorldComponent extends Component {
             page: 0,
             orderNameForTitles: '',
             activeTitle: 'TotalCase',
-            showRegions: "off"
-            // scrolling: 0,
-            // scrollTitle: 0,
-            // scrollTable: 0
+            showRegions: "off",
+            timer: 5
         };
 
         this.onClickGetCovidWorldData = this.onClickGetCovidWorldData.bind(this);
@@ -38,14 +38,112 @@ export class CoronavirusWorldComponent extends Component {
         this.numberWithCommas = this.numberWithCommas.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.search = this.search.bind(this);
+        this.changeOffset = this.changeOffset.bind(this);
+        this.onload = this.onload.bind(this);
+        this.countDown = this.countDown.bind(this);
     }
 
     async componentDidMount() {
-        document.title = `covid-19 world map`;
-        this.onClickGetCovidWorldData();
+        let { continentName } = this.props.match.params;
+        if (continentName === 'world-data') {
+            document.title = `Vaccine and Covid-19 tracker - Coronavirus World table of statistical data - vaccovid.live`;
+        } else if (continentName === 'asia-data') {
+            document.title = `Coronavirus Asia table of statistical data - vaccovid.live`;
+        } else if (continentName === 'africa-data') {
+            document.title = `Coronavirus Africa table of statistical data - vaccovid.live`;
+        } else if (continentName === 'australia-data') {
+            document.title = `Coronavirus Australia table of statistical data - vaccovid.live`;
+        } else if (continentName === 'europe-data') {
+            document.title = `Coronavirus Europe table of statistical data - vaccovid.live`;
+        } else if (continentName === 'north-america-data') {
+            document.title = `Coronavirus North America table of statistical data - vaccovid.live`;
+        } else if (continentName === 'south_america-data') {
+            document.title = `Coronavirus South America table of statistical data - vaccovid.live`;
+        } else if (continentName === 'oceania-data') {
+            document.title = `Coronavirus Oceania table of statistical data - vaccovid.live`;
+        }
+        // this.onClickGetCovidWorldData();
+        this.onClickGetDynamicCovidData();
+        this.onload();
     }
 
+    async componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        // this.onClickGetDynamicCovidData();
+        let { continentName } = this.props.match.params;
+        if (continentName === 'world-data') {
+            document.title = `Vaccine and Covid-19 tracker - covid-19 World table of data - vaccovid.live`;
+        } else if (continentName === 'asia-data') {
+            document.title = `covid-19 Asia table of data - vaccovid.live`;
+        } else if (continentName === 'africa-data') {
+            document.title = `covid-19 Africa table of data - vaccovid.live`;
+        } else if (continentName === 'australia-data') {
+            document.title = `covid-19 Australia table of data - vaccovid.live`;
+        } else if (continentName === 'europe-data') {
+            document.title = `covid-19 Europe table of data - vaccovid.live`;
+        } else if (continentName === 'north-america-data') {
+            document.title = `covid-19 North America table of data - vaccovid.live`;
+        } else if (continentName === 'south_america-data') {
+            document.title = `covid-19 South America table of data - vaccovid.live`;
+        } else if (continentName === 'oceania-data') {
+            document.title = `covid-19 Oceania table of data - vaccovid.live`;
+        }
 
+        if (this.props.countries !== prevProps.countries) {
+            // this.setState({ active_btn: "world" });
+            // this.onClickGetDynamicCovidData();
+            // console.log("happenning");
+        }
+    }
+
+    async componentWillUnmount() {
+        // this.onClickGetDynamicCovidData();
+        // await this.props.clearWorldData();
+    }
+
+    async onClickGetDynamicCovidData() {
+
+        await this.props.getAllCountriesDataNameOrdered();
+
+        let continentName;
+        if (this.props.location.state) {
+            continentName = this.props.location.state.continentName;
+        } else if (this.props.location.state === null || this.props.location.state === undefined) {
+            await this.props.getAllCountriesData();
+            await this.props.getWorldData();
+        }
+        // let { continentName } = this.props.match.params;
+
+        if (continentName === 'World') {
+            // base url
+            await this.props.getAllCountriesData();
+            await this.props.getWorldData();
+        } else if (continentName === 'Asia') {
+            // await this.props.clearWorldData();
+            await this.props.getAsiaCountriesData();
+
+        } else if (continentName === 'Africa') {
+            // await this.props.clearWorldData();
+            await this.props.getAfricaCountriesData();
+
+        } else if (continentName === 'Europe') {
+            // await this.props.clearWorldData();
+            await this.props.getEuropeCountriesData();
+
+        } else if (continentName === 'North America') {
+            // await this.props.clearWorldData();
+            await this.props.getNorthAmericaCountriesData();
+
+        } else if (continentName === 'South America') {
+            // await this.props.clearWorldData();
+            await this.props.getSouthAmericaCountriesData();
+
+        } else if (continentName === 'Australia/Oceania') {
+            // await this.props.clearWorldData();
+            await this.props.getAustraliaOceaniaCountriesData();
+
+        }
+    };
 
     async onClickGetCovidWorldData() {
         this.setState({ active_btn: "world" });
@@ -55,6 +153,7 @@ export class CoronavirusWorldComponent extends Component {
         // const allNews = this.props.news.news;
         // console.log(this.state.news); // it still returens old data (previous state)
     };
+
     async onClickGetCovidAsiaData() {
         this.setState({ active_btn: "asia" });
         // await this.props.getVaccineNews(0);
@@ -67,6 +166,40 @@ export class CoronavirusWorldComponent extends Component {
         // const allNews = this.props.news.news;
         // console.log(this.state.news); // it still returens old data (previous state)
     };
+
+    countDown(duration, display) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                timer = duration;
+            }
+        }, 1000);
+    }
+
+    onload() {
+        let { countries } = this.props;
+        let { countriesNameOrdered } = this.props;
+        let { world } = this.props;
+        if (countriesNameOrdered !== undefined && countries !== undefined && world !== undefined) {
+            var fiveMinutes = 60 * 5,
+                display = document.querySelector('#time');
+            if (display !== null) {
+                this.countDown(fiveMinutes, display);
+            }
+        }
+    };
+
+    changeOffset() {
+        window.scrollBy(0, -4000);
+    }
 
     onClickShowRegions() {
         if (this.state.showRegions === "on") {
@@ -179,13 +312,30 @@ export class CoronavirusWorldComponent extends Component {
 
 
     render() {
-
-        // const links = this.props.news.news;
-        // const linksLoop = [];
         let { countries } = this.props;
         let { countriesNameOrdered } = this.props;
         let { world } = this.props;
+        // let { continentCountries } = this.props;
+        // let continentBasedCountriesArray = [];
         // const countriesOrdered = countries.sort(this.compareValues('Country', 'asc'));
+
+        // let { continentName } = this.props.match.params; // url parameteres
+        let continentName = 'world-data'
+        let url_state = { continentName: 'World' };       // url passing state
+
+        // console.log(continentName);
+        // console.log(url_state);
+        // console.log(url_state.continentName);
+        // console.log(url_state.continentName === "Australia/Oceania");
+
+        // if (window.location.pathname === "/covid-19" || window.location.pathname === "/covid-19/" || url_state === undefined) {
+        //     return <Redirect to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} push />
+        // }
+
+        if (continentName === null || continentName === undefined) {
+            return <Redirect to={{ pathname: '/not-found' }} push />
+            // this.props.history.push('/not-found')
+        }
 
         const trimString = (str) => {
             // str = str.replace(' ', /-/g);
@@ -255,234 +405,293 @@ export class CoronavirusWorldComponent extends Component {
             }
         }
 
-        return (
-            <div className="coronavirus">
+        return url_state && countriesNameOrdered !== undefined && countries !== undefined && world !== undefined ? (
+            <div>
+                <div className={`coronavirus ${url_state.continentName !== "World" ? "coronavirus-removeQuickFactsHeight" : ""} ${url_state.continentName === "Australia/Oceania" ? "coronavirus-removeQuickFactsHeight-heightWhenAustralia" : ""}`}>
+                    <div className="coronavirus-btnAndTitle">
+                        <button className="coronavirus-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
+                        <h1 className="coronavirus-btnAndTitle-title">{url_state.continentName.toUpperCase()}</h1>
+                    </div>
 
-                <div className="coronavirus-btnAndTitle">
-                    <button className="coronavirus-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
-                    {/* <h1 className="coronavirus-regions-name">SOUTH AMERICA</h1> */}
-                    <h1 className="coronavirus-btnAndTitle-title">{this.state.active_btn.toUpperCase()}</h1>
-                </div>
+                    <div className={`coronavirus-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
+                        <button className="coronavirus-responsive-close_btn" onClick={this.onClickShowRegions}></button>
+                        <ul className={`coronavirus-responsive-allregions`} id="region">
+                            <h2 className={`coronavirus-responsive-allregions-title`}>Continents</h2>
+                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "world-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>World</Link>
+                            <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "asia-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`} >Asia</Link>
+                            <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "africa-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Africa</Link>
+                            <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "australia-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Australia</Link>
+                            <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "europe-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Europe</Link>
+                            <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "north-america-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>North America</Link>
+                            <Link to={{ pathname: `/covid-19/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "south-america-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>South America</Link>
+                            <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "oceania-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
 
-                <div className={`coronavirus-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
-                    <button className="coronavirus-responsive-close_btn" onClick={this.onClickShowRegions}></button>
-                    <ul className={`coronavirus-responsive-allregions`} id="region">
-                        <h2 className={`coronavirus-responsive-allregions-title`}>Continents</h2>
-                        <Link to="/covid-19/world-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "world" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>World</Link>
-                        <Link to="/covid-19/asia-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "asia" ? "coronavirus-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                        <Link to="/covid-19/africa-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "africa" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Africa</Link>
-                        <Link to="/covid-19/australia-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "australia" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Australia</Link>
-                        <Link to="/covid-19/europe-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "europe" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Europe</Link>
-                        <Link to="/covid-19/north-america-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "north_america" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>North America</Link>
-                        <Link to="/covid-19/south-america-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "south_america" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>South America</Link>
-                        <Link to="/covid-19/oceania-data" className={`coronavirus-responsive-allregions-btn ${this.state.active_btn === "oceania" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
-                        <h2 className={`coronavirus-responsive-allregions-title`}>Countries</h2>
+                            <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewd</h2>
+                            <Link to={{
+                                pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
+                            }} className={`coronavirus-responsive-allregions-btn`}>United States</Link>
+
+
+                            <Link to={{
+                                pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
+                            }} className={`coronavirus-responsive-allregions-btn`}>Canada</Link>
+
+                            <Link to={{
+                                pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
+                            }} className={`coronavirus-responsive-allregions-btn`}>Australia</Link>
+
+                            <Link to={{
+                                pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
+                            }} className={`coronavirus-responsive-allregions-btn`}>United Kingdom</Link>
+
+                            <Link to={{
+                                pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
+                            }} className={`coronavirus-responsive-allregions-btn`}>India</Link>
+
+
+                            <h2 className={`coronavirus-responsive-allregions-title`}>Countries</h2>
+                            {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
+                                // changeColor();
+                                return <Link to={{
+                                    pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
+                                }}
+                                    // onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); }}
+                                    key={index} className={`coronavirus-responsive-allregions-btn`}>{country.Country}</Link>
+                            }) : (
+                                    <div>
+                                        <div className={`coronavirus-responsive-allregions-btn`}>Loading</div>
+                                    </div>
+                                )
+                            }
+                        </ul>
+                    </div>
+
+                    <ul className="coronavirus-regions" id="region"
+                        ref={this.regionRef}
+                        // onScroll={this.onScroll('region')}
+                        // ref={this.myRef}
+                        onScroll={() => this.onScroll('region')}
+
+                    >
+                        <h2 className={`coronavirus-regions-title`}>Continents</h2>
+                        <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`coronavirus-regions-btn ${continentName === "world-data" ? "coronavirus-regions-btn-active" : ""}`}>World</Link>
+                        <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "asia-data" ? "coronavirus-regions-btn-active" : ""}`} >Asia</Link>
+                        <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "africa-data" ? "coronavirus-regions-btn-active" : ""}`}>Africa</Link>
+                        <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "australia-data" ? "coronavirus-regions-btn-active" : ""}`}>Australia</Link>
+                        <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "europe-data" ? "coronavirus-regions-btn-active" : ""}`}>Europe</Link>
+                        <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "north-america-data" ? "coronavirus-regions-btn-active" : ""}`}>North America</Link>
+                        <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "south_america-data" ? "coronavirus-regions-btn-active" : ""}`}>South America</Link>
+                        <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "oceania-data" ? "coronavirus-regions-btn-active" : ""}`}>Oceania</Link>
+
+                        <h2 className={`coronavirus-regions-title`}>Most Viewd</h2>
+
+                        <Link to={{
+                            pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
+                        }} className={`coronavirus-regions-btn`}>United States</Link>
+
+                        <Link to={{
+                            pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
+                        }} className={`coronavirus-regions-btn`}>Canada</Link>
+
+                        <Link to={{
+                            pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
+                        }} className={`coronavirus-regions-btn`}>Australia</Link>
+
+                        <Link to={{
+                            pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
+                        }} className={`coronavirus-regions-btn`}>United Kingdom</Link>
+
+                        <Link to={{
+                            pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
+                        }} className={`coronavirus-regions-btn`}>India</Link>
+
+
+                        <h2 className={`coronavirus-regions-title`}>Countries</h2>
                         {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
                             // changeColor();
                             return <Link to={{
-                                pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol }
-                            }} key={country.id} className={`coronavirus-responsive-allregions-btn`}>{country.Country}</Link>
+                                pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
+                            }}
+                                onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); }}
+                                key={index} className={`coronavirus-regions-btn`}>{country.Country}</Link>
                         }) : (
                                 <div>
-                                    {/* <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading`}></div> */}
-                                    <div className={`coronavirus-responsive-allregions-btn`}>Loading</div>
-                                    {/* <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div>
-                                    <div className={`coronavirus-responsive-allregions-btn coronavirus-responsive-allregions-btn-loading loading`}></div> */}
+                                    {/* <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading`}></div> */}
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
+                                    <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
                                 </div>
                             )
                         }
                     </ul>
-                </div>
 
-                <ul className="coronavirus-regions" id="region"
-                    ref={this.regionRef}
-                    // onScroll={this.onScroll('region')}
-                    // ref={this.myRef}
-                    onScroll={() => this.onScroll('region')}
-
-                >
-                    <h2 className={`coronavirus-regions-title`}>Continents</h2>
-                    <Link to="/covid-19/world-data" className={`coronavirus-regions-btn ${this.state.active_btn === "world" ? "coronavirus-regions-btn-active" : ""}`} onClick={this.onClickGetCovidWorldData}>World</Link>
-                    <Link to="/covid-19/asia-data" className={`coronavirus-regions-btn ${this.state.active_btn === "asia" ? "coronavirus-regions-btn-active" : ""}`} >Asia</Link>
-                    <Link to="/covid-19/africa-data" className={`coronavirus-regions-btn ${this.state.active_btn === "africa" ? "coronavirus-regions-btn-active" : ""}`}>Africa</Link>
-                    <Link to="/covid-19/australia-data" className={`coronavirus-regions-btn ${this.state.active_btn === "australia" ? "coronavirus-regions-btn-active" : ""}`}>Australia</Link>
-                    <Link to="/covid-19/europe-data" className={`coronavirus-regions-btn ${this.state.active_btn === "europe" ? "coronavirus-regions-btn-active" : ""}`}>Europe</Link>
-                    <Link to="/covid-19/north-america-data" className={`coronavirus-regions-btn ${this.state.active_btn === "north_america" ? "coronavirus-regions-btn-active" : ""}`}>North America</Link>
-                    <Link to="/covid-19/south-america-data" className={`coronavirus-regions-btn ${this.state.active_btn === "south_america" ? "coronavirus-regions-btn-active" : ""}`}>South America</Link>
-                    <Link to="/covid-19/oceania-data" className={`coronavirus-regions-btn ${this.state.active_btn === "oceania" ? "coronavirus-regions-btn-active" : ""}`}>Oceania</Link>
-                    <h2 className={`coronavirus-regions-title`}>Countries</h2>
-                    {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
-                        // changeColor();
-                        return <Link to={{
-                            pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol }
-                        }} key={country.id} className={`coronavirus-regions-btn`}>{country.Country}</Link>
-                    }) : (
-                            <div>
-                                {/* <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading`}></div> */}
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                                <div className={`coronavirus-regions-btn coronavirus-regions-btn-loading loading`}></div>
-                            </div>
-                        )
-                    }
-                </ul>
-
-                <div className="coronavirus-quick-facts">
-                    {world.length > 0 ? world.map((world, index) => {
-                        return <ul className="coronavirus-quick-facts-world">
-                            <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-TotalCases" key={world.TotalCases}><h2 className="coronavirus-quick-facts-world-item-TotalCases-text">TOTAL CASES</h2><span className="coronavirus-quick-facts-world-item-TotalCases-number">{this.numberWithCommas(world.TotalCases)}</span></li>
-                            <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-ActiveCases" key={world.ActiveCases}><h2 className="coronavirus-quick-facts-world-item-ActiveCases-text">ACTIVE CASES</h2><span className="coronavirus-quick-facts-world-item-ActiveCases-number">{this.numberWithCommas(world.ActiveCases)}</span></li>
-                            <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-TotalDeaths" key={world.TotalDeaths}><h2 className="coronavirus-quick-facts-world-item-TotalDeaths-text">TOTAL DEATHS</h2><span className="coronavirus-quick-facts-world-item-TotalDeaths-number">{this.numberWithCommas(world.TotalDeaths)}</span></li>
-                            <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-NewCases" key={world.NewCases}><h2 className="coronavirus-quick-facts-world-item-NewCases-text">NEW CASES</h2><span className="coronavirus-quick-facts-world-item-NewCases-number">{this.numberWithCommas(world.NewCases)}</span></li>
-                            <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-Serious_Critical" key={world.Serious_Critical}><h2 className="coronavirus-quick-facts-world-item-Serious_Critical-text">CRITICAL</h2><span className="coronavirus-quick-facts-world-item-Serious_Critical-number">{this.numberWithCommas(world.Serious_Critical)}</span></li>
-                            <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-NewDeaths" key={world.NewDeaths}><h2 className="coronavirus-quick-facts-world-item-NewDeaths-text">NEW DEATHS</h2><span className="coronavirus-quick-facts-world-item-NewDeaths-number">{this.numberWithCommas(world.NewDeaths)}</span></li>
-                            {/* <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-Case_Fatality_Rate" key={world.Case_Fatality_Rate}><h2 className="coronavirus-quick-facts-world-item-Case_Fatality_Rate-text">CASE FATALITY RATE (CFR)</h2><span className="coronavirus-quick-facts-world-item-Case_Fatality_Rate-number">{this.numberWithCommas(world.Case_Fatality_Rate)}</span></li>
-                            <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-Recovery_Proporation" key={world.Recovery_Proporation}><h2 className="coronavirus-quick-facts-world-item-Recovery_Proporation-text">RECOVERY PROPORATION</h2><span className="coronavirus-quick-facts-world-item-Recovery_Proporation-number">{this.numberWithCommas(world.Recovery_Proporation)}</span></li> */}
-                        </ul>
-                    }) : (
-                            <ul className="coronavirus-quick-facts-world">
-                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={1}></li>
-                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={2}></li>
-                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={3}></li>
-                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={4}></li>
-                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={5}></li>
-                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={6}></li>
+                    <div className={`coronavirus-quick-facts ${url_state.continentName !== "World" ? "coronavirus-quick-facts-displayOff" : ""}`}>
+                        {world.length > 0 ? world.map((world, index) => {
+                            return <ul key={index} className="coronavirus-quick-facts-world">
+                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-TotalCases" key={world.TotalCases}><h2 className="coronavirus-quick-facts-world-item-TotalCases-text">TOTAL CASES</h2><span className="coronavirus-quick-facts-world-item-TotalCases-number">{this.numberWithCommas(world.TotalCases)}</span></li>
+                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-ActiveCases" key={world.ActiveCases}><h2 className="coronavirus-quick-facts-world-item-ActiveCases-text">ACTIVE CASES</h2><span className="coronavirus-quick-facts-world-item-ActiveCases-number">{this.numberWithCommas(world.ActiveCases)}</span></li>
+                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-TotalDeaths" key={world.TotalDeaths}><h2 className="coronavirus-quick-facts-world-item-TotalDeaths-text">TOTAL DEATHS</h2><span className="coronavirus-quick-facts-world-item-TotalDeaths-number">{this.numberWithCommas(world.TotalDeaths)}</span></li>
+                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-NewCases" key={world.NewCases}><h2 className="coronavirus-quick-facts-world-item-NewCases-text">NEW CASES</h2><span className="coronavirus-quick-facts-world-item-NewCases-number">{this.numberWithCommas(world.NewCases)}</span></li>
+                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-Serious_Critical" key={world.Serious_Critical}><h2 className="coronavirus-quick-facts-world-item-Serious_Critical-text">CRITICAL</h2><span className="coronavirus-quick-facts-world-item-Serious_Critical-number">{this.numberWithCommas(world.Serious_Critical)}</span></li>
+                                <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-NewDeaths" key={world.NewDeaths}><h2 className="coronavirus-quick-facts-world-item-NewDeaths-text">NEW DEATHS</h2><span className="coronavirus-quick-facts-world-item-NewDeaths-number">{this.numberWithCommas(world.NewDeaths)}</span></li>
                             </ul>
-                        )
-                    }
-                </div>
-
-                <div className="coronavirus-table-title">
-                    <input className="coronavirus-table-title-searchbar" type="text" id="input" placeholder="Your Country" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
-                    <table className="coronavirus-table-title-stats" id="t01">
-                        <caption className="coronavirus-table-title-stats-caption">South America Data</caption>
-                        {/* <caption className="coronavirus-table-title-stats-caption">World Data</caption> */}
-                        <thead className="coronavirus-table-title-stats-thead">
-                            <tr className="coronavirus-table-title-stats-columns" id="columns"
-                                ref={this.titleRef}
-                                // onScroll={this.onScroll('columns')}
-                                onScroll={() => this.onScroll('columns')}
-                            >
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-number`}>NUM</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-name ${this.state.activeTitle === 'Country' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName() }}>COUNTRY</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-confirmed ${this.state.activeTitle === 'TotalCase' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderConfirmed() }}>TOTAL CASES</th>
-                                {/* <th className="coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-confirmed"><button onClick={() => countries.sort(this.compareValues('TotalCases', 'desc'))}>CONFIRMED</button></th> */}
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-newcases ${this.state.activeTitle === 'NewCases' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newcases', 'NewCases') }}>NEW CASES</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-confirmedpermil ${this.state.activeTitle === 'Infection_Risk' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('confirmedpermil', 'Infection_Risk') }}>INFECTION RISK</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-critical ${this.state.activeTitle === 'Serious_Critical' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('critical', 'Serious_Critical') }}>SERIOUS, CRITICAL</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-active ${this.state.activeTitle === 'ActiveCases' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('active', 'ActiveCases') }}>ACTIVE CASES</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-deceased ${this.state.activeTitle === 'TotalDeaths' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deceased', 'TotalDeaths') }}>TOTAL DEATHS</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-newdeaths ${this.state.activeTitle === 'NewDeaths' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newdeaths', 'NewDeaths') }}>NEW DEATHS</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-deathspermil ${this.state.activeTitle === 'Case_Fatality_Rate' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deathspermil', 'Case_Fatality_Rate') }}>CASE FATALITY RATE (CFR)</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-giventests ${this.state.activeTitle === 'TotalTests' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('giventests', 'TotalTests') }}>TOTAL TESTS</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-testspermil ${this.state.activeTitle === 'Test_Percentage' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('testspermil', 'Test_Percentage') }}>TEST PERCENTAGE</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-recovered ${this.state.activeTitle === 'TotalRecovered' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recovered', 'TotalRecovered') }}>TOTAL RECOVERED</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-recoveredrate ${this.state.activeTitle === 'Recovery_Proporation' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recoveredrate', 'Recovery_Proporation') }}>RECOVERY PERCENTAGE</th>
-                                <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-population ${this.state.activeTitle === 'Population' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('population', 'Population') }}>POPULATION</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-
-                <table className="coronavirus-table-stats" id="coronavirusTable"
-                    ref={this.tableRef}
-                    // onscroll={this.onScroll('coronavirusTable')}
-                    onScroll={() => this.onScroll('coronavirusTable')}
-                >
-                    <tbody>
-
-                        {countries.length > 0 ? countries.map((country, index) => {
-                            // changeColor();
-                            return <tr key={country.id} className="coronavirus-table-stats-item">
-                                {/* <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link to="eachCountry" params={{ iso: country.ThreeLetterSymbol.toUpperCase() }}>{country.Country}</Link></td> */}
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-number">{index + 1}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link className="coronavirus-table-stats-item-name-link" to={{ pathname: `/covid-19/${country.Country}/${country.ThreeLetterSymbol.toUpperCase()}` }}>{country.Country}</Link></td>
-                                {/* <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link to='/covid-19/${country.ThreeLetterSymbol.toUpperCase()}' >{country.Country}</Link></td> */}
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmed">{country.TotalCases !== null ? this.numberWithCommas(country.TotalCases) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newcases">{country.NewCases !== null ? this.numberWithCommas(country.NewCases) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmedpermil">{country.Infection_Risk !== null ? country.Infection_Risk + "%" : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-critical">{country.Serious_Critical !== null ? this.numberWithCommas(country.Serious_Critical) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-active">{country.ActiveCases !== null ? this.numberWithCommas(country.ActiveCases) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deceased">{country.TotalDeaths !== null ? this.numberWithCommas(country.TotalDeaths) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newdeaths">{country.NewDeaths !== null ? this.numberWithCommas(country.NewDeaths) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deathspermil">{country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-giventests">{country.TotalTests !== null ? this.numberWithCommas(country.TotalTests) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-testspermil">{country.Test_Percentage !== null ? country.Test_Percentage + "%" : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-recovered">{country.TotalRecovered !== null ? this.numberWithCommas(country.TotalRecovered) : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-recoveredrate">{country.Recovery_Proporation !== null ? country.Recovery_Proporation + "%" : "No Data"}</td>
-                                <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-population">{country.Population !== null ? this.numberWithCommas(country.Population) : "No Data"}</td>
-                            </tr>
-                        }
-
-                        ) : (
-                                <tr>
-                                    <div className="coronavirus-table-stats-loading loading"></div>
-
-                                </tr>
+                        }) : (
+                                <ul className="coronavirus-quick-facts-world">
+                                    <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={1}></li>
+                                    <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={2}></li>
+                                    <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={3}></li>
+                                    <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={4}></li>
+                                    <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={5}></li>
+                                    <li className="coronavirus-quick-facts-world-item coronavirus-quick-facts-world-item-loading loading" key={6}></li>
+                                </ul>
                             )
-
                         }
-                    </tbody>
-                </table>
+                    </div>
+                    <div className="coronavirus-table-title">
+                        <input className="coronavirus-table-title-searchbar" type="text" id="input" placeholder="Your Country" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
+                        {/* <h4 className="coronavirus-table-title-update-text">Update in <span id="time">05:00</span><span className="navigation-brand__livepoint"></span><span className="navigation-brand__shiningpoint"></span></h4> */}
+                        <table className="coronavirus-table-title-stats" id="t01">
+                            <caption className="coronavirus-table-title-stats-caption"><h1 className="coronavirus-table-title-stats-caption-h1">{url_state.continentName} Data <span className="coronavirus-table-title-stats-caption-update-text">- Live Update in <span id="time">05:00</span></span><span className="coronavirus-table-title-stats-caption-livepoint"></span><span className="coronavirus-table-title-stats-caption-shiningpoint"></span></h1></caption>
+                            <thead className="coronavirus-table-title-stats-thead">
+                                <tr className="coronavirus-table-title-stats-columns" id="columns"
+                                    ref={this.titleRef}
+                                    // onScroll={this.onScroll('columns')}
+                                    onScroll={() => this.onScroll('columns')}
+                                >
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-number`}>NUM</th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-name ${this.state.activeTitle === 'Country' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName() }}>COUNTRY <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-confirmed ${this.state.activeTitle === 'TotalCase' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderConfirmed() }}>TOTAL CASES <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-newcases ${this.state.activeTitle === 'NewCases' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newcases', 'NewCases') }}>NEW CASES <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-confirmedpermil ${this.state.activeTitle === 'Infection_Risk' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('confirmedpermil', 'Infection_Risk') }}>INFECTION RISK <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-critical ${this.state.activeTitle === 'Serious_Critical' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('critical', 'Serious_Critical') }}>SERIOUS, CRITICAL <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-active ${this.state.activeTitle === 'ActiveCases' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('active', 'ActiveCases') }}>ACTIVE CASES <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-deceased ${this.state.activeTitle === 'TotalDeaths' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deceased', 'TotalDeaths') }}>TOTAL DEATHS <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-newdeaths ${this.state.activeTitle === 'NewDeaths' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newdeaths', 'NewDeaths') }}>NEW DEATHS <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-deathspermil ${this.state.activeTitle === 'Case_Fatality_Rate' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deathspermil', 'Case_Fatality_Rate') }}>CASE FATALITY RATE (CFR <span className="sign">&#9662;</span>)</th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-giventests ${this.state.activeTitle === 'TotalTests' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('giventests', 'TotalTests') }}>TOTAL TESTS <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-testspermil ${this.state.activeTitle === 'Test_Percentage' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('testspermil', 'Test_Percentage') }}>TEST PERCENTAGE <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-recovered ${this.state.activeTitle === 'TotalRecovered' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recovered', 'TotalRecovered') }}>TOTAL RECOVERED <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-recoveredrate ${this.state.activeTitle === 'Recovery_Proporation' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recoveredrate', 'Recovery_Proporation') }}>RECOVERY PERCENTAGE <span className="sign">&#9662;</span></th>
+                                    <th className={`coronavirus-table-title-stats-columns-item coronavirus-table-title-stats-columns-population ${this.state.activeTitle === 'Population' ? "coronavirus-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('population', 'Population') }}>POPULATION <span className="sign">&#9662;</span></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
 
-                <div className="coronavirus-guide">
-                    <ul className="coronavirus-guide-list">
-                        <li className="coronavirus-guide-list-item">
-                            <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-INFECTION_RISK">INFECTION RISK:
+                    <table className="coronavirus-table-stats" id="coronavirusTable"
+                        ref={this.tableRef}
+                        // onscroll={this.onScroll('coronavirusTable')}
+                        onScroll={() => this.onScroll('coronavirusTable')}
+                    >
+                        <tbody>
+                            {countries.length > 0 ? countries.map((country, index) => {
+                                // changeColor();
+                                return <tr key={index} className="coronavirus-table-stats-item">
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-number">{index + 1}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link className="coronavirus-table-stats-item-name-link" to={{
+                                        pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
+                                    }} onClick={this.changeOffset} >{country.Country} <span className="sign">&#9662;</span></Link></td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmed">{country.TotalCases !== null ? this.numberWithCommas(country.TotalCases) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newcases">{country.NewCases !== null ? this.numberWithCommas(country.NewCases) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmedpermil">{country.Infection_Risk !== null ? country.Infection_Risk + "%" : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-critical">{country.Serious_Critical !== null ? this.numberWithCommas(country.Serious_Critical) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-active">{country.ActiveCases !== null && country.ActiveCases !== 0 && country.ActiveCases !== "0" ? this.numberWithCommas(country.ActiveCases) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deceased">{country.TotalDeaths !== null ? this.numberWithCommas(country.TotalDeaths) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newdeaths">{country.NewDeaths !== null ? this.numberWithCommas(country.NewDeaths) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deathspermil">{country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-giventests">{country.TotalTests !== null ? this.numberWithCommas(country.TotalTests) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-testspermil">{country.Test_Percentage !== null ? country.Test_Percentage + "%" : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-recovered">{country.TotalRecovered !== null && country.TotalRecovered !== 0 && country.TotalRecovered !== "0" ? this.numberWithCommas(country.TotalRecovered) : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-recoveredrate">{country.Recovery_Proporation !== null && country.Recovery_Proporation !== 0 && country.Recovery_Proporation !== "0" ? country.Recovery_Proporation + "%" : "No Data"}</td>
+                                    <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-population">{country.Population !== null && country.Population !== 0 && country.Population !== "0" ? this.numberWithCommas(country.Population) : "No Data"}</td>
+                                </tr>
+                            }
+
+                            ) : (
+                                    <tr className="coronavirus-table-stats-loading loading">
+                                        <td></td>
+                                    </tr>
+                                )
+
+                            }
+                        </tbody>
+                    </table>
+
+                    <div className="coronavirus-guide">
+                        <ul className="coronavirus-guide-list">
+                            <li className="coronavirus-guide-list-item">
+                                <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-INFECTION_RISK">INFECTION RISK:
                             <span className="coronavirus-guide-list-item-text"> Total Number of covid-19 cases divided by Total Population since the beginning of outbreak</span>
-                            </h3>
-                        </li>
-                        <li className="coronavirus-guide-list-item">
-                            <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-TEST_PERCENTAGE">TEST PERCENTAGE:
+                                </h3>
+                            </li>
+                            <li className="coronavirus-guide-list-item">
+                                <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-TEST_PERCENTAGE">TEST PERCENTAGE:
                             <span className="coronavirus-guide-list-item-text"> Total number of tests divided by total population</span>
-                            </h3>
-                        </li>
-                        <li className="coronavirus-guide-list-item">
-                            <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-CASE_FATALITY_RATE">CASE FATALITY RATE (CFR):
+                                </h3>
+                            </li>
+                            <li className="coronavirus-guide-list-item">
+                                <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-CASE_FATALITY_RATE">CASE FATALITY RATE (CFR):
                             <span className="coronavirus-guide-list-item-text"> Total Number of Deaths due to Covid-19 divided by Total Number of confirmed cases since the beginning of outbreak (It shows that how lethal covid-19 is in any country)</span>
-                            </h3>
-                        </li>
-                        <li className="coronavirus-guide-list-item">
-                            <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-RECOVERY_PERCENTAGE">RECOVERY PERCENTAGE:
+                                </h3>
+                            </li>
+                            <li className="coronavirus-guide-list-item">
+                                <h3 className="coronavirus-guide-list-item-title coronavirus-guide-list-item-RECOVERY_PERCENTAGE">RECOVERY PERCENTAGE:
                             <span className="coronavirus-guide-list-item-text"> Total number of recovered cases divided by Total number of covid-19 cases</span>
-                            </h3>
-                        </li>
-                    </ul>
+                                </h3>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                <Footer />
             </div>
-        );
+        ) : <h6>loading</h6>
+
+
     }
 }
 
 CoronavirusWorldComponent.propTypes = {
+    // world: PropTypes.object,
+    world: PropTypes.array,
     countries: PropTypes.array,
+    countriesNameOrdered: PropTypes.array,
+
     getAllCountriesData: PropTypes.func.isRequired,
-    // getVaccineNews: PropTypes.func.isRequired,
-    // getHealthNews: PropTypes.func.isRequired,
+    getWorldData: PropTypes.func.isRequired,
+    getAllCountriesDataNameOrdered: PropTypes.func.isRequired,
+    getAsiaCountriesData: PropTypes.func.isRequired,
+    getAfricaCountriesData: PropTypes.func.isRequired,
+    getEuropeCountriesData: PropTypes.func.isRequired,
+    getNorthAmericaCountriesData: PropTypes.func.isRequired,
+    getSouthAmericaCountriesData: PropTypes.func.isRequired,
+    getAustraliaOceaniaCountriesData: PropTypes.func.isRequired,
+
+    getCountryISOBased: PropTypes.func.isRequired,
+    getProvinceReportISOBased: PropTypes.func.isRequired,
+
+    clearWorldData: PropTypes.func.isRequired,
 };
 
 
 // pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     countries: state.countriesObject.countries,
+    // continentCountries: state.countriesObject.continentCountries,
     countriesNameOrdered: state.countriesObject.countriesNameOrdered,
     world: state.countriesObject.world,
 });
 
 export default connect(
     mapStateToProps,
-    { getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered })(CoronavirusWorldComponent);
+    {
+        getAllCountriesData, getWorldData, getAllCountriesDataNameOrdered, getAsiaCountriesData, getAfricaCountriesData, getEuropeCountriesData, getNorthAmericaCountriesData, getSouthAmericaCountriesData, getAustraliaOceaniaCountriesData,
+        getCountryISOBased, getProvinceReportISOBased,
+        clearWorldData
+    })(CoronavirusWorldComponent);

@@ -344,7 +344,7 @@ export async function saveOtherNews() {
         console.log("trying with different API_KEY");
         broadcasting2[i] = await _fetchOtherNewsSecondAPI(i);
         if (broadcasting2[i] === undefined) {
-          console.log("Couldn't fetch with second API - News API services prroblem");
+          console.log("Couldn't fetch with second API - News API services problem");
           return "we couldn't fetch news from some broadcastings";
         } else {
           for (let j = 0; j < broadcasting2[i].articles.length; j++) {
@@ -811,29 +811,37 @@ export async function fetchAndSaveNewsImages() {
   // }, 3600000 * 5); // gets called every 5 hours.
 }
 
+export async function fetchAndSaveWhoAndOtherNews() {
+  try {
+    await saveOtherNews();
+    await saveWhoNews();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function firstTimeFetchAndSaveNews() {
-  // setTimeout(async () => {
-  await saveOtherNews();
-  // }, 240000); // after 4 minutes
-  // setTimeout(async () => {
-  await saveWhoNews();
-  // }, 180000); // after 3 minutes
+  // // setTimeout(async () => {
+  // await saveOtherNews();
+  // // }, 240000); // after 4 minutes
+  // // setTimeout(async () => {
+  // await saveWhoNews();
+  // // }, 180000); // after 3 minutes
 }
 
 export async function fetchAndSaveNews() {
-  setInterval(async () => {
-    await saveOtherNews();
-  }, 7200000); // gets called every 2 hours.
-  setInterval(async () => {
-    await saveWhoNews();
-  }, 7203000); // gets called almost every 2 hours.
+  // setInterval(async () => {
+  //   await saveOtherNews();
+  // }, 7200000); // gets called every 2 hours.
+  // setInterval(async () => {
+  //   await saveWhoNews();
+  // }, 7203000); // gets called almost every 2 hours.
 }
 
 export async function deleteAllOldNews() {
-  // setTimeout(async () => {
-  await deleteOldNews();
-  // }, 300000); // after 5 minutes
-  setInterval(async () => {
+  try {
     await deleteOldNews();
-  }, 18003000); // gets called every 5 hours.
+  } catch (error) {
+    console.log(error);
+  }
 }

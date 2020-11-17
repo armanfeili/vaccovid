@@ -38,10 +38,10 @@ class App extends React.Component {
                   <Route exact path='/covid-19/world-data' component={CoronavirusWorldComponent} />
                 </Switch> */}
                 <Switch>
-                  <Route exact name="baseContinent" path="/" handler={CoronavirusWorldComponent} component={CoronavirusEachContinentComponent} />
+                  <Route exact name="baseContinent1" path="/" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
                 </Switch>
                 <Switch>
-                  <Route exact name="baseContinent" path="/covid-19" handler={CoronavirusWorldComponent} component={CoronavirusEachContinentComponent} />
+                  <Route exact name="baseContinent2" path="/covid-19" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
                 </Switch>
                 <Switch>
                   <Route exact name="eachContinent" path='/covid-19/:continentName' component={CoronavirusEachContinentComponent} />

@@ -66,7 +66,7 @@ export class Server {
         app.get("*", (req, res) => {
             // for sending file , we need to add path module which is a built-in node module
             // __dirname is the current directory
-            console.log(__dirname + "/../../");
+            // console.log(__dirname + "/../../");
 
             res.sendFile(path.resolve(__dirname + "/../../", "client", "build", "index.html"));
         });
