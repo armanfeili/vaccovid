@@ -21,7 +21,7 @@ async function _connect() {
 
 async function _downloadOvid() {
     try {
-        console.log("start downloading owid csv file");
+        console.log("request to download owid csv file");
 
         // const url = "https://covid.ourworldindata.org/data/owid-covid-data.json";
         const url = "https://covid.ourworldindata.org/data/owid-covid-data.csv";
@@ -35,10 +35,10 @@ async function _downloadOvid() {
         });
 
         if (response) {
-            console.log("request to download csv file has been approved");
+            console.log("request has been approved");
             // pipe the result stream into a file on disc
             // const saved = await response.data.pipe(fs.createWriteStream(csvFilePath));
-            console.log("start saving owid csv file");
+            console.log("start downloading and saving owid csv file");
             response.data.pipe(fs.createWriteStream(csvFilePath));
 
             // return a promise and resolve when download finishes
