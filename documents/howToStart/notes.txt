@@ -17,6 +17,7 @@ stats
 ssr-1
 fixing_bugs
 fixing-front
+fixing-bugs
 
 killall -9 node
 

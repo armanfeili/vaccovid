@@ -1,7 +1,7 @@
 import { Fetcher } from "./fetch";
 import { fetchAndSaveWhoAndOtherNews, deleteAllOldNews } from "./newsData";
 import { updateProvinces, addDailyReports } from "./covidAPIData";
-import { updateDailyOwid } from "./ovidData";
+import { downloadAndConvertOwidData, updateOwid } from "./ovidData";
 
 export const timers = async () => {
     try {
@@ -13,8 +13,10 @@ export const timers = async () => {
         console.log("calling Fetcher is finished");
         await addDailyReports();
         console.log("calling addDailyReports is finished");
-        await updateDailyOwid();
-        console.log("calling updateDailyOwid is finished");
+        await downloadAndConvertOwidData();
+        console.log("calling downloadAndConvertOwidData is finished");
+        await updateOwid();
+        console.log("calling updateOwid is finished");
         await fetchAndSaveWhoAndOtherNews();
         console.log("calling fetchAndSaveWhoAndOtherNews is finished");
         await deleteAllOldNews();
@@ -31,8 +33,10 @@ export const timers = async () => {
             await addDailyReports();
             console.log("calling addDailyReports is finished");
             //update Owid
-            await updateDailyOwid();
-            console.log("calling updateDailyOwid is finished");
+            await downloadAndConvertOwidData();
+            console.log("calling downloadAndConvertOwidData is finished");
+            await updateOwid();
+            console.log("calling updateOwid is finished");
         }, 24 * 30 * 60 * 1000); // Min * Sec * Ms - every day 
 
         setInterval(async () => {
