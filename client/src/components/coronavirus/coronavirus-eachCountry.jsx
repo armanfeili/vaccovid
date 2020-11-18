@@ -127,12 +127,13 @@ export class countryEachCountryComponent extends Component {
             iso = this.props.match.params.iso;
             countryName = this.props.match.params.countryName;
             // await this.props.getAllCountriesDataNameOrdered();
+            // var replaced = countryName.split('-').join(' ');
 
             await this.props.clearOvidData();
 
             await this.props.getWorldData();
             await this.props.getOvidData(iso.toUpperCase());
-            await this.props.getCountryISOBased(countryName, iso.toUpperCase());
+            await this.props.getCountryISOBased(countryName.split('-').join(' '), iso.toUpperCase());
             await this.props.getProvinceReportISOBased(iso.toUpperCase());
             // await this.props.getCitiesReportISOBased(iso.toUpperCase());
 
@@ -1113,20 +1114,14 @@ export class countryEachCountryComponent extends Component {
                                             {/* <td className="country-table-stats-item-each country-table-stats-item-name"><Link to="eachCountry" params={{ iso: country.ThreeLetterSymbol.toUpperCase() }}>{country.Country}</Link></td> */}
                                             <td className="country-table-stats-item-each country-table-stats-item-number">{index + 1}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-name">{country.province.substr(0, 24)}</td>
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-name"><Link to='/covid-19/${country.ThreeLetterSymbol.toUpperCase()}' >{country.Country}</Link></td> */}
                                             <td className="country-table-stats-item-each country-table-stats-item-confirmed">{country.reports === true && country.confirmed !== null ? this.numberWithCommas(country.confirmed) : "No Data"}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-newcases">{country.reports === true && country.confirmed_diff !== null ? this.numberWithCommas(country.confirmed_diff) : "No Data"}</td>
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-confirmedpermil">{country.Infection_Risk !== null ? country.Infection_Risk + "%" : "No Data"}</td> */}
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-critical">{country.Serious_Critical !== null ? this.numberWithCommas(country.Serious_Critical) : "No Data"}</td> */}
-                                            <td className="country-table-stats-item-each country-table-stats-item-active">{country.reports === true && country.active !== null ? this.numberWithCommas(country.active) : "No Data"}</td>
+                                            <td className="country-table-stats-item-each country-table-stats-item-active">{country.reports === true && country.active !== null && country.active !== 0 ? this.numberWithCommas(country.active) : "No Data"}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-deceased">{country.reports === true && country.deaths !== null ? this.numberWithCommas(country.deaths) : "No Data"}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-newdeaths">{country.reports === true && country.deaths_diff !== null ? this.numberWithCommas(country.deaths_diff) : "No Data"}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-deathspermil">{country.reports === true && country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-giventests">{country.TotalTests !== null ? this.numberWithCommas(country.TotalTests) : "No Data"}</td> */}
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-testspermil">{country.Test_Percentage !== null ? country.Test_Percentage + "%" : "No Data"}</td> */}
                                             <td className="country-table-stats-item-each country-table-stats-item-recovered">{country.reports === true && country.recovered !== null && country.recovered !== 0 ? this.numberWithCommas(country.recovered) : "No Data"}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-recoveredrate">{country.reports === true && country.Recovery_Proporation !== null && country.Recovery_Proporation !== 0 ? country.Recovery_Proporation + "%" : "No Data"}</td>
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-population">{country.Population !== null ? this.numberWithCommas(country.Population) : "No Data"}</td> */}
                                         </tr>
                                     }
                                     return <tr key={index}></tr>
