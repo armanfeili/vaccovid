@@ -250,7 +250,7 @@ export async function addReports() {
                 ((StrToFloat(element.deaths) / StrToFloat(element.confirmed)) * 100).toFixed(2)
             );
             const totalRecovered = element.confirmed - (element.deaths + element.active);
-            const Recovery_Proporation = parseFloat(((totalRecovered / StrToFloat(element.deaths)) * 100).toFixed(2));
+            const Recovery_Proporation = parseFloat(((totalRecovered / StrToFloat(element.confirmed)) * 100).toFixed(2));
 
             if (!provinceReportExist) {
                 // console.log("yo");
@@ -332,9 +332,9 @@ export async function addUSStates() {
             const Case_Fatality_Rate = parseFloat(
                 ((StrToFloat(element.death) / StrToFloat(element.positive)) * 100).toFixed(2)
             );
-            const activeCases = element.positive - (element.death + element.recovered);
+            const activeCases = element.recovered === null || element.recovered === undefined ? 0 : element.positive - (element.death + element.recovered);
             // const totalRecovered = element.positive - (element.death + element.active);
-            const Recovery_Proporation = parseFloat(((element.recovered / StrToFloat(element.death)) * 100).toFixed(2));
+            const Recovery_Proporation = parseFloat(((element.recovered / StrToFloat(element.positive)) * 100).toFixed(2));
 
             const existProvince = await provinceRepository.findOne({
                 iso: "USA",
