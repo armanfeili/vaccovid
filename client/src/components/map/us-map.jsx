@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { VectorMap } from "react-jvectormap"
 import { getUSAStatesData } from '../../actions/covid_countries';
 import { Link } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 import { provinceData } from "./provinceData";
 
@@ -41,7 +42,6 @@ export class USMapComponent extends Component {
     }
 
     async onGetAllStatesData() {
-        document.title = "covid-19 USA map - vaccovid.live";
         await this.props.getUSAStatesData();
     };
 
@@ -130,6 +130,20 @@ export class USMapComponent extends Component {
         return (
 
             <div className="map-page">
+                <Helmet>
+                    <title>United States of America Corona Virus map - vaccovid.live</title>
+                    <meta name="description" content="United States of America Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+                    {/* <!-- Open Graph / Facebook --> */}
+                    <meta property="og:title" content={`United States of America Corona Virus map - vaccovid.live`} />
+                    <meta property="og:description"
+                        content="United States of America Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+
+                    {/* <!-- Twitter --> */}
+                    <meta property="twitter:title" content={`United States of America Corona Virus map - vaccovid.live`} />
+                    <meta property="twitter:description"
+                        content="United States of America Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+
+                </Helmet>
                 <div className="map-page-buttons">
                     <Link className="map-page-buttons-each map-page-buttons-world" to="/coronavirus-world-map">World</Link>
                     <Link className="map-page-buttons-each map-page-buttons-usa" to="/coronavirus-usa-map">USA</Link>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { VectorMap } from "react-jvectormap"
 import { getBrazilStatesData } from '../../actions/covid_countries';
 import { Link } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 import { provinceData } from "./provinceData";
 
@@ -25,7 +26,6 @@ export class BrazilMapComponent extends Component {
     }
 
     async componentDidMount() {
-        document.title = "covid-19 Brazil map - vaccovid.live";
         this.onGetAllStatesData();
     }
 
@@ -126,6 +126,21 @@ export class BrazilMapComponent extends Component {
         return (
 
             <div className="map-page">
+                <Helmet>
+
+                    <title>Brazil Corona Virus map - vaccovid.live</title>
+                    <meta name="description" content="Brazil Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+                    {/* <!-- Open Graph / Facebook --> */}
+                    <meta property="og:title" content={`Brazil Corona Virus map - vaccovid.live`} />
+                    <meta property="og:description"
+                        content="Brazil Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+
+                    {/* <!-- Twitter --> */}
+                    <meta property="twitter:title" content={`Brazil Corona Virus map - vaccovid.live`} />
+                    <meta property="twitter:description"
+                        content="Brazil Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+
+                </Helmet>
                 <div className="map-page-buttons">
                     <Link className="map-page-buttons-each map-page-buttons-world" to="/coronavirus-world-map">World</Link>
                     <Link className="map-page-buttons-each map-page-buttons-usa" to="/coronavirus-usa-map">USA</Link>

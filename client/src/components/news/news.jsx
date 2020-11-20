@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment';
+import { Helmet } from "react-helmet";
 import Footer from '../common/footer';
 
 // import * as Scroll from 'react-scroll';
@@ -49,7 +50,6 @@ export class NewsComponent extends Component {
     }
 
     async componentDidUpdate() {
-        document.title = `${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live`;
         // console.log(this.props.match.params.topic);
         if (this.props.match.params.topic === "vaccine" && this.state.active_btn !== this.props.match.params.topic) {
             // if (this.props.match.params.topic === "vaccine") {
@@ -231,6 +231,20 @@ export class NewsComponent extends Component {
         // console.log(news);
         return (
             <div>
+                <Helmet>
+                    <title>{this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live</title>
+                    <meta name="description" content={`${this.state.active_btn === 'covid19' ? 'Corona Virus' : 'Corona Virus ' + this.state.active_btn} News - Latest covid-19 and vaccine news from the most reliable broadcasting. WHO, CDC, BBC, CNN, Washington Post, Time, Fox-News`} />
+                    {/* <!-- Open Graph / Facebook --> */}
+                    <meta property="og:title" content={`${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live`} />
+                    <meta property="og:description"
+                        content={`${this.state.active_btn === 'covid19' ? 'Corona Virus' : 'Corona Virus ' + this.state.active_btn} News - Latest covid-19 and vaccine news from the most reliable broadcasting. WHO, CDC, BBC, CNN, Washington Post, Time, Fox-News`} />
+
+                    {/* <!-- Twitter --> */}
+                    <meta property="twitter:title" content={`${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live`} />
+                    <meta property="twitter:description"
+                        content={`${this.state.active_btn === 'covid19' ? 'Corona Virus' : 'Corona Virus ' + this.state.active_btn} News - Latest covid-19 and vaccine news from the most reliable broadcasting. WHO, CDC, BBC, CNN, Washington Post, Time, Fox-News`} />
+
+                </Helmet>
                 <div id="news" className="news">
 
                     <div className="news-btnAndTitle">

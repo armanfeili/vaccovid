@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { VectorMap } from "react-jvectormap"
 import { getAllCountriesData } from '../../actions/covid_countries';
 import { Link } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 import { mapData } from "./mapData";
 
@@ -31,7 +32,6 @@ export class WorldMapComponent extends Component {
     // with caution because it often causes performance issues.In most cases, 
     // you should be able to assign the initial state in the constructor() instead.
     async componentDidMount() {
-        document.title = "covid-19 world map - vaccovid.live";
         this.onGetAllCountriesData();
     }
 
@@ -141,6 +141,21 @@ export class WorldMapComponent extends Component {
         return (
 
             <div className="map-page">
+                <Helmet>
+
+                    <title>Corona Virus World map - vaccovid.live</title>
+                    <meta name="description" content="Corona Virus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map." />
+                    {/* <!-- Open Graph / Facebook --> */}
+                    <meta property="og:title" content={`Corona Virus world map - vaccovid.live`} />
+                    <meta property="og:description"
+                        content={`Corona Virus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map.`} />
+
+                    {/* <!-- Twitter --> */}
+                    <meta property="twitter:title" content={`Corona Virus world map - vaccovid.live`} />
+                    <meta property="twitter:description"
+                        content={`Corona Virus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map.`} />
+
+                </Helmet>
                 <div className="map-page-buttons">
                     <Link className="map-page-buttons-each map-page-buttons-world" to="/coronavirus-world-map">World</Link>
                     <Link className="map-page-buttons-each map-page-buttons-usa" to="/coronavirus-usa-map">USA</Link>
