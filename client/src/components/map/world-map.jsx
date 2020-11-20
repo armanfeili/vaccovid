@@ -145,15 +145,6 @@ export class WorldMapComponent extends Component {
 
                     <title>Corona Virus World map - vaccovid.live</title>
                     <meta name="description" content="Corona Virus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map." />
-                    {/* <!-- Open Graph / Facebook --> */}
-                    <meta property="og:title" content={`Corona Virus world map - vaccovid.live`} />
-                    <meta property="og:description"
-                        content={`Corona Virus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map.`} />
-
-                    {/* <!-- Twitter --> */}
-                    <meta property="twitter:title" content={`Corona Virus world map - vaccovid.live`} />
-                    <meta property="twitter:description"
-                        content={`Corona Virus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map.`} />
 
                 </Helmet>
                 <div className="map-page-buttons">

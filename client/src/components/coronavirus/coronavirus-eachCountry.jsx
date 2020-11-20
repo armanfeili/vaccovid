@@ -779,15 +779,6 @@ export class countryEachCountryComponent extends Component {
             <Helmet>
                 <title>{continent3} Coronavirus tracker on table of data - vaccovid</title>
                 <meta name="description" content={`Vaccine and Covid-19 tracker. ${continent3} Corona virus statistical data for all states. Including total and new cases on tables and charts`} />
-                {/* <!-- Open Graph / Facebook --> */}
-                <meta property="og:title" content={`${continent3} Coronavirus tracker on table of data - vaccovid`} />
-                <meta property="og:description"
-                    content={`Vaccine and Covid-19 tracker. ${continent3} Corona virus statistical data for all states. Including total and new cases on tables and charts`} />
-
-                {/* <!-- Twitter --> */}
-                <meta property="twitter:title" content={`${continent3} Coronavirus tracker on table of data - vaccovid`} />
-                <meta property="twitter:description"
-                    content={`Vaccine and Covid-19 tracker. ${continent3} Corona virus statistical data for all states. Including total and new cases on tables and charts`} />
 
             </Helmet>
             {url_state

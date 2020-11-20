@@ -130,15 +130,6 @@ export class CanadaMapComponent extends Component {
 
                     <title>Canada Corona Virus map - vaccovid.live</title>
                     <meta name="description" content="Canada Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-                    {/* <!-- Open Graph / Facebook --> */}
-                    <meta property="og:title" content={`Canada Corona Virus map - vaccovid.live`} />
-                    <meta property="og:description"
-                        content="Canada Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-
-                    {/* <!-- Twitter --> */}
-                    <meta property="twitter:title" content={`Canada Corona Virus map - vaccovid.live`} />
-                    <meta property="twitter:description"
-                        content="Canada Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">

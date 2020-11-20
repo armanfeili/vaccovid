@@ -129,15 +129,6 @@ export class AustraliaMapComponent extends Component {
                 <Helmet>
                     <title>Australia Corona Virus map - vaccovid.live</title>
                     <meta name="description" content="Australia Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-                    {/* <!-- Open Graph / Facebook --> */}
-                    <meta property="og:title" content={`Australia Corona Virus map - vaccovid.live`} />
-                    <meta property="og:description"
-                        content="Australia Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-
-                    {/* <!-- Twitter --> */}
-                    <meta property="twitter:title" content={`Australia Corona Virus map - vaccovid.live`} />
-                    <meta property="twitter:description"
-                        content="Australia Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">

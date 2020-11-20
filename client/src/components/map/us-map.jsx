@@ -133,15 +133,6 @@ export class USMapComponent extends Component {
                 <Helmet>
                     <title>United States of America Corona Virus map - vaccovid.live</title>
                     <meta name="description" content="United States of America Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-                    {/* <!-- Open Graph / Facebook --> */}
-                    <meta property="og:title" content={`United States of America Corona Virus map - vaccovid.live`} />
-                    <meta property="og:description"
-                        content="United States of America Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-
-                    {/* <!-- Twitter --> */}
-                    <meta property="twitter:title" content={`United States of America Corona Virus map - vaccovid.live`} />
-                    <meta property="twitter:description"
-                        content="United States of America Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">

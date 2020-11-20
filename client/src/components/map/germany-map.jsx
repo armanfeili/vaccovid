@@ -129,15 +129,6 @@ export class GermanyMapComponent extends Component {
                 <Helmet>
                     <title>Germany Corona Virus map - vaccovid.live</title>
                     <meta name="description" content="Germany Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-                    {/* <!-- Open Graph / Facebook --> */}
-                    <meta property="og:title" content={`Germany Corona Virus map - vaccovid.live`} />
-                    <meta property="og:description"
-                        content="Germany Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
-
-                    {/* <!-- Twitter --> */}
-                    <meta property="twitter:title" content={`Germany Corona Virus map - vaccovid.live`} />
-                    <meta property="twitter:description"
-                        content="Germany Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">
