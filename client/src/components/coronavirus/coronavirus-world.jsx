@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 import Footer from '../common/footer';
 
 import {
@@ -44,24 +45,6 @@ export class CoronavirusWorldComponent extends Component {
     }
 
     async componentDidMount() {
-        let { continentName } = this.props.match.params;
-        if (continentName === 'world-data') {
-            document.title = `Vaccine and Covid-19 tracker - Coronavirus World table of statistical data - vaccovid.live`;
-        } else if (continentName === 'asia-data') {
-            document.title = `Coronavirus Asia table of statistical data - vaccovid.live`;
-        } else if (continentName === 'africa-data') {
-            document.title = `Coronavirus Africa table of statistical data - vaccovid.live`;
-        } else if (continentName === 'australia-data') {
-            document.title = `Coronavirus Australia table of statistical data - vaccovid.live`;
-        } else if (continentName === 'europe-data') {
-            document.title = `Coronavirus Europe table of statistical data - vaccovid.live`;
-        } else if (continentName === 'north-america-data') {
-            document.title = `Coronavirus North America table of statistical data - vaccovid.live`;
-        } else if (continentName === 'south_america-data') {
-            document.title = `Coronavirus South America table of statistical data - vaccovid.live`;
-        } else if (continentName === 'oceania-data') {
-            document.title = `Coronavirus Oceania table of statistical data - vaccovid.live`;
-        }
         // this.onClickGetCovidWorldData();
         this.onClickGetDynamicCovidData();
         this.onload();
@@ -70,25 +53,6 @@ export class CoronavirusWorldComponent extends Component {
     async componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
         // this.onClickGetDynamicCovidData();
-        let { continentName } = this.props.match.params;
-        if (continentName === 'world-data') {
-            document.title = `Vaccine and Covid-19 tracker - covid-19 World table of data - vaccovid.live`;
-        } else if (continentName === 'asia-data') {
-            document.title = `covid-19 Asia table of data - vaccovid.live`;
-        } else if (continentName === 'africa-data') {
-            document.title = `covid-19 Africa table of data - vaccovid.live`;
-        } else if (continentName === 'australia-data') {
-            document.title = `covid-19 Australia table of data - vaccovid.live`;
-        } else if (continentName === 'europe-data') {
-            document.title = `covid-19 Europe table of data - vaccovid.live`;
-        } else if (continentName === 'north-america-data') {
-            document.title = `covid-19 North America table of data - vaccovid.live`;
-        } else if (continentName === 'south_america-data') {
-            document.title = `covid-19 South America table of data - vaccovid.live`;
-        } else if (continentName === 'oceania-data') {
-            document.title = `covid-19 Oceania table of data - vaccovid.live`;
-        }
-
         if (this.props.countries !== prevProps.countries) {
             // this.setState({ active_btn: "world" });
             // this.onClickGetDynamicCovidData();
@@ -380,6 +344,20 @@ export class CoronavirusWorldComponent extends Component {
         }
 
         return <div>
+            <Helmet>
+                <title>Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news</title>
+                <meta name="description" content="Vaccine and Covid-19 tracker. The most comprehensive reliable Corona virus statistical data and impacts of the World on tables, charts, maps and news." />
+                {/* <!-- Open Graph / Facebook --> */}
+                <meta property="og:title" content="Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news" />
+                <meta property="og:description"
+                    content="Vaccine and Covid-19 tracker. The most comprehensive reliable Corona virus statistical data and impacts of the World on tables, charts, maps and news." />
+
+                {/* <!-- Twitter --> */}
+                <meta property="twitter:title" content="Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news" />
+                <meta property="twitter:description"
+                    content="Vaccine and Covid-19 tracker. The most comprehensive reliable Corona virus statistical data and impacts of the World on tables, charts, maps and news." />
+
+            </Helmet>
             {
                 url_state && countriesNameOrdered !== undefined && countries !== undefined && world !== undefined ? (
                     <div>

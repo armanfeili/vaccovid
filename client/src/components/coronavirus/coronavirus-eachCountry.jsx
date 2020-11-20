@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Chart from 'chart.js';
+import { Helmet } from "react-helmet";
 import Footer from '../common/footer';
 
 import {
@@ -66,9 +67,6 @@ export class countryEachCountryComponent extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        let { countryName } = this.props.match.params;
-        document.title = `${countryName} Coronavirus table of statistical data and charts - vaccovid.live`;
-
         if (this.state.iso !== this.props.match.params.iso) {
             this.onload();
 
@@ -693,7 +691,14 @@ export class countryEachCountryComponent extends Component {
         let { ovidData } = this.props;
 
         let { continentName } = this.props.match.params; // url parameteres
+
+
+        let countryName = this.props.match.params.countryName;
         let url_state = this.props.match.params;       // url parameteres
+
+        let continent = countryName.split('-data').join('');
+        let continent2 = continent.split('-').join(' ');
+        let continent3 = continent2.charAt(0).toUpperCase() + continent2.slice(1);
 
         if (url_state.iso === null || url_state.iso === undefined || url_state.countryName === null || url_state.countryName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
@@ -770,297 +775,314 @@ export class countryEachCountryComponent extends Component {
                 }
             }
         }
-        return url_state
-            &&
-            // eachCountryProvinces !== undefined &&
-            ovidData.length > 1
-            ? (
-                <div>
-                    <div className={`country ${eachCountryProvinces !== undefined ?
-                        eachCountryProvinces.length > 1 ? "country-withProvince" : ""
-                        : ""
-                        }`}>
-                        <div className="country-btnAndTitle">
-                            <button className="country-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
-                            {/* <h1 className="country-regions-name">SOUTH AMERICA</h1> */}
-                            <h1 className="country-btnAndTitle-title">{url_state.countryName.toUpperCase()}</h1>
-                        </div>
+        return <div>
+            <Helmet>
+                <title>{continent3} Coronavirus tracker on table of data - vaccovid</title>
+                <meta name="description" content={`Vaccine and Covid-19 tracker. ${continent3} Corona virus statistical data for all states. Including total and new cases on tables and charts`} />
+                {/* <!-- Open Graph / Facebook --> */}
+                <meta property="og:title" content={`${continent3} Coronavirus tracker on table of data - vaccovid`} />
+                <meta property="og:description"
+                    content={`Vaccine and Covid-19 tracker. ${continent3} Corona virus statistical data for all states. Including total and new cases on tables and charts`} />
 
-                        <div className={`country-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
-                            <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
-                            <ul className={`country-responsive-allregions`} id="region">
-                                <h2 className={`country-responsive-allregions-title`}>Continents</h2>
-                                {/* <Link to="/covid-19/world-data" className={`country-responsive-allregions-btn ${this.state.active_btn === "world" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link> */}
-                                <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
-                                <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                                {/* <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={() => continentBasedCountries('Asia')} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link> */}
-                                <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
-                                <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
-                                <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
-                                <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "north-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>North America</Link>
-                                <Link to={{ pathname: `/covid-19/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "south-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>South America</Link>
-                                <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "oceania-data" ? "country-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
+                {/* <!-- Twitter --> */}
+                <meta property="twitter:title" content={`${continent3} Coronavirus tracker on table of data - vaccovid`} />
+                <meta property="twitter:description"
+                    content={`Vaccine and Covid-19 tracker. ${continent3} Corona virus statistical data for all states. Including total and new cases on tables and charts`} />
 
-                                <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewd</h2>
+            </Helmet>
+            {url_state
+                &&
+                // eachCountryProvinces !== undefined &&
+                ovidData.length > 1
+                ? (
+                    <div>
+                        <div className={`country ${eachCountryProvinces !== undefined ?
+                            eachCountryProvinces.length > 1 ? "country-withProvince" : ""
+                            : ""
+                            }`}>
+                            <div className="country-btnAndTitle">
+                                <button className="country-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
+                                {/* <h1 className="country-regions-name">SOUTH AMERICA</h1> */}
+                                <h1 className="country-btnAndTitle-title">{url_state.countryName.toUpperCase()}</h1>
+                            </div>
+
+                            <div className={`country-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
+                                <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
+                                <ul className={`country-responsive-allregions`} id="region">
+                                    <h2 className={`country-responsive-allregions-title`}>Continents</h2>
+                                    {/* <Link to="/covid-19/world-data" className={`country-responsive-allregions-btn ${this.state.active_btn === "world" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link> */}
+                                    <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
+                                    <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
+                                    {/* <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={() => continentBasedCountries('Asia')} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link> */}
+                                    <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
+                                    <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
+                                    <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
+                                    <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "north-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>North America</Link>
+                                    <Link to={{ pathname: `/covid-19/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "south-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>South America</Link>
+                                    <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "oceania-data" ? "country-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
+
+                                    <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewd</h2>
+                                    <Link to={{
+                                        pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
+                                    }} onClick={async () => { await this.props.getCountryISOBased('USA', 'USA'); await this.props.getProvinceReportISOBased('USA'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                ${'USA' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United States</Link>
+
+                                    <Link to={{
+                                        pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
+                                    }} onClick={async () => { await this.props.getCountryISOBased('Canada', 'CAN'); await this.props.getProvinceReportISOBased('CAN'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                ${'CAN' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Canada</Link>
+
+                                    <Link to={{
+                                        pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
+                                    }} onClick={async () => { await this.props.getCountryISOBased('Australia', 'AUS'); await this.props.getProvinceReportISOBased('AUS'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                ${'AUS' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
+
+                                    <Link to={{
+                                        pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
+                                    }} onClick={async () => { await this.props.getCountryISOBased('UK', 'GBR'); await this.props.getProvinceReportISOBased('GBR'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                ${'GBR' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United Kingdom</Link>
+
+                                    <Link to={{
+                                        pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
+                                    }} onClick={async () => { await this.props.getCountryISOBased('India', 'IND'); await this.props.getProvinceReportISOBased('IND'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
+                                ${'IND' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>India</Link>
+
+                                    <h2 className={`country-responsive-allregions-title`}>Countries</h2>
+                                    {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
+                                        return <Link to={{
+                                            pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
+                                        }} onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); this.onClickShowRegions(); }} key={index} className={`country-responsive-allregions-btn 
+                                ${country.ThreeLetterSymbol.toUpperCase() === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>
+                                            {country.Country}
+                                        </Link>
+                                    }) : (
+                                            <div>
+                                                <div className={`country-responsive-allregions-btn`}>Loading</div>
+                                            </div>
+                                        )
+                                    }
+                                </ul>
+                            </div>
+
+                            <ul className="country-regions" id="region"
+                                ref={this.regionRef}
+                                // onScroll={this.onScroll('region')}
+                                // ref={this.myRef}
+                                onScroll={() => this.onScroll('region')}
+
+                            >
+                                <h2 className={`country-regions-title`}>Continents</h2>
+                                <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
+                                <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`country-regions-btn ${continentName === "asia-data" ? "country-regions-btn-active" : ""}`} >Asia</Link>
+                                <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`country-regions-btn ${continentName === "africa-data" ? "country-regions-btn-active" : ""}`}>Africa</Link>
+                                <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "australia-data" ? "country-regions-btn-active" : ""}`}>Australia</Link>
+                                <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`country-regions-btn ${continentName === "europe-data" ? "country-regions-btn-active" : ""}`}>Europe</Link>
+                                <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "north_america-data" ? "country-regions-btn-active" : ""}`}>North America</Link>
+                                <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "south_america-data" ? "country-regions-btn-active" : ""}`}>South America</Link>
+                                <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "oceania-data" ? "country-regions-btn-active" : ""}`}>Oceania</Link>
+
+                                <h2 className={`country-regions-title`}>Most Viewd</h2>
                                 <Link to={{
                                     pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('USA', 'USA'); await this.props.getProvinceReportISOBased('USA'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'USA' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United States</Link>
+                                }} onClick={async () => { this.getProvinceCovidData(); }}
+                                    className={`country-regions-btn ${'USA' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United States</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('Canada', 'CAN'); await this.props.getProvinceReportISOBased('CAN'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'CAN' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Canada</Link>
+                                }} onClick={async () => { this.getProvinceCovidData(); }}
+                                    className={`country-regions-btn ${'CAN' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Canada</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('Australia', 'AUS'); await this.props.getProvinceReportISOBased('AUS'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'AUS' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
+                                }} onClick={async () => { this.getProvinceCovidData(); }}
+                                    className={`country-regions-btn ${'AUS' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Australia</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('UK', 'GBR'); await this.props.getProvinceReportISOBased('GBR'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'GBR' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United Kingdom</Link>
+                                }} onClick={async () => { this.getProvinceCovidData(); }}
+                                    className={`country-regions-btn ${'GBR' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United Kingdom</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
-                                }} onClick={async () => { await this.props.getCountryISOBased('India', 'IND'); await this.props.getProvinceReportISOBased('IND'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
-                            ${'IND' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>India</Link>
+                                }} onClick={async () => { this.getProvinceCovidData(); }}
+                                    className={`country-regions-btn ${'IND' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>India</Link>
 
-                                <h2 className={`country-responsive-allregions-title`}>Countries</h2>
+
+                                <h2 className={`country-regions-title`}>Countries</h2>
                                 {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
                                     return <Link to={{
                                         pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
-                                    }} onClick={async () => { await this.props.getCountryISOBased(country.Country, country.ThreeLetterSymbol.toUpperCase()); await this.props.getProvinceReportISOBased(country.ThreeLetterSymbol.toUpperCase()); this.onClickShowRegions(); }} key={index} className={`country-responsive-allregions-btn 
-                            ${country.ThreeLetterSymbol.toUpperCase() === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>
-                                        {country.Country}
-                                    </Link>
+                                    }}
+                                        // onClick={async () => { await this.props.getCountryISOBased(url_state.countryName, url_state.iso.toUpperCase()); await this.props.getProvinceReportISOBased(url_state.iso.toUpperCase()); }}
+                                        onClick={async () => { this.getProvinceCovidData(); }}
+                                        key={index} className={`country-regions-btn ${country.ThreeLetterSymbol.toUpperCase() === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
                                 }) : (
                                         <div>
-                                            <div className={`country-responsive-allregions-btn`}>Loading</div>
+                                            {/* <div className={`country-regions-btn country-regions-btn-loading`}></div> */}
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                            <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
                                         </div>
                                     )
                                 }
                             </ul>
-                        </div>
 
-                        <ul className="country-regions" id="region"
-                            ref={this.regionRef}
-                            // onScroll={this.onScroll('region')}
-                            // ref={this.myRef}
-                            onScroll={() => this.onScroll('region')}
-
-                        >
-                            <h2 className={`country-regions-title`}>Continents</h2>
-                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
-                            <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`country-regions-btn ${continentName === "asia-data" ? "country-regions-btn-active" : ""}`} >Asia</Link>
-                            <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`country-regions-btn ${continentName === "africa-data" ? "country-regions-btn-active" : ""}`}>Africa</Link>
-                            <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "australia-data" ? "country-regions-btn-active" : ""}`}>Australia</Link>
-                            <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`country-regions-btn ${continentName === "europe-data" ? "country-regions-btn-active" : ""}`}>Europe</Link>
-                            <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "north_america-data" ? "country-regions-btn-active" : ""}`}>North America</Link>
-                            <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "south_america-data" ? "country-regions-btn-active" : ""}`}>South America</Link>
-                            <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "oceania-data" ? "country-regions-btn-active" : ""}`}>Oceania</Link>
-
-                            <h2 className={`country-regions-title`}>Most Viewd</h2>
-                            <Link to={{
-                                pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'USA' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United States</Link>
-
-                            <Link to={{
-                                pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'CAN' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Canada</Link>
-
-                            <Link to={{
-                                pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'AUS' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Australia</Link>
-
-                            <Link to={{
-                                pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'GBR' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United Kingdom</Link>
-
-                            <Link to={{
-                                pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
-                            }} onClick={async () => { this.getProvinceCovidData(); }}
-                                className={`country-regions-btn ${'IND' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>India</Link>
-
-
-                            <h2 className={`country-regions-title`}>Countries</h2>
-                            {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
-                                return <Link to={{
-                                    pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
-                                }}
-                                    // onClick={async () => { await this.props.getCountryISOBased(url_state.countryName, url_state.iso.toUpperCase()); await this.props.getProvinceReportISOBased(url_state.iso.toUpperCase()); }}
-                                    onClick={async () => { this.getProvinceCovidData(); }}
-                                    key={index} className={`country-regions-btn ${country.ThreeLetterSymbol.toUpperCase() === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
-                            }) : (
-                                    <div>
-                                        {/* <div className={`country-regions-btn country-regions-btn-loading`}></div> */}
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
-                                    </div>
-                                )
-                            }
-                        </ul>
-
-                        {
-                            countryISOBased.length > 0 ? countryISOBased.map((country, index) => {
-                                return (
-                                    <div key={index} className="country-name_and_flag">
-                                        <h1 className="country-name_and_flag-name">{countryISOBased.length > 0 ? countryISOBased[0].Country.toUpperCase() : "Loading"}</h1>
-                                        <ul className="country-name_and_flag-stats">
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalCases">{countryISOBased[0].TotalCases !== null && countryISOBased[0].TotalCases !== undefined ? this.numberWithCommas(countryISOBased[0].TotalCases) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalDeaths">{countryISOBased[0].TotalDeaths !== null && countryISOBased[0].TotalDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].TotalDeaths) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewCases">{countryISOBased[0].NewCases !== null && countryISOBased[0].NewCases !== undefined ? this.numberWithCommas(countryISOBased[0].NewCases) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">{countryISOBased[0].NewDeaths !== null && countryISOBased[0].NewDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].NewDeaths) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Infection Risk: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Infection_Risk">{countryISOBased[0].Infection_Risk !== null && countryISOBased[0].Infection_Risk !== undefined ? this.numberWithCommas(countryISOBased[0].Infection_Risk) + "%" : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Case Fatality Rate: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Case_Fatality_Rate">{countryISOBased[0].Case_Fatality_Rate !== null && countryISOBased[0].Case_Fatality_Rate !== undefined ? this.numberWithCommas(countryISOBased[0].Case_Fatality_Rate) + "%" : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">{countryISOBased[0].ActiveCases !== null && countryISOBased[0].ActiveCases !== 0 && countryISOBased[0].ActiveCases !== undefined ? this.numberWithCommas(countryISOBased[0].ActiveCases) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Tests: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalTests">{countryISOBased[0].TotalTests !== null && countryISOBased[0].TotalTests !== undefined ? this.numberWithCommas(countryISOBased[0].TotalTests) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Serious Critical: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Serious_Critical">{countryISOBased[0].Serious_Critical !== null && countryISOBased[0].Serious_Critical !== undefined ? this.numberWithCommas(countryISOBased[0].Serious_Critical) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Test Percentage: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Test_Percentage">{countryISOBased[0].Test_Percentage !== null && countryISOBased[0].Test_Percentage !== undefined ? this.numberWithCommas(countryISOBased[0].Test_Percentage) + "%" : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Recovered: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalRecovered">{countryISOBased[0].TotalRecovered !== null && countryISOBased[0].TotalRecovered !== 0 && countryISOBased[0].TotalRecovered !== "0" && countryISOBased[0].TotalRecovered !== undefined ? this.numberWithCommas(countryISOBased[0].TotalRecovered) : "No Data"}</span></li>
-                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Recovery Proporation: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Recovery_Proporation">{countryISOBased[0].Recovery_Proporation !== null && countryISOBased[0].Recovery_Proporation !== 0 && countryISOBased[0].Recovery_Proporation !== undefined ? this.numberWithCommas(countryISOBased[0].Recovery_Proporation) + "%" : "No Data"}</span></li>
-                                        </ul>
-                                        <div className="country-name_and_flag-cover"></div>
-                                        <img className="country-name_and_flag-flag" src={`${require(`./../../views/flags/${country.TwoLetterSymbol.toLowerCase()}.svg`) ?
-                                            require(`./../../views/flags/${country.TwoLetterSymbol.toLowerCase()}.svg`) :
-                                            require(`./../../views/flags/us.svg`)}`} alt="" />
-                                    </div>
-                                )
-                            }) : (
-                                    <div>Image is loading ...</div>
-                                )
-                        }
-
-                        {
-                            eachCountryProvinces.length > 1 ? (
-                                <div className="country-table-title">
-                                    <input className="country-table-title-searchbar" type="text" id="input" placeholder="Your State" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
-                                    <table className="country-table-title-stats" id="t01">
-                                        <caption className="country-table-title-stats-caption"><h2 className="country-table-title-stats-caption-h2">{countryISOBased.length > 0 ? countryISOBased[0].Country + " States" : "Data"}<span className="country-table-title-stats-caption-update-text">- Live Update in <span id="time">05:00</span></span><span className="country-table-title-stats-caption-livepoint"></span><span className="country-table-title-stats-caption-shiningpoint"></span></h2></caption>
-                                        {/* <caption className="country-table-title-stats-caption">World Data</caption> */}
-                                        <thead className="country-table-title-stats-thead">
-                                            <tr className="country-table-title-stats-columns" id="columns"
-                                                ref={this.titleRef}
-                                                // onScroll={this.onScroll('columns')}
-                                                onScroll={() => this.onScroll('columns')}
-                                            >
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-number`}>NUM</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-name ${this.state.activeTitle === 'province' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName() }}>STATES <span className="sign">&#9662;</span></th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-confirmed ${this.state.activeTitle === 'confirmed' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderConfirmed() }}>TOTAL CASES <span className="sign">&#9662;</span></th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newcases ${this.state.activeTitle === 'NewCases' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newcases', 'confirmed_diff') }}>NEW CASES <span className="sign">&#9662;</span></th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-active ${this.state.activeTitle === 'active' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('active', 'active') }}>ACTIVE CASES <span className="sign">&#9662;</span></th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deceased ${this.state.activeTitle === 'deaths' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deceased', 'deaths') }}>TOTAL DEATHS <span className="sign">&#9662;</span></th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newdeaths ${this.state.activeTitle === 'deaths_diff' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newdeaths', 'deaths_diff') }}>NEW DEATHS <span className="sign">&#9662;</span></th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deathspermil ${this.state.activeTitle === 'Case_Fatality_Rate' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deathspermil', 'Case_Fatality_Rate') }}>CASE FATALITY RATE (CFR <span className="sign">&#9662;</span>)</th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recovered ${this.state.activeTitle === 'recovered' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recovered', 'recovered') }}>TOTAL RECOVERED <span className="sign">&#9662;</span></th>
-                                                <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recoveredrate ${this.state.activeTitle === 'Recovery_Proporation' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recoveredrate', 'Recovery_Proporation') }}>RECOVERY PERCENTAGE <span className="sign">&#9662;</span></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            ) : ""
-                            // : ""
-                        }
-
-                        <table className="country-table-stats" id="countryTable"
-                            ref={this.tableRef}
-                            // onscroll={this.onScroll('countryTable')}
-                            onScroll={() => this.onScroll('countryTable')}
-                        >
-                            <tbody>
-                                {eachCountryProvinces.length > 1 ? eachCountryProvinces.map((country, index) => {
-                                    if (country.confirmed !== 0 && country.province !== "Grand Princess" && country.province !== "Recovered" && country.province !== "Diamond Princess") {
-                                        return <tr key={index} className="country-table-stats-item">
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-name"><Link to="eachCountry" params={{ iso: country.ThreeLetterSymbol.toUpperCase() }}>{country.Country}</Link></td> */}
-                                            <td className="country-table-stats-item-each country-table-stats-item-number">{index + 1}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-name">{country.province.substr(0, 24)}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-confirmed">{country.reports === true && country.confirmed !== null ? this.numberWithCommas(country.confirmed) : "No Data"}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-newcases">{country.reports === true && country.confirmed_diff !== null ? this.numberWithCommas(country.confirmed_diff) : "No Data"}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-active">{country.reports === true && country.active !== null && country.active !== 0 ? this.numberWithCommas(country.active) : "No Data"}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-deceased">{country.reports === true && country.deaths !== null ? this.numberWithCommas(country.deaths) : "No Data"}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-newdeaths">{country.reports === true && country.deaths_diff !== null ? this.numberWithCommas(country.deaths_diff) : "No Data"}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-deathspermil">{country.reports === true && country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-recovered">{country.reports === true && country.recovered !== null && country.recovered !== 0 ? this.numberWithCommas(country.recovered) : "No Data"}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-recoveredrate">{country.reports === true && country.Recovery_Proporation !== null && country.Recovery_Proporation !== 0 ? country.Recovery_Proporation + "%" : "No Data"}</td>
-                                        </tr>
-                                    }
-                                    return <tr key={index}></tr>
-                                }
-
-                                ) : (
-                                        <tr><td></td></tr>
+                            {
+                                countryISOBased.length > 0 ? countryISOBased.map((country, index) => {
+                                    return (
+                                        <div key={index} className="country-name_and_flag">
+                                            <h1 className="country-name_and_flag-name">{countryISOBased.length > 0 ? countryISOBased[0].Country.toUpperCase() : "Loading"}</h1>
+                                            <ul className="country-name_and_flag-stats">
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalCases">{countryISOBased[0].TotalCases !== null && countryISOBased[0].TotalCases !== undefined ? this.numberWithCommas(countryISOBased[0].TotalCases) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalDeaths">{countryISOBased[0].TotalDeaths !== null && countryISOBased[0].TotalDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].TotalDeaths) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewCases">{countryISOBased[0].NewCases !== null && countryISOBased[0].NewCases !== undefined ? this.numberWithCommas(countryISOBased[0].NewCases) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">{countryISOBased[0].NewDeaths !== null && countryISOBased[0].NewDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].NewDeaths) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Infection Risk: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Infection_Risk">{countryISOBased[0].Infection_Risk !== null && countryISOBased[0].Infection_Risk !== undefined ? this.numberWithCommas(countryISOBased[0].Infection_Risk) + "%" : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Case Fatality Rate: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Case_Fatality_Rate">{countryISOBased[0].Case_Fatality_Rate !== null && countryISOBased[0].Case_Fatality_Rate !== undefined ? this.numberWithCommas(countryISOBased[0].Case_Fatality_Rate) + "%" : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">{countryISOBased[0].ActiveCases !== null && countryISOBased[0].ActiveCases !== 0 && countryISOBased[0].ActiveCases !== undefined ? this.numberWithCommas(countryISOBased[0].ActiveCases) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Tests: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalTests">{countryISOBased[0].TotalTests !== null && countryISOBased[0].TotalTests !== undefined ? this.numberWithCommas(countryISOBased[0].TotalTests) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Serious Critical: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Serious_Critical">{countryISOBased[0].Serious_Critical !== null && countryISOBased[0].Serious_Critical !== undefined ? this.numberWithCommas(countryISOBased[0].Serious_Critical) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Test Percentage: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Test_Percentage">{countryISOBased[0].Test_Percentage !== null && countryISOBased[0].Test_Percentage !== undefined ? this.numberWithCommas(countryISOBased[0].Test_Percentage) + "%" : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Recovered: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalRecovered">{countryISOBased[0].TotalRecovered !== null && countryISOBased[0].TotalRecovered !== 0 && countryISOBased[0].TotalRecovered !== "0" && countryISOBased[0].TotalRecovered !== undefined ? this.numberWithCommas(countryISOBased[0].TotalRecovered) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Recovery Proporation: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Recovery_Proporation">{countryISOBased[0].Recovery_Proporation !== null && countryISOBased[0].Recovery_Proporation !== 0 && countryISOBased[0].Recovery_Proporation !== undefined ? this.numberWithCommas(countryISOBased[0].Recovery_Proporation) + "%" : "No Data"}</span></li>
+                                            </ul>
+                                            <div className="country-name_and_flag-cover"></div>
+                                            <img className="country-name_and_flag-flag" src={`${require(`./../../views/flags/${country.TwoLetterSymbol.toLowerCase()}.svg`) ?
+                                                require(`./../../views/flags/${country.TwoLetterSymbol.toLowerCase()}.svg`) :
+                                                require(`./../../views/flags/us.svg`)}`} alt="" />
+                                        </div>
                                     )
+                                }) : (
+                                        <div>Image is loading ...</div>
+                                    )
+                            }
 
-                                }
-                            </tbody>
-                        </table>
-                        {
-                            eachCountryProvinces.length > 1 ? (
-                                <div className="country-guide">
-                                    <ul className="country-guide-list">
-                                        <li className="country-guide-list-item">
-                                            <h3 className="country-guide-list-item-title country-guide-list-item-CASE_FATALITY_RATE">CASE FATALITY RATE (CFR):
-                            <span className="country-guide-list-item-text"> Total Number of Deaths due to Covid-19 divided by Total Number of confirmed cases since the beginning of outbreak (It shows that how lethal covid-19 is in any country)</span>
-                                            </h3>
-                                        </li>
-                                        <li className="country-guide-list-item">
-                                            <h3 className="country-guide-list-item-title country-guide-list-item-RECOVERY_PERCENTAGE">RECOVERY PERCENTAGE:
-                            <span className="country-guide-list-item-text"> Total number of recovered cases divided by Total number of covid-19 cases</span>
-                                            </h3>
-                                        </li>
-                                    </ul>
-                                </div>) : ""
-                        }
+                            {
+                                eachCountryProvinces.length > 1 ? (
+                                    <div className="country-table-title">
+                                        <input className="country-table-title-searchbar" type="text" id="input" placeholder="Your State" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
+                                        <table className="country-table-title-stats" id="t01">
+                                            <caption className="country-table-title-stats-caption"><h2 className="country-table-title-stats-caption-h2">{countryISOBased.length > 0 ? countryISOBased[0].Country + " States" : "Data"}<span className="country-table-title-stats-caption-update-text">- Live Update in <span id="time">05:00</span></span><span className="country-table-title-stats-caption-livepoint"></span><span className="country-table-title-stats-caption-shiningpoint"></span></h2></caption>
+                                            {/* <caption className="country-table-title-stats-caption">World Data</caption> */}
+                                            <thead className="country-table-title-stats-thead">
+                                                <tr className="country-table-title-stats-columns" id="columns"
+                                                    ref={this.titleRef}
+                                                    // onScroll={this.onScroll('columns')}
+                                                    onScroll={() => this.onScroll('columns')}
+                                                >
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-number`}>NUM</th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-name ${this.state.activeTitle === 'province' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName() }}>STATES <span className="sign">&#9662;</span></th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-confirmed ${this.state.activeTitle === 'confirmed' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderConfirmed() }}>TOTAL CASES <span className="sign">&#9662;</span></th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newcases ${this.state.activeTitle === 'NewCases' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newcases', 'confirmed_diff') }}>NEW CASES <span className="sign">&#9662;</span></th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-active ${this.state.activeTitle === 'active' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('active', 'active') }}>ACTIVE CASES <span className="sign">&#9662;</span></th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deceased ${this.state.activeTitle === 'deaths' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deceased', 'deaths') }}>TOTAL DEATHS <span className="sign">&#9662;</span></th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-newdeaths ${this.state.activeTitle === 'deaths_diff' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('newdeaths', 'deaths_diff') }}>NEW DEATHS <span className="sign">&#9662;</span></th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-deathspermil ${this.state.activeTitle === 'Case_Fatality_Rate' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('deathspermil', 'Case_Fatality_Rate') }}>CASE FATALITY RATE (CFR <span className="sign">&#9662;</span>)</th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recovered ${this.state.activeTitle === 'recovered' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recovered', 'recovered') }}>TOTAL RECOVERED <span className="sign">&#9662;</span></th>
+                                                    <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-recoveredrate ${this.state.activeTitle === 'Recovery_Proporation' ? "country-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderStats('recoveredrate', 'Recovery_Proporation') }}>RECOVERY PERCENTAGE <span className="sign">&#9662;</span></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                ) : ""
+                                // : ""
+                            }
 
-                        <div className="country-quick-facts-chart">
-                            <canvas id="quick-facts-chart"></canvas>
+                            <table className="country-table-stats" id="countryTable"
+                                ref={this.tableRef}
+                                // onscroll={this.onScroll('countryTable')}
+                                onScroll={() => this.onScroll('countryTable')}
+                            >
+                                <tbody>
+                                    {eachCountryProvinces.length > 1 ? eachCountryProvinces.map((country, index) => {
+                                        if (country.confirmed !== 0 && country.province !== "Grand Princess" && country.province !== "Recovered" && country.province !== "Diamond Princess") {
+                                            return <tr key={index} className="country-table-stats-item">
+                                                {/* <td className="country-table-stats-item-each country-table-stats-item-name"><Link to="eachCountry" params={{ iso: country.ThreeLetterSymbol.toUpperCase() }}>{country.Country}</Link></td> */}
+                                                <td className="country-table-stats-item-each country-table-stats-item-number">{index + 1}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-name">{country.province.substr(0, 24)}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-confirmed">{country.reports === true && country.confirmed !== null ? this.numberWithCommas(country.confirmed) : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-newcases">{country.reports === true && country.confirmed_diff !== null ? this.numberWithCommas(country.confirmed_diff) : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-active">{country.reports === true && country.active !== null && country.active !== 0 ? this.numberWithCommas(country.active) : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-deceased">{country.reports === true && country.deaths !== null ? this.numberWithCommas(country.deaths) : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-newdeaths">{country.reports === true && country.deaths_diff !== null ? this.numberWithCommas(country.deaths_diff) : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-deathspermil">{country.reports === true && country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-recovered">{country.reports === true && country.recovered !== null && country.recovered !== 0 ? this.numberWithCommas(country.recovered) : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-recoveredrate">{country.reports === true && country.Recovery_Proporation !== null && country.Recovery_Proporation !== 0 ? country.Recovery_Proporation + "%" : "No Data"}</td>
+                                            </tr>
+                                        }
+                                        return <tr key={index}></tr>
+                                    }
+
+                                    ) : (
+                                            <tr><td></td></tr>
+                                        )
+
+                                    }
+                                </tbody>
+                            </table>
+                            {
+                                eachCountryProvinces.length > 1 ? (
+                                    <div className="country-guide">
+                                        <ul className="country-guide-list">
+                                            <li className="country-guide-list-item">
+                                                <h3 className="country-guide-list-item-title country-guide-list-item-CASE_FATALITY_RATE">CASE FATALITY RATE (CFR):
+                                <span className="country-guide-list-item-text"> Total Number of Deaths due to Covid-19 divided by Total Number of confirmed cases since the beginning of outbreak (It shows that how lethal covid-19 is in any country)</span>
+                                                </h3>
+                                            </li>
+                                            <li className="country-guide-list-item">
+                                                <h3 className="country-guide-list-item-title country-guide-list-item-RECOVERY_PERCENTAGE">RECOVERY PERCENTAGE:
+                                <span className="country-guide-list-item-text"> Total number of recovered cases divided by Total number of covid-19 cases</span>
+                                                </h3>
+                                            </li>
+                                        </ul>
+                                    </div>) : ""
+                            }
+
+                            <div className="country-quick-facts-chart">
+                                <canvas id="quick-facts-chart"></canvas>
+                            </div>
+
+                            <div className="country-compare-to-world-chart">
+                                <canvas id="compare-to-world-chart"></canvas>
+                            </div>
+
+                            <div className="country-new-cases-chart">
+                                <canvas id="new-cases-chart"></canvas>
+                            </div>
+
+                            <div className="country-new-deaths-chart">
+                                <canvas id="new-deaths-chart"></canvas>
+                            </div>
+
+                            <div className="country-total-cases-chart">
+                                <canvas id="total-cases-chart"></canvas>
+                            </div>
+
+                            <div className="country-total-deaths-chart">
+                                <canvas id="total-deaths-chart"></canvas>
+                            </div>
                         </div>
-
-                        <div className="country-compare-to-world-chart">
-                            <canvas id="compare-to-world-chart"></canvas>
-                        </div>
-
-                        <div className="country-new-cases-chart">
-                            <canvas id="new-cases-chart"></canvas>
-                        </div>
-
-                        <div className="country-new-deaths-chart">
-                            <canvas id="new-deaths-chart"></canvas>
-                        </div>
-
-                        <div className="country-total-cases-chart">
-                            <canvas id="total-cases-chart"></canvas>
-                        </div>
-
-                        <div className="country-total-deaths-chart">
-                            <canvas id="total-deaths-chart"></canvas>
-                        </div>
+                        <Footer />
+                    </div >
+                ) : (
+                    <div className="country-loading">
+                        <div className="country-loading-regions country-loading-load"></div>
+                        <div className="country-loading-stats country-loading-load"></div>
+                        <div className="country-loading-chart-one country-loading-load"></div>
+                        <div className="country-loading-chart-two country-loading-load"></div>
+                        <div className="country-loading-chart-three country-loading-load"></div>
+                        <div className="country-loading-chart-four country-loading-load"></div>
                     </div>
-                    <Footer />
-                </div >
-            ) : (
-                <div className="country-loading">
-                    <div className="country-loading-regions country-loading-load"></div>
-                    <div className="country-loading-stats country-loading-load"></div>
-                    <div className="country-loading-chart-one country-loading-load"></div>
-                    <div className="country-loading-chart-two country-loading-load"></div>
-                    <div className="country-loading-chart-three country-loading-load"></div>
-                    <div className="country-loading-chart-four country-loading-load"></div>
-                </div>
-            );
+                )}
+
+        </div>
 
 
     }
