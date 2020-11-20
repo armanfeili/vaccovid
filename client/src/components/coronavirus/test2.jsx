@@ -15,9 +15,11 @@ import {
 export class countryEachCountryComponent extends Component {
     constructor() {
         super();
+        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
+        // this.chartReference = React.createRef();
 
         this.state = {
             value: '',
@@ -39,10 +41,14 @@ export class countryEachCountryComponent extends Component {
             iso: "",
             countryName: "",
             updated: ''
+            // scrolling: 0,
+            // scrollTitle: 0,
+            // scrollTable: 0
         };
 
         this.getProvinceCovidData = this.getProvinceCovidData.bind(this);
 
+        // this.onClickGetCovidWorldData = this.onClickGetCovidWorldData.bind(this);
         this.onClickShowRegions = this.onClickShowRegions.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.compareValues = this.compareValues.bind(this);
@@ -69,11 +75,18 @@ export class countryEachCountryComponent extends Component {
         let { countryName } = this.props.match.params;
         document.title = `${countryName} Coronavirus table of statistical data and charts - vaccovid.live`;
 
+        // this.props.history.listen(async (location, action) => {
+        //     console.log("on route change");
+        //     await this.getProvinceCovidData();
+        // });
         if (this.state.iso !== this.props.match.params.iso) {
             this.onload();
 
             this.setState({ iso: this.props.match.params.iso })
             await this.getProvinceCovidData();
+            // setTimeout(() => {
+            // }, 8000);
+            // console.log("happens");
         }
 
         if (this.props.ovidData.length > 1) {
@@ -88,6 +101,21 @@ export class countryEachCountryComponent extends Component {
             // console.log("ovid");
         }
 
+        // if (
+        //     this.props.countryISOBased !== prevProps.countryISOBased
+        //     && (this.props.world.length > 0 || this.props.world !== prevProps.world)
+        //     && (this.props.ovidData.length > 0 || this.props.ovidData !== prevProps.ovidData)
+        // ) {
+        //     // this.setState({ data: this.props.countryISOBased, world: this.props.world });
+
+        //     this.quickFactsChart(this.props.countryISOBased);
+        //     this.compareToWorldChart(this.props.countryISOBased, this.props.world);
+
+        //     this.totalCasesChart(this.props.ovidData);
+        //     this.newCasesChart(this.props.ovidData);
+        //     this.totalDeathsChart(this.props.ovidData);
+        //     this.newDeathsChart(this.props.ovidData);
+        // }
     }
 
     async componentWillUnmount() {
@@ -113,6 +141,47 @@ export class countryEachCountryComponent extends Component {
         } else if (this.props.match.params === null || this.props.match.params === undefined) {
         }
     }
+
+    // async onClickGetDynamicCovidData() {
+
+    //     await this.props.getAllCountriesDataNameOrdered();
+
+    //     let continentName;
+    //     if (this.props.match.params) {
+    //         continentName = this.props.match.params.continentName;
+    //     } else if (this.props.match.params === null || this.props.match.params === undefined) {
+    //         await this.props.getAllCountriesData();
+    //         await this.props.getWorldData();
+    //     }
+
+    //     if (continentName === 'World') {
+    //         // base url
+    //         await this.props.getAllCountriesData();
+    //         await this.props.getWorldData();
+    //     } else if (continentName === 'Asia') {
+    //         await this.props.getAsiaCountriesData();
+    //     } else if (continentName === 'Africa') {
+    //         await this.props.getAfricaCountriesData();
+    //     } else if (continentName === 'Europe') {
+    //         await this.props.getEuropeCountriesData();
+    //     } else if (continentName === 'North America') {
+    //         await this.props.getNorthAmericaCountriesData();
+    //     } else if (continentName === 'South America') {
+    //         await this.props.getSouthAmericaCountriesData();
+    //     } else if (continentName === 'Australia/Oceania') {
+    //         await this.props.getAustraliaOceaniaCountriesData();
+    //     }
+    // };
+
+    // async onClickGetCovidWorldData() {
+    //     this.setState({ active_btn: "world" });
+    //     await this.props.getAllCountriesData();
+    //     await this.props.getAllCountriesDataNameOrdered();
+    //     await this.props.getWorldData();
+    //     // const allNews = this.props.news.news;
+    //     // console.log(this.state.news); // it still returens old data (previous state)
+    // };
+
 
     countDown(duration, display) {
         var timer = duration, minutes, seconds;
@@ -694,6 +763,14 @@ export class countryEachCountryComponent extends Component {
 
         let { continentName } = this.props.match.params; // url parameteres
         let url_state = this.props.match.params;       // url parameteres
+        // let url_state = this.props.location.state;       // url passing state
+
+        // let { iso } = this.props.match.params; // url parameteres
+        // let { iso } = this.props.location.params; // state parameteres
+
+        // if (window.location.pathname === "/covid-19" || window.location.pathname === "/covid-19/" || url_state === undefined) {
+        //     return <Redirect to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} push />
+        // }
 
         if (url_state.iso === null || url_state.iso === undefined || url_state.countryName === null || url_state.countryName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
@@ -706,6 +783,9 @@ export class countryEachCountryComponent extends Component {
         }
 
         const orderConfirmed = () => {
+            // console.log(eachCountryProvinces);
+            // if (eachCountryProvinces.province !== "Grand Princess" && eachCountryProvinces.province !== "Recovered" && eachCountryProvinces.province !== "Diamond Princess"){
+            // if (eachCountryProvinces.reports.length > 0) {
             if (this.state.firstTimeOrdering === true) {
                 // eachCountryProvinces.reports[0] = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
                 eachCountryProvinces = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
@@ -770,6 +850,52 @@ export class countryEachCountryComponent extends Component {
                 }
             }
         }
+
+        const height = {
+            "height": '100%',
+        };
+        const z_index = {
+            "z-index": '100',
+        };
+
+        // const orderCitiesName = () => {
+        //     if (this.state.order_cities_kind !== 'name') {
+        //         eachCountryCities = eachCountryCities.sort(this.compareValues('name', 'asc'));
+        //         this.setState({ activeTitle: 'cities' })
+        //         this.setState({ order: 'asc' })
+        //         this.setState({ order_cities_kind: 'name' })
+        //         this.setState({ firstTimeOrdering: false })
+        //     } else if (this.state.order_cities_kind === 'name') {
+        //         this.setState({ activeTitle: 'cities' })
+        //         if (this.state.order === 'desc') {
+        //             eachCountryCities = eachCountryCities.sort(this.compareValues('name', 'asc'));
+        //             this.setState({ order: 'asc' })
+        //         } else if (this.state.order === 'asc') {
+        //             eachCountryCities = eachCountryCities.sort(this.compareValues('name', 'desc'));
+        //             this.setState({ order: 'desc' })
+        //         }
+        //     }
+        // }
+
+        // const orderCitiesStats = (titleName, orderBase) => {
+        //     if (this.state.order_kind !== titleName) {
+        //         this.setState({ activeTitle: orderBase })
+        //         eachCountryCities = eachCountryCities.sort(this.compareValues(orderBase, 'desc'));
+        //         this.setState({ order: 'desc' })
+        //         this.setState({ order_kind: titleName })
+        //         this.setState({ firstTimeOrdering: false })
+        //     } else if (this.state.order_kind === titleName) {
+        //         this.setState({ activeTitle: orderBase })
+        //         if (this.state.order === 'desc') {
+        //             eachCountryCities = eachCountryCities.sort(this.compareValues(orderBase, 'asc'));
+        //             this.setState({ order: 'asc' })
+        //         } else if (this.state.order === 'asc') {
+        //             eachCountryCities = eachCountryCities.sort(this.compareValues(orderBase, 'desc'));
+        //             this.setState({ order: 'desc' })
+        //         }
+        //     }
+        // }
+
         return url_state
             &&
             // eachCountryProvinces !== undefined &&
@@ -914,6 +1040,8 @@ export class countryEachCountryComponent extends Component {
                             }
                         </ul>
 
+                        {/* flag and name */}
+                        {/* country data just like quick facts */}
                         {
                             countryISOBased.length > 0 ? countryISOBased.map((country, index) => {
                                 return (
@@ -944,7 +1072,13 @@ export class countryEachCountryComponent extends Component {
                                 )
                         }
 
+
                         {
+
+                        }
+                        {/* provinces if exist */}
+                        {
+                            // eachCountryProvinces === undefined ?
                             eachCountryProvinces.length > 1 ? (
                                 <div className="country-table-title">
                                     <input className="country-table-title-searchbar" type="text" id="input" placeholder="Your State" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
@@ -1001,7 +1135,11 @@ export class countryEachCountryComponent extends Component {
                                 }
 
                                 ) : (
-                                        <tr><td></td></tr>
+                                        // <tr className="country-table-stats-loading loading">
+                                        //     <td></td>
+
+                                        // </tr>
+                                        ""
                                     )
 
                                 }
@@ -1025,6 +1163,67 @@ export class countryEachCountryComponent extends Component {
                                 </div>) : ""
                         }
 
+                        {
+                            // // eachCountryCities === undefined ?
+                            // eachCountryCities.length > 1 ? (
+                            //     <div className="country-table-cities-title">
+                            //         <input className="country-table-cities-title-searchbar" type="text" id="input" placeholder="Your Country" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
+                            //         <table className="country-table-cities-title-stats" id="t01">
+                            //             <caption className="country-table-cities-title-stats-caption">{countryISOBased.length > 0 ? countryISOBased[0].Country + " Cities" : "DATA"}</caption>
+                            //             {/* <caption className="country-table-cities-title-stats-caption">World Data</caption> */}
+                            //             <thead className="country-table-cities-title-stats-thead">
+                            //                 <tr className="country-table-cities-title-stats-columns" id="columns"
+                            //                     ref={this.titleRef}
+                            //                     // onScroll={this.onScroll('columns')}
+                            //                     onScroll={() => this.onScroll('columns')}
+                            //                 >
+                            //                     <th className={`country-table-cities-title-stats-columns-item country-table-cities-title-stats-columns-number`}>NUM</th>
+                            //                     <th className={`country-table-cities-title-stats-columns-item country-table-cities-title-stats-columns-name ${this.state.activeCitiesTitle === 'cities' ? "country-table-cities-title-stats-columns-active_btn" : ""}`} onClick={() => { orderCitiesName() }}>CITIES</th>
+                            //                     <th className={`country-table-cities-title-stats-columns-item country-table-cities-title-stats-columns-confirmed ${this.state.activeCitiesTitle === 'confirmed' ? "country-table-cities-title-stats-columns-active_btn" : ""}`} onClick={() => { orderCitiesStats('confirmed', 'confirmed') }}>TOTAL CASES</th>
+                            //                     <th className={`country-table-cities-title-stats-columns-item country-table-cities-title-stats-columns-newcases ${this.state.activeCitiesTitle === 'NewCases' ? "country-table-cities-title-stats-columns-active_btn" : ""}`} onClick={() => { orderCitiesStats('newcases', 'confirmed_diff') }}>NEW CASES</th>
+                            //                     <th className={`country-table-cities-title-stats-columns-item country-table-cities-title-stats-columns-deceased ${this.state.activeCitiesTitle === 'deaths' ? "country-table-cities-title-stats-columns-active_btn" : ""}`} onClick={() => { orderCitiesStats('deceased', 'deaths') }}>TOTAL DEATHS</th>
+                            //                     <th className={`country-table-cities-title-stats-columns-item country-table-cities-title-stats-columns-newdeaths ${this.state.activeCitiesTitle === 'deaths_diff' ? "country-table-cities-title-stats-columns-active_btn" : ""}`} onClick={() => { orderCitiesStats('newdeaths', 'deaths_diff') }}>NEW DEATHS</th>
+                            //                 </tr>
+                            //             </thead>
+                            //         </table>
+                            //     </div>
+                            // ) : ""
+                            // // : ""
+                        }
+
+                        {/* <table className="country-cities-stats" id="countryTable"
+                    ref={this.tableRef}
+                    // onscroll={this.onScroll('countryTable')}
+                    onScroll={() => this.onScroll('countryTable')}
+                >
+                    <tbody>
+                        {eachCountryCities.length > 1 ? eachCountryCities.map((country, index) => {
+                            
+                            if (country.confirmed !== 0 && country.name !== "Unassigned") {
+                                return <tr key={country.id} className="country-cities-stats-item">
+                                    <td className="country-cities-stats-item-each country-cities-stats-item-number">{index + 1}</td>
+                                    <td className="country-cities-stats-item-each country-cities-stats-item-name">{country.name}</td>
+                                    <td className="country-cities-stats-item-each country-cities-stats-item-confirmed">{country.reports === true && country.confirmed !== null ? this.numberWithCommas(country.confirmed) : "No Data"}</td>
+                                    <td className="country-cities-stats-item-each country-cities-stats-item-newcases">{country.reports === true && country.confirmed_diff !== null ? this.numberWithCommas(country.confirmed_diff) : "No Data"}</td>
+                                    <td className="country-cities-stats-item-each country-cities-stats-item-deceased">{country.reports === true && country.deaths !== null ? this.numberWithCommas(country.deaths) : "No Data"}</td>
+                                    <td className="country-cities-stats-item-each country-cities-stats-item-newdeaths">{country.reports === true && country.deaths_diff !== null ? this.numberWithCommas(country.deaths_diff) : "No Data"}</td>
+                                </tr>
+                            }
+                        }
+
+                        ) : (
+                                // <tr className="country-cities-stats-loading loading">
+                                //     <td></td>
+
+                                // </tr>
+                                ""
+                            )
+
+                        }
+                    </tbody>
+                </table> */}
+
+                        {/* <div> */}
                         <div className="country-quick-facts-chart">
                             <canvas id="quick-facts-chart"></canvas>
                         </div>
@@ -1054,7 +1253,27 @@ export class countryEachCountryComponent extends Component {
             ) : (
                 <div className="country-loading">
                     <div className="country-loading-regions country-loading-load"></div>
-                    <div className="country-loading-stats country-loading-load"></div>
+                    <div className="country-loading-stats" style={z_index}>
+                        {/* {url_state.countryName} */}
+                        <div key={1} className="country-name_and_flag country-loading-load" style={height}>
+                            <h1 className="country-name_and_flag-name">{url_state.countryName.toUpperCase()} Live Data</h1>
+                            <ul className="country-name_and_flag-stats loading">
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalCases">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalDeaths">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewCases">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Infection Risk: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Infection_Risk">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Case Fatality Rate: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Case_Fatality_Rate">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Tests: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalTests">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Serious Critical: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Serious_Critical">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Test Percentage: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Test_Percentage">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Recovered: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalRecovered">Loading...</span></li>
+                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Recovery Proporation: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Recovery_Proporation">Loading...</span></li>
+                            </ul>
+                            <h3 className="country-name_and_flag-flag">{url_state.countryName.toUpperCase()} Flag</h3>
+                        </div>
+                    </div>
                     <div className="country-loading-chart-one country-loading-load"></div>
                     <div className="country-loading-chart-two country-loading-load"></div>
                     <div className="country-loading-chart-three country-loading-load"></div>
@@ -1087,7 +1306,11 @@ countryEachCountryComponent.propTypes = {
     getOvidData: PropTypes.func.isRequired,
 
     clearData: PropTypes.func.isRequired,
+    // clearAllCountriesNameOrderedData: PropTypes.func.isRequired,
+    // clearProvinceReportISOBasedData: PropTypes.func.isRequired,
+    // clearCountryISOBasedData: PropTypes.func.isRequired,
     clearOvidData: PropTypes.func.isRequired,
+    // clearWorldData: PropTypes.func.isRequired,
 };
 
 

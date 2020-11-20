@@ -15,9 +15,11 @@ import {
 export class countryEachCountryComponent extends Component {
     constructor() {
         super();
+        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
+        // this.chartReference = React.createRef();
 
         this.state = {
             value: '',
@@ -43,6 +45,7 @@ export class countryEachCountryComponent extends Component {
 
         this.getProvinceCovidData = this.getProvinceCovidData.bind(this);
 
+        // this.onClickGetCovidWorldData = this.onClickGetCovidWorldData.bind(this);
         this.onClickShowRegions = this.onClickShowRegions.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.compareValues = this.compareValues.bind(this);
@@ -87,7 +90,6 @@ export class countryEachCountryComponent extends Component {
             this.newDeathsChart(this.props.ovidData);
             // console.log("ovid");
         }
-
     }
 
     async componentWillUnmount() {
@@ -694,6 +696,14 @@ export class countryEachCountryComponent extends Component {
 
         let { continentName } = this.props.match.params; // url parameteres
         let url_state = this.props.match.params;       // url parameteres
+        // let url_state = this.props.location.state;       // url passing state
+
+        // let { iso } = this.props.match.params; // url parameteres
+        // let { iso } = this.props.location.params; // state parameteres
+
+        // if (window.location.pathname === "/covid-19" || window.location.pathname === "/covid-19/" || url_state === undefined) {
+        //     return <Redirect to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} push />
+        // }
 
         if (url_state.iso === null || url_state.iso === undefined || url_state.countryName === null || url_state.countryName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
@@ -706,6 +716,9 @@ export class countryEachCountryComponent extends Component {
         }
 
         const orderConfirmed = () => {
+            // console.log(eachCountryProvinces);
+            // if (eachCountryProvinces.province !== "Grand Princess" && eachCountryProvinces.province !== "Recovered" && eachCountryProvinces.province !== "Diamond Princess"){
+            // if (eachCountryProvinces.reports.length > 0) {
             if (this.state.firstTimeOrdering === true) {
                 // eachCountryProvinces.reports[0] = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
                 eachCountryProvinces = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
@@ -770,6 +783,7 @@ export class countryEachCountryComponent extends Component {
                 }
             }
         }
+
         return url_state
             &&
             // eachCountryProvinces !== undefined &&
@@ -940,11 +954,29 @@ export class countryEachCountryComponent extends Component {
                                     </div>
                                 )
                             }) : (
-                                    <div>Image is loading ...</div>
+                                    <div key={1} className="country-name_and_flag">
+                                        <h1 className="country-name_and_flag-name">{url_state.countryName.toUpperCase()} Live Data</h1>
+                                        <ul className="country-name_and_flag-stats">
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalCases">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalDeaths">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewCases">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Infection Risk: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Infection_Risk">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Case Fatality Rate: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Case_Fatality_Rate">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Tests: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalTests">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Serious Critical: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Serious_Critical">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Test Percentage: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Test_Percentage">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Recovered: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalRecovered">Loading...</span></li>
+                                            <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Recovery Proporation: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Recovery_Proporation">Loading...</span></li>
+                                        </ul>
+                                        <div className="country-name_and_flag-cover"></div>
+                                        <h3 className="country-name_and_flag-flag">{url_state.countryName.toUpperCase()} Flag</h3>
+                                    </div>
                                 )
                         }
-
                         {
+                            // eachCountryProvinces === undefined ?
                             eachCountryProvinces.length > 1 ? (
                                 <div className="country-table-title">
                                     <input className="country-table-title-searchbar" type="text" id="input" placeholder="Your State" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
@@ -972,7 +1004,6 @@ export class countryEachCountryComponent extends Component {
                                     </table>
                                 </div>
                             ) : ""
-                            // : ""
                         }
 
                         <table className="country-table-stats" id="countryTable"
@@ -1001,7 +1032,7 @@ export class countryEachCountryComponent extends Component {
                                 }
 
                                 ) : (
-                                        <tr><td></td></tr>
+                                        ""
                                     )
 
                                 }
@@ -1024,7 +1055,6 @@ export class countryEachCountryComponent extends Component {
                                     </ul>
                                 </div>) : ""
                         }
-
                         <div className="country-quick-facts-chart">
                             <canvas id="quick-facts-chart"></canvas>
                         </div>
@@ -1052,14 +1082,158 @@ export class countryEachCountryComponent extends Component {
                     <Footer />
                 </div >
             ) : (
-                <div className="country-loading">
-                    <div className="country-loading-regions country-loading-load"></div>
-                    <div className="country-loading-stats country-loading-load"></div>
-                    <div className="country-loading-chart-one country-loading-load"></div>
-                    <div className="country-loading-chart-two country-loading-load"></div>
-                    <div className="country-loading-chart-three country-loading-load"></div>
-                    <div className="country-loading-chart-four country-loading-load"></div>
-                </div>
+                <div>
+                    <div className={`country ${eachCountryProvinces !== undefined ?
+                        eachCountryProvinces.length > 1 ? "country-withProvince" : ""
+                        : ""
+                        }`}>
+                        <div className="country-btnAndTitle">
+                            <button className="country-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
+                            {/* <h1 className="country-regions-name">SOUTH AMERICA</h1> */}
+                            <h1 className="country-btnAndTitle-title">{url_state.countryName.toUpperCase()}</h1>
+                        </div>
+
+                        <div className={`country-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
+                            <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
+                            <ul className={`country-responsive-allregions`} id="region">
+                                <h2 className={`country-responsive-allregions-title`}>Continents</h2>
+                                {/* <Link to="/covid-19/world-data" className={`country-responsive-allregions-btn ${this.state.active_btn === "world" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link> */}
+                                <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
+                                <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
+                                {/* <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={() => continentBasedCountries('Asia')} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link> */}
+                                <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
+                                <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
+                                <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
+                                <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "north-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>North America</Link>
+                                <Link to={{ pathname: `/covid-19/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "south-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>South America</Link>
+                                <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "oceania-data" ? "country-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
+
+                                <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewd</h2>
+                                <Link to={{
+                                    pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
+                                }} className={`country-responsive-allregions-btn 
+                            ${'USA' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United States</Link>
+                                <Link to={{
+                                    pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
+                                }} className={`country-responsive-allregions-btn 
+                            ${'CAN' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Canada</Link>
+                                <Link to={{
+                                    pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
+                                }} className={`country-responsive-allregions-btn 
+                            ${'AUS' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
+                                <Link to={{
+                                    pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
+                                }} className={`country-responsive-allregions-btn 
+                            ${'GBR' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>United Kingdom</Link>
+                                <Link to={{
+                                    pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
+                                }} className={`country-responsive-allregions-btn 
+                            ${'IND' === this.props.match.params.iso ? "country-responsive-allregions-btn-active" : ""}`}>India</Link>
+                                <h2 className={`country-responsive-allregions-title`}>Countries</h2>
+
+                            ) : (
+                                <div>
+                                    <div className={`country-responsive-allregions-btn`}>Loading</div>
+                                </div>
+                                )
+                            </ul>
+                        </div>
+
+                        <ul className="country-regions" id="region"
+                            ref={this.regionRef}
+                            // onScroll={this.onScroll('region')}
+                            // ref={this.myRef}
+                            onScroll={() => this.onScroll('region')}
+
+                        >
+                            <h2 className={`country-regions-title`}>Continents</h2>
+                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
+                            <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`country-regions-btn ${continentName === "asia-data" ? "country-regions-btn-active" : ""}`} >Asia</Link>
+                            <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`country-regions-btn ${continentName === "africa-data" ? "country-regions-btn-active" : ""}`}>Africa</Link>
+                            <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "australia-data" ? "country-regions-btn-active" : ""}`}>Australia</Link>
+                            <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`country-regions-btn ${continentName === "europe-data" ? "country-regions-btn-active" : ""}`}>Europe</Link>
+                            <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "north_america-data" ? "country-regions-btn-active" : ""}`}>North America</Link>
+                            <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "south_america-data" ? "country-regions-btn-active" : ""}`}>South America</Link>
+                            <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "oceania-data" ? "country-regions-btn-active" : ""}`}>Oceania</Link>
+
+                            <h2 className={`country-regions-title`}>Most Viewd</h2>
+                            <Link to={{
+                                pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
+                            }}
+                                className={`country-regions-btn ${'USA' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United States</Link>
+                            <Link to={{
+                                pathname: `/covid-19/Canada/CAN`, state: { iso: 'can', countryName: 'Canada' }
+                            }}
+                                className={`country-regions-btn ${'CAN' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Canada</Link>
+                            <Link to={{
+                                pathname: `/covid-19/Australia/AUS`, state: { iso: 'aus', countryName: 'Australia' }
+                            }}
+                                className={`country-regions-btn ${'AUS' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>Australia</Link>
+                            <Link to={{
+                                pathname: `/covid-19/UK/GBR`, state: { iso: 'gbr', countryName: 'UK' }
+                            }}
+                                className={`country-regions-btn ${'GBR' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>United Kingdom</Link>
+                            <Link to={{
+                                pathname: `/covid-19/India/IND`, state: { iso: 'ind', countryName: 'India' }
+                            }}
+                                className={`country-regions-btn ${'IND' === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>India</Link>
+
+                            <h2 className={`country-regions-title`}>Countries</h2>
+                            {countriesNameOrdered.length > 0 ? countriesNameOrdered.map((country, index) => {
+                                return <div></div>
+                            }) : (
+                                    <div>
+                                        {/* <div className={`country-regions-btn country-regions-btn-loading`}></div> */}
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                        <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
+                                    </div>
+                                )
+                            }
+                        </ul>
+
+                        {
+                            (
+                                <div key={1} className="country-name_and_flag">
+                                    <h1 className="country-name_and_flag-name">{url_state.countryName.toUpperCase()} Live Data</h1>
+                                    <ul className="country-name_and_flag-stats">
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalCases">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalDeaths">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewCases">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Infection Risk: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Infection_Risk">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Case Fatality Rate: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Case_Fatality_Rate">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Tests: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalTests">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Serious Critical: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Serious_Critical">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Test Percentage: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Test_Percentage">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Recovered: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalRecovered">Loading...</span></li>
+                                        <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Recovery Proporation: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Recovery_Proporation">Loading...</span></li>
+                                    </ul>
+                                    <div className="country-name_and_flag-cover"></div>
+                                    <h3 className="country-name_and_flag-flag">{url_state.countryName.toUpperCase()} Flag</h3>
+                                </div>
+                            )
+                        }
+
+                    </div>
+                    <Footer />
+                </div >
+                // <div className="country-loading">
+                //     <div className="country-loading-regions country-loading-load"></div>
+                //     <div className="country-loading-stats country-loading-load"></div>
+                //     <div className="country-loading-chart-one country-loading-load"></div>
+                //     <div className="country-loading-chart-two country-loading-load"></div>
+                //     <div className="country-loading-chart-three country-loading-load"></div>
+                //     <div className="country-loading-chart-four country-loading-load"></div>
+                // </div>
             );
 
 
@@ -1087,7 +1261,11 @@ countryEachCountryComponent.propTypes = {
     getOvidData: PropTypes.func.isRequired,
 
     clearData: PropTypes.func.isRequired,
+    // clearAllCountriesNameOrderedData: PropTypes.func.isRequired,
+    // clearProvinceReportISOBasedData: PropTypes.func.isRequired,
+    // clearCountryISOBasedData: PropTypes.func.isRequired,
     clearOvidData: PropTypes.func.isRequired,
+    // clearWorldData: PropTypes.func.isRequired,
 };
 
 
