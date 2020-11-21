@@ -234,15 +234,6 @@ export class NewsComponent extends Component {
                 <Helmet>
                     <title>{this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live</title>
                     <meta name="description" content={`${this.state.active_btn === 'covid19' ? 'Corona Virus' : 'Corona Virus ' + this.state.active_btn} News - Latest covid-19 and vaccine news from the most reliable broadcasting. WHO, CDC, BBC, CNN, Washington Post, Time, Fox-News`} />
-                    {/* <!-- Open Graph / Facebook --> */}
-                    <meta property="og:title" content={`${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live`} />
-                    <meta property="og:description"
-                        content={`${this.state.active_btn === 'covid19' ? 'Corona Virus' : 'Corona Virus ' + this.state.active_btn} News - Latest covid-19 and vaccine news from the most reliable broadcasting. WHO, CDC, BBC, CNN, Washington Post, Time, Fox-News`} />
-
-                    {/* <!-- Twitter --> */}
-                    <meta property="twitter:title" content={`${this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live`} />
-                    <meta property="twitter:description"
-                        content={`${this.state.active_btn === 'covid19' ? 'Corona Virus' : 'Corona Virus ' + this.state.active_btn} News - Latest covid-19 and vaccine news from the most reliable broadcasting. WHO, CDC, BBC, CNN, Washington Post, Time, Fox-News`} />
 
                 </Helmet>
                 <div id="news" className="news">

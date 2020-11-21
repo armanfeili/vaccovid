@@ -22,15 +22,6 @@ export class About extends Component {
 
                     <title>About Vaccovid project, Contributers and Resources - vaccovid.live</title>
                     <meta name="description" content="all you need to know about Vaccovid project, Contributers and Resources - vaccovid.live" />
-                    {/* <!-- Open Graph / Facebook --> */}
-                    <meta property="og:title" content={`About Vaccovid project, Contributers and Resources - vaccovid.live`} />
-                    <meta property="og:description"
-                        content="all you need to know about Vaccovid project, Contributers and Resources - vaccovid.live" />
-
-                    {/* <!-- Twitter --> */}
-                    <meta property="twitter:title" content={`About Vaccovid project, Contributers and Resources - vaccovid.live`} />
-                    <meta property="twitter:description"
-                        content="all you need to know about Vaccovid project, Contributers and Resources - vaccovid.live" />
 
                 </Helmet>
                 <div className="about">
