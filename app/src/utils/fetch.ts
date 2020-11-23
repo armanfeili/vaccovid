@@ -304,25 +304,7 @@ export async function getAllCountriesData() {
         });
 
         countriesData.forEach((e: any) => {
-            let obj = {
-                Country: "",
-                TwoLetterSymbol: "",
-                ThreeLetterSymbol: "",
-                Infection_Risk: "",
-                Case_Fatality_Rate: "",
-                Test_Percentage: "",
-                Recovery_Proporation: "",
-                TotalCases: "",
-                NewCases: "",
-                TotalDeaths: "",
-                NewDeaths: "",
-                TotalRecovered: "",
-                NewRecovered: "",
-                ActiveCases: "",
-                TotalTests: "",
-                Population: "",
-                Serious_Critical: ""
-            };
+            let obj: any = {};
             obj.Country = e.Country;
             obj.TwoLetterSymbol = e.TwoLetterSymbol;
             obj.ThreeLetterSymbol = e.ThreeLetterSymbol;
@@ -334,11 +316,11 @@ export async function getAllCountriesData() {
             obj.NewCases = e.NewCases;
             obj.TotalDeaths = e.TotalDeaths;
             obj.NewDeaths = e.NewDeaths;
-            obj.TotalRecovered = e.TotalRecovered;
+            obj.TotalRecovered = parseInt(e.TotalRecovered);
             obj.NewRecovered = e.NewRecovered;
             obj.ActiveCases = e.ActiveCases;
-            obj.TotalTests = e.TotalTests;
-            obj.Population = e.Population;
+            obj.TotalTests = parseInt(e.TotalTests);
+            obj.Population = parseInt(e.Population);
             obj.Serious_Critical = e.Serious_Critical;
 
             more_specific.push(obj);

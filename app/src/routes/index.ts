@@ -8,6 +8,8 @@ import APICovidData from "./APICovidData";
 
 import covidOvidData from "./covidOvidData";
 
+import vaccine from "./vaccine";
+
 import whoNews from "./news";
 
 import sitemap from "./sitemap";
@@ -25,6 +27,9 @@ export const AppRoutes = (app: Express) => {
 
   // covidData
   app.use("/api/covid-ovid-data/", covidOvidData);
+
+  // vaccine
+  app.use("/api/vaccines/", vaccine);
 
   // whoNews
   app.use('/api/news/', whoNews);
