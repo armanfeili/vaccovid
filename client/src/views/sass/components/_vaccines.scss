@@ -4,13 +4,13 @@ td {
     text-align: left;
 }
 
-.coronavirus {
+.vaccine-page {
     background-color: #283149;
     width: 98%;
     margin: 50px auto;
     display: grid;
     // grid-template-rows: [regions-and-stats-start] 4fr [regions-end] 1fr [stats-end];
-    grid-template-rows: [quick-facts-start] 180px [quick-facts-end title-start] 5px [title-end stats-start] 1fr [regions-and-stats-end guide-start] 80px [guide-end];
+    grid-template-rows: [categories-start] 52px [categories-end description-start] 160px [description-end title-start] 5px [title-end stats-start] 1fr [regions-and-stats-end guide-start] 0px [guide-end];
     grid-template-columns: [regions-start]minmax(150px, 1fr)[regions-end stats-start] minmax(200px, 6fr) [stats-end];
     // grid-template-columns: [regions-start] 1fr [regions-end stats-start] 5fr [stats-end];
     // grid-column-gap: 10px;
@@ -18,6 +18,7 @@ td {
     // border: red 2px solid;
     border-radius: 10px;
     padding: 10px 8px;
+    gap: 2px 0px;
 
     @include respond(big-desktop) {
         color: #fff;
@@ -30,47 +31,27 @@ td {
     }
 
     @include respond(tab-port) {
-        grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 200px [responsive-guide-end];
+        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
         grid-template-columns: [responsive-start] 100% [responsive-end];
         height: auto;
+        gap: 4px 0px;
     }
 
     @include respond(phone) {
-        grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 300px [responsive-guide-end];
+        // grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 300px [responsive-guide-end];
+        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+        grid-template-columns: [responsive-start] 100% [responsive-end];
+        height: auto;
+        gap: 4px 0px;
     }
 
     @include respond(small-phone) {
-        grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 330px [responsive-guide-end];
-
+        // grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 330px [responsive-guide-end];
+        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+        grid-template-columns: [responsive-start] 100% [responsive-end];
+        height: auto;
+        gap: 4px 0px;
     }
-
-
-    &-removeQuickFactsHeight {
-        grid-template-rows: [quick-facts-start] 0px [quick-facts-end title-start] 5px [title-end stats-start] 1fr [regions-and-stats-end guide-start] 80px [guide-end];
-
-        @include respond(tab-port) {
-            grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 0px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 200px [responsive-guide-end];
-            height: auto;
-        }
-
-        @include respond(phone) {
-            grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 0px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 300px [responsive-guide-end];
-        }
-
-        @include respond(small-phone) {
-            grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 0px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 330px [responsive-guide-end];
-
-        }
-
-        &-heightWhenAustralia {
-            @include respond(tab-port) {
-                grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 0px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 300px [responsive-stats-end responsive-guide-start] 300px [responsive-guide-end];
-            }
-
-            // grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 200px [responsive-stats-end responsive-guide-start] 200px [responsive-guide-end];
-        }
-    }
-
 
     &-btnAndTitle {
         @include respond(tab-port) {
@@ -81,6 +62,7 @@ td {
         display: none;
         grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 50px [region-name-end];
         grid-template-columns: 100%;
+
 
 
         &-btn {
@@ -95,6 +77,7 @@ td {
             outline: 0;
         }
 
+
         &-btn:hover,
         &-btn:active {
             color: #fff;
@@ -103,6 +86,10 @@ td {
         }
 
         &-title {
+            @include respond(tab-port) {
+                display: none;
+            }
+
             grid-row: region-name-start / region-name-end;
             text-align: center;
             font-size: 150%;
@@ -242,9 +229,9 @@ td {
         }
     }
 
-    &-regions {
+    &-list {
         background-color: #1a1a2e;
-        grid-row: quick-facts-start / guide-end;
+        grid-row: categories-start / guide-end;
         grid-column: regions-start / regions-end;
         display: grid;
         z-index: 2;
@@ -252,6 +239,7 @@ td {
         margin-right: 8px;
         border-radius: 10px;
         padding: 4px 4px;
+        height: 81%;
 
         @include respond(tab-port) {
             display: none;
@@ -272,12 +260,19 @@ td {
         &-btn {
             background-color: #083358;
             border-radius: 10px;
-            height: 40px;
+            height: 90%;
             text-decoration: none;
             padding: 8px 8px;
             margin: 2px 0px;
             color: #fff;
             transition: 0.2s;
+
+
+            @include respond(tab-land) {
+                font-size: 95%;
+                line-height: 17px;
+                padding: 4px 8px;
+            }
 
             &-active {
                 text-shadow: 0px 0px 1px #eee;
@@ -318,385 +313,448 @@ td {
         }
     }
 
-    &-quick-facts {
-        grid-row: quick-facts-start / quick-facts-end;
+    &-categories {
+        grid-row: categories-start / categories-end;
         grid-column: stats-start / stats-end;
 
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: 120px 110px 90px 90px 90px 90px 140px 100px 100px 100px 100px 155px 85px 90px 80px;
+        // grid-template-columns: minmax(110px, 200px) minmax(85px, 200px) minmax(85px, 200px) minmax(85px, 200px) minmax(85px, 200px) minmax(125px, 200px) minmax(50px, 200px) minmax(60px, 200px) minmax(60px, 200px) minmax(110px, 200px) minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px);
+        overflow: scroll;
+        margin-top: 2px;
+
         @include respond(tab-port) {
-            grid-row: responsive-quick-facts-start / responsive-quick-facts-end;
             grid-column: responsive-start / responsive-end;
+
         }
 
-        @include respond(phone) {
-            // display: none;
-        }
+        &-btn {
+            border-radius: 7px;
+            padding: 11px 11px;
+            text-decoration: none;
+            color: #fff;
+            margin: 0px 3px;
+            height: 93%;
+            transition: 0.2s;
 
-        &-displayOff {
-            display: none;
-        }
-
-        &-world {
-            display: grid;
-            grid-template-rows: 1fr 1fr;
-            grid-template-columns: repeat(3, 1fr);
-            height: 100%;
-            grid-gap: 10px;
-
-
-            @include respond(tab-port) {
-                grid-template-rows: [total-case-start] 70px [total-case-end new-case-start] 70px [new-case-end active-case-start] 70px [active-case-end critical-start] 70px [critical-end total-deaths-start] 70px [total-deaths-end new-deaths-start] 80px [new-deaths-end];
-                grid-template-columns: 1fr;
-                grid-gap: 0px;
+            &-active {
+                color: #fff;
+                text-shadow: 0px 0px 2px #fff;
             }
 
-
-
-            &-item {
-                list-style: none;
-                text-align: center;
-                padding: 0px 0px;
-                font-size: 110%;
-                border-radius: 8px;
-                display: grid;
-                grid-template-rows: 37px 40px;
-                grid-template-columns: 1fr;
-
-                @include respond(tab-port) {
-                    border-radius: 0px;
-                }
-
-                &-loading {
-                    background: #141E30;
-                    /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to left, #1a1a2e00, #141E30);
-                    /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to left, #1a1a2e00, #141E30);
-                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-                    color: #fff;
-                    transition: 0.2s;
-                    overflow: hidden;
-
-                    &.card-image {
-                        border-radius: 0;
-                    }
-
-                    &::after {
-                        display: block;
-                        content: '';
-                        position: absolute;
-                        width: 100%;
-                        height: 100%;
-                        transform: translateX(-100%);
-                        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
-                        animation: loading 1.5s infinite;
-                    }
-                }
-
-                &-TotalCases {
-                    background: #141E30;
-                    /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to left, #243B55, #141E30);
-                    /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to left, #243B55, #141E30);
-                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-                    @include respond(tab-port) {
-                        grid-row: total-case-start / total-case-end;
-                        border-radius: 5px 5px 0px 0px;
-                    }
-
-                    &-text {
-                        // font-family: 'Playfair Display', serif;
-                        letter-spacing: 6px;
-                        background: -webkit-linear-gradient(#8e9eab, #eef2f3);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 5px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 110%;
-                            margin-top: 12px;
-                        }
-                    }
-
-                    &-number {
-                        font-size: 150%;
-                        font-weight: bold;
-                        letter-spacing: 1px;
-
-                        background: -webkit-linear-gradient(#1d976c, #93f9b9);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 1px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 115%;
-                            margin-top: 3px;
-                        }
-                    }
-                }
-
-                &-ActiveCases {
-                    background: #141E30;
-                    /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to left, #243B55, #141E30);
-                    /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to left, #243B55, #141E30);
-                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-                    @include respond(tab-port) {
-                        grid-row: active-case-start / active-case-end;
-                    }
-
-                    &-text {
-                        // font-family: 'Playfair Display', serif;
-                        letter-spacing: 6px;
-                        background: -webkit-linear-gradient(#8e9eab, #eef2f3);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 5px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 110%;
-                            margin-top: 12px;
-                        }
-                    }
-
-                    &-number {
-                        font-size: 150%;
-                        font-weight: bold;
-                        letter-spacing: 1px;
-                        background: -webkit-linear-gradient(#fffc00, #f3f9a7);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 1px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 115%;
-                            margin-top: 3px;
-                        }
-                    }
-                }
-
-                &-TotalDeaths {
-                    background: #141E30;
-                    /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to left, #243B55, #141E30);
-                    /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to left, #243B55, #141E30);
-                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-                    @include respond(tab-port) {
-                        grid-row: total-deaths-start / total-deaths-end;
-                    }
-
-                    &-text {
-                        // font-family: 'Playfair Display', serif;
-                        letter-spacing: 6px;
-                        background: -webkit-linear-gradient(#8e9eab, #eef2f3);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 5px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 110%;
-                            margin-top: 12px;
-                        }
-                    }
-
-                    &-number {
-                        font-size: 150%;
-                        font-weight: bold;
-                        letter-spacing: 1px;
-                        background: -webkit-linear-gradient(#b31217, #e2524d);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 1px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 115%;
-                            margin-top: 3px;
-                        }
-                    }
-                }
-
-                &-NewCases {
-                    background: #141E30;
-                    /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to left, #243B55, #141E30);
-                    /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to left, #243B55, #141E30);
-                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-                    @include respond(tab-port) {
-                        grid-row: new-case-start / new-case-end;
-                    }
-
-                    &-text {
-                        // font-family: 'Playfair Display', serif;
-                        letter-spacing: 6px;
-                        background: -webkit-linear-gradient(#8e9eab, #eef2f3);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 5px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 110%;
-                            margin-top: 12px;
-                        }
-                    }
-
-                    &-number {
-                        font-size: 150%;
-                        font-weight: bold;
-                        letter-spacing: 1px;
-                        background: -webkit-linear-gradient(#1d976c, #93f9b9);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 1px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 115%;
-                            margin-top: 3px;
-                        }
-                    }
-                }
-
-                &-Serious_Critical {
-                    background: #141E30;
-                    /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to left, #243B55, #141E30);
-                    /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to left, #243B55, #141E30);
-                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-                    @include respond(tab-port) {
-                        grid-row: critical-start / critical-end;
-                    }
-
-                    &-text {
-                        // font-family: 'Playfair Display', serif;
-                        letter-spacing: 6px;
-                        background: -webkit-linear-gradient(#8e9eab, #eef2f3);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 5px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 110%;
-                            margin-top: 12px;
-                        }
-                    }
-
-                    &-number {
-                        font-size: 150%;
-                        font-weight: bold;
-                        letter-spacing: 1px;
-                        background: -webkit-linear-gradient(#f37335, #fdc830);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 1px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 115%;
-                            margin-top: 3px;
-                        }
-                    }
-                }
-
-                &-NewDeaths {
-                    background: #141E30;
-                    /* fallback for old browsers */
-                    background: -webkit-linear-gradient(to left, #243B55, #141E30);
-                    /* Chrome 10-25, Safari 5.1-6 */
-                    background: linear-gradient(to left, #243B55, #141E30);
-                    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-                    @include respond(tab-port) {
-                        grid-row: new-deaths-start / new-deaths-end;
-                        border-radius: 0px 0px 5px 5px;
-                    }
-
-                    &-text {
-                        // font-family: 'Playfair Display', serif;
-                        letter-spacing: 6px;
-                        background: -webkit-linear-gradient(#8e9eab, #eef2f3);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 5px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 110%;
-                            margin-top: 12px;
-                        }
-                    }
-
-                    &-number {
-                        font-size: 150%;
-                        font-weight: bold;
-                        letter-spacing: 1px;
-                        background: -webkit-linear-gradient(#b31217, #e2524d);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-
-                        @include respond(tab-land) {
-                            font-size: 130%;
-                            margin-top: 1px;
-                        }
-
-                        @include respond(tab-port) {
-                            font-size: 115%;
-                            margin-top: 3px;
-                        }
-                    }
-                }
+            &-0 {
+                background: #11998e;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #02a13f, #11998e);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #02a13f, #11998e);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
             }
+
+            &-1 {
+                background: #E44D26;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #F16529, #E44D26);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #F16529, #E44D26);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-2 {
+                background: #EB3349;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #F45C43, #EB3349);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #F45C43, #EB3349);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-3 {
+                background: #F09819;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #EDDE5D, #F09819);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #EDDE5D, #F09819);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-4 {
+
+                background: #00B4DB;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #0083B0, #00B4DB);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-5 {
+                background: #f12711;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #f5af19, #f12711);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #f5af19, #f12711);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-6 {
+                background: #1e3c72;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #2a5298, #1e3c72);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #2a5298, #1e3c72);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-7 {
+                background: #ff0084;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #690038, #ff0084);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #690038, #ff0084);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-8 {
+                background: #BA8B02;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #8b6800, #BA8B02);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #8b6800, #BA8B02);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-9 {
+                background: #6441A5;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #2a0845, #6441A5);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #2a0845, #6441A5);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-10 {
+                background: #159957;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #155799, #159957);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #155799, #159957);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-11 {
+                background: #16BFFD;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #CB3066, #16BFFD);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #CB3066, #16BFFD);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-12 {
+                background: #02AAB0;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #00CDAC, #02AAB0);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #00CDAC, #02AAB0);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-13 {
+                background: #ff9966;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #ff5e62, #ff9966);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #ff5e62, #ff9966);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-14 {
+                background: #6a3093;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #a044ff, #6a3093);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #a044ff, #6a3093);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-15 {
+                background: #005C97;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #363795, #005C97);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #363795, #005C97);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-16 {
+                background: #FFE000;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #799F0C, #FFE000);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #799F0C, #FFE000);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+        }
+
+        &-btn:hover {
+            margin: 0px 1px;
+            text-shadow: 0px 0px 1px #fff;
+        }
+
+        &-btn:active {
+            margin: 0px 3px;
         }
     }
+
+    &-treatment-categories {
+        grid-row: categories-start / categories-end;
+        grid-column: stats-start / stats-end;
+
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: 140px 140px 110px 90px 120px 110px 120px 95px 110px 300px;
+        // grid-template-columns: minmax(110px, 200px) minmax(85px, 200px) minmax(85px, 200px) minmax(85px, 200px) minmax(85px, 200px) minmax(125px, 200px) minmax(50px, 200px) minmax(60px, 200px) minmax(60px, 200px) minmax(110px, 200px) minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px);
+        overflow: scroll;
+        margin-top: 2px;
+
+        @include respond(tab-port) {
+            grid-column: responsive-start / responsive-end;
+
+        }
+
+        &-btn {
+            border-radius: 7px;
+            padding: 11px 11px;
+            text-decoration: none;
+            color: #fff;
+            margin: 0px 3px;
+            height: 93%;
+            transition: 0.2s;
+
+            &-active {
+                color: #fff;
+                text-shadow: 0px 0px 2px #fff;
+            }
+
+            &-0 {
+                background: #11998e;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #02a13f, #11998e);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #02a13f, #11998e);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-1 {
+                background: #E44D26;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #F16529, #E44D26);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #F16529, #E44D26);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-2 {
+                background: #EB3349;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #F45C43, #EB3349);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #F45C43, #EB3349);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-3 {
+                background: #F09819;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #EDDE5D, #F09819);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #EDDE5D, #F09819);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-4 {
+
+                background: #00B4DB;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #0083B0, #00B4DB);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-5 {
+                background: #f12711;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #f5af19, #f12711);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #f5af19, #f12711);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-6 {
+                background: #1e3c72;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #2a5298, #1e3c72);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #2a5298, #1e3c72);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-7 {
+                background: #ff0084;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #690038, #ff0084);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #690038, #ff0084);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-8 {
+                background: #BA8B02;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #8b6800, #BA8B02);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #8b6800, #BA8B02);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-9 {
+                background: #6441A5;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #2a0845, #6441A5);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #2a0845, #6441A5);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-10 {
+                background: #159957;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #155799, #159957);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #155799, #159957);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-11 {
+                background: #16BFFD;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #CB3066, #16BFFD);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #CB3066, #16BFFD);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-12 {
+                background: #02AAB0;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #00CDAC, #02AAB0);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #00CDAC, #02AAB0);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-13 {
+                background: #ff9966;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #ff5e62, #ff9966);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #ff5e62, #ff9966);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-14 {
+                background: #6a3093;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #a044ff, #6a3093);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #a044ff, #6a3093);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-15 {
+                background: #005C97;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #363795, #005C97);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #363795, #005C97);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            &-16 {
+                background: #FFE000;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #799F0C, #FFE000);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #799F0C, #FFE000);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+        }
+
+        &-btn:hover {
+            margin: 0px 1px;
+            text-shadow: 0px 0px 1px #fff;
+        }
+
+        &-btn:active {
+            margin: 0px 3px;
+        }
+    }
+
+    &-desc {
+        color: #eee;
+        overflow: scroll;
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #062a49, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #062a49, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        border-radius: 8px;
+        padding: 0px 10px;
+
+        @include respond(tab-port) {
+            // display: grid;
+            grid-column: responsive-start / responsive-end;
+            grid-row: desc-start / desc-end;
+
+        }
+
+        &-title {
+            height: 60px;
+            font-size: 200%;
+            padding: 2px 0px;
+        }
+
+        &-between {
+            width: 70%;
+            height: 1px;
+            background: #8e9eab;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab00);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #eef2f3, #8e9eab00);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            margin-bottom: 10px;
+
+            @include respond(tab-land) {
+                width: 100%;
+                background: #8e9eab;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+        }
+
+        &-description {
+            // background-color: royalblue;
+        }
+    }
+
 
     &-table-title {
         grid-row: regions-and-title-start / title-end;
@@ -855,12 +913,14 @@ td {
             &-columns {
                 background-color: #1a1a2e;
                 padding: 0px 8px;
-                font-size: 70%;
-                top: 90px;
+                font-size: 100%;
+                height: 41px;
                 display: grid;
                 overflow: hidden;
                 grid-template-rows: [table-start] 1fr [table-end];
-                grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+                grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px;
+                // grid-template-columns: minmax(10px, 30px) minmax(100px, 400px) minmax(100px, 200px) minmax(60px, 100px) minmax(300px, 400px) minmax(300px, 400px) minmax(100px, 400px) minmax(100px, 400px) minmax(100px, 400px);
+                // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
                 // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
 
                 &-item {
@@ -974,6 +1034,7 @@ td {
         @include respond(tab-port) {
             grid-row: responsive-stats-start / responsive-stats-end;
             grid-column: responsive-start / responsive-end;
+            margin-top: 36px;
         }
 
         &-loading {
@@ -1030,7 +1091,8 @@ td {
 
             display: grid;
             grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-            grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+            grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px;
+            // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
             // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
 
 
@@ -1069,48 +1131,67 @@ td {
 
             &-confirmed {
                 // grid-column: confirmed-start / confirmed-end;
-                color: #1fab89;
+                color: #19d3da;
             }
 
             &-newcases {
                 // grid-column: newcases-start / newcases-end;
-                color: #1fab89;
-
-            }
-
-            &-confirmedpermil {
-                // grid-column: confirmedpermil-start / confirmedpermil-end;
-                color: #1fab89;
-
-            }
-
-            &-critical {
-                // grid-column: critical-start / critical-end;
-                color: #ff6f3c;
-
-            }
-
-            &-active {
-                // grid-column: active-start / active-end;
+                // color: #1fab89;
                 color: #f6c90e;
 
             }
 
-            &-deceased {
-                // grid-column: deceased-start / deceased-end;
-                color: #f73859;
+            &-confirmedpermil {
+                color: #ff6f3c;
+                text-decoration: none;
+                // cursor: pointer;
+            }
 
+            &-confirmedpermil:hover {
+                color: #f6c90e;
+                font-weight: bold;
+            }
+
+            &-critical {
+                color: #1fab89;
+                text-decoration: none;
+                // cursor: pointer;
+            }
+
+            &-critical:hover {
+                color: #f6c90e;
+                font-weight: bold;
+            }
+
+            &-active {
+                color: #b88a00;
+                text-decoration: none;
+                // cursor: pointer;
+            }
+
+            &-active:hover {
+                color: #f6c90e;
+                font-weight: bold;
+            }
+
+            &-deceased {
+                color: #f73859;
+                text-decoration: none;
+                // cursor: pointer;
+            }
+
+            &-deceased:hover {
+                color: #f6c90e;
+                font-weight: bold;
             }
 
             &-newdeaths {
-                // grid-column: newdeaths-start / newdeaths-end;
-                color: #f73859;
-
+                color: #19d3da;
             }
 
             &-deathspermil {
                 // grid-column: deathspermil-start / deathspermil-end;
-                color: #f73859;
+                color: #19d3da;
 
             }
 
@@ -1151,97 +1232,6 @@ td {
 
         &-item:nth-child(odd) {
             background-color: #083358;
-        }
-    }
-
-    &-guide {
-        background-color: #1a1a2e;
-        grid-row: guide-start / guide-end;
-        grid-column: stats-start / stats-end;
-        margin-top: 5px;
-        border-radius: 5px;
-
-        @include respond(tab-port) {
-            grid-row: responsive-guide-start / responsive-guide-end;
-            grid-column: responsive-start / responsive-end;
-        }
-
-        &-list {
-            list-style: none;
-            display: grid;
-            grid-template-rows: minmax(20px, 25px) minmax(40px, 25px);
-            grid-template-columns: minmax(700px, 850px) minmax(500px, 850px);
-            overflow: scroll;
-            grid-gap: 0px 10px;
-            padding: 5px;
-
-            @include respond(tab-port) {
-                grid-template-rows: [infection-risk-start] 40px [infection-risk-end CFR-start] 25px [CFR-end test-start] 55px [test-end recovery-start] 25px [recovery-end];
-                grid-template-columns: 1fr;
-                overflow: hidden;
-                height: 200px;
-            }
-
-            @include respond(phone) {
-                grid-template-rows: [infection-risk-start] 65px [infection-risk-end CFR-start] 45px [CFR-end test-start] 85px [test-end recovery-start] 35px [recovery-end];
-                grid-template-columns: 1fr;
-                height: 300px;
-            }
-
-            @include respond(small-phone) {
-                grid-template-rows: [infection-risk-start] 75px [infection-risk-end CFR-start] 45px [CFR-end test-start] 110px [test-end recovery-start] 45px [recovery-end];
-                grid-template-columns: 1fr;
-                height: 310px;
-            }
-
-            &-item {
-                display: grid;
-                grid-template-rows: minmax(15px, 40px);
-                grid-template-columns: 1fr;
-                line-height: 17px;
-
-                &-title {
-                    font-size: 100%;
-                    font-weight: normal;
-                }
-
-                &-text {
-                    font-size: 90%;
-                    color: #eee;
-                }
-
-                &-INFECTION_RISK {
-                    color: #1fab89;
-
-                    @include respond(tab-port) {
-                        grid-row: infection-risk-start / infection-risk-end;
-                    }
-                }
-
-                &-CASE_FATALITY_RATE {
-                    color: #f73859;
-
-                    @include respond(tab-port) {
-                        grid-row: CFR-start / CFR-end;
-                    }
-                }
-
-                &-TEST_PERCENTAGE {
-                    color: #19d3da;
-
-                    @include respond(tab-port) {
-                        grid-row: test-start / test-end;
-                    }
-                }
-
-                &-RECOVERY_PERCENTAGE {
-                    color: #19dac0;
-
-                    @include respond(tab-port) {
-                        grid-row: recovery-start / recovery-end;
-                    }
-                }
-            }
         }
     }
 }

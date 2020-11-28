@@ -143,8 +143,8 @@ export class WorldMapComponent extends Component {
             <div className="map-page">
                 <Helmet>
 
-                    <title>Corona Virus World map - vaccovid.live</title>
-                    <meta name="description" content="Corona Virus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map." />
+                    <title>Coronavirus World map - vaccovid.live</title>
+                    <meta name="description" content="Coronavirus World map. New cases, New deaths, confirmed Cases, total deaths, critical cases, active cases, new recovered of all countries in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">

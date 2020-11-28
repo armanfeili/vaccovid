@@ -131,8 +131,8 @@ export class USMapComponent extends Component {
 
             <div className="map-page">
                 <Helmet>
-                    <title>United States of America Corona Virus map - vaccovid.live</title>
-                    <meta name="description" content="United States of America Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+                    <title>United States of America Coronavirus map - vaccovid.live</title>
+                    <meta name="description" content="United States of America Coronavirus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">

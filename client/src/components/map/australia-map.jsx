@@ -127,8 +127,8 @@ export class AustraliaMapComponent extends Component {
 
             <div className="map-page">
                 <Helmet>
-                    <title>Australia Corona Virus map - vaccovid.live</title>
-                    <meta name="description" content="Australia Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+                    <title>Australia Coronavirus map - vaccovid.live</title>
+                    <meta name="description" content="Australia Coronavirus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">

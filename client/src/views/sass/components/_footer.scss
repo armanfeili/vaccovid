@@ -1,8 +1,9 @@
 .footer {
   display: grid;
-  grid-template-rows: [first-part-start] 470px [first-part-end second-part-start] 90px [second-part-end];
+  grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
+  // grid-template-rows: [first-part-start] 470px [first-part-end second-part-start] 90px [second-part-end];
   grid-template-columns: 1fr;
-  color: #bbb;
+  color: #eee;
   background: #14274e;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #14274e, #232526);
@@ -10,9 +11,10 @@
   background: linear-gradient(to right, #14274e, #232526);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   padding-top: 35px;
+  gap: 5px;
 
   @include respond(tab-land) {
-    grid-template-rows: [first-part-start] auto [first-part-end second-part-start] 90px [second-part-end];
+    grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
     grid-template-columns: 1fr;
   }
 
@@ -28,7 +30,11 @@
     grid-row: first-part-start / first-part-end;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: [left-start] minmax(10px, 100px) [left-end about-start] minmax(300px, 500px) [about-end maps-start] minmax(200px, 300px) [maps-end covid19-start] minmax(200px, 300px) minmax(200px, 300px) [covid19-end news-start] minmax(200px, 300px) [news-end right-start] 1fr [right-end];
+    // grid-template-columns: [left-start] minmax(10px, 100px) [left-end about-start] minmax(300px, 500px) [about-end maps-start] minmax(200px, 300px) [maps-end covid19-start] minmax(200px, 300px) minmax(200px, 300px) [covid19-end news-start] minmax(200px, 300px) [news-end right-start] 1fr [right-end];
+    // grid-template-columns: [left-start] auto [left-end about-start] auto [about-end maps-start] auto [maps-end covid19-start] auto auto [covid19-end news-start] auto [news-end right-start] auto [right-end];
+    // grid-template-columns: [left-start] 1fr [left-end about-start] 1fr [about-end maps-start] 1fr [maps-end covid19-start] 1fr 1fr [covid19-end news-start] 1fr [news-end right-start] 1fr [right-end];
+    grid-template-columns: [left-start] 1fr [left-end about-start] 1fr [about-end vaccine-start] 1fr [vaccine-end covid19-start] 1fr 1fr [covid19-end newsAndMap-start] 1fr [newsAndMap-end right-start] 1fr [right-end];
+    // gap: 40px;
     gap: 40px;
 
     @include respond(tab-land) {
@@ -47,7 +53,7 @@
       }
 
       &-name {
-        font-size: 200%;
+        font-size: 230%;
         color: #eee;
 
       }
@@ -77,8 +83,9 @@
       // &-text {}
     }
 
-    &-maps {
-      grid-column: maps-start / maps-end;
+
+    &-vacAndTreat {
+      grid-column: vaccine-start / vaccine-end;
 
       @include respond(tab-land) {
         grid-column: res-start / res-end;
@@ -86,9 +93,69 @@
       }
 
       &-title {
-        font-size: 175%;
-        margin-bottom: 8px;
+        font-size: 200%;
+        margin-top: 4px;
         color: #eee;
+        margin-bottom: 5px;
+      }
+
+      &-between {
+        width: 70%;
+        height: 1px;
+        background: #8e9eab;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab00);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #eef2f3, #8e9eab00);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        margin-bottom: 10px;
+
+        @include respond(tab-land) {
+          width: 100%;
+          background: #8e9eab;
+          /* fallback for old browsers */
+          background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+          /* Chrome 10-25, Safari 5.1-6 */
+          background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+          /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+      }
+
+      &-list {
+        list-style-type: none;
+
+
+        &-item {
+          margin-bottom: 5px;
+
+          &-link {
+            text-decoration: none;
+            color: #ddd;
+            transition: 0.2s;
+          }
+
+          &-link:hover {
+            color: #fff;
+            text-shadow: 0px 0px 1px #fff;
+          }
+        }
+      }
+    }
+
+
+    &-maps {
+      grid-column: newsAndMap-start / newsAndMap-end;
+
+      @include respond(tab-land) {
+        grid-column: res-start / res-end;
+        text-align: center;
+      }
+
+      &-title {
+        font-size: 200%;
+        margin-top: 4px;
+        color: #eee;
+        margin-bottom: 5px;
       }
 
       &-between {
@@ -143,9 +210,10 @@
       }
 
       &-title {
-        font-size: 175%;
-        margin-bottom: 8px;
+        font-size: 200%;
+        margin-top: 4px;
         color: #eee;
+        margin-bottom: 5px;
       }
 
       &-between {
@@ -197,7 +265,7 @@
     }
 
     &-news {
-      grid-column: news-start / news-end;
+      grid-column: newsAndMap-start / newsAndMap-end;
 
       @include respond(tab-land) {
         grid-column: res-start / res-end;
@@ -205,9 +273,10 @@
       }
 
       &-title {
-        font-size: 175%;
-        margin-bottom: 8px;
+        font-size: 200%;
+        margin-top: 4px;
         color: #eee;
+        margin-bottom: 5px;
       }
 
       &-between {
@@ -256,7 +325,7 @@
   &-second-part {
     grid-row: second-part-start / second-part-end;
     display: grid;
-    grid-template-rows: 15px 1fr;
+    grid-template-rows: [between-start] 15px [between-end icons-start] 1fr [icons-end text-start] auto [text-end];
     grid-template-columns: [left-start] 2fr [left-end icons-start] 1fr [icons-end right-start] 2fr [right-left];
 
     @include respond(tab-land) {
@@ -265,6 +334,8 @@
 
     &-between {
       grid-column: icons-start / icons-end;
+      grid-row: between-start / between-end;
+
       width: 100%;
       height: 1px;
       background: #8e9eab;
@@ -278,11 +349,12 @@
 
     &-icons {
       grid-column: icons-start / icons-end;
+      grid-row: icons-start / icons-end;
 
       display: grid;
       grid-template-rows: 45px;
       grid-template-columns: repeat(5, 70px);
-
+      justify-self: center;
 
       @include respond(tab-port) {
         grid-template-rows: 45px;
@@ -380,6 +452,13 @@
           text-shadow: 0px 0px 1px #ffffff;
         }
       }
+    }
+
+    &-text {
+      grid-row: text-start / text-end;
+      grid-column: left-start / right-left;
+      text-align: center;
+      margin: 7px 0px;
     }
   }
 }

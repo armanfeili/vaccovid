@@ -128,8 +128,8 @@ export class CanadaMapComponent extends Component {
             <div className="map-page">
                 <Helmet>
 
-                    <title>Canada Corona Virus map - vaccovid.live</title>
-                    <meta name="description" content="Canada Corona Virus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
+                    <title>Canada Coronavirus map - vaccovid.live</title>
+                    <meta name="description" content="Canada Coronavirus map. New cases, New deaths, confirmed cases, total deaths, critical and active cases of all states in map." />
 
                 </Helmet>
                 <div className="map-page-buttons">

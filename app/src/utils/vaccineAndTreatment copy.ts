@@ -2,7 +2,7 @@ import fs from "fs";
 import Path from "path";
 import csv from 'csvtojson';
 
-import { getConnection, Not, In, Like } from "typeorm";
+import { getConnection, Not } from "typeorm";
 import { Vaccine } from "../db/models/Vaccine";
 // import { Console } from "console";
 
@@ -101,40 +101,15 @@ export const convertVaccineData = async () => {
 };
 
 export const urlify = (text: any) => {
-    var urlRegex = /\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig;    // var urlRegex = /(https?:\/\/[^\s]+)/g;
-    let arr: Array<string> = [];
-    let arr2: any = [];
+    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    let arr;
     arr = text.match(urlRegex)
-
-    if (arr === null) {
-        arr2 = []
-        return undefined;
-    } else {
-        arr.forEach((e: any) => {
-            arr2.push(e);
-        })
-        return arr;
-    }
+    return arr;
+    // return text.replace(urlRegex, function (url: any) {
+    //     // return url;
+    //     return '<a href="' + url + '">' + url + '</a>';
+    // })
 }
-
-const trimString = (str: any) => {
-    str = str.replace(/\s+/g, '-');
-    str = str.replace(/\//g, '');
-    str = str.replace(',', '-');
-    str = str.replace('---', '-');
-    str = str.replace('--', '-');
-    str = str.replace(/;/g, "");
-    // str = str.replace(';', '');
-    str = str.replace("'", "");
-    return str.toLowerCase();
-}
-
-
-const trimCategories = (str: any) => {
-    str = str.replace(/\s+/g, '-');
-    return str.toLowerCase();
-}
-
 
 export const updateVaccine = async () => {
 
@@ -171,20 +146,20 @@ export const updateVaccine = async () => {
                     let newData: any;
                     newData = new Vaccine();
                     newData.developerResearcher = e["Developer / Researcher"];
-                    newData.trimedName = trimString(e["Developer / Researcher"]);
                     newData.treatmentVsVaccine = e["Treatment vs"][" Vaccine"];
                     // Object.keys(e.["Treatment vs"])[0]
                     newData.category = e["Product Category"] === "Unknown" ? "Other" : e["Product Category"];
-                    newData.trimedCategory = e["Product Category"] === "Unknown" ? "Other" : trimCategories(e["Product Category"]);
                     newData.phase = e["Stage of Development"];
-                    newData.nextSteps = e["Anticipated Next Steps"] === "Unknown" || e["Anticipated Next Steps"] === "" ? "undefined" : e["Anticipated Next Steps"];
-                    newData.description = e["Product Description"] === "Unknown" ? "undefined" : e["Product Description"];
-                    newData.clinicalTrialsForCovid19 = e["Clinical Trials for COVID-19"] === "" ? "undefined" : e["Clinical Trials for COVID-19"];
-                    newData.funder = e.Funder === "Unknown" || e.Funder === "" ? "undefined" : e.Funder;
-                    newData.publishedResults = url === undefined || url === ["Unknown"] ? "undefined" : url;
-                    newData.clinicalTrialsForOtherDiseases = e["Clinical Trials for Other Diseases (T only) / Related Use or Platform (V only)"] === "" ? "undefined" : e["Clinical Trials for Other Diseases (T only) / Related Use or Platform (V only)"];
-                    newData.FDAApproved = e["FDA-Approved Indications"] === "Unknown" || e["FDA-Approved Indications"] === "" || e["FDA-Approved Indications"] === "N/A" || e["FDA-Approved Indications"] === "N/A\n" || e["FDA-Approved Indications"] === "N//A" ? "undefined" : e["FDA-Approved Indications"];
+                    newData.nextSteps = e["Anticipated Next Steps"] === "Unknown" ? null : e["Anticipated Next Steps"];
+                    newData.description = e["Product Description"] === "Unknown" ? null : e["Product Description"];
+                    newData.clinicalTrialsForCovid19 = e["Clinical Trials for COVID-19"] === "" ? null : e["Clinical Trials for COVID-19"];
+                    newData.funder = e.Funder === "Unknown" || e.Funder === "" ? null : e.Funder;
+                    newData.publishedResults = url === undefined ? null : url;
+                    newData.clinicalTrialsForOtherDiseases = e["Clinical Trials for Other Diseases (T only) / Related Use or Platform (V only)"] === "" ? null : e["Clinical Trials for Other Diseases (T only) / Related Use or Platform (V only)"];
+                    newData.FDAApproved = e["FDA-Approved Indications"] === "Unknown" || e["FDA-Approved Indications"] === "" || e["FDA-Approved Indications"] === "N/A" || e["FDA-Approved Indications"] === "N/A\n" || e["FDA-Approved Indications"] === "N//A" ? null : e["FDA-Approved Indications"];
                     newData.lastUpdated = new Date(e["Date Last Updated"]);
+
+                    // console.log(newData);
 
                     try {
                         let exist = await VaccineRepository.findOne({
@@ -313,25 +288,25 @@ export async function getAllVaccines() {
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -340,9 +315,7 @@ export async function getAllVaccines() {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
                 nextSteps: e.nextSteps,
                 description: e.description,
@@ -402,32 +375,31 @@ export async function getAllPhase_PreClinical_Vaccines() {
         const FDAvalidLength = 25;
         // justify developerResearcher to lower length.
         data.forEach((e: any) => {
-
             if (e.developerResearcher !== null) {
                 developerResearcher = e.developerResearcher;
                 developerResearcherLength = developerResearcher.length;
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -436,9 +408,7 @@ export async function getAllPhase_PreClinical_Vaccines() {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
                 nextSteps: e.nextSteps,
                 description: e.description,
@@ -494,31 +464,31 @@ export async function getAllPhase_one_Vaccines() {
         const FDAvalidLength = 25;
         // justify developerResearcher to lower length.
         data.forEach((e: any) => {
-            if (e.developerResearcher !== "undefined") {
+            if (e.developerResearcher !== null) {
                 developerResearcher = e.developerResearcher;
                 developerResearcherLength = developerResearcher.length;
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -527,9 +497,7 @@ export async function getAllPhase_one_Vaccines() {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
                 nextSteps: e.nextSteps,
                 description: e.description,
@@ -588,32 +556,31 @@ export async function getAllPhase_two_Vaccines() {
         const FDAvalidLength = 25;
         // justify developerResearcher to lower length.
         data.forEach((e: any) => {
-
             if (e.developerResearcher !== null) {
                 developerResearcher = e.developerResearcher;
                 developerResearcherLength = developerResearcher.length;
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -622,9 +589,7 @@ export async function getAllPhase_two_Vaccines() {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
                 nextSteps: e.nextSteps,
                 description: e.description,
@@ -684,32 +649,31 @@ export async function getAllPhase_three_Vaccines() {
         const FDAvalidLength = 25;
         // justify developerResearcher to lower length.
         data.forEach((e: any) => {
-
             if (e.developerResearcher !== null) {
                 developerResearcher = e.developerResearcher;
                 developerResearcherLength = developerResearcher.length;
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -719,9 +683,7 @@ export async function getAllPhase_three_Vaccines() {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
                 nextSteps: e.nextSteps,
                 description: e.description,
@@ -761,20 +723,6 @@ export async function getAllPhase_four_Vaccines() {
         let properedData: any = [];
         let suitableObj = {};
 
-        if (data.length === 0) {
-            suitableObj = {
-                developerResearcher: "There is no vaccine in phase 4 yet",
-                category: "No Vaccine",
-                phase: "No Vaccine",
-                nextSteps: "There is no vaccine in phase 4 yet",
-                description: "There is no vaccine in phase 4 yet",
-                funder: "There is no vaccine in phase 4 yet",
-                FDAApproved: "There is no vaccine in phase 4 yet",
-                lastUpdated: "No Vaccine"
-            }
-            properedData.push(suitableObj);
-            return properedData;
-        }
         let developerResearcher: string;
         let developerResearcherLength = 0;
 
@@ -794,32 +742,31 @@ export async function getAllPhase_four_Vaccines() {
         const FDAvalidLength = 25;
         // justify developerResearcher to lower length.
         data.forEach((e: any) => {
-
             if (e.developerResearcher !== null) {
                 developerResearcher = e.developerResearcher;
                 developerResearcherLength = developerResearcher.length;
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -828,9 +775,7 @@ export async function getAllPhase_four_Vaccines() {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
                 nextSteps: e.nextSteps,
                 description: e.description,
@@ -860,31 +805,14 @@ export async function get_FDA_Approved_Vaccines() {
         const data = await vaccineRepository.find({
             where: {
                 treatmentVsVaccine: "Vaccine",
-                FDAApproved: Not(In(["undefined"]))
-                // FDAApproved: Not(In(["undefined", ""]))
-                // FDAApproved: Not("undefined") && Not("")
-                // Country: Not(In(["World", "Total:"])),
+                FDAApproved: Not("[null]") && Not("")
+
             },
             order: { lastUpdated: "DESC" }
         });
-
         let properedData: any = [];
         let suitableObj = {};
 
-        if (data.length === 0) {
-            suitableObj = {
-                developerResearcher: "No Vaccine has been approved yet",
-                category: "No Vaccine",
-                phase: "No Vaccine",
-                nextSteps: "No Vaccine has been approved yet",
-                description: "No Vaccine has been approved yet",
-                funder: "No Vaccine has been approved yet",
-                FDAApproved: "No Vaccine has been approved yet",
-                lastUpdated: "No Vaccine"
-            }
-            properedData.push(suitableObj);
-            return properedData;
-        }
         let developerResearcher: string;
         let developerResearcherLength = 0;
 
@@ -904,32 +832,31 @@ export async function get_FDA_Approved_Vaccines() {
         const FDAvalidLength = 25;
         // justify developerResearcher to lower length.
         data.forEach((e: any) => {
-
             if (e.developerResearcher !== null) {
                 developerResearcher = e.developerResearcher;
                 developerResearcherLength = developerResearcher.length;
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -938,9 +865,7 @@ export async function get_FDA_Approved_Vaccines() {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
                 nextSteps: e.nextSteps,
                 description: e.description,
@@ -979,80 +904,7 @@ export async function getAllTreatments() {
             order: { lastUpdated: "DESC" }
         });
 
-        let properedData: any = [];
-        let suitableObj = {};
-
-        let developerResearcher: string;
-        let developerResearcherLength = 0;
-
-        let nextSteps: string;
-        let nextStepsLength = 0;
-
-        let description: string;
-        let descriptionLength = 0;
-
-        let funder: string;
-        let funderLength = 0;
-
-        let FDAApproved: string;
-        let FDAApprovedLength = 0;
-
-        const validLength = 40;
-        const FDAvalidLength = 25;
-        // justify developerResearcher to lower length.
-        data.forEach((e: any) => {
-
-            if (e.developerResearcher !== null) {
-                developerResearcher = e.developerResearcher;
-                developerResearcherLength = developerResearcher.length;
-                developerResearcher = developerResearcher.substring(0, validLength);
-                e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
-            }
-            if (e.nextSteps !== "undefined") {
-                nextSteps = e.nextSteps;
-                nextStepsLength = nextSteps.length;
-                nextSteps = nextSteps.substring(0, validLength);
-                e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
-            }
-            if (e.description !== "undefined") {
-                description = e.description;
-                descriptionLength = description.length;
-                description = description.substring(0, validLength);
-                e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
-            }
-            if (e.funder !== "undefined") {
-                funder = e.funder;
-                funderLength = funder.length;
-                funder = funder.substring(0, validLength);
-                e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
-            }
-            if (e.FDAApproved !== "undefined") {
-                FDAApproved = e.FDAApproved;
-                FDAApprovedLength = FDAApproved.length;
-                FDAApproved = FDAApproved.substring(0, FDAvalidLength);
-                e.FDAApproved = FDAApproved + (FDAApprovedLength - FDAvalidLength < 0 ? '' : `… [+${FDAApprovedLength - FDAvalidLength}]`);
-
-            }
-
-            suitableObj = {
-                developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
-                category: e.category,
-                trimedCategory: e.trimedCategory,
-                phase: e.phase,
-                nextSteps: e.nextSteps,
-                description: e.description,
-                funder: e.funder,
-                FDAApproved: e.FDAApproved,
-                lastUpdated: e.lastUpdated
-            }
-            // console.log(suitableObj);
-
-            properedData.push(suitableObj)
-            // names.push(obj)
-        });
-
-        return properedData;
+        return data;
     } catch (error) {
         console.log(error);
     } finally {
@@ -1074,80 +926,7 @@ export async function getAllPreClinicalTreatments() {
             order: { lastUpdated: "DESC" }
         });
 
-        let properedData: any = [];
-        let suitableObj = {};
-
-        let developerResearcher: string;
-        let developerResearcherLength = 0;
-
-        let nextSteps: string;
-        let nextStepsLength = 0;
-
-        let description: string;
-        let descriptionLength = 0;
-
-        let funder: string;
-        let funderLength = 0;
-
-        let FDAApproved: string;
-        let FDAApprovedLength = 0;
-
-        const validLength = 40;
-        const FDAvalidLength = 25;
-        // justify developerResearcher to lower length.
-        data.forEach((e: any) => {
-
-            if (e.developerResearcher !== null) {
-                developerResearcher = e.developerResearcher;
-                developerResearcherLength = developerResearcher.length;
-                developerResearcher = developerResearcher.substring(0, validLength);
-                e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
-            }
-            if (e.nextSteps !== "undefined") {
-                nextSteps = e.nextSteps;
-                nextStepsLength = nextSteps.length;
-                nextSteps = nextSteps.substring(0, validLength);
-                e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
-            }
-            if (e.description !== "undefined") {
-                description = e.description;
-                descriptionLength = description.length;
-                description = description.substring(0, validLength);
-                e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
-            }
-            if (e.funder !== "undefined") {
-                funder = e.funder;
-                funderLength = funder.length;
-                funder = funder.substring(0, validLength);
-                e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
-            }
-            if (e.FDAApproved !== "undefined") {
-                FDAApproved = e.FDAApproved;
-                FDAApprovedLength = FDAApproved.length;
-                FDAApproved = FDAApproved.substring(0, FDAvalidLength);
-                e.FDAApproved = FDAApproved + (FDAApprovedLength - FDAvalidLength < 0 ? '' : `… [+${FDAApprovedLength - FDAvalidLength}]`);
-
-            }
-
-            suitableObj = {
-                developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
-                category: e.category,
-                trimedCategory: e.trimedCategory,
-                phase: e.phase,
-                nextSteps: e.nextSteps,
-                description: e.description,
-                funder: e.funder,
-                FDAApproved: e.FDAApproved,
-                lastUpdated: e.lastUpdated
-            }
-            // console.log(suitableObj);
-
-            properedData.push(suitableObj)
-            // names.push(obj)
-        });
-
-        return properedData;
+        return data;
     } catch (error) {
         console.log(error);
     } finally {
@@ -1168,80 +947,7 @@ export async function getAllClinicalTreatments() {
             order: { lastUpdated: "DESC" }
         });
 
-        let properedData: any = [];
-        let suitableObj = {};
-
-        let developerResearcher: string;
-        let developerResearcherLength = 0;
-
-        let nextSteps: string;
-        let nextStepsLength = 0;
-
-        let description: string;
-        let descriptionLength = 0;
-
-        let funder: string;
-        let funderLength = 0;
-
-        let FDAApproved: string;
-        let FDAApprovedLength = 0;
-
-        const validLength = 40;
-        const FDAvalidLength = 25;
-        // justify developerResearcher to lower length.
-        data.forEach((e: any) => {
-
-            if (e.developerResearcher !== null) {
-                developerResearcher = e.developerResearcher;
-                developerResearcherLength = developerResearcher.length;
-                developerResearcher = developerResearcher.substring(0, validLength);
-                e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
-            }
-            if (e.nextSteps !== "undefined") {
-                nextSteps = e.nextSteps;
-                nextStepsLength = nextSteps.length;
-                nextSteps = nextSteps.substring(0, validLength);
-                e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
-            }
-            if (e.description !== "undefined") {
-                description = e.description;
-                descriptionLength = description.length;
-                description = description.substring(0, validLength);
-                e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
-            }
-            if (e.funder !== "undefined") {
-                funder = e.funder;
-                funderLength = funder.length;
-                funder = funder.substring(0, validLength);
-                e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
-            }
-            if (e.FDAApproved !== "undefined") {
-                FDAApproved = e.FDAApproved;
-                FDAApprovedLength = FDAApproved.length;
-                FDAApproved = FDAApproved.substring(0, FDAvalidLength);
-                e.FDAApproved = FDAApproved + (FDAApprovedLength - FDAvalidLength < 0 ? '' : `… [+${FDAApprovedLength - FDAvalidLength}]`);
-
-            }
-
-            suitableObj = {
-                developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
-                category: e.category,
-                trimedCategory: e.trimedCategory,
-                phase: e.phase,
-                nextSteps: e.nextSteps,
-                description: e.description,
-                funder: e.funder,
-                FDAApproved: e.FDAApproved,
-                lastUpdated: e.lastUpdated
-            }
-            // console.log(suitableObj);
-
-            properedData.push(suitableObj)
-            // names.push(obj)
-        });
-
-        return properedData;
+        return data;
     } catch (error) {
         console.log(error);
     } finally {
@@ -1255,105 +961,17 @@ export async function getAll_FDA_Approved_Treatments() {
 
     try {
         const data = await vaccineRepository.find({
-            where: [
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2020%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2021%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2022%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2023%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2024%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2025%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2026%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2027%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2028%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2029%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%2030%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%covid-19%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%Covid-19%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%covid 19%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%Covid 19%") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%coronavirus") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%Coronavirus") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%corona virus") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%Corona virus") },
-                { treatmentVsVaccine: "Treatment", FDAApproved: Like("%Corona Virus") },
-            ],
+            where: {
+                treatmentVsVaccine: "Treatment",
+                FDAApproved: Not("[null]")
+                    && Not("")
+                    && Not("N//A") && Not("N/A\n")
+                // Country: Not(In(["World", "Total:"])),
+            },
             order: { lastUpdated: "DESC" }
         });
 
-        let properedData: any = [];
-        let suitableObj = {};
-
-        let developerResearcher: string;
-        let developerResearcherLength = 0;
-
-        let nextSteps: string;
-        let nextStepsLength = 0;
-
-        let description: string;
-        let descriptionLength = 0;
-
-        let funder: string;
-        let funderLength = 0;
-
-        let FDAApproved: string;
-        let FDAApprovedLength = 0;
-
-        const validLength = 40;
-        const FDAvalidLength = 25;
-        // justify developerResearcher to lower length.
-        data.forEach((e: any) => {
-
-            if (e.developerResearcher !== null) {
-                developerResearcher = e.developerResearcher;
-                developerResearcherLength = developerResearcher.length;
-                developerResearcher = developerResearcher.substring(0, validLength);
-                e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
-            }
-            if (e.nextSteps !== "undefined") {
-                nextSteps = e.nextSteps;
-                nextStepsLength = nextSteps.length;
-                nextSteps = nextSteps.substring(0, validLength);
-                e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
-            }
-            if (e.description !== "undefined") {
-                description = e.description;
-                descriptionLength = description.length;
-                description = description.substring(0, validLength);
-                e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
-            }
-            if (e.funder !== "undefined") {
-                funder = e.funder;
-                funderLength = funder.length;
-                funder = funder.substring(0, validLength);
-                e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
-            }
-            if (e.FDAApproved !== "undefined") {
-                FDAApproved = e.FDAApproved;
-                FDAApprovedLength = FDAApproved.length;
-                FDAApproved = FDAApproved.substring(0, FDAvalidLength);
-                e.FDAApproved = FDAApproved + (FDAApprovedLength - FDAvalidLength < 0 ? '' : `… [+${FDAApprovedLength - FDAvalidLength}]`);
-
-            }
-
-            suitableObj = {
-                developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
-                category: e.category,
-                trimedCategory: e.trimedCategory,
-                phase: e.phase,
-                nextSteps: e.nextSteps,
-                description: e.description,
-                funder: e.funder,
-                FDAApproved: e.FDAApproved,
-                lastUpdated: e.lastUpdated
-            }
-            // console.log(suitableObj);
-
-            properedData.push(suitableObj)
-            // names.push(obj)
-        });
-
-        return properedData;
+        return data;
     } catch (error) {
         console.log(error);
     } finally {
@@ -1369,7 +987,7 @@ export async function getVaccineCategoryBased(category: String) {
     const connect: any = await _connect();
     const vaccineRepository = connect.connection.getRepository(Vaccine);
 
-    // console.log(category);
+    console.log(category);
 
     try {
         const data = await vaccineRepository.find({
@@ -1401,32 +1019,31 @@ export async function getVaccineCategoryBased(category: String) {
         const FDAvalidLength = 25;
         // justify developerResearcher to lower length.
         data.forEach((e: any) => {
-
             if (e.developerResearcher !== null) {
                 developerResearcher = e.developerResearcher;
                 developerResearcherLength = developerResearcher.length;
                 developerResearcher = developerResearcher.substring(0, validLength);
                 e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
             }
-            if (e.nextSteps !== "undefined") {
+            if (e.nextSteps !== null) {
                 nextSteps = e.nextSteps;
                 nextStepsLength = nextSteps.length;
                 nextSteps = nextSteps.substring(0, validLength);
                 e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
             }
-            if (e.description !== "undefined") {
+            if (e.description !== null) {
                 description = e.description;
                 descriptionLength = description.length;
                 description = description.substring(0, validLength);
                 e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
             }
-            if (e.funder !== "undefined") {
+            if (e.funder !== null) {
                 funder = e.funder;
                 funderLength = funder.length;
                 funder = funder.substring(0, validLength);
                 e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
             }
-            if (e.FDAApproved !== "undefined") {
+            if (e.FDAApproved !== null) {
                 FDAApproved = e.FDAApproved;
                 FDAApprovedLength = FDAApproved.length;
                 FDAApproved = FDAApproved.substring(0, FDAvalidLength);
@@ -1436,14 +1053,12 @@ export async function getVaccineCategoryBased(category: String) {
 
             suitableObj = {
                 developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
                 category: e.category,
-                trimedCategory: e.trimedCategory,
                 phase: e.phase,
-                nextSteps: e.nextSteps,
                 description: e.description,
-                funder: e.funder,
                 FDAApproved: e.FDAApproved,
+                nextSteps: e.nextSteps,
+                funder: e.funder,
                 lastUpdated: e.lastUpdated
             }
             // console.log(suitableObj);
@@ -1468,108 +1083,10 @@ export async function getTreatmentCategoryBased(category: String) {
         const data = await vaccineRepository.find({
             where: {
                 treatmentVsVaccine: "Treatment",
-                trimedCategory: category,
+                category: category,
             },
             order: { lastUpdated: "DESC" }
         });
-        let properedData: any = [];
-        let suitableObj = {};
-
-        let developerResearcher: string;
-        let developerResearcherLength = 0;
-
-        let nextSteps: string;
-        let nextStepsLength = 0;
-
-        let description: string;
-        let descriptionLength = 0;
-
-        let funder: string;
-        let funderLength = 0;
-
-        let FDAApproved: string;
-        let FDAApprovedLength = 0;
-
-        const validLength = 40;
-        const FDAvalidLength = 25;
-        // justify developerResearcher to lower length.
-        data.forEach((e: any) => {
-
-            if (e.developerResearcher !== null) {
-                developerResearcher = e.developerResearcher;
-                developerResearcherLength = developerResearcher.length;
-                developerResearcher = developerResearcher.substring(0, validLength);
-                e.developerResearcher = developerResearcher + (developerResearcherLength - validLength < 0 ? '' : `… [+${developerResearcherLength - validLength}]`);
-            }
-            if (e.nextSteps !== "undefined") {
-                nextSteps = e.nextSteps;
-                nextStepsLength = nextSteps.length;
-                nextSteps = nextSteps.substring(0, validLength);
-                e.nextSteps = nextSteps + (nextStepsLength - validLength < 0 ? '' : `… [+${nextStepsLength - validLength}]`);
-            }
-            if (e.description !== "undefined") {
-                description = e.description;
-                descriptionLength = description.length;
-                description = description.substring(0, validLength);
-                e.description = description + (descriptionLength - validLength < 0 ? '' : `… [+${descriptionLength - validLength}]`);
-            }
-            if (e.funder !== "undefined") {
-                funder = e.funder;
-                funderLength = funder.length;
-                funder = funder.substring(0, validLength);
-                e.funder = funder + (funderLength - validLength < 0 ? '' : `… [+${funderLength - validLength}]`);
-            }
-            if (e.FDAApproved !== "undefined") {
-                FDAApproved = e.FDAApproved;
-                FDAApprovedLength = FDAApproved.length;
-                FDAApproved = FDAApproved.substring(0, FDAvalidLength);
-                e.FDAApproved = FDAApproved + (FDAApprovedLength - FDAvalidLength < 0 ? '' : `… [+${FDAApprovedLength - FDAvalidLength}]`);
-
-            }
-
-            suitableObj = {
-                developerResearcher: e.developerResearcher,
-                trimedName: e.trimedName,
-                category: e.category,
-                trimedCategory: e.trimedCategory,
-                phase: e.phase,
-                nextSteps: e.nextSteps,
-                description: e.description,
-                funder: e.funder,
-                FDAApproved: e.FDAApproved,
-                lastUpdated: e.lastUpdated
-            }
-            // console.log(suitableObj);
-
-            properedData.push(suitableObj)
-            // names.push(obj)
-        });
-
-        return properedData;
-    } catch (error) {
-        console.log(error);
-    } finally {
-        await connect.queryRunner.release();
-    }
-}
-
-
-/////////////////////////////////////////////////
-///////////   Each One    ///////////////////////
-/////////////////////////////////////////////////
-
-export async function getEachOne(category: string, trimedName: string) {
-    const connect: any = await _connect();
-    const vaccineRepository = connect.connection.getRepository(Vaccine);
-    try {
-        const data = await vaccineRepository.find({
-            where: {
-                trimedName: trimedName,
-                trimedCategory: category,
-            },
-            order: { lastUpdated: "DESC" }
-        });
-
         return data;
     } catch (error) {
         console.log(error);

@@ -29,7 +29,7 @@ export class About extends Component {
                         <div className="about-whoweare-first-part">
                             <h1 className="about-whoweare-first-part-title">PURPOSE</h1>
                             <div className="about-whoweare-first-part-between"></div>
-                            <p className="about-whoweare-first-part-description">VacCovid is an up to date vaccine and covid-19 tracker which has been landed in order to inform people from all over the planet about the present novel coronavirus (COVID-19) pandemic. We accomplished this duty by providing the most existed reliable data from several APIs, showing the statistical data in tangible tables and charts, finding the most relevant and up to date news, and compare each country's data day by day and with avrage world data.</p>
+                            <p className="about-whoweare-first-part-description">VacCovid is an up to date vaccine and covid-19 tracker which has been landed in order to inform people from all over the planet about the present novel coronavirus (COVID-19) pandemic. We accomplished this duty by providing the most existed reliable data from several APIs, showing the statistical data in tangible tables and charts, finding the most relevant and up to date news, and compare each country's data day by day and with average world data.</p>
                         </div>
                         <div className="about-whoweare-second-part">
                             <h2 className="about-whoweare-second-part-contributors">WHO WE ARE?</h2>
@@ -144,15 +144,15 @@ export class About extends Component {
                                     <p className="about-resources-list-item-description">Gavi is an international organisation created in 2000 to improve access to new and underused vaccines for children living in the world's poorest countries.</p>
                                 </div>
                             </a>
-                            <a href="https://www.worldometers.info/coronavirus/" rel="noopener noreferrer" target="_blank" className="about-resources-list-link">
+                            <a href="https://milkeninstitute.org/centers/fastercures" rel="noopener noreferrer" target="_blank" className="about-resources-list-link">
                                 <div className="about-resources-list-item">
                                     <div className="about-resources-list-item-image">
-                                        <img className="about-resources-list-item-image-img" src={require(`./../../views/resources/worldometers.jpg`)} alt="worldometers.jpg" />
+                                        <img className="about-resources-list-item-image-img" src={require(`./../../views/resources/faster-cures.jpg`)} alt="faster-cures.jpg" />
                                     </div>
                                     <div className="about-resources-list-item-cover"></div>
-                                    <h2 className="about-resources-list-item-title">Worldometers</h2>
+                                    <h2 className="about-resources-list-item-title">FasterCures - Milken Institute</h2>
                                     <div className="about-resources-list-item-between"></div>
-                                    <p className="about-resources-list-item-description">Live world statistics on population, government and economics, society and media, environment, food, water, energy and health.</p>
+                                    <p className="about-resources-list-item-description">Milken Institute's FasterCures Center works with our partners to build a patient-centric system where lifesaving treatments get to those who need them.</p>
                                 </div>
                             </a>
                         </div>
