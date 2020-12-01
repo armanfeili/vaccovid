@@ -7,7 +7,8 @@ import moment from 'moment';
 import Footer from '../common/footer';
 
 import {
-    getAllTreatments, getAllTreatmentsPreClinical, getAllTreatmentsClinical, getAllTreatmentsFDAApproved, getTreatmentsCategoryBased
+    getAllTreatments, getAllTreatmentsPreClinical, getAllTreatmentsClinical, getAllTreatmentsFDAApproved, getTreatmentsCategoryBased,
+    clearTreatmentData
 } from '../../actions/vaccine';
 
 export class Treatment extends Component {
@@ -57,40 +58,53 @@ export class Treatment extends Component {
     }
 
     async componentWillUnmount() {
+        await this.props.clearTreatmentData();
     }
 
     async callActionMethods() {
         let { category } = this.props.match.params;
         if (category === "all-treatments") {
             await this.props.getAllTreatments();
-            this.setState({ descriptionText: "RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "Here you can find all of the developing or approved treatments and drugs in every stage. You can sort the table based on each columns or search for a unique treatment name." })
         } else if (category === "fda-approved") {
             await this.props.getAllTreatmentsFDAApproved();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "it means that the U.S. Food and Drug Administration has determined that the benefits of the product outweigh the known risks for the intended use."
+            })
         } else if (category === "antibodies") {
             await this.props.getTreatmentsCategoryBased("antibodies");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "Antibodies are a key component of the body’s natural immune response to invading pathogens. In case of Covid-19, the antibodies can directly bind to viral proteins and prevent the virus from replicating.  There are 2 ways to provide the patient with exogenous antibodies. One way is by using blood plasma from people who are recovering from COVID-19 to transfer the antibodies that they have produced to someone else. This method is called convalescent plasma therapy.  Another is to manufacture and mass-produce specific antibodies against the virus that could supplement the body’s immune response. The resulting medications are called monoclonal antibodies."
+            })
         } else if (category === "antivirals") {
             await this.props.getTreatmentsCategoryBased("antivirals");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "There are many medications which have shown whether in vivo or in vitro antiviral effects against SARS-COV2. These drugs either destroy the virus directly or prevent the virus from attachment, infecting the cells or replication."
+            })
         } else if (category === "cell-based-therapies") {
             await this.props.getTreatmentsCategoryBased("cell-based-therapies");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "In this method, some human cell lineages are prepared or cultured in lab. Infusing these cells into a covid-19 patient can boost immune system or prevent lethal inflammatory process during the disease course. Examples so far include Natural killer (NK), Dendritic cells (DN), and exosomes. In addition Mesenchymal stem cells (MSCs) due to their pro/anti-inflammatory and immune-modulatory behavior have been promising in moderate to severe stages of the disease when the lethal cytokine storm is about to begin."
+            })
         } else if (category === "rna-based") {
             await this.props.getTreatmentsCategoryBased("rna-based-treatments");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "This method is a branch of a novel therapeutic approach called Nucleic acid-based therapies. In addition to mRNA, we have several other types of RNA which are able to carry instructions for making proteins, help to turn genes on and off, aid chemical reactions, slice and dice other RNAs, and even build proteins. Most RNA therapies can be sorted into one of three broad categories: those that target nucleic acids (either DNA or RNA), those that target proteins, and those that encode proteins. RNA-based therapies like RNAi (RNA interference), siRNAs (small interfering RNA) and RNA aptamers, Ribozymes and ASOs (antisense oligonucleotides) target and neutralize the crucial components of the virus-like specific mRNA molecules, viral proteins like E (envelope), M (membrane), or N (nucleocapsid), or SARS helicase, etc."
+            })
         } else if (category === "scanning-compounds-to-repurpose") {
             await this.props.getTreatmentsCategoryBased("scanning-compounds-to-repurpose");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "Multiple research teams and institutes have systematically scanned all present drug molecules that can theoretically affect SARS-COV2 pathogenesis. These systematic scanning attempts were conducted on drugs either in clinical phase or FDA approved. Such attempts have led to some promising therapies like remdesivir, Lopinavir, Hydroxychloroquie, Baricitinib, etc. This section provides the description of these scans." })
         } else if (category === "device") {
             await this.props.getTreatmentsCategoryBased("device");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "Some devices are introduced for decreasing the lethal consequences of covid-19. These include Extracorporeal Blood Purification devices that are able to clean inflammatory cytokines from blood, Devices for directly inhaling Nitric Oxide, Artificial Heart pump in those who have Right heart failure due to pulmonary emboli, vagus nerve stimulation device to alleviate respiratory distress in some patients, etc."
+            })
         } else if (category === "pre-clinical") {
             await this.props.getAllTreatmentsPreClinical();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "The preclinical stage in drug development industry begins before clinical trials (testing in humans), and during which important feasibility, iterative testing and drug safety data are collected, typically in laboratory animals. The main goals of preclinical studies are to determine a starting, safe dose for first-in-human study and assess potential toxicity of the product." })
         } else if (category === "clinical") {
             await this.props.getAllTreatmentsClinical();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "After preclinical research, tests and treatments go through a series of clinical trials. Clinical trials assess if tests or treatments are safe for and work in people." })
         }
     }
     changeOffset() {
@@ -249,7 +263,7 @@ export class Treatment extends Component {
 
         return <div>
             <Helmet>
-                <title>Coronavirus drugs and treatment tracker {category} - vaccovid</title>
+                <title>Coronavirus {category} treatment tracker, drugs and medicine - vaccovid</title>
                 <meta name="description" content={`Vaccine and Covid-19 tracker. Coronavirus Treatment Tracker ${category} statistical data. Including Category,Company,Stages,results`} />
             </Helmet>
             {
@@ -370,20 +384,20 @@ export class Treatment extends Component {
                                             return (
                                                 <tr key={i} className="vaccine-page-table-stats-item vaccine-page-table-stats-loading loading">
                                                     <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-number">{1}</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-name">No Data Yet<span className="sign">&#9662;</span></td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmed">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newcases">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmedpermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-critical">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-active">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deceased">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deathspermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-giventests">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-testspermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recovered">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recoveredrate">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-population">No Data Yet</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-name">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmed">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newcases">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmedpermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-critical">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-active">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deceased">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deathspermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-giventests">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-testspermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recovered">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recoveredrate">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-population">Loading</td>
                                                 </tr>
                                             )
                                         })
@@ -435,5 +449,6 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     {
-        getAllTreatments, getAllTreatmentsPreClinical, getAllTreatmentsClinical, getAllTreatmentsFDAApproved, getTreatmentsCategoryBased
+        getAllTreatments, getAllTreatmentsPreClinical, getAllTreatmentsClinical, getAllTreatmentsFDAApproved, getTreatmentsCategoryBased,
+        clearTreatmentData
     })(Treatment);

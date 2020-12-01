@@ -1,11 +1,12 @@
 .about {
     display: grid;
-    grid-template-rows: [whoweare-start] auto [whoweare-end resources-start] auto [resources-end];
+    grid-template-rows: [whoweare-start] auto [whoweare-end resources-start] auto [resources-end advantages-start] auto [advantages-end];
     grid-template-columns: 1fr;
     color: #eee;
+    margin-bottom: 30px;
 
     @include respond(tab-land) {
-        grid-template-columns: minmax(0px, 1100px);
+        // grid-template-columns: minmax(0px, 1100px);
     }
 
     @include respond(tab-port) {}
@@ -17,52 +18,53 @@
     @include respond(small-phone) {}
 
     &-whoweare {
-        grid-row: whoweare-start / whoweare-end;
+        // grid-row: whoweare-start / whoweare-end;
 
-        display: grid;
-        grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
-        grid-template-columns: [left-start] 1fr [left-end whoweare-start] minmax(300px, 1200px) [whoweare-end right-start] 1fr [right-left];
+        // display: grid;
+        // grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
+        // grid-template-columns: [left-start] 1fr [left-end whoweare-start] minmax(300px, 1200px) [whoweare-end right-start] 1fr [right-left];
 
-        @include respond(tab-land) {
-            grid-template-columns: [res-start] minmax(20px, 700px) [res-end];
-            margin-left: 18%;
-        }
+        // @include respond(tab-land) {
+        //     grid-template-columns: [res-start] minmax(20px, 700px) [res-end];
+        //     margin-left: 18%;
+        // }
 
 
-        @include respond(tab-port) {
-            grid-template-columns: [res-start] minmax(20px, 500px) [res-end];
-            margin-left: 22%;
-        }
+        // @include respond(tab-port) {
+        //     grid-template-columns: [res-start] minmax(20px, 500px) [res-end];
+        //     margin-left: 22%;
+        // }
 
-        @include respond(middle-phone) {
-            grid-template-columns: [res-start] minmax(20px, 400px) [res-end];
-            margin-left: 17%;
-        }
+        // @include respond(middle-phone) {
+        //     grid-template-columns: [res-start] minmax(20px, 400px) [res-end];
+        //     margin-left: 17%;
+        // }
 
-        @include respond(phone) {
-            grid-template-columns: [res-start] minmax(20px, 300px) [res-end];
-            margin-left: 9.8%;
-        }
+        // @include respond(phone) {
+        //     grid-template-columns: [res-start] minmax(20px, 300px) [res-end];
+        //     margin-left: 9.8%;
+        // }
 
-        @include respond(small-phone) {
-            grid-template-columns: [res-start] minmax(20px, 270px) [res-end];
-            margin-left: 5px;
-        }
+        // @include respond(small-phone) {
+        //     grid-template-columns: [res-start] minmax(20px, 270px) [res-end];
+        //     margin-left: 5px;
+        // }
 
 
         &-first-part {
-            grid-row: first-part-start / first-part-end;
-            grid-column: whoweare-start / whoweare-end;
+            // grid-row: first-part-start / first-part-end;
+            // grid-column: whoweare-start / whoweare-end;
 
-            @include respond(tab-land) {
-                grid-column: res-start / res-end;
-            }
+            // @include respond(tab-land) {
+            //     grid-column: res-start / res-end;
+            // }
 
-            display: grid;
-            grid-template-rows: auto auto;
-            grid-template-columns: 1fr;
+            // display: grid;
+            // grid-template-rows: auto auto;
+            // grid-template-columns: 1fr;
             text-align: center;
-            margin-left: 11px;
+            margin-left: 5%;
+            width: 90%;
 
             &-title {
                 font-weight: 100;
@@ -82,6 +84,11 @@
 
             &-description {
                 margin-top: 8px;
+                font-weight: 100;
+                font-size: 110%;
+                text-align: center;
+                margin-left: 4%;
+                width: 92%;
             }
         }
 
@@ -92,19 +99,20 @@
 
             display: grid;
             grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
-            grid-template-columns: [left-start] minmax(300px, 330px) [left-end middle-start] minmax(300px, 330px) [middle-end right-start] minmax(300px, 330px) [right-end];
+            grid-template-columns: 1fr [left-start] auto [left-end middle-start] auto [middle-end right-start] auto [right-end] 1fr;
+            // grid-template-columns: [left-start] minmax(300px, 330px) [left-end middle-start] minmax(300px, 330px) [middle-end right-start] minmax(300px, 330px) [right-end];
             margin-top: 15px;
-            gap: 10px;
+            // gap: 10px;
+            gap: 0px 3%;
 
             @include respond(tab-land) {
                 grid-column: res-start / res-end;
 
                 display: grid;
                 grid-template-rows: [contributors-start] auto [contributors-end firstname-start] auto [firstname-end secondname-start] auto [secondname-end thirdname-start] auto [thirdname-end];
-                grid-template-columns: [contributor-start] 1fr [contributor-end];
+                grid-template-columns: 1fr [contributor-start] auto [contributor-end] 1fr;
                 gap: 0px;
                 row-gap: 10px;
-
             }
 
             &-contributors {
@@ -142,7 +150,7 @@
 
             &-Arman-Feili {
                 grid-row: names-start / names-end;
-                // grid-column: left-start / left-end;
+                grid-column: left-start / left-end;
 
                 @include respond(tab-land) {
                     grid-column: contributor-start / contributor-end;
@@ -285,7 +293,7 @@
 
             &-Parsa-Radfar {
                 grid-row: names-start / names-end;
-                // grid-column: middle-start / middle-end;
+                grid-column: middle-start / middle-end;
 
                 @include respond(tab-land) {
                     grid-column: contributor-start / contributor-end;
@@ -364,7 +372,7 @@
 
             &-Amin-Feili {
                 grid-row: names-start / names-end;
-                // grid-column: right-start / right-end;
+                grid-column: right-start / right-end;
 
                 @include respond(tab-land) {
                     grid-column: contributor-start / contributor-end;
@@ -469,6 +477,7 @@
             // grid-template-columns: [left-start]100px [left-end item-left-start]minmax(300px, 400px) [item-left-end item-middle-start]minmax(300px, 400px) [item-middle-end item-right-start]minmax(300px, 400px) [item-right-end right-start] 100px [right-end];
             grid-template-columns: 1fr 1fr 1fr;
             margin: 20px 6%;
+            gap: 10px;
 
             @include respond(tab-land) {
                 grid-template-columns: 1fr 1fr;
@@ -500,7 +509,6 @@
                 grid-template-columns: [image-start] 1fr [image-end text-start] 3fr [text-end];
 
                 // border: 1px solid antiquewhite;
-                margin: 8px 8px;
                 border-radius: 8px;
 
                 background: #141E30;
@@ -622,6 +630,76 @@
 
 
                 }
+            }
+        }
+    }
+
+    &-advantages {
+        grid-row: advantages-start/advantages-end;
+        text-align: left;
+        margin-left: 10%;
+        width: 80%;
+
+        &-title {
+            font-weight: 100;
+            text-align: center;
+        }
+
+        &-between {
+            text-align: center;
+            width: 70%;
+            margin-left: 15%;
+            height: 1px;
+            background: #8e9eab;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+            /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        &-paragraph {
+            margin-top: 10px;
+
+            &-heading {
+                color: #f6c90e;
+            }
+
+            &-text {}
+
+            &-heading,
+            &-text {
+                display: inline;
+                vertical-align: top;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 16px;
+                line-height: 28px;
+
+                &-bold {
+                    font-weight: bold;
+                }
+
+                &-internal-link {
+                    color: #19d3da;
+                }
+
+                &-internal-link:hover {
+                    text-shadow: 0px 0px 1px #19d3da;
+                }
+
+                &-external-link {
+                    color: #ff6f3c;
+                }
+
+                &-external-link:hover {
+                    text-shadow: 0px 0px 1px #ff6f3c;
+                }
+            }
+
+            &-list {
+                margin-left: 4%;
+
+                &-item {}
             }
         }
     }

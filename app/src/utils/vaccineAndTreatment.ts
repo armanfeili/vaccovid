@@ -1577,3 +1577,48 @@ export async function getEachOne(category: string, trimedName: string) {
         await connect.queryRunner.release();
     }
 }
+
+/////////////////////////////////////////////////
+///////////   GET EVERYTHING   //////////////////
+/////////////////////////////////////////////////
+
+export async function getEverything() {
+    const connect: any = await _connect();
+    const vaccineRepository = connect.connection.getRepository(Vaccine);
+    try {
+        let data = await vaccineRepository.find({
+            order: { lastUpdated: "DESC" }
+        });
+        let properedData: any = [];
+        let suitableObj = {};
+        const allRoutes = Path.resolve(__dirname, "route-data.json");
+
+        data.forEach((e: any) => {
+            suitableObj = {
+                trimedName: e.trimedName,
+                trimedCategory: e.trimedCategory,
+                treatmentVsVaccine: e.treatmentVsVaccine,
+            }
+
+            properedData.push(suitableObj)
+        });
+
+        let finalData = JSON.stringify(properedData);
+
+
+        fs.writeFile(allRoutes, finalData, (err) => {
+            if (err) {
+                console.log('the route file has not been saved!');
+                return false;
+            };
+            console.log('the route json file has been saved!');
+            return true
+        });
+
+        return properedData;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        await connect.queryRunner.release();
+    }
+}

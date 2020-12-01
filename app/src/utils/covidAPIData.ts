@@ -228,10 +228,10 @@ export async function addReports() {
                 province: element.region.province,
             });
 
-            if (!existProvince) {
-                console.log("no such province");
+            if (!existProvince && element.region.iso !== "CAN") {
+                console.log(`no such province: iso:${element.region.iso}, name:${element.region.name}`);
                 // await connect.queryRunner.rollbackTransaction();
-                return "no such province";
+                return `no such province`;
             }
 
             if (element.region.iso === "USA") {

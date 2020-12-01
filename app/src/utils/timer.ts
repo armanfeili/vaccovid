@@ -2,6 +2,7 @@ import { fetch_npmData } from "./fetch";
 import { fetchAndSaveWhoAndOtherNews, deleteAllOldNews } from "./newsData";
 import { updateProvinces, addDailyReports } from "./covidAPIData";
 import { downloadAndConvertOwidData, updateOwid } from "./ovidData";
+import { convertVaccineData, updateVaccine } from "./vaccineAndTreatment";
 
 export const timers = async () => {
     try {
@@ -27,6 +28,10 @@ export const timers = async () => {
         console.log("calling fetchAndSaveWhoAndOtherNews is finished");
         await deleteAllOldNews();
         console.log("calling deleteAllOldNews is finished");
+        await convertVaccineData();
+        console.log("calling convertVaccineData is finished");
+        await updateVaccine();
+        console.log("calling updateVaccine is finished");
 
         setInterval(async () => {
             //Start Fetcher - in this function we fetch data from covid19 npm
@@ -41,10 +46,23 @@ export const timers = async () => {
             //update Owid
             await downloadAndConvertOwidData();
             console.log("calling downloadAndConvertOwidData is finished");
+            // update vaccine
+            await convertVaccineData();
+            console.log("calling convertVaccineData is finished");
+            await updateVaccine();
+            console.log("calling updateVaccine is finished");
+
             setTimeout(async () => {
                 await updateOwid();
                 console.log("calling updateOwid is finished");
             }, 1 * 5 * 60 * 1000); // after 5 minutes
+
+            setTimeout(async () => {
+                await convertVaccineData();
+                console.log("calling convertVaccineData is finished");
+                await updateVaccine();
+                console.log("calling updateVaccine is finished");
+            }, 1 * 10 * 60 * 1000); // after 10 minutes
         }, 24 * 30 * 60 * 1000); // Min * Sec * Ms - every day 
 
         setInterval(async () => {

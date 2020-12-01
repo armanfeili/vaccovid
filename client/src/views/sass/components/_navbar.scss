@@ -112,7 +112,7 @@ nav {
 
     display: grid;
     grid-template-rows: [nav-start] 1fr [nav-end];
-    grid-template-columns: [space-start] 0px [space-end ul-start] 3fr [ul-end link-start] 1fr [link-end];
+    grid-template-columns: [space-start] 0px [space-end ul-start] auto [ul-end link-start] 1fr [link-end];
     z-index: 9980;
 
     @include respond(tab-land) {

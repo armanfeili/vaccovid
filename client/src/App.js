@@ -42,16 +42,16 @@ class App extends React.Component {
               {/* <Route exact path="/" component={Landing} /> */}
               <div className='container'>
                 {/* <Switch>
-                  <Route exact path='/covid-19/world-data' component={CoronavirusWorldComponent} />
+                  <Route exact path='/covid-19-tracker/world-data' component={CoronavirusWorldComponent} />
                 </Switch> */}
                 <Switch>
                   <Route exact name="baseContinent1" path="/" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
                 </Switch>
                 <Switch>
-                  <Route exact name="baseContinent2" path="/covid-19" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
+                  <Route exact name="baseContinent2" path="/covid-19-tracker" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
                 </Switch>
                 <Switch>
-                  <Route exact name="eachContinent" path='/covid-19/:continentName' component={CoronavirusEachContinentComponent} />
+                  <Route exact name="eachContinent" path='/covid-19-tracker/:continentName' component={CoronavirusEachContinentComponent} />
                 </Switch>
                 <Switch>
                   <Route exact name="Vaccine" path='/vaccine-tracker' component={VaccineBase} />
@@ -72,7 +72,7 @@ class App extends React.Component {
                   <Route exact name="EachTreatment" path='/treatment-tracker/:category/:name' component={EachTreatment} />
                 </Switch>
                 <Switch>
-                  <Route exact name="eachCountry" path="/covid-19/:countryName/:iso" 
+                  <Route exact name="eachCountry" path="/covid-19-tracker/:countryName/:iso" 
                   // handler={CoronavirusEachCountryComponent}
                    component={CoronavirusEachCountryComponent} />
                 </Switch>

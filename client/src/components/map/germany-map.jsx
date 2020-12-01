@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VectorMap } from "react-jvectormap"
-import { getGermanyStatesData } from '../../actions/covid_countries';
+import { getGermanyStatesData, clearProvincesData  } from '../../actions/covid_countries';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 
@@ -39,6 +39,10 @@ export class GermanyMapComponent extends Component {
                 // console.log(this.state.provinces);  // returns [...]
             }, 2000);
         }
+    }
+
+    async componentWillUnmount() {
+        await this.props.clearProvincesData();
     }
 
     async onGetAllStatesData() {
@@ -140,7 +144,7 @@ export class GermanyMapComponent extends Component {
                     <Link className="map-page-buttons-each map-page-buttons-australia" to="/coronavirus-australia-map">Australia</Link>
                 </div>
                 <div className="map">
-                    {provinces ?
+                    { provinces && provinces.length > 0 ?
                         <div>
                             <VectorMap map={"de_mill"}
                                 backgroundColor="transparent" //change it to ocean blue: #0077be
@@ -192,29 +196,6 @@ export class GermanyMapComponent extends Component {
     }
 }
 
-// world_mill [yes][check]
-// us_aea [yes]
-// europe_mill
-// continents_mill
-// ch_mill
-// oceania_mill
-// africa_mill
-// asia_mill
-// north_america_mill
-// south_america_mill
-// ca_lcc [yes]
-// brazil [yes]
-// se_mill
-// es_mill
-// vietnam
-// indonesia
-// th_mill
-// de_mill [yes]
-// ar_mill
-// au_mill [yes]
-// kr_mill
-// co_mill
-
 GermanyMapComponent.propTypes = {
     provinces: PropTypes.array
 };
@@ -228,5 +209,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getGermanyStatesData }
+    { getGermanyStatesData, clearProvincesData  }
 )(GermanyMapComponent);

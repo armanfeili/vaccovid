@@ -7,7 +7,8 @@ import moment from 'moment';
 import Footer from '../common/footer';
 
 import {
-    getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased
+    getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased,
+    clearVaccineData
 } from '../../actions/vaccine';
 
 export class VaccineBase extends Component {
@@ -47,6 +48,7 @@ export class VaccineBase extends Component {
     }
 
     async componentWillUnmount() {
+        await this.props.clearVaccineData();
     }
 
     async callActionMethods() {
@@ -54,7 +56,7 @@ export class VaccineBase extends Component {
         let category = "all-vaccines"
         if (category === "all-vaccines") {
             await this.props.getAllVaccines();
-            this.setState({ descriptionText: "RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "Here you can find all of the developing or approved vaccines in every phase. You can sort the table based on each columns or search for a unique vaccine name." })
         }
     }
     changeOffset() {
@@ -214,7 +216,7 @@ export class VaccineBase extends Component {
 
         return <div>
             <Helmet>
-                <title>Vaccine tracker {category} data - vaccovid</title>
+                <title>Coronavirus {category} vaccine tracker - vaccovid</title>
                 <meta name="description" content={`Vaccine and Covid-19 tracker. Vaccine Tracker ${category} statistical data. Including Phases,Company name,Category,results`} />
             </Helmet>
             {
@@ -234,7 +236,7 @@ export class VaccineBase extends Component {
                                     <Link to={{ pathname: `/vaccine-tracker` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "all-vaccines" ? "vaccine-page-responsive-allregions-btn-active" : ""}`}>ALL Vaccines</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/phase-four` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-four" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 4</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/phase-three` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-three" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 3</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/phase-tow` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-tow" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 2</Link>
+                                    <Link to={{ pathname: `/vaccine-tracker/phase-two` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-two" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 2</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/phase-one` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-one" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 1</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/pre-clinical` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "pre-clinical" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Pre Clinical</Link>
 
@@ -346,20 +348,20 @@ export class VaccineBase extends Component {
                                             return (
                                                 <tr key={i} className="vaccine-page-table-stats-item vaccine-page-table-stats-loading loading">
                                                     <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-number">{1}</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-name">No Data Yet<span className="sign">&#9662;</span></td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmed">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newcases">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmedpermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-critical">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-active">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deceased">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deathspermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-giventests">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-testspermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recovered">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recoveredrate">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-population">No Data Yet</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-name">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmed">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newcases">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmedpermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-critical">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-active">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deceased">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deathspermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-giventests">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-testspermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recovered">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recoveredrate">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-population">Loading</td>
                                                 </tr>
                                             )
                                         })
@@ -411,5 +413,6 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     {
-        getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased
+        getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased,
+        clearVaccineData
     })(VaccineBase);

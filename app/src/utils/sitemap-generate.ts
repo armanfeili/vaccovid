@@ -1,39 +1,54 @@
 import { SitemapStream, streamToPromise } from 'sitemap';
 import { createGzip } from 'zlib';
-import { Readable } from 'stream';
+import fs from "fs";
+import Path from "path";
+// import { Readable } from 'stream';
 
 import { worldSymbols } from './world';
+// const routeData = Path.resolve(__dirname, "route-data.json");
+import { routes } from './vacRoutes';
 // const pictureDirectory = path.join(__dirname, './../../../../pics');
 
 
 export async function generateSitemap(res: any) {
+
     let sitemap;
     const smStream = new SitemapStream({
         hostname: 'https://vaccovid.live/',
         lastmodDateOnly: false, // print date not time
     })
+
     const pipeline = smStream.pipe(createGzip())
     // pipe your entries or directly write them.
+
+
+    routes.forEach(async (e: any, i: number) => {
+        if (e !== undefined) {
+            smStream.write({ url: `/${e.treatmentVsVaccine === "Vaccine" ? "vaccine-tracker" : "treatment-tracker"}/${e.trimedCategory}/${e.trimedName}`, changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+        }
+    });
+    smStream.write({ url: `/vaccine-tracker/buji/buji`, changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+
     smStream.write({ url: '/', changefreq: 'daily', priority: 1.0, lastmod: `${new Date().toDateString()}` })
-    smStream.write({ url: '/covid-19', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/world-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/world-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
     smStream.write({ url: '/coronavirus-world-map', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
 
-    smStream.write({ url: '/covid-19/USA/USA', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Canada/CAN', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Australia/AUS', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/India/IND', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Germany/DEU', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/France/FRA', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/UK/GBR', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Netherlands/NLD', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Italy/ITA', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Japan/JPN', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/China/CHN', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Russia/RUS', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Spain/ESP', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Sweden/SWE', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
-    smStream.write({ url: '/covid-19/Ukraine/UKR', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/USA/USA', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Canada/CAN', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Australia/AUS', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/India/IND', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Germany/DEU', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/France/FRA', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/UK/GBR', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Netherlands/NLD', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Italy/ITA', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Japan/JPN', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/China/CHN', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Russia/RUS', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Spain/ESP', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Sweden/SWE', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
+    smStream.write({ url: '/covid-19-tracker/Ukraine/UKR', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
 
     smStream.write({ url: '/coronavirus-usa-map', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
     smStream.write({ url: '/coronavirus-canada-map', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.9 })
@@ -45,13 +60,13 @@ export async function generateSitemap(res: any) {
     smStream.write({ url: '/news/covid19', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
     smStream.write({ url: '/news/health', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
 
-    smStream.write({ url: '/covid-19/north-america-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
-    smStream.write({ url: '/covid-19/europe-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
-    smStream.write({ url: '/covid-19/asia-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
-    smStream.write({ url: '/covid-19/africa-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
-    smStream.write({ url: '/covid-19/australia-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
-    smStream.write({ url: '/covid-19/south_america-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
-    smStream.write({ url: '/covid-19/oceania-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+    smStream.write({ url: '/covid-19-tracker/north-america-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+    smStream.write({ url: '/covid-19-tracker/europe-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+    smStream.write({ url: '/covid-19-tracker/asia-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+    smStream.write({ url: '/covid-19-tracker/africa-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+    smStream.write({ url: '/covid-19-tracker/australia-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+    smStream.write({ url: '/covid-19-tracker/south_america-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+    smStream.write({ url: '/covid-19-tracker/oceania-data', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
     smStream.write({ url: '/about', changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.7 })
 
     worldSymbols.forEach(e => {
@@ -73,7 +88,7 @@ export async function generateSitemap(res: any) {
             e.id !== 752 &&
             e.id !== 804
         ) {
-            smStream.write({ url: `/covid-19/${e.name}/${e.alpha3.toUpperCase()}`, changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
+            smStream.write({ url: `/covid-19-tracker/${e.name}/${e.alpha3.toUpperCase()}`, changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
         }
     })
 
@@ -89,3 +104,4 @@ export async function generateSitemap(res: any) {
     // stream write the response
     pipeline.pipe(res).on('error', (e: any) => { throw e })
 }
+

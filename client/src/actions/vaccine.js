@@ -290,7 +290,6 @@ export const getTreatmentsCategoryBased = (category) => dispatch => {
 export const getEachVacOrTreat = (category,name) => dispatch => {
   axios.get(`${baseURL}/vaccines/get-vaccines/${category}/${name}`)
     .then(res => {
-      console.log("kolie");
       dispatch({
         type: GET_EACH,
         payload: res.data

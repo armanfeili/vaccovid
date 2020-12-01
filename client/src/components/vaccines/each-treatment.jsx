@@ -78,8 +78,8 @@ export class EachTreatment extends Component {
 
         return <div>
             <Helmet>
-                <title>{name} vaccine results - vaccovid</title>
-                <meta name="description" content={`Description and results of ${name} vaccine in ${category} category - vaccovid`} />
+                <title>{name} treatment results - vaccovid</title>
+                <meta name="description" content={`Description and results of ${name} treatment in ${category} category - vaccovid`} />
             </Helmet>
             {
                 category ? (
@@ -94,26 +94,24 @@ export class EachTreatment extends Component {
                             <div className={`each-vaccine-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
                                 <button className="each-vaccine-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                                 <ul className={`each-vaccine-responsive-allregions`} id="region">
-                                    <h2 className={`each-vaccine-responsive-allregions-title`}>Phases</h2>
-                                    <Link to={{ pathname: `/vaccine-tracker/all-vaccines` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "all-vaccines" ? "each-vaccine-responsive-allregions-btn-active" : ""}`}>ALL Vaccines</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/phase-four` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "phase-four" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Phase 4</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/phase-three` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "phase-three" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Phase 3</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/phase-tow` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "phase-tow" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Phase 2</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/phase-one` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "phase-one" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Phase 1</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/pre-clinical` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "pre-clinical" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Pre Clinical</Link>
-
                                     <h2 className={`each-vaccine-responsive-allregions-title`}>Categories</h2>
-                                    <Link to={{ pathname: `/vaccine-tracker/rna-based` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "rna-based" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >RNA Based</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/dna-based` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "dna-based" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >DNA Based</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/inactivated-virus` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "inactivated-virus" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Inactivated Virus</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/live-attenuated-virus` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "live-attenuated-virus" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Live Attenuated Virus</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/replicating-viral-vector` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "replicating-viral-vector" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Replicating Viral Vector</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/non-replicating-viral-vector` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "non-replicating-viral-vector" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Non-Replicating Viral Vector</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/protein-subunit` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "protein-subunit" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Protein subunit</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/virus-like-particle` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "virus-like-particle" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Virus-Like Particle</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/replicating-bacterial-vector` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "replicating-bacterial-vector" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Replicating Bacterial Vector</Link>
-                                    <p className={`each-vaccine-responsive-allregions-btn`} >...</p>
-                                    <p className={`each-vaccine-responsive-allregions-btn`} >---</p>
+                                    <Link to={{ pathname: `/treatment-tracker` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "all-treatments" ? "each-vaccine-responsive-allregions-btn-active" : ""}`}>ALL Treatments</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/fda-approved` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "fda-approved" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >FDA Apprroved</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/antibodies` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "antibodies" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Antibodies</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/antivirals` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "antivirals" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Antivirals</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/cell-based-therapies` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "cell-based-therapies" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Cell-based Therapies</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/rna-based` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "rna-based" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >RNA Based</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/device` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "device" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Device</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/scanning-compounds-to-repurpose` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "scanning-compounds-to-repurpose" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Scanning Compounds to Repurpose</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/clinical` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "clinical" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Clinical</Link>
+                                    <Link to={{ pathname: `/treatment-tracker/pre-clinical` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`each-vaccine-responsive-allregions-btn ${category === "pre-clinical" ? "each-vaccine-responsive-allregions-btn-active" : ""}`} >Pre Clinical</Link>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
                                 </ul>
                             </div>
                             <ul className="each-vaccine-list" id="region"
@@ -121,17 +119,16 @@ export class EachTreatment extends Component {
                                 onScroll={() => this.onScroll('region')}
                             >
                                 <h2 className={`each-vaccine-list-title`}>Categories</h2>
-                                <Link to={{ pathname: `/vaccine-tracker/all-vaccines` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "all-vaccines" ? "each-vaccine-list-btn-active" : ""}`}>ALL Vaccines</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/fda-approved` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "fda-apprroved" ? "each-vaccine-list-btn-active" : ""}`}>FDA Apprroved</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/rna-based` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "rna-based" ? "each-vaccine-list-btn-active" : ""}`}>RNA Based</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/dna-based` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "dna-based" ? "each-vaccine-list-btn-active" : ""}`}>DNA Based</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/inactivated-virus` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "inactivated-virus" ? "each-vaccine-list-btn-active" : ""}`}>Inactivated Virus</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/live-attenuated-virus` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "live-attenuated-virus" ? "each-vaccine-list-btn-active" : ""}`}>Live Attenuated Virus</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/replicating-viral-vector` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "replicating-viral-vector" ? "each-vaccine-list-btn-active" : ""}`}>Replicating Viral Vector</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/non-replicating-viral-vector` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "non-replicating-viral-vector" ? "each-vaccine-list-btn-active" : ""}`}>Non-Replicating Viral Vector</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/protein-subunit` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "protein-subunit" ? "each-vaccine-list-btn-active" : ""}`}>Protein subunit</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/replicating-bacterial-vector` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "replicating-bacterial-vector" ? "each-vaccine-list-btn-active" : ""}`}>Replicating Bacterial Vector</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/virus-like-particle` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "virus-like-particle" ? "each-vaccine-list-btn-active" : ""}`}>Virus-Like Particle</Link>
+                                <Link to={{ pathname: `/treatment-tracker/all-vaccines` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "all-vaccines" ? "each-vaccine-list-btn-active" : ""}`}>ALL Treatments</Link>
+                                <Link to={{ pathname: `/treatment-tracker/fda-approved` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "fda-apprroved" ? "each-vaccine-list-btn-active" : ""}`}>FDA Apprroved</Link>
+                                <Link to={{ pathname: `/treatment-tracker/antibodies` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "antibodies" ? "each-vaccine-list-btn-active" : ""}`}>Antibodies</Link>
+                                <Link to={{ pathname: `/treatment-tracker/antivirals` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "antivirals" ? "each-vaccine-list-btn-active" : ""}`}>Antivirals</Link>
+                                <Link to={{ pathname: `/treatment-tracker/cell-based-therapies` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "cell-based-therapies" ? "each-vaccine-list-btn-active" : ""}`}>Cell-based Therapies</Link>
+                                <Link to={{ pathname: `/treatment-tracker/rna-based` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "rna-based" ? "each-vaccine-list-btn-active" : ""}`}>RNA Based</Link>
+                                <Link to={{ pathname: `/treatment-tracker/device` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "device" ? "each-vaccine-list-btn-active" : ""}`}>Device</Link>
+                                <Link to={{ pathname: `/treatment-tracker/scanning-compounds-to-repurpose` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "scanning-compounds-to-repurpose" ? "each-vaccine-list-btn-active" : ""}`}>Scanning Compounds to Repurpose</Link>
+                                <Link to={{ pathname: `/treatment-tracker/clinical` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "clinical" ? "each-vaccine-list-btn-active" : ""}`}>Clinical</Link>
+                                <Link to={{ pathname: `/treatment-tracker/pre-clinical` }} onClick={async () => { }} className={`each-vaccine-list-btn ${category === "pre-clinical" ? "each-vaccine-list-btn-active" : ""}`}>Pre Clinical</Link>
                             </ul>
 
                             {

@@ -270,7 +270,7 @@ nav {
     grid-column: btns-start / btns-end;
     display: grid;
     grid-template-rows: [nav-start] 1fr [nav-end];
-    grid-template-columns: [space-start] 0px [space-end ul-start] 3fr [ul-end link-start] 1fr [link-end];
+    grid-template-columns: [space-start] 0px [space-end ul-start] auto [ul-end link-start] 1fr [link-end];
     z-index: 9980; }
     @media only screen and (max-width: 75em) {
       .navigation-btns {
@@ -3907,312 +3907,286 @@ td {
 
 .about {
   display: grid;
-  grid-template-rows: [whoweare-start] auto [whoweare-end resources-start] auto [resources-end];
+  grid-template-rows: [whoweare-start] auto [whoweare-end resources-start] auto [resources-end advantages-start] auto [advantages-end];
   grid-template-columns: 1fr;
-  color: #eee; }
-  @media only screen and (max-width: 75em) {
-    .about {
-      grid-template-columns: minmax(0px, 1100px); } }
-  .about-whoweare {
-    grid-row: whoweare-start / whoweare-end;
-    display: grid;
-    grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
-    grid-template-columns: [left-start] 1fr [left-end whoweare-start] minmax(300px, 1200px) [whoweare-end right-start] 1fr [right-left]; }
-    @media only screen and (max-width: 75em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 700px) [res-end];
-        margin-left: 18%; } }
-    @media only screen and (max-width: 56.25em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 500px) [res-end];
-        margin-left: 22%; } }
-    @media only screen and (max-width: 42.5em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 400px) [res-end];
-        margin-left: 17%; } }
-    @media only screen and (max-width: 37.5em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 300px) [res-end];
-        margin-left: 9.8%; } }
-    @media only screen and (max-width: 18.7em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 270px) [res-end];
-        margin-left: 5px; } }
-    .about-whoweare-first-part {
-      grid-row: first-part-start / first-part-end;
-      grid-column: whoweare-start / whoweare-end;
-      display: grid;
-      grid-template-rows: auto auto;
-      grid-template-columns: 1fr;
+  color: #eee;
+  margin-bottom: 30px; }
+  .about-whoweare-first-part {
+    text-align: center;
+    margin-left: 5%;
+    width: 90%; }
+    .about-whoweare-first-part-title {
+      font-weight: 100; }
+    .about-whoweare-first-part-between {
+      width: 70%;
+      margin-left: 15%;
+      height: 1px;
+      background: #8e9eab;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
+    .about-whoweare-first-part-description {
+      margin-top: 8px;
+      font-weight: 100;
+      font-size: 110%;
       text-align: center;
-      margin-left: 11px; }
-      @media only screen and (max-width: 75em) {
-        .about-whoweare-first-part {
-          grid-column: res-start / res-end; } }
-      .about-whoweare-first-part-title {
-        font-weight: 100; }
-      .about-whoweare-first-part-between {
-        width: 70%;
-        margin-left: 15%;
-        height: 1px;
-        background: #8e9eab;
-        /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
-        /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
-      .about-whoweare-first-part-description {
-        margin-top: 8px; }
-    .about-whoweare-second-part {
-      grid-row: second-part-start / second-part-end;
-      grid-column: whoweare-start / whoweare-end;
-      justify-self: center;
-      display: grid;
-      grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
-      grid-template-columns: [left-start] minmax(300px, 330px) [left-end middle-start] minmax(300px, 330px) [middle-end right-start] minmax(300px, 330px) [right-end];
-      margin-top: 15px;
-      gap: 10px; }
-      @media only screen and (max-width: 75em) {
-        .about-whoweare-second-part {
-          grid-column: res-start / res-end;
-          display: grid;
-          grid-template-rows: [contributors-start] auto [contributors-end firstname-start] auto [firstname-end secondname-start] auto [secondname-end thirdname-start] auto [thirdname-end];
-          grid-template-columns: [contributor-start] 1fr [contributor-end];
-          gap: 0px;
-          row-gap: 10px; } }
-      .about-whoweare-second-part-contributors {
-        grid-row: contributors-start / contributors-end;
-        grid-column: middle-start / middle-end;
-        font-size: 180%;
-        font-weight: 100;
-        text-align: center; }
-        @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-contributors {
-            grid-row: contributors-start / contributors-end;
-            grid-column: contributor-start / contributor-end; } }
-      .about-whoweare-second-part-between {
-        grid-row: contributors-start / contributors-end;
-        grid-column: middle-start / middle-end;
-        align-self: end;
-        width: 70%;
-        margin-left: 15%;
-        height: 1px;
-        background: #8e9eab;
-        /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
-        /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
-        @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-between {
-            grid-row: contributors-start / contributors-end;
-            grid-column: contributor-start / contributor-end; } }
-      .about-whoweare-second-part-Arman-Feili {
-        grid-row: names-start / names-end;
+      margin-left: 4%;
+      width: 92%; }
+  .about-whoweare-second-part {
+    grid-row: second-part-start / second-part-end;
+    grid-column: whoweare-start / whoweare-end;
+    justify-self: center;
+    display: grid;
+    grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
+    grid-template-columns: 1fr [left-start] auto [left-end middle-start] auto [middle-end right-start] auto [right-end] 1fr;
+    margin-top: 15px;
+    gap: 0px 3%; }
+    @media only screen and (max-width: 75em) {
+      .about-whoweare-second-part {
+        grid-column: res-start / res-end;
         display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+        grid-template-rows: [contributors-start] auto [contributors-end firstname-start] auto [firstname-end secondname-start] auto [secondname-end thirdname-start] auto [thirdname-end];
+        grid-template-columns: 1fr [contributor-start] auto [contributor-end] 1fr;
+        gap: 0px;
+        row-gap: 10px; } }
+    .about-whoweare-second-part-contributors {
+      grid-row: contributors-start / contributors-end;
+      grid-column: middle-start / middle-end;
+      font-size: 180%;
+      font-weight: 100;
+      text-align: center; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-contributors {
+          grid-row: contributors-start / contributors-end;
+          grid-column: contributor-start / contributor-end; } }
+    .about-whoweare-second-part-between {
+      grid-row: contributors-start / contributors-end;
+      grid-column: middle-start / middle-end;
+      align-self: end;
+      width: 70%;
+      margin-left: 15%;
+      height: 1px;
+      background: #8e9eab;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-between {
+          grid-row: contributors-start / contributors-end;
+          grid-column: contributor-start / contributor-end; } }
+    .about-whoweare-second-part-Arman-Feili {
+      grid-row: names-start / names-end;
+      grid-column: left-start / left-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-Arman-Feili {
+          grid-column: contributor-start / contributor-end;
+          grid-row: firstname-start / firstname-end; } }
+      .about-whoweare-second-part-Arman-Feili-image {
+        grid-column: left-start / left-end;
+        width: 100px;
+        height: 100px;
+        margin-top: 10px; }
         @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-Arman-Feili {
-            grid-column: contributor-start / contributor-end;
-            grid-row: firstname-start / firstname-end; } }
-        .about-whoweare-second-part-Arman-Feili-image {
-          grid-column: left-start / left-end;
-          width: 100px;
-          height: 100px;
-          margin-top: 10px; }
+          .about-whoweare-second-part-Arman-Feili-image {
+            grid-column: left-start / left-end;
+            width: 80px;
+            height: 80px;
+            margin-top: 22px;
+            margin-left: 20px; } }
+        .about-whoweare-second-part-Arman-Feili-image-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+      .about-whoweare-second-part-Arman-Feili-title {
+        grid-column: right-start / right-end;
+        font-weight: 100; }
+        .about-whoweare-second-part-Arman-Feili-title-name {
+          font-size: 230%;
+          font-weight: 100;
+          line-height: 0px;
+          margin-top: 37px;
+          margin-bottom: 3px; }
           @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Arman-Feili-image {
-              grid-column: left-start / left-end;
-              width: 80px;
-              height: 80px;
-              margin-top: 22px;
-              margin-left: 20px; } }
-          .about-whoweare-second-part-Arman-Feili-image-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%; }
-        .about-whoweare-second-part-Arman-Feili-title {
-          grid-column: right-start / right-end;
-          font-weight: 100; }
-          .about-whoweare-second-part-Arman-Feili-title-name {
-            font-size: 230%;
-            font-weight: 100;
-            line-height: 0px;
-            margin-top: 37px;
-            margin-bottom: 3px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-name {
-                font-size: 200%; } }
-          .about-whoweare-second-part-Arman-Feili-title-proficiency {
-            font-size: 120%;
-            line-height: 15px;
-            margin-top: 28px;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-proficiency {
-                font-size: 105%;
-                line-height: 15px;
-                margin-top: 20px;
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Arman-Feili-title-act {
-            font-size: 100%;
-            color: #1fab89;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-act {
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Arman-Feili-title-linkedIn {
-            height: 30px;
-            width: 100%; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn {
-                margin-left: 0px; } }
-            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item {
-              font-size: 100%;
-              color: #19d3da;
-              text-decoration: none;
-              height: 30px;
-              display: grid;
-              grid-template-columns: 23px auto; }
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo {
-                width: 18px;
-                height: 100%;
-                color: #eee; }
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text {
-                transition: 0.3s; }
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text:hover {
-                text-shadow: 0px 0px 1px #19d3da;
-                font-size: 101%; }
+            .about-whoweare-second-part-Arman-Feili-title-name {
+              font-size: 200%; } }
+        .about-whoweare-second-part-Arman-Feili-title-proficiency {
+          font-size: 120%;
+          line-height: 15px;
+          margin-top: 28px;
+          margin-left: 2px; }
           @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Arman-Feili-title-instagram {
+            .about-whoweare-second-part-Arman-Feili-title-proficiency {
+              font-size: 105%;
+              line-height: 15px;
+              margin-top: 20px;
               margin-left: 0px; } }
-          .about-whoweare-second-part-Arman-Feili-title-instagram-item {
+        .about-whoweare-second-part-Arman-Feili-title-act {
+          font-size: 100%;
+          color: #1fab89;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Arman-Feili-title-act {
+              margin-left: 0px; } }
+        .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+          height: 30px;
+          width: 100%; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+              margin-left: 0px; } }
+          .about-whoweare-second-part-Arman-Feili-title-linkedIn-item {
             font-size: 100%;
             color: #19d3da;
             text-decoration: none;
             height: 30px;
             display: grid;
             grid-template-columns: 23px auto; }
-            .about-whoweare-second-part-Arman-Feili-title-instagram-item-logo {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo {
               width: 18px;
               height: 100%;
               color: #eee; }
-            .about-whoweare-second-part-Arman-Feili-title-instagram-item-text {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text {
               transition: 0.3s; }
-            .about-whoweare-second-part-Arman-Feili-title-instagram-item-text:hover {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text:hover {
               text-shadow: 0px 0px 1px #19d3da;
               font-size: 101%; }
-      .about-whoweare-second-part-Parsa-Radfar {
-        grid-row: names-start / names-end;
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
         @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-Parsa-Radfar {
-            grid-column: contributor-start / contributor-end;
-            grid-row: secondname-start / secondname-end; } }
-        .about-whoweare-second-part-Parsa-Radfar-image {
-          grid-column: left-start / left-end;
-          width: 100px;
-          height: 100px;
-          margin-top: 10px; }
-          @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Parsa-Radfar-image {
-              grid-column: left-start / left-end;
-              width: 80px;
-              height: 80px;
-              margin-top: 22px;
-              margin-left: 20px; } }
-          .about-whoweare-second-part-Parsa-Radfar-image-img {
-            width: 100%;
+          .about-whoweare-second-part-Arman-Feili-title-instagram {
+            margin-left: 0px; } }
+        .about-whoweare-second-part-Arman-Feili-title-instagram-item {
+          font-size: 100%;
+          color: #19d3da;
+          text-decoration: none;
+          height: 30px;
+          display: grid;
+          grid-template-columns: 23px auto; }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item-logo {
+            width: 18px;
             height: 100%;
-            border-radius: 50%; }
-        .about-whoweare-second-part-Parsa-Radfar-title {
-          grid-column: right-start / right-end;
-          font-weight: 100; }
-          .about-whoweare-second-part-Parsa-Radfar-title-name {
-            font-size: 230%;
-            font-weight: 100;
-            line-height: 0px;
-            margin-top: 37px;
-            margin-bottom: 3px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Parsa-Radfar-title-name {
-                font-size: 200%; } }
-          .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
-            font-size: 120%;
-            line-height: 15px;
-            margin-top: 28px;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
-                font-size: 105%;
-                line-height: 15px;
-                margin-top: 20px;
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Parsa-Radfar-title-act {
-            font-size: 100%;
-            color: #1fab89;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Parsa-Radfar-title-act {
-                margin-left: 0px; } }
-      .about-whoweare-second-part-Amin-Feili {
-        grid-row: names-start / names-end;
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+            color: #eee; }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item-text {
+            transition: 0.3s; }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item-text:hover {
+            text-shadow: 0px 0px 1px #19d3da;
+            font-size: 101%; }
+    .about-whoweare-second-part-Parsa-Radfar {
+      grid-row: names-start / names-end;
+      grid-column: middle-start / middle-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-Parsa-Radfar {
+          grid-column: contributor-start / contributor-end;
+          grid-row: secondname-start / secondname-end; } }
+      .about-whoweare-second-part-Parsa-Radfar-image {
+        grid-column: left-start / left-end;
+        width: 100px;
+        height: 100px;
+        margin-top: 10px; }
         @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-Amin-Feili {
-            grid-column: contributor-start / contributor-end;
-            grid-row: thirdname-start / thirdname-end; } }
-        .about-whoweare-second-part-Amin-Feili-image {
-          grid-column: left-start / left-end;
-          width: 100px;
-          height: 100px;
-          margin-top: 10px; }
+          .about-whoweare-second-part-Parsa-Radfar-image {
+            grid-column: left-start / left-end;
+            width: 80px;
+            height: 80px;
+            margin-top: 22px;
+            margin-left: 20px; } }
+        .about-whoweare-second-part-Parsa-Radfar-image-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+      .about-whoweare-second-part-Parsa-Radfar-title {
+        grid-column: right-start / right-end;
+        font-weight: 100; }
+        .about-whoweare-second-part-Parsa-Radfar-title-name {
+          font-size: 230%;
+          font-weight: 100;
+          line-height: 0px;
+          margin-top: 37px;
+          margin-bottom: 3px; }
           @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Amin-Feili-image {
-              grid-column: left-start / left-end;
-              width: 80px;
-              height: 80px;
-              margin-top: 22px;
-              margin-left: 20px; } }
-          .about-whoweare-second-part-Amin-Feili-image-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%; }
-        .about-whoweare-second-part-Amin-Feili-title {
-          grid-column: right-start / right-end;
-          font-weight: 100; }
-          .about-whoweare-second-part-Amin-Feili-title-name {
-            font-size: 230%;
-            font-weight: 100;
-            line-height: 0px;
-            margin-top: 37px;
-            margin-bottom: 3px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Amin-Feili-title-name {
-                font-size: 200%; } }
-          .about-whoweare-second-part-Amin-Feili-title-proficiency {
-            font-size: 120%;
-            line-height: 15px;
-            margin-top: 28px;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Amin-Feili-title-proficiency {
-                font-size: 105%;
-                line-height: 15px;
-                margin-top: 20px;
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Amin-Feili-title-act {
-            font-size: 100%;
-            color: #1fab89;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Amin-Feili-title-act {
-                margin-left: 0px; } }
+            .about-whoweare-second-part-Parsa-Radfar-title-name {
+              font-size: 200%; } }
+        .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
+          font-size: 120%;
+          line-height: 15px;
+          margin-top: 28px;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
+              font-size: 105%;
+              line-height: 15px;
+              margin-top: 20px;
+              margin-left: 0px; } }
+        .about-whoweare-second-part-Parsa-Radfar-title-act {
+          font-size: 100%;
+          color: #1fab89;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Parsa-Radfar-title-act {
+              margin-left: 0px; } }
+    .about-whoweare-second-part-Amin-Feili {
+      grid-row: names-start / names-end;
+      grid-column: right-start / right-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-Amin-Feili {
+          grid-column: contributor-start / contributor-end;
+          grid-row: thirdname-start / thirdname-end; } }
+      .about-whoweare-second-part-Amin-Feili-image {
+        grid-column: left-start / left-end;
+        width: 100px;
+        height: 100px;
+        margin-top: 10px; }
+        @media only screen and (max-width: 75em) {
+          .about-whoweare-second-part-Amin-Feili-image {
+            grid-column: left-start / left-end;
+            width: 80px;
+            height: 80px;
+            margin-top: 22px;
+            margin-left: 20px; } }
+        .about-whoweare-second-part-Amin-Feili-image-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+      .about-whoweare-second-part-Amin-Feili-title {
+        grid-column: right-start / right-end;
+        font-weight: 100; }
+        .about-whoweare-second-part-Amin-Feili-title-name {
+          font-size: 230%;
+          font-weight: 100;
+          line-height: 0px;
+          margin-top: 37px;
+          margin-bottom: 3px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Amin-Feili-title-name {
+              font-size: 200%; } }
+        .about-whoweare-second-part-Amin-Feili-title-proficiency {
+          font-size: 120%;
+          line-height: 15px;
+          margin-top: 28px;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Amin-Feili-title-proficiency {
+              font-size: 105%;
+              line-height: 15px;
+              margin-top: 20px;
+              margin-left: 0px; } }
+        .about-whoweare-second-part-Amin-Feili-title-act {
+          font-size: 100%;
+          color: #1fab89;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Amin-Feili-title-act {
+              margin-left: 0px; } }
   .about-resources {
     grid-row: resources-start / resources-end;
     margin-top: 30px; }
@@ -4233,7 +4207,8 @@ td {
       display: grid;
       grid-template-rows: auto;
       grid-template-columns: 1fr 1fr 1fr;
-      margin: 20px 6%; }
+      margin: 20px 6%;
+      gap: 10px; }
       @media only screen and (max-width: 75em) {
         .about-resources-list {
           grid-template-columns: 1fr 1fr;
@@ -4249,7 +4224,6 @@ td {
         display: grid;
         grid-template-rows: [title-start] 50px [title-end description-start] 140px [description-end];
         grid-template-columns: [image-start] 1fr [image-end text-start] 3fr [text-end];
-        margin: 8px 8px;
         border-radius: 8px;
         background: #141E30;
         /* fallback for old browsers */
@@ -4340,6 +4314,47 @@ td {
             .about-resources-list-item-description {
               width: 200px;
               font-size: 85%; } }
+  .about-advantages {
+    grid-row: advantages-start/advantages-end;
+    text-align: left;
+    margin-left: 10%;
+    width: 80%; }
+    .about-advantages-title {
+      font-weight: 100;
+      text-align: center; }
+    .about-advantages-between {
+      text-align: center;
+      width: 70%;
+      margin-left: 15%;
+      height: 1px;
+      background: #8e9eab;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
+    .about-advantages-paragraph {
+      margin-top: 10px; }
+      .about-advantages-paragraph-heading {
+        color: #f6c90e; }
+      .about-advantages-paragraph-heading, .about-advantages-paragraph-text {
+        display: inline;
+        vertical-align: top;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        line-height: 28px; }
+        .about-advantages-paragraph-heading-bold, .about-advantages-paragraph-text-bold {
+          font-weight: bold; }
+        .about-advantages-paragraph-heading-internal-link, .about-advantages-paragraph-text-internal-link {
+          color: #19d3da; }
+        .about-advantages-paragraph-heading-internal-link:hover, .about-advantages-paragraph-text-internal-link:hover {
+          text-shadow: 0px 0px 1px #19d3da; }
+        .about-advantages-paragraph-heading-external-link, .about-advantages-paragraph-text-external-link {
+          color: #ff6f3c; }
+        .about-advantages-paragraph-heading-external-link:hover, .about-advantages-paragraph-text-external-link:hover {
+          text-shadow: 0px 0px 1px #ff6f3c; }
+      .about-advantages-paragraph-list {
+        margin-left: 4%; }
 
 .footer {
   display: grid;

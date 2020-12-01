@@ -7,7 +7,8 @@ import moment from 'moment';
 import Footer from '../common/footer';
 
 import {
-    getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased
+    getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased,
+    clearVaccineData
 } from '../../actions/vaccine';
 
 export class Vaccine extends Component {
@@ -57,58 +58,83 @@ export class Vaccine extends Component {
     }
 
     async componentWillUnmount() {
+        await this.props.clearVaccineData();
     }
 
     async callActionMethods() {
         let { category } = this.props.match.params;
         if (category === "all-vaccines") {
             await this.props.getAllVaccines();
-            this.setState({ descriptionText: "RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine.RNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "Here you can find all of the developing or approved vaccines in every phase. You can sort the table based on each columns or search for a unique vaccine name." })
         } else if (category === "fda-approved") {
             await this.props.get_FDA_Approved_Vaccines();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "it means that the U.S. Food and Drug Administration has determined that the benefits of the product outweigh the known risks for the intended use."
+            })
         } else if (category === "phase-four") {
             await this.props.getAllVaccinesPhaseFour();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "This phase is also called post marketing surveillance. Ongoing studies after the vaccine is approved and licensed, to monitor adverse events and to study long-term effects of the vaccine in the population"
+            })
         } else if (category === "phase-three") {
             await this.props.getAllVaccinesPhaseThree();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "Vaccine is given to thousands of people and tested for efficacy and safety. Phase III studies are randomized controlled multicenter trials during which, the vaccine is given to a number of 300-3000 healthy people to investigate the definite efficacy and effectiveness. It is also called the 'pre-marketing phase' because it actually measures consumer response to the vaccine." })
         } else if (category === "phase-two") {
             await this.props.getAllVaccinesPhaseTwo();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "Vaccine is given to people who have characteristics (such as age and physical health) similar to those for whom the new vaccine is intended.In Phase II the goal is to test whether the drug has any biological activity or effect.About 50-300 volunteers are assigned to participate.This phase includes 2 steps; first determining clinical efficacy or biological activity('proof of concept' studies) and second determine the optimal dose at which the drug shows biological activity with minimal side- effects(‘definite dose - finding’ studies)"
+            })
         } else if (category === "phase-one") {
             await this.props.getAllVaccinesPhaseOne();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "Small groups of healthy adult volunteers receive the vaccine to test for safety.The subject who receives the vaccine is observed until several half- lives of the vaccine have passed.During this phase, the researchers assess the safety(pharmacovigilance), tolerability, pharmacokinetics, and pharmacodynamics of a vaccine.In addition, Phase I clinical trials normally include dose - ranging, also called dose escalation studies, so that the best and safest dose can be found and the safety window of the vaccine can be estimated."
+            })
         } else if (category === "pre-clinical") {
             await this.props.getAllVaccinesPreClinical();
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "According to WHO, Vaccine is tested in animal studies for efficacy and safety, including challenge studies"
+            })
         } else if (category === "rna-based") {
             await this.props.getVaccinesCategoryBased("RNA-based vaccine");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "This is a form of nucleic acid vaccine technology. This is the newest technology in vaccine producing industry and has been only used for making corona virus vaccines. Instead of a virus, a protein antigen, or a virus expressing the protein, nucleic acid coding for the antigen is injected. mRNA responsible for corona spike protein is encased in a lipid coat and injected into the body. mRNA acts more directly but is less stable than DNA vaccines. Compared with the viral-vector platform, the mRNA provides the most specific and minimal immunogenic response which allows repeated administration of the vaccine."
+            })
         } else if (category === "dna-based") {
             await this.props.getVaccinesCategoryBased("DNA-based");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "This is a form of nucleic acid vaccine technology. This is the newest technology in vaccine producing industry and has been only used for making corona virus vaccines. Instead of a virus, a protein antigen, or a virus expressing the protein, nucleic acid coding for the antigen is injected. DNA plasmid enters nucleus and is translated to mRNA for expression of protein. DNA based vaccines provide more stable and long-term immunity."
+            })
         } else if (category === "inactivated-virus") {
             await this.props.getVaccinesCategoryBased("Inactivated virus");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "Whole inactivated virus is in fact the dead virus which induces strong antibody response. The problem is that this platform needs large quantities of virus for production. The examples so far are vaccines for Influenza, rabies hepatitis A."
+            })
         } else if (category === "live-attenuated-virus") {
             await this.props.getVaccinesCategoryBased("Live attenuated virus");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "Attenuated live virus induces same response as natural infection but is not recommended for pregnant women and immunocompromised persons as it is possible that the weak virus develops the disease. The examples so far are vaccines for Measles, rubella, mumps, yellow fever and smallpox." })
         } else if (category === "replicating-viral-vector") {
             await this.props.getVaccinesCategoryBased("Replicating viral vector");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "The gene for a pathogen protein (most commonly the corona virus spike gene) is inserted into a different virus that can infect someone without causing disease. The safe virus serves as a ‘platform’ or ‘vector’ to deliver the protein that triggers an immune response. The safe virus is then injected as a vaccine. Some viral vectors replicate (reproduce) in the body and some do not."
+            })
         } else if (category === "non-replicating-viral-vector") {
             await this.props.getVaccinesCategoryBased("Non-replicating viral vector");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "The gene for a pathogen protein (most commonly the corona virus spike gene) is inserted into a different virus that can infect someone without causing disease. The safe virus serves as a ‘platform’ or ‘vector’ to deliver the protein that triggers an immune response. The safe virus is then injected as a vaccine. Some viral vectors replicate (reproduce) in the body and some do not."
+            })
         } else if (category === "protein-subunit") {
             await this.props.getVaccinesCategoryBased("Protein subunit");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "This is a category of Protein-based vaccines. A protein-based vaccine is based on the synthetic peptides or recombinant antigenic proteins. A protein is extracted from the virus (alive or inactivated), purified, and injected as a vaccine. For coronavirus the S- Protein and its antigenic fragments are the prime targets for the institution of the subunit vaccine.The extracted proteins may be introduced directly into the body(protein - subunit vaccine) or may be placed on a lipid - like structure that mimics the virus(Virus - Like Particle or VLP).The problem is that memory for future responses is doubtful."
+            })
         } else if (category === "replicating-bacterial-vector") {
             await this.props.getVaccinesCategoryBased("Replicating bacterial vector");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({
+                descriptionText: "The gene for a pathogen protein (most commonly the corona virus spike gene) is inserted into a bacterium that can infect someone without causing disease. The safe bacteria serve as a ‘platform’ or ‘vector’ to deliver the protein that triggers an immune response. This platform is not popular among covid-19 vaccine platforms."
+            })
         } else if (category === "virus-like-particle") {
             await this.props.getVaccinesCategoryBased("Virus-like particle");
-            this.setState({ descriptionText: "DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine.DNA Based is a category for making more resistant vaccine." })
+            this.setState({ descriptionText: "This is a category of Protein-based vaccines. A protein-based vaccine is based on the synthetic peptides or recombinant antigenic proteins. A protein is extracted from the virus (alive or inactivated), purified, and injected as a vaccine. For coronavirus the S-Protein and its antigenic fragments are the prime targets for the institution of the subunit vaccine.  The extracted proteins may be introduced directly into the body (protein-subunit vaccine) or may be placed on a lipid-like structure that mimics the virus (Virus-Like Particle or VLP). The problem is that memory for future responses is doubtful." })
         }
     }
     changeOffset() {
@@ -267,7 +293,7 @@ export class Vaccine extends Component {
 
         return <div>
             <Helmet>
-                <title>Vaccine tracker {category} data - vaccovid</title>
+                <title>Coronavirus {category} vaccine tracker - vaccovid</title>
                 <meta name="description" content={`Vaccine and Covid-19 tracker. Vaccine Tracker ${category} statistical data. Including Phases,Company name,Category,results`} />
             </Helmet>
             {
@@ -287,7 +313,7 @@ export class Vaccine extends Component {
                                     <Link to={{ pathname: `/vaccine-tracker` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "all-vaccines" ? "vaccine-page-responsive-allregions-btn-active" : ""}`}>ALL Vaccines</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/phase-four` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-four" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 4</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/phase-three` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-three" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 3</Link>
-                                    <Link to={{ pathname: `/vaccine-tracker/phase-tow` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-tow" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 2</Link>
+                                    <Link to={{ pathname: `/vaccine-tracker/phase-two` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-two" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 2</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/phase-one` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "phase-one" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Phase 1</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/pre-clinical` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "pre-clinical" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Pre Clinical</Link>
 
@@ -311,7 +337,7 @@ export class Vaccine extends Component {
                             >
                                 <h2 className={`vaccine-page-list-title`}>Categories</h2>
                                 <Link to={{ pathname: `/vaccine-tracker` }} onClick={async () => { }} className={`vaccine-page-list-btn ${category === "all-vaccines" ? "vaccine-page-list-btn-active" : ""}`}>ALL Vaccines</Link>
-                                <Link to={{ pathname: `/vaccine-tracker/fda-approved` }} onClick={async () => { }} className={`vaccine-page-list-btn ${category === "fda-approved" ? "vaccine-page-list-btn-active" : ""}`}>FDA Apprroved</Link>
+                                <Link to={{ pathname: `/vaccine-tracker/fda-approved` }} onClick={async () => { }} className={`vaccine-page-list-btn ${category === "fda-approved" ? "vaccine-page-list-btn-active" : ""}`}>FDA Approved</Link>
                                 <Link to={{ pathname: `/vaccine-tracker/rna-based` }} onClick={async () => { }} className={`vaccine-page-list-btn ${category === "rna-based" ? "vaccine-page-list-btn-active" : ""}`}>RNA Based</Link>
                                 <Link to={{ pathname: `/vaccine-tracker/dna-based` }} onClick={async () => { }} className={`vaccine-page-list-btn ${category === "dna-based" ? "vaccine-page-list-btn-active" : ""}`}>DNA Based</Link>
                                 <Link to={{ pathname: `/vaccine-tracker/inactivated-virus` }} onClick={async () => { }} className={`vaccine-page-list-btn ${category === "inactivated-virus" ? "vaccine-page-list-btn-active" : ""}`}>Inactivated Virus</Link>
@@ -399,20 +425,20 @@ export class Vaccine extends Component {
                                             return (
                                                 <tr key={i} className="vaccine-page-table-stats-item vaccine-page-table-stats-loading loading">
                                                     <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-number">{1}</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-name">No Data Yet<span className="sign">&#9662;</span></td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmed">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newcases">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmedpermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-critical">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-active">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deceased">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deathspermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-giventests">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-testspermil">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recovered">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recoveredrate">No Data Yet</td>
-                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-population">No Data Yet</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-name">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmed">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newcases">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-confirmedpermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-critical">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-active">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deceased">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deathspermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-giventests">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-testspermil">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recovered">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-recoveredrate">Loading</td>
+                                                    <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-population">Loading</td>
                                                 </tr>
                                             )
                                         })
@@ -464,5 +490,6 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     {
-        getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased
+        getAllVaccines, getAllVaccinesPreClinical, getAllVaccinesPhaseOne, getAllVaccinesPhaseTwo, getAllVaccinesPhaseThree, getAllVaccinesPhaseFour, get_FDA_Approved_Vaccines, getVaccinesCategoryBased,
+        clearVaccineData
     })(Vaccine);

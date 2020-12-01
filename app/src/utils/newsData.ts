@@ -470,9 +470,14 @@ export async function saveWhoNews() {
     // const OutbreakNews = await getOutbreakNews();
 
     // check if we got data
-    if (rawNews.length === 0) {
+    if (rawNews === undefined) {
       console.log("couldn't get the WHO data");
       await connect.queryRunner.rollbackTransaction();
+    } else {
+      if (rawNews.length === 0) {
+        console.log("couldn't get the WHO data");
+        await connect.queryRunner.rollbackTransaction();
+      }
     }
 
     eachNews = rawNews;

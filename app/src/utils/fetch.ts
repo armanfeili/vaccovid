@@ -94,7 +94,7 @@ export const fetch_npmData = async () => {
             temp.NewCases = e["NewCases"] === "" || e["NewCases"] === "N/A" ? 0 : StrToInt(e["NewCases"]);
             temp.TotalDeaths = e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" ? 0 : StrToInt(e["TotalDeaths"]);
             temp.NewDeaths = e["NewDeaths"] === "" || e["NewDeaths"] === "N/A" ? 0 : StrToInt(e["NewDeaths"]);
-            temp.TotalRecovered = e["TotalRecovered"] === "" || e["TotalRecovered"] === "N/A" ? 0 : StrToInt(e["TotalRecovered"]);
+            temp.TotalRecovered = e["TotalRecovered"] === "" || e["TotalRecovered"] === "N/A" ? (e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" || e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : StrToInt(e["TotalCases"]) - StrToInt(e["TotalDeaths"])) : StrToInt(e["TotalRecovered"]);
             temp.NewRecovered = e["NewRecovered"] === "" || e["NewRecovered"] === "N/A" ? 0 : StrToInt(e["NewRecovered"]);
             temp.TotalTests = e["TotalTests"] === "" || e["TotalTests"] === "N/A" ? 0 : StrToInt(e["TotalTests"]);
             temp.Population = e["Population"] === "" || e["Population"] === "N/A" ? 0 : StrToInt(e["Population"]);

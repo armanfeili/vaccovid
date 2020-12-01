@@ -927,7 +927,7 @@ export class countryEachCountryComponent extends Component {
                                 <Link to={{ pathname: `/covid-19/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "south-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>South America</Link>
                                 <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "oceania-data" ? "country-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
 
-                                <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewd</h2>
+                                <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewed</h2>
                                 <Link to={{
                                     pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                                 }} onClick={async () => { await this.props.getCountryISOBased('USA', 'USA'); await this.props.getProvinceReportISOBased('USA'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
@@ -987,7 +987,7 @@ export class countryEachCountryComponent extends Component {
                             <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "south_america-data" ? "country-regions-btn-active" : ""}`}>South America</Link>
                             <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "oceania-data" ? "country-regions-btn-active" : ""}`}>Oceania</Link>
 
-                            <h2 className={`country-regions-title`}>Most Viewd</h2>
+                            <h2 className={`country-regions-title`}>Most Viewed</h2>
                             <Link to={{
                                 pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                             }} onClick={async () => { this.getProvinceCovidData(); }}

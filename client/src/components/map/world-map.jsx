@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VectorMap } from "react-jvectormap"
-import { getAllCountriesData } from '../../actions/covid_countries';
+import { getAllCountriesData, clearCountriesData } from '../../actions/covid_countries';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 
@@ -50,6 +50,10 @@ export class WorldMapComponent extends Component {
                 // console.log(this.state.countries);  // returns [...]
             }, 2000);
         }
+    }
+
+    async componentWillUnmount() {
+        await this.props.clearCountriesData();
     }
 
     // You may call setState() immediately in componentDidUpdate() but note that 
@@ -156,7 +160,7 @@ export class WorldMapComponent extends Component {
                     <Link className="map-page-buttons-each map-page-buttons-australia" to="/coronavirus-australia-map">Australia</Link>
                 </div>
                 <div className="map">
-                    {countries ?
+                    {countries && countries.length > 0 ?
                         <div>
                             <VectorMap
                                 map={"world_mill"}
@@ -245,5 +249,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getAllCountriesData }
+    { getAllCountriesData, clearCountriesData }
 )(WorldMapComponent);
