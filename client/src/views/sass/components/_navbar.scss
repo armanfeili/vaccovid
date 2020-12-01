@@ -7,19 +7,17 @@ nav {
   border-bottom: $color-primary-second 3px solid;
 }
 
-
-
 .navigation {
 
   display: grid;
 
   grid-template-rows: [nav-start] 1fr [nav-end];
-  grid-template-columns: [brand-start] minmax(200px, 1fr) [brand-end btns-start] minmax(400px, 5fr) [btns-end];
+  grid-template-columns: [brand-start] minmax(200px, 1fr) [brand-end btns-start] minmax(400px, 5fr) [btns-end links-start] 300px [links-end];
   z-index: 9900;
 
   @include respond(tab-land) {
     grid-template-rows: [nav-start] 1fr [nav-end];
-    grid-template-columns: [brand-start] 1fr [brand-end btns-start] 1fr [btns-end];
+    grid-template-columns: [brand-start] 2fr [brand-end links-start] auto [links-end btns-start] auto [btns-end];
   }
 
   &-brand {
@@ -33,6 +31,9 @@ nav {
     z-index: 9999;
     outline: 0;
 
+    @include respond(phone) {
+      margin: 10px 20px;
+    }
 
 
     &__secondpart {
@@ -81,7 +82,7 @@ nav {
       height: 33px;
       margin-right: 20px;
       cursor: pointer;
-      background-color: #1a1a2e;
+      background-color: #0f4c75;
       border-radius: 5px;
       padding: 7px 0px 3px 0px;
       opacity: 1;
@@ -111,7 +112,7 @@ nav {
 
     display: grid;
     grid-template-rows: [nav-start] 1fr [nav-end];
-    grid-template-columns: [space-start] 0px [space-end ul-start] 3fr [ul-end link-start] 1fr [link-end];
+    grid-template-columns: [space-start] 0px [space-end ul-start] auto [ul-end link-start] 1fr [link-end];
     z-index: 9980;
 
     @include respond(tab-land) {
@@ -131,7 +132,7 @@ nav {
       display: grid;
       grid-template-rows: 1fr;
       // grid-template-columns: 107px 93px 99px 70px 59px 91px 82px;
-      grid-template-columns: 100px 70px 60px 80px;
+      grid-template-columns: auto auto auto auto auto auto 1fr;
 
     }
 
@@ -159,6 +160,70 @@ nav {
         text-shadow: $color-primary-third 0px 0px 0.5px;
 
       }
+    }
+  }
+
+  &-coffee {
+    grid-row: nav-start / nav-end;
+    grid-column: links-start / links-end;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    text-decoration: none;
+    width: 170px;
+    height: 35px;
+    margin-top: 5px;
+    justify-self: center;
+    border-radius: 8px;
+    // box-shadow: 0px 0px 3px #00adb5;
+    transition: 0.2s;
+    background: #00B4DB;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0083B0, #00B4DB);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+    @include respond(tab-land) {
+      margin-right: 10px;
+    }
+
+    @include respond(phone) {
+      width: 100px;
+    }
+
+    &-holder {
+      width: 30px;
+      height: 27px;
+      margin-left: 10px;
+      margin-top: 4px;
+
+      &-logo {
+        color: #eee;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-text {
+      color: #eee;
+      font-size: 106%;
+      margin: 3px 0px 0px 2px;
+
+      @include respond(phone) {
+        font-size: 95%;
+        line-height: 14px;
+      }
+    }
+  }
+
+  &-coffee:hover {
+    // color: #fff;
+    width: 175px;
+    text-shadow: 0px 0px 1px #fff;
+
+    @include respond(phone) {
+      width: 100px;
     }
   }
 }

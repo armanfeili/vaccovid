@@ -15,6 +15,13 @@ export class Vaccine {
     developerResearcher: string;
 
     @Column({
+        type: "text",
+        nullable: true,
+        unique: false,
+    })
+    trimedName: string;
+
+    @Column({
         type: "varchar",
         length: 50,
         nullable: false,
@@ -29,6 +36,14 @@ export class Vaccine {
         unique: false,
     })
     category: string;
+
+    @Column({
+        type: "varchar",
+        length: 200,
+        nullable: false,
+        unique: false,
+    })
+    trimedCategory: string;
 
     @Column({
         type: "varchar",
@@ -67,12 +82,12 @@ export class Vaccine {
     funder: string;
 
     @Column({
-        type: 'text',
+        type: 'simple-array',
         nullable: true,
         default: "https://docs.google.com/document/d/1Y4nCJJ4njzD1wiHbufCY6gqfRmj49Qn_qNgOJD62Wik/edit",
         unique: false,
     })
-    publishedResults: string;
+    publishedResults: string[];
 
     @Column({
         type: 'text',

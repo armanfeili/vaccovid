@@ -37,17 +37,19 @@
         grid-template-columns: 100%;
 
 
+
         &-btn {
             grid-row: region-btn-start / region-btn-end;
             border: none;
             font-size: 110%;
-            background-color: #083358;
+            background-color: #0f4c75;
             cursor: pointer;
             color: #eee;
             border-radius: 5px;
             transition: 0.2s;
             outline: 0;
         }
+
 
         &-btn:hover,
         &-btn:active {

@@ -192,12 +192,12 @@ nav {
 .navigation {
   display: grid;
   grid-template-rows: [nav-start] 1fr [nav-end];
-  grid-template-columns: [brand-start] minmax(200px, 1fr) [brand-end btns-start] minmax(400px, 5fr) [btns-end];
+  grid-template-columns: [brand-start] minmax(200px, 1fr) [brand-end btns-start] minmax(400px, 5fr) [btns-end links-start] 300px [links-end];
   z-index: 9900; }
   @media only screen and (max-width: 75em) {
     .navigation {
       grid-template-rows: [nav-start] 1fr [nav-end];
-      grid-template-columns: [brand-start] 1fr [brand-end btns-start] 1fr [btns-end]; } }
+      grid-template-columns: [brand-start] 2fr [brand-end links-start] auto [links-end btns-start] auto [btns-end]; } }
   .navigation-brand {
     grid-row: nav-start / nav-end;
     grid-column: brand-start / brand-end;
@@ -208,6 +208,9 @@ nav {
     text-shadow: #00adb5 0px 0px 1px;
     z-index: 9999;
     outline: 0; }
+    @media only screen and (max-width: 37.5em) {
+      .navigation-brand {
+        margin: 10px 20px; } }
     .navigation-brand__secondpart {
       color: #f62a66;
       text-shadow: #f62a66 0px 0px 1px; }
@@ -247,7 +250,7 @@ nav {
         height: 33px;
         margin-right: 20px;
         cursor: pointer;
-        background-color: #1a1a2e;
+        background-color: #0f4c75;
         border-radius: 5px;
         padding: 7px 0px 3px 0px;
         opacity: 1;
@@ -267,7 +270,7 @@ nav {
     grid-column: btns-start / btns-end;
     display: grid;
     grid-template-rows: [nav-start] 1fr [nav-end];
-    grid-template-columns: [space-start] 0px [space-end ul-start] 3fr [ul-end link-start] 1fr [link-end];
+    grid-template-columns: [space-start] 0px [space-end ul-start] auto [ul-end link-start] 1fr [link-end];
     z-index: 9980; }
     @media only screen and (max-width: 75em) {
       .navigation-btns {
@@ -279,7 +282,7 @@ nav {
       text-decoration: none;
       display: grid;
       grid-template-rows: 1fr;
-      grid-template-columns: 100px 70px 60px 80px; }
+      grid-template-columns: auto auto auto auto auto auto 1fr; }
     .navigation-btns-li {
       list-style-type: none;
       font-weight: 300; }
@@ -296,6 +299,53 @@ nav {
         border-bottom: #00adb5 3px solid;
         color: #00adb5;
         text-shadow: #00adb5 0px 0px 0.5px; }
+  .navigation-coffee {
+    grid-row: nav-start / nav-end;
+    grid-column: links-start / links-end;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    text-decoration: none;
+    width: 170px;
+    height: 35px;
+    margin-top: 5px;
+    justify-self: center;
+    border-radius: 8px;
+    transition: 0.2s;
+    background: #00B4DB;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0083B0, #00B4DB);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+    @media only screen and (max-width: 75em) {
+      .navigation-coffee {
+        margin-right: 10px; } }
+    @media only screen and (max-width: 37.5em) {
+      .navigation-coffee {
+        width: 100px; } }
+    .navigation-coffee-holder {
+      width: 30px;
+      height: 27px;
+      margin-left: 10px;
+      margin-top: 4px; }
+      .navigation-coffee-holder-logo {
+        color: #eee;
+        width: 100%;
+        height: 100%; }
+    .navigation-coffee-text {
+      color: #eee;
+      font-size: 106%;
+      margin: 3px 0px 0px 2px; }
+      @media only screen and (max-width: 37.5em) {
+        .navigation-coffee-text {
+          font-size: 95%;
+          line-height: 14px; } }
+  .navigation-coffee:hover {
+    width: 175px;
+    text-shadow: 0px 0px 1px #fff; }
+    @media only screen and (max-width: 37.5em) {
+      .navigation-coffee:hover {
+        width: 100px; } }
 
 .res-navigation {
   display: grid;
@@ -414,7 +464,7 @@ td {
       grid-row: region-btn-start / region-btn-end;
       border: none;
       font-size: 110%;
-      background-color: #083358;
+      background-color: #0f4c75;
       cursor: pointer;
       color: #eee;
       border-radius: 5px;
@@ -1364,7 +1414,7 @@ td {
       grid-row: region-btn-start / region-btn-end;
       border: none;
       font-size: 110%;
-      background-color: #083358;
+      background-color: #0f4c75;
       cursor: pointer;
       color: #eee;
       border-radius: 5px;
@@ -1978,7 +2028,7 @@ td {
       grid-row: region-btn-start / region-btn-end;
       border: none;
       font-size: 110%;
-      background-color: #083358;
+      background-color: #0f4c75;
       cursor: pointer;
       color: #eee;
       border-radius: 5px;
@@ -2707,314 +2757,1436 @@ svg {
 .category {
   display: grid; }
 
-.about {
+th,
+td {
+  text-align: left; }
+
+.vaccine-page {
+  background-color: #283149;
+  width: 98%;
+  margin: 50px auto;
   display: grid;
-  grid-template-rows: [whoweare-start] auto [whoweare-end resources-start] auto [resources-end];
-  grid-template-columns: 1fr;
-  color: #eee; }
+  grid-template-rows: [categories-start] 52px [categories-end description-start] 160px [description-end title-start] 5px [title-end stats-start] 1fr [regions-and-stats-end guide-start] 0px [guide-end];
+  grid-template-columns: [regions-start] minmax(150px, 1fr) [regions-end stats-start] minmax(200px, 6fr) [stats-end];
+  height: 87vh;
+  border-radius: 10px;
+  padding: 10px 8px;
+  gap: 2px 0px; }
+  @media only screen and (min-width: 112.5em) {
+    .vaccine-page {
+      color: #fff; } }
   @media only screen and (max-width: 75em) {
-    .about {
-      grid-template-columns: minmax(0px, 1100px); } }
-  .about-whoweare {
-    grid-row: whoweare-start / whoweare-end;
-    display: grid;
-    grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
-    grid-template-columns: [left-start] 1fr [left-end whoweare-start] minmax(300px, 1200px) [whoweare-end right-start] 1fr [right-left]; }
-    @media only screen and (max-width: 75em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 700px) [res-end];
-        margin-left: 18%; } }
+    .vaccine-page {
+      color: #fff; } }
+  @media only screen and (max-width: 56.25em) {
+    .vaccine-page {
+      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+      grid-template-columns: [responsive-start] 100% [responsive-end];
+      height: auto;
+      gap: 4px 0px; } }
+  @media only screen and (max-width: 37.5em) {
+    .vaccine-page {
+      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+      grid-template-columns: [responsive-start] 100% [responsive-end];
+      height: auto;
+      gap: 4px 0px; } }
+  @media only screen and (max-width: 18.7em) {
+    .vaccine-page {
+      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+      grid-template-columns: [responsive-start] 100% [responsive-end];
+      height: auto;
+      gap: 4px 0px; } }
+  .vaccine-page-btnAndTitle {
+    grid-row: header-start / header-end;
+    display: none;
+    grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 50px [region-name-end];
+    grid-template-columns: 100%; }
     @media only screen and (max-width: 56.25em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 500px) [res-end];
-        margin-left: 22%; } }
-    @media only screen and (max-width: 42.5em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 400px) [res-end];
-        margin-left: 17%; } }
-    @media only screen and (max-width: 37.5em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 300px) [res-end];
-        margin-left: 9.8%; } }
-    @media only screen and (max-width: 18.7em) {
-      .about-whoweare {
-        grid-template-columns: [res-start] minmax(20px, 270px) [res-end];
-        margin-left: 5px; } }
-    .about-whoweare-first-part {
-      grid-row: first-part-start / first-part-end;
-      grid-column: whoweare-start / whoweare-end;
-      display: grid;
-      grid-template-rows: auto auto;
-      grid-template-columns: 1fr;
+      .vaccine-page-btnAndTitle {
+        display: grid; } }
+    .vaccine-page-btnAndTitle-btn {
+      grid-row: region-btn-start / region-btn-end;
+      border: none;
+      font-size: 110%;
+      background-color: #0f4c75;
+      cursor: pointer;
+      color: #eee;
+      border-radius: 5px;
+      transition: 0.2s;
+      outline: 0; }
+    .vaccine-page-btnAndTitle-btn:hover, .vaccine-page-btnAndTitle-btn:active {
+      color: #fff;
+      text-shadow: 0px 0px 1px #eee;
+      background-color: #0a4274; }
+    .vaccine-page-btnAndTitle-title {
+      grid-row: region-name-start / region-name-end;
       text-align: center;
-      margin-left: 11px; }
-      @media only screen and (max-width: 75em) {
-        .about-whoweare-first-part {
-          grid-column: res-start / res-end; } }
-      .about-whoweare-first-part-title {
-        font-weight: 100; }
-      .about-whoweare-first-part-between {
-        width: 70%;
-        margin-left: 15%;
-        height: 1px;
-        background: #8e9eab;
-        /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
-        /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
-      .about-whoweare-first-part-description {
-        margin-top: 8px; }
-    .about-whoweare-second-part {
-      grid-row: second-part-start / second-part-end;
-      grid-column: whoweare-start / whoweare-end;
-      justify-self: center;
+      font-size: 150%;
+      letter-spacing: 4px;
+      padding-top: 5px;
+      background: -webkit-linear-gradient(#849099, #eee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; }
+      @media only screen and (max-width: 56.25em) {
+        .vaccine-page-btnAndTitle-title {
+          display: none; } }
+  .vaccine-page-responsive {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    z-index: 5;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    display: grid;
+    grid-template-rows: [responsive-regions-start] 1fr [responsive-regions-end];
+    grid-template-columns: [responsive-regions-start] 1fr [responsive-regions-end];
+    transition: 0.4s; }
+    .vaccine-page-responsive-close_btn {
+      grid-row: responsive-regions-start / responsive-regions-end;
+      grid-column: responsive-regions-start / responsive-regions-end;
       display: grid;
-      grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
-      grid-template-columns: [left-start] minmax(300px, 330px) [left-end middle-start] minmax(300px, 330px) [middle-end right-start] minmax(300px, 330px) [right-end];
-      margin-top: 15px;
-      gap: 10px; }
+      grid-template-rows: 0px;
+      grid-template-columns: 21px;
+      z-index: 10;
+      width: 45px;
+      height: 55px;
+      opacity: 0.7;
+      border: none;
+      background-color: transparent;
+      justify-self: end;
+      margin: 0px 30px;
+      padding: 0px 0px;
+      cursor: pointer; }
+    .vaccine-page-responsive-close_btn:hover {
+      opacity: 1; }
+    .vaccine-page-responsive-close_btn:before, .vaccine-page-responsive-close_btn:after {
+      grid-row: -1;
+      grid-column: -1;
+      content: ' ';
+      height: 58px;
+      width: 2px;
+      background-color: #fff; }
+    .vaccine-page-responsive-close_btn:before {
+      transform: rotate(45deg); }
+    .vaccine-page-responsive-close_btn:after {
+      transform: rotate(-45deg); }
+    .vaccine-page-responsive-allregions {
+      grid-row: responsive-regions-start / responsive-regions-end;
+      grid-column: responsive-regions-start / responsive-regions-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: 100%;
+      overflow: scroll; }
+      .vaccine-page-responsive-allregions-title {
+        position: relative;
+        height: 40px;
+        justify-self: center;
+        padding: 6px 0px;
+        font-size: 220%;
+        color: #fff;
+        margin-bottom: 30px; }
+        @media only screen and (max-width: 37.5em) {
+          .vaccine-page-responsive-allregions-title {
+            font-size: 180%; } }
+      .vaccine-page-responsive-allregions-title:first-child {
+        margin-top: 15vh; }
+      .vaccine-page-responsive-allregions-title::after {
+        position: absolute;
+        content: '';
+        width: 120%;
+        height: 3px;
+        background-color: #fff;
+        top: 60px;
+        left: -10%; }
+      .vaccine-page-responsive-allregions-btn {
+        justify-self: center;
+        font-size: 170%;
+        color: #fff;
+        transition: 0.2s;
+        text-decoration: none; }
+        @media only screen and (max-width: 37.5em) {
+          .vaccine-page-responsive-allregions-btn {
+            font-size: 145%; } }
+        .vaccine-page-responsive-allregions-btn-active {
+          color: #19d3da;
+          text-shadow: 0px 0px 1px #074f80; }
+      .vaccine-page-responsive-allregions-btn:hover {
+        text-shadow: 0px 0px 2px #eee; }
+  .vaccine-page-list {
+    background-color: #1a1a2e;
+    grid-row: categories-start / guide-end;
+    grid-column: regions-start / regions-end;
+    display: grid;
+    z-index: 2;
+    overflow: scroll;
+    margin-right: 8px;
+    border-radius: 10px;
+    padding: 4px 4px;
+    height: 81%; }
+    @media only screen and (max-width: 56.25em) {
+      .vaccine-page-list {
+        display: none; } }
+    .vaccine-page-list-title {
+      height: 40px;
+      justify-self: center;
+      padding: 6px 0px;
+      font-size: 130%;
+      color: #fff; }
       @media only screen and (max-width: 75em) {
-        .about-whoweare-second-part {
-          grid-column: res-start / res-end;
-          display: grid;
-          grid-template-rows: [contributors-start] auto [contributors-end firstname-start] auto [firstname-end secondname-start] auto [secondname-end thirdname-start] auto [thirdname-end];
-          grid-template-columns: [contributor-start] 1fr [contributor-end];
-          gap: 0px;
-          row-gap: 10px; } }
-      .about-whoweare-second-part-contributors {
-        grid-row: contributors-start / contributors-end;
-        grid-column: middle-start / middle-end;
-        font-size: 180%;
-        font-weight: 100;
-        text-align: center; }
-        @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-contributors {
-            grid-row: contributors-start / contributors-end;
-            grid-column: contributor-start / contributor-end; } }
-      .about-whoweare-second-part-between {
-        grid-row: contributors-start / contributors-end;
-        grid-column: middle-start / middle-end;
-        align-self: end;
-        width: 70%;
-        margin-left: 15%;
-        height: 1px;
-        background: #8e9eab;
+        .vaccine-page-list-title {
+          font-size: 100%; } }
+    .vaccine-page-list-btn {
+      background-color: #083358;
+      border-radius: 10px;
+      height: 90%;
+      text-decoration: none;
+      padding: 8px 8px;
+      margin: 2px 0px;
+      color: #fff;
+      transition: 0.2s; }
+      @media only screen and (max-width: 75em) {
+        .vaccine-page-list-btn {
+          font-size: 95%;
+          line-height: 17px;
+          padding: 4px 8px; } }
+      .vaccine-page-list-btn-active {
+        text-shadow: 0px 0px 1px #eee;
+        background-color: #0d63a5; }
+      .vaccine-page-list-btn-loading {
+        background-color: #36506c;
+        padding: 0px 0px;
+        margin: 4px 0px;
+        color: #fff;
+        transition: 0.2s;
+        overflow: hidden; }
+        .vaccine-page-list-btn-loading.card-image {
+          border-radius: 0; }
+        .vaccine-page-list-btn-loading::after {
+          display: block;
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transform: translateX(-100%);
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          animation: loading 1.5s infinite; }
+    .vaccine-page-list-btn:hover {
+      text-shadow: 0px 0px 1px #eee;
+      background-color: #0d63a5; }
+  .vaccine-page-categories {
+    grid-row: categories-start / categories-end;
+    grid-column: stats-start / stats-end;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 120px 110px 90px 90px 90px 90px 140px 100px 100px 100px 100px 155px 85px 90px 80px;
+    overflow: scroll;
+    margin-top: 2px; }
+    @media only screen and (max-width: 56.25em) {
+      .vaccine-page-categories {
+        grid-column: responsive-start / responsive-end; } }
+    .vaccine-page-categories-btn {
+      border-radius: 7px;
+      padding: 11px 11px;
+      text-decoration: none;
+      color: #fff;
+      margin: 0px 3px;
+      height: 93%;
+      transition: 0.2s; }
+      .vaccine-page-categories-btn-active {
+        color: #fff;
+        text-shadow: 0px 0px 2px #fff; }
+      .vaccine-page-categories-btn-0 {
+        background: #11998e;
         /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+        background: -webkit-linear-gradient(to right, #02a13f, #11998e);
         /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
-        /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
-        @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-between {
-            grid-row: contributors-start / contributors-end;
-            grid-column: contributor-start / contributor-end; } }
-      .about-whoweare-second-part-Arman-Feili {
-        grid-row: names-start / names-end;
+        background: linear-gradient(to right, #02a13f, #11998e);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-1 {
+        background: #E44D26;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #F16529, #E44D26);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #F16529, #E44D26);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-2 {
+        background: #EB3349;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #F45C43, #EB3349);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #F45C43, #EB3349);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-3 {
+        background: #F09819;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #EDDE5D, #F09819);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #EDDE5D, #F09819);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-4 {
+        background: #00B4DB;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #0083B0, #00B4DB);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-5 {
+        background: #f12711;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #f5af19, #f12711);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #f5af19, #f12711);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-6 {
+        background: #1e3c72;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #2a5298, #1e3c72);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #2a5298, #1e3c72);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-7 {
+        background: #ff0084;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #690038, #ff0084);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #690038, #ff0084);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-8 {
+        background: #BA8B02;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #8b6800, #BA8B02);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #8b6800, #BA8B02);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-9 {
+        background: #6441A5;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #2a0845, #6441A5);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #2a0845, #6441A5);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-10 {
+        background: #159957;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #155799, #159957);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #155799, #159957);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-11 {
+        background: #16BFFD;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #CB3066, #16BFFD);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #CB3066, #16BFFD);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-12 {
+        background: #02AAB0;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #00CDAC, #02AAB0);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #00CDAC, #02AAB0);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-13 {
+        background: #ff9966;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #ff5e62, #ff9966);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #ff5e62, #ff9966);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-14 {
+        background: #6a3093;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #a044ff, #6a3093);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #a044ff, #6a3093);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-15 {
+        background: #005C97;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #363795, #005C97);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #363795, #005C97);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-categories-btn-16 {
+        background: #FFE000;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #799F0C, #FFE000);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #799F0C, #FFE000);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+    .vaccine-page-categories-btn:hover {
+      margin: 0px 1px;
+      text-shadow: 0px 0px 1px #fff; }
+    .vaccine-page-categories-btn:active {
+      margin: 0px 3px; }
+  .vaccine-page-treatment-categories {
+    grid-row: categories-start / categories-end;
+    grid-column: stats-start / stats-end;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 140px 140px 110px 90px 120px 110px 120px 95px 110px 300px;
+    overflow: scroll;
+    margin-top: 2px; }
+    @media only screen and (max-width: 56.25em) {
+      .vaccine-page-treatment-categories {
+        grid-column: responsive-start / responsive-end; } }
+    .vaccine-page-treatment-categories-btn {
+      border-radius: 7px;
+      padding: 11px 11px;
+      text-decoration: none;
+      color: #fff;
+      margin: 0px 3px;
+      height: 93%;
+      transition: 0.2s; }
+      .vaccine-page-treatment-categories-btn-active {
+        color: #fff;
+        text-shadow: 0px 0px 2px #fff; }
+      .vaccine-page-treatment-categories-btn-0 {
+        background: #11998e;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #02a13f, #11998e);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #02a13f, #11998e);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-1 {
+        background: #E44D26;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #F16529, #E44D26);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #F16529, #E44D26);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-2 {
+        background: #EB3349;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #F45C43, #EB3349);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #F45C43, #EB3349);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-3 {
+        background: #F09819;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #EDDE5D, #F09819);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #EDDE5D, #F09819);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-4 {
+        background: #00B4DB;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #0083B0, #00B4DB);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-5 {
+        background: #f12711;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #f5af19, #f12711);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #f5af19, #f12711);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-6 {
+        background: #1e3c72;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #2a5298, #1e3c72);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #2a5298, #1e3c72);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-7 {
+        background: #ff0084;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #690038, #ff0084);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #690038, #ff0084);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-8 {
+        background: #BA8B02;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #8b6800, #BA8B02);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #8b6800, #BA8B02);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-9 {
+        background: #6441A5;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #2a0845, #6441A5);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #2a0845, #6441A5);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-10 {
+        background: #159957;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #155799, #159957);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #155799, #159957);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-11 {
+        background: #16BFFD;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #CB3066, #16BFFD);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #CB3066, #16BFFD);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-12 {
+        background: #02AAB0;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #00CDAC, #02AAB0);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #00CDAC, #02AAB0);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-13 {
+        background: #ff9966;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #ff5e62, #ff9966);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #ff5e62, #ff9966);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-14 {
+        background: #6a3093;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #a044ff, #6a3093);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #a044ff, #6a3093);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-15 {
+        background: #005C97;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #363795, #005C97);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #363795, #005C97);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .vaccine-page-treatment-categories-btn-16 {
+        background: #FFE000;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #799F0C, #FFE000);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #799F0C, #FFE000);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+    .vaccine-page-treatment-categories-btn:hover {
+      margin: 0px 1px;
+      text-shadow: 0px 0px 1px #fff; }
+    .vaccine-page-treatment-categories-btn:active {
+      margin: 0px 3px; }
+  .vaccine-page-desc {
+    color: #eee;
+    overflow: scroll;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #062a49, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #062a49, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 8px;
+    padding: 0px 10px; }
+    @media only screen and (max-width: 56.25em) {
+      .vaccine-page-desc {
+        grid-column: responsive-start / responsive-end;
+        grid-row: desc-start / desc-end; } }
+    .vaccine-page-desc-title {
+      height: 60px;
+      font-size: 200%;
+      padding: 2px 0px; }
+    .vaccine-page-desc-between {
+      width: 70%;
+      height: 1px;
+      background: #8e9eab;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab00);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #eef2f3, #8e9eab00);
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      margin-bottom: 10px; }
+      @media only screen and (max-width: 75em) {
+        .vaccine-page-desc-between {
+          width: 100%;
+          background: #8e9eab;
+          /* fallback for old browsers */
+          background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+          /* Chrome 10-25, Safari 5.1-6 */
+          background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+          /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ } }
+  .vaccine-page-table-title {
+    grid-row: regions-and-title-start / title-end;
+    grid-column: stats-start / stats-end;
+    display: grid;
+    grid-template-rows: [caption-start] 45px [caption-end table-start] 48px [table-end];
+    grid-template-columns: [caption-and-titles-start] 1fr [caption-end update-text-start] 3fr [update-text-end searchbar-start] minmax(100px, 1fr) [title-and-searchbar-end];
+    z-index: 3;
+    background-color: #1a1a2e;
+    border-radius: 10px 10px 0px 0px;
+    height: 88px; }
+    @media only screen and (max-width: 56.25em) {
+      .vaccine-page-table-title {
+        grid-row: responsive-title-start / responsive-title-end;
+        grid-column: responsive-start / responsive-end;
+        grid-template-rows: [caption-start] 45px [caption-end searchbar-start] 45px [searchbar-end table-start] 48px [table-end];
+        grid-template-columns: 1fr; } }
+    .vaccine-page-table-title-searchbar {
+      grid-row: caption-start / caption-end;
+      grid-column: searchbar-start / title-and-searchbar-end;
+      padding: 1px 6px;
+      margin: 5px 5px;
+      border-radius: 4px;
+      border: none;
+      background-color: #064670;
+      color: #fff;
+      outline: none;
+      font-size: 90%;
+      z-index: 2;
+      transition: 0.2s; }
+      @media only screen and (max-width: 56.25em) {
+        .vaccine-page-table-title-searchbar {
+          grid-row: searchbar-start / searchbar-end;
+          grid-column: caption-searchbar-start / caption-searchbar-end; } }
+    .vaccine-page-table-title-searchbar:hover, .vaccine-page-table-title-searchbar:active {
+      padding: 1px 6px;
+      margin: 5px 3px;
+      background-color: #074f80; }
+    .vaccine-page-table-title-update-text {
+      grid-row: caption-start / caption-end;
+      grid-column: update-text-start / update-text-end; }
+    .vaccine-page-table-title-stats {
+      grid-row: caption-start / table-end;
+      grid-column: caption-and-titles-start / title-and-searchbar-end; }
+      @media only screen and (max-width: 56.25em) {
+        .vaccine-page-table-title-stats {
+          display: grid;
+          grid-template-rows: [cap-start] 1fr [cap-end nothing-start] 1fr [nothing-end title-start] 1fr [title-end];
+          grid-template-columns: [cap-and-title-start] 1fr [cap-and-title-end]; } }
+      .vaccine-page-table-title-stats-caption {
+        grid-row: caption-start / caption-end;
+        grid-column: caption-and-titles-start / caption-end;
+        background: -webkit-linear-gradient(#8e9eab, #eef2f3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: left;
+        padding: 0px 15px;
+        font-size: 160%;
         display: grid;
         grid-template-rows: 1fr;
-        grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+        grid-template-columns: auto auto 1fr; }
+        .vaccine-page-table-title-stats-caption-h1 {
+          font-size: 100%; }
+        .vaccine-page-table-title-stats-caption-update-text {
+          font-size: 60%;
+          vertical-align: text-bottom; }
+        .vaccine-page-table-title-stats-caption-livepoint {
+          position: absolute;
+          color: #f62a66;
+          border: #f62a66 1px solid;
+          width: 5px;
+          height: 5px;
+          margin-top: 14px;
+          margin-left: 5px;
+          border-radius: 100%;
+          background-color: #f62a66; }
+        @media only screen and (max-width: 56.25em) {
+          .vaccine-page-table-title-stats-caption {
+            grid-row: cap-start / cap-end;
+            grid-column: cap-and-title-start / cap-and-title-end; } }
+      .vaccine-page-table-title-stats-thead {
+        grid-row: table-start / table-end;
+        grid-column: caption-and-titles-start / title-and-searchbar-end;
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr; }
+        @media only screen and (max-width: 56.25em) {
+          .vaccine-page-table-title-stats-thead {
+            grid-row: title-start / title-end;
+            grid-column: cap-and-title-start / cap-and-title-end;
+            margin-top: -5px; } }
+      .vaccine-page-table-title-stats-columns {
+        background-color: #1a1a2e;
+        padding: 0px 8px;
+        font-size: 100%;
+        height: 41px;
+        display: grid;
+        overflow: hidden;
+        grid-template-rows: [table-start] 1fr [table-end];
+        grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px; }
+        .vaccine-page-table-title-stats-columns-item {
+          color: #eee;
+          padding: 2px 2px;
+          text-align: left;
+          border-right: 1px #07568b solid;
+          cursor: pointer;
+          transition: 0.2s; }
+        .vaccine-page-table-title-stats-columns-item:last-child {
+          border-right: none; }
+        .vaccine-page-table-title-stats-columns-item:hover {
+          color: #3feaf0;
+          text-shadow: 0px 0px 1px #19d3da;
+          background-color: #07568b; }
+        .vaccine-page-table-title-stats-columns-number {
+          cursor: default;
+          margin: 0px 0px 0px -8px;
+          padding: 2px 0px 0px 4px; }
+        .vaccine-page-table-title-stats-columns-active_btn {
+          color: #3feaf0;
+          text-shadow: 0px 0px 1px #19d3da;
+          background-color: #07568b; }
+  .vaccine-page-table-stats {
+    grid-row: stats-start / regions-and-stats-end;
+    grid-column: stats-start / stats-end;
+    margin-top: 90px;
+    border-radius: 0px 0px 10px 10px;
+    overflow: scroll;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr; }
+    @media only screen and (max-width: 56.25em) {
+      .vaccine-page-table-stats {
+        grid-row: responsive-stats-start / responsive-stats-end;
+        grid-column: responsive-start / responsive-end;
+        margin-top: 36px; } }
+    .vaccine-page-table-stats-loading {
+      border-radius: 11px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+      height: 100%;
+      background: #141E30;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to top, #1a1a2e00, #141E30);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to top, #1a1a2e00, #141E30);
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+    .vaccine-page-table-stats-item {
+      height: 30px;
+      text-decoration: none;
+      padding: 0px 8px;
+      font-size: 95%;
+      color: #fff;
+      display: grid;
+      grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+      grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px; }
+      .vaccine-page-table-stats-item-each {
+        font-weight: bold; }
+      .vaccine-page-table-stats-item-number {
+        color: #ffcf0f; }
+      .vaccine-page-table-stats-item-name {
+        color: #eee;
+        font-size: 105%;
+        transition: 0.1s; }
+        .vaccine-page-table-stats-item-name-link {
+          color: #eee;
+          font-weight: bold;
+          text-decoration: none;
+          cursor: pointer; }
+        .vaccine-page-table-stats-item-name-link:hover {
+          color: #f6c90e; }
+      .vaccine-page-table-stats-item-name:hover {
+        color: #f6c90e;
+        font-weight: bold; }
+      .vaccine-page-table-stats-item-confirmed {
+        color: #19d3da; }
+      .vaccine-page-table-stats-item-newcases {
+        color: #f6c90e; }
+      .vaccine-page-table-stats-item-confirmedpermil {
+        color: #ff6f3c;
+        text-decoration: none; }
+      .vaccine-page-table-stats-item-confirmedpermil:hover {
+        color: #f6c90e;
+        font-weight: bold; }
+      .vaccine-page-table-stats-item-critical {
+        color: #1fab89;
+        text-decoration: none; }
+      .vaccine-page-table-stats-item-critical:hover {
+        color: #f6c90e;
+        font-weight: bold; }
+      .vaccine-page-table-stats-item-active {
+        color: #b88a00;
+        text-decoration: none; }
+      .vaccine-page-table-stats-item-active:hover {
+        color: #f6c90e;
+        font-weight: bold; }
+      .vaccine-page-table-stats-item-deceased {
+        color: #f73859;
+        text-decoration: none; }
+      .vaccine-page-table-stats-item-deceased:hover {
+        color: #f6c90e;
+        font-weight: bold; }
+      .vaccine-page-table-stats-item-newdeaths {
+        color: #19d3da; }
+      .vaccine-page-table-stats-item-deathspermil {
+        color: #19d3da; }
+      .vaccine-page-table-stats-item-giventests {
+        color: #19d3da; }
+      .vaccine-page-table-stats-item-testspermil {
+        color: #19d3da; }
+      .vaccine-page-table-stats-item-recovered {
+        color: #19d3da; }
+      .vaccine-page-table-stats-item-recoveredrate {
+        color: #19dac0; }
+      .vaccine-page-table-stats-item-population {
+        color: #1fab89; }
+    .vaccine-page-table-stats-item:nth-child(even) {
+      background-color: #00204a; }
+    .vaccine-page-table-stats-item:nth-child(odd) {
+      background-color: #083358; }
+
+.displayOff {
+  display: none; }
+
+.gridDisplayOn {
+  display: grid; }
+
+.adjust-left {
+  margin-left: -15px; }
+
+.take_underground {
+  margin-top: 300%; }
+
+.sign {
+  font-size: 70%; }
+
+.sign-2 {
+  font-size: 70%; }
+
+th,
+td {
+  text-align: left; }
+
+.each-vaccine {
+  background-color: #283149;
+  width: 98%;
+  margin: 50px auto;
+  display: grid;
+  grid-template-rows: [titleAndPic-start] auto [titleAndPic-end description-start] 1fr [description-end];
+  grid-template-columns: [regions-start] minmax(150px, 1fr) [regions-end stats-start] minmax(200px, 6fr) [stats-end];
+  height: auto;
+  border-radius: 10px;
+  padding: 10px 8px;
+  gap: 2px 0px; }
+  @media only screen and (max-width: 56.25em) {
+    .each-vaccine {
+      grid-template-rows: [header-start] 40px [header-end titleAndPic-start] auto [titleAndPic-end description-start] 1fr [description-end];
+      grid-template-columns: [responsive-start] 100% [responsive-end];
+      height: auto;
+      gap: 4px 0px; } }
+  @media only screen and (max-width: 37.5em) {
+    .each-vaccine {
+      grid-template-rows: [header-start] 40px [header-end titleAndPic-start] auto [titleAndPic-end description-start] 1fr [description-end];
+      grid-template-columns: [responsive-start] 100% [responsive-end];
+      height: auto;
+      gap: 4px 0px; } }
+  @media only screen and (max-width: 18.7em) {
+    .each-vaccine {
+      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+      grid-template-columns: [responsive-start] 100% [responsive-end];
+      height: auto;
+      gap: 4px 0px; } }
+  .each-vaccine-btnAndTitle {
+    grid-row: header-start / header-end;
+    display: none;
+    grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 50px [region-name-end];
+    grid-template-columns: 100%; }
+    @media only screen and (max-width: 56.25em) {
+      .each-vaccine-btnAndTitle {
+        display: grid;
+        grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 50px [region-name-end]; } }
+    @media only screen and (max-width: 37.5em) {
+      .each-vaccine-btnAndTitle {
+        display: grid;
+        grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 65px [region-name-end]; } }
+    .each-vaccine-btnAndTitle-btn {
+      grid-row: region-btn-start / region-btn-end;
+      border: none;
+      font-size: 110%;
+      background-color: #0f4c75;
+      cursor: pointer;
+      color: #eee;
+      border-radius: 5px;
+      transition: 0.2s;
+      outline: 0; }
+    .each-vaccine-btnAndTitle-btn:hover, .each-vaccine-btnAndTitle-btn:active {
+      color: #fff;
+      text-shadow: 0px 0px 1px #eee;
+      background-color: #0a4274; }
+    .each-vaccine-btnAndTitle-title {
+      grid-row: region-name-start / region-name-end;
+      text-align: center;
+      font-size: 150%;
+      letter-spacing: 4px;
+      padding-top: 5px;
+      line-height: 23px;
+      background: -webkit-linear-gradient(#849099, #eee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; }
+      @media only screen and (max-width: 56.25em) {
+        .each-vaccine-btnAndTitle-title {
+          font-size: 100%; } }
+      @media only screen and (max-width: 37.5em) {
+        .each-vaccine-btnAndTitle-title {
+          font-size: 100%;
+          line-height: 20px; } }
+  .each-vaccine-responsive {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    z-index: 5;
+    background: #141E30;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    display: grid;
+    grid-template-rows: [responsive-regions-start] 1fr [responsive-regions-end];
+    grid-template-columns: [responsive-regions-start] 1fr [responsive-regions-end];
+    transition: 0.4s; }
+    .each-vaccine-responsive-close_btn {
+      grid-row: responsive-regions-start / responsive-regions-end;
+      grid-column: responsive-regions-start / responsive-regions-end;
+      display: grid;
+      grid-template-rows: 0px;
+      grid-template-columns: 21px;
+      z-index: 10;
+      width: 45px;
+      height: 55px;
+      opacity: 0.7;
+      border: none;
+      background-color: transparent;
+      justify-self: end;
+      margin: 0px 30px;
+      padding: 0px 0px;
+      cursor: pointer; }
+    .each-vaccine-responsive-close_btn:hover {
+      opacity: 1; }
+    .each-vaccine-responsive-close_btn:before, .each-vaccine-responsive-close_btn:after {
+      grid-row: -1;
+      grid-column: -1;
+      content: ' ';
+      height: 58px;
+      width: 2px;
+      background-color: #fff; }
+    .each-vaccine-responsive-close_btn:before {
+      transform: rotate(45deg); }
+    .each-vaccine-responsive-close_btn:after {
+      transform: rotate(-45deg); }
+    .each-vaccine-responsive-allregions {
+      grid-row: responsive-regions-start / responsive-regions-end;
+      grid-column: responsive-regions-start / responsive-regions-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: 100%;
+      overflow: scroll; }
+      .each-vaccine-responsive-allregions-title {
+        position: relative;
+        height: 40px;
+        justify-self: center;
+        padding: 6px 0px;
+        font-size: 220%;
+        color: #fff;
+        margin-bottom: 30px; }
+        @media only screen and (max-width: 37.5em) {
+          .each-vaccine-responsive-allregions-title {
+            font-size: 180%; } }
+      .each-vaccine-responsive-allregions-title:first-child {
+        margin-top: 15vh; }
+      .each-vaccine-responsive-allregions-title::after {
+        position: absolute;
+        content: '';
+        width: 120%;
+        height: 3px;
+        background-color: #fff;
+        top: 60px;
+        left: -10%; }
+      .each-vaccine-responsive-allregions-btn {
+        justify-self: center;
+        font-size: 170%;
+        color: #fff;
+        transition: 0.2s;
+        text-decoration: none; }
+        @media only screen and (max-width: 37.5em) {
+          .each-vaccine-responsive-allregions-btn {
+            font-size: 145%; } }
+        .each-vaccine-responsive-allregions-btn-active {
+          color: #19d3da;
+          text-shadow: 0px 0px 1px #074f80; }
+      .each-vaccine-responsive-allregions-btn:hover {
+        text-shadow: 0px 0px 2px #eee; }
+  .each-vaccine-list {
+    background-color: #1a1a2e;
+    grid-row: titleAndPic-start / description-end;
+    grid-column: regions-start / regions-end;
+    display: grid;
+    z-index: 2;
+    overflow: scroll;
+    margin-right: 8px;
+    border-radius: 10px;
+    padding: 4px 4px;
+    height: auto; }
+    @media only screen and (max-width: 56.25em) {
+      .each-vaccine-list {
+        display: none; } }
+    .each-vaccine-list-title {
+      height: 40px;
+      justify-self: center;
+      padding: 6px 0px;
+      font-size: 130%;
+      color: #fff; }
+      @media only screen and (max-width: 75em) {
+        .each-vaccine-list-title {
+          font-size: 100%; } }
+    .each-vaccine-list-btn {
+      background-color: #083358;
+      border-radius: 10px;
+      height: 90%;
+      text-decoration: none;
+      padding: 8px 8px;
+      margin: 2px 0px;
+      color: #fff;
+      transition: 0.2s; }
+      @media only screen and (max-width: 75em) {
+        .each-vaccine-list-btn {
+          font-size: 95%;
+          line-height: 17px;
+          padding: 4px 8px; } }
+      .each-vaccine-list-btn-active {
+        text-shadow: 0px 0px 1px #eee;
+        background-color: #0d63a5; }
+      .each-vaccine-list-btn-loading {
+        background-color: #36506c;
+        padding: 0px 0px;
+        margin: 4px 0px;
+        color: #fff;
+        transition: 0.2s;
+        overflow: hidden; }
+        .each-vaccine-list-btn-loading.card-image {
+          border-radius: 0; }
+        .each-vaccine-list-btn-loading::after {
+          display: block;
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transform: translateX(-100%);
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          animation: loading 1.5s infinite; }
+    .each-vaccine-list-btn:hover {
+      text-shadow: 0px 0px 1px #eee;
+      background-color: #0d63a5; }
+  .each-vaccine-titleAndPic {
+    display: grid;
+    grid-template-rows: [titleAndPic-start] 1fr [titleAndPic-end];
+    grid-template-columns: [title-start] 2fr [title-end pic-start] 1fr [pic-end];
+    background-color: #141E30;
+    padding: 12px;
+    border-radius: 8px 8px 0px 0px; }
+    @media only screen and (max-width: 37.5em) {
+      .each-vaccine-titleAndPic {
+        grid-template-columns: [res-start] 100% [res-end];
+        grid-template-rows: [title-start] auto [title-end picc-start] auto [picc-end]; } }
+    .each-vaccine-titleAndPic-titleAndCategory {
+      grid-row: titleAndPic-start/titleAndPic-end;
+      grid-column: title-start/title-end;
+      display: grid;
+      grid-template-rows: auto 40px auto auto auto auto auto auto auto;
+      gap: 10px; }
+      @media only screen and (max-width: 37.5em) {
+        .each-vaccine-titleAndPic-titleAndCategory {
+          grid-column: res-start/res-end;
+          grid-template-rows: auto auto auto auto auto auto auto auto auto; } }
+      .each-vaccine-titleAndPic-titleAndCategory-title {
+        font-size: 250%;
+        letter-spacing: 4px;
+        padding-top: 5px;
+        line-height: 100%;
+        background: -webkit-linear-gradient(#849099, #eee);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; }
+        @media only screen and (max-width: 56.25em) {
+          .each-vaccine-titleAndPic-titleAndCategory-title {
+            font-size: 180%; } }
+        @media only screen and (max-width: 37.5em) {
+          .each-vaccine-titleAndPic-titleAndCategory-title {
+            font-size: 130%; } }
+      .each-vaccine-titleAndPic-titleAndCategory-category {
+        font-size: 200%;
+        letter-spacing: 4px;
+        padding-top: 5px;
+        line-height: 23px;
+        background: -webkit-linear-gradient(#665c2a, #e9d362);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; }
+        @media only screen and (max-width: 56.25em) {
+          .each-vaccine-titleAndPic-titleAndCategory-category {
+            font-size: 150%; } }
+      .each-vaccine-titleAndPic-titleAndCategory-treatmentVsVaccine {
+        color: #f6c90e; }
+        .each-vaccine-titleAndPic-titleAndCategory-treatmentVsVaccine-text {
+          color: #eee; }
+      .each-vaccine-titleAndPic-titleAndCategory-phase {
+        color: #f6c90e; }
+        .each-vaccine-titleAndPic-titleAndCategory-phase-text {
+          color: #eee; }
+      .each-vaccine-titleAndPic-titleAndCategory-funder {
+        color: #f6c90e; }
+        .each-vaccine-titleAndPic-titleAndCategory-funder-text {
+          color: #eee; }
+      .each-vaccine-titleAndPic-titleAndCategory-FDAApproved {
+        color: #f6c90e; }
+        .each-vaccine-titleAndPic-titleAndCategory-FDAApproved-text {
+          color: #eee; }
+      .each-vaccine-titleAndPic-titleAndCategory-lastUpdated {
+        color: #f6c90e; }
+        .each-vaccine-titleAndPic-titleAndCategory-lastUpdated-text {
+          color: #eee; }
+      .each-vaccine-titleAndPic-titleAndCategory-publishedResults {
+        color: #f6c90e; }
+        .each-vaccine-titleAndPic-titleAndCategory-publishedResults-text-link {
+          color: #19d3da;
+          text-decoration: none;
+          margin-left: 10px;
+          outline: none; }
+        .each-vaccine-titleAndPic-titleAndCategory-publishedResults-text-link:hover {
+          text-shadow: 0px 0px 2px #19d3da; }
+    .each-vaccine-titleAndPic-categoryPic {
+      grid-row: titleAndPic-start/titleAndPic-end;
+      grid-column: pic-start/pic-end;
+      height: 300px;
+      display: grid;
+      grid-template-rows: [both-start] 1fr [both-end];
+      grid-template-columns: [both-start] 1fr [both-end]; }
+      @media only screen and (max-width: 37.5em) {
+        .each-vaccine-titleAndPic-categoryPic {
+          grid-column: res-start/res-end;
+          grid-row: picc-start/picc-end; } }
+      .each-vaccine-titleAndPic-categoryPic-cover {
+        grid-row: both-start/both-end;
+        grid-column: both-start/both-end;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to bottom, #243b5500, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to bottom, #243b5500, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+      .each-vaccine-titleAndPic-categoryPic-pic {
+        grid-row: both-start/both-end;
+        grid-column: both-start/both-end;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px; }
+  .each-vaccine-desc {
+    background-color: #141E30;
+    margin-top: -30px;
+    padding: 13px;
+    border-radius: 0px 0px 8px 8px; }
+    .each-vaccine-desc-allText-description {
+      color: #f6c90e;
+      margin-bottom: 5px; }
+      .each-vaccine-desc-allText-description-text {
+        color: #eee; }
+    .each-vaccine-desc-allText-nextSteps {
+      color: #f6c90e;
+      margin-bottom: 5px; }
+      .each-vaccine-desc-allText-nextSteps-text {
+        color: #eee; }
+    .each-vaccine-desc-allText-clinicalTrialsForCovid19 {
+      color: #f6c90e;
+      margin-bottom: 5px; }
+      .each-vaccine-desc-allText-clinicalTrialsForCovid19-text {
+        color: #eee; }
+    .each-vaccine-desc-allText-clinicalTrialsForOtherDiseases {
+      color: #f6c90e;
+      margin-bottom: 5px; }
+      .each-vaccine-desc-allText-clinicalTrialsForOtherDiseases-text {
+        color: #eee; }
+
+.about {
+  display: grid;
+  grid-template-rows: [whoweare-start] auto [whoweare-end resources-start] auto [resources-end advantages-start] auto [advantages-end];
+  grid-template-columns: 1fr;
+  color: #eee;
+  margin-bottom: 30px; }
+  .about-whoweare-first-part {
+    text-align: center;
+    margin-left: 5%;
+    width: 90%; }
+    .about-whoweare-first-part-title {
+      font-weight: 100; }
+    .about-whoweare-first-part-between {
+      width: 70%;
+      margin-left: 15%;
+      height: 1px;
+      background: #8e9eab;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
+    .about-whoweare-first-part-description {
+      margin-top: 8px;
+      font-weight: 100;
+      font-size: 110%;
+      text-align: center;
+      margin-left: 4%;
+      width: 92%; }
+  .about-whoweare-second-part {
+    grid-row: second-part-start / second-part-end;
+    grid-column: whoweare-start / whoweare-end;
+    justify-self: center;
+    display: grid;
+    grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
+    grid-template-columns: 1fr [left-start] auto [left-end middle-start] auto [middle-end right-start] auto [right-end] 1fr;
+    margin-top: 15px;
+    gap: 0px 3%; }
+    @media only screen and (max-width: 75em) {
+      .about-whoweare-second-part {
+        grid-column: res-start / res-end;
+        display: grid;
+        grid-template-rows: [contributors-start] auto [contributors-end firstname-start] auto [firstname-end secondname-start] auto [secondname-end thirdname-start] auto [thirdname-end];
+        grid-template-columns: 1fr [contributor-start] auto [contributor-end] 1fr;
+        gap: 0px;
+        row-gap: 10px; } }
+    .about-whoweare-second-part-contributors {
+      grid-row: contributors-start / contributors-end;
+      grid-column: middle-start / middle-end;
+      font-size: 180%;
+      font-weight: 100;
+      text-align: center; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-contributors {
+          grid-row: contributors-start / contributors-end;
+          grid-column: contributor-start / contributor-end; } }
+    .about-whoweare-second-part-between {
+      grid-row: contributors-start / contributors-end;
+      grid-column: middle-start / middle-end;
+      align-self: end;
+      width: 70%;
+      margin-left: 15%;
+      height: 1px;
+      background: #8e9eab;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-between {
+          grid-row: contributors-start / contributors-end;
+          grid-column: contributor-start / contributor-end; } }
+    .about-whoweare-second-part-Arman-Feili {
+      grid-row: names-start / names-end;
+      grid-column: left-start / left-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-Arman-Feili {
+          grid-column: contributor-start / contributor-end;
+          grid-row: firstname-start / firstname-end; } }
+      .about-whoweare-second-part-Arman-Feili-image {
+        grid-column: left-start / left-end;
+        width: 100px;
+        height: 100px;
+        margin-top: 10px; }
         @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-Arman-Feili {
-            grid-column: contributor-start / contributor-end;
-            grid-row: firstname-start / firstname-end; } }
-        .about-whoweare-second-part-Arman-Feili-image {
-          grid-column: left-start / left-end;
-          width: 100px;
-          height: 100px;
-          margin-top: 10px; }
+          .about-whoweare-second-part-Arman-Feili-image {
+            grid-column: left-start / left-end;
+            width: 80px;
+            height: 80px;
+            margin-top: 22px;
+            margin-left: 20px; } }
+        .about-whoweare-second-part-Arman-Feili-image-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+      .about-whoweare-second-part-Arman-Feili-title {
+        grid-column: right-start / right-end;
+        font-weight: 100; }
+        .about-whoweare-second-part-Arman-Feili-title-name {
+          font-size: 230%;
+          font-weight: 100;
+          line-height: 0px;
+          margin-top: 37px;
+          margin-bottom: 3px; }
           @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Arman-Feili-image {
-              grid-column: left-start / left-end;
-              width: 80px;
-              height: 80px;
-              margin-top: 22px;
-              margin-left: 20px; } }
-          .about-whoweare-second-part-Arman-Feili-image-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%; }
-        .about-whoweare-second-part-Arman-Feili-title {
-          grid-column: right-start / right-end;
-          font-weight: 100; }
-          .about-whoweare-second-part-Arman-Feili-title-name {
-            font-size: 230%;
-            font-weight: 100;
-            line-height: 0px;
-            margin-top: 37px;
-            margin-bottom: 3px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-name {
-                font-size: 200%; } }
-          .about-whoweare-second-part-Arman-Feili-title-proficiency {
-            font-size: 120%;
-            line-height: 15px;
-            margin-top: 28px;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-proficiency {
-                font-size: 105%;
-                line-height: 15px;
-                margin-top: 20px;
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Arman-Feili-title-act {
-            font-size: 100%;
-            color: #1fab89;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-act {
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Arman-Feili-title-linkedIn {
-            height: 30px;
-            width: 100%; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn {
-                margin-left: 0px; } }
-            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item {
-              font-size: 100%;
-              color: #19d3da;
-              text-decoration: none;
-              height: 30px;
-              display: grid;
-              grid-template-columns: 23px auto; }
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo {
-                width: 18px;
-                height: 100%;
-                color: #eee; }
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text {
-                transition: 0.3s; }
-              .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text:hover {
-                text-shadow: 0px 0px 1px #19d3da;
-                font-size: 101%; }
+            .about-whoweare-second-part-Arman-Feili-title-name {
+              font-size: 200%; } }
+        .about-whoweare-second-part-Arman-Feili-title-proficiency {
+          font-size: 120%;
+          line-height: 15px;
+          margin-top: 28px;
+          margin-left: 2px; }
           @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Arman-Feili-title-instagram {
+            .about-whoweare-second-part-Arman-Feili-title-proficiency {
+              font-size: 105%;
+              line-height: 15px;
+              margin-top: 20px;
               margin-left: 0px; } }
-          .about-whoweare-second-part-Arman-Feili-title-instagram-item {
+        .about-whoweare-second-part-Arman-Feili-title-act {
+          font-size: 100%;
+          color: #1fab89;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Arman-Feili-title-act {
+              margin-left: 0px; } }
+        .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+          height: 30px;
+          width: 100%; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn {
+              margin-left: 0px; } }
+          .about-whoweare-second-part-Arman-Feili-title-linkedIn-item {
             font-size: 100%;
             color: #19d3da;
             text-decoration: none;
             height: 30px;
             display: grid;
             grid-template-columns: 23px auto; }
-            .about-whoweare-second-part-Arman-Feili-title-instagram-item-logo {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo {
               width: 18px;
               height: 100%;
               color: #eee; }
-            .about-whoweare-second-part-Arman-Feili-title-instagram-item-text {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text {
               transition: 0.3s; }
-            .about-whoweare-second-part-Arman-Feili-title-instagram-item-text:hover {
+            .about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text:hover {
               text-shadow: 0px 0px 1px #19d3da;
               font-size: 101%; }
-      .about-whoweare-second-part-Parsa-Radfar {
-        grid-row: names-start / names-end;
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
         @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-Parsa-Radfar {
-            grid-column: contributor-start / contributor-end;
-            grid-row: secondname-start / secondname-end; } }
-        .about-whoweare-second-part-Parsa-Radfar-image {
-          grid-column: left-start / left-end;
-          width: 100px;
-          height: 100px;
-          margin-top: 10px; }
-          @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Parsa-Radfar-image {
-              grid-column: left-start / left-end;
-              width: 80px;
-              height: 80px;
-              margin-top: 22px;
-              margin-left: 20px; } }
-          .about-whoweare-second-part-Parsa-Radfar-image-img {
-            width: 100%;
+          .about-whoweare-second-part-Arman-Feili-title-instagram {
+            margin-left: 0px; } }
+        .about-whoweare-second-part-Arman-Feili-title-instagram-item {
+          font-size: 100%;
+          color: #19d3da;
+          text-decoration: none;
+          height: 30px;
+          display: grid;
+          grid-template-columns: 23px auto; }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item-logo {
+            width: 18px;
             height: 100%;
-            border-radius: 50%; }
-        .about-whoweare-second-part-Parsa-Radfar-title {
-          grid-column: right-start / right-end;
-          font-weight: 100; }
-          .about-whoweare-second-part-Parsa-Radfar-title-name {
-            font-size: 230%;
-            font-weight: 100;
-            line-height: 0px;
-            margin-top: 37px;
-            margin-bottom: 3px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Parsa-Radfar-title-name {
-                font-size: 200%; } }
-          .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
-            font-size: 120%;
-            line-height: 15px;
-            margin-top: 28px;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
-                font-size: 105%;
-                line-height: 15px;
-                margin-top: 20px;
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Parsa-Radfar-title-act {
-            font-size: 100%;
-            color: #1fab89;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Parsa-Radfar-title-act {
-                margin-left: 0px; } }
-      .about-whoweare-second-part-Amin-Feili {
-        grid-row: names-start / names-end;
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+            color: #eee; }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item-text {
+            transition: 0.3s; }
+          .about-whoweare-second-part-Arman-Feili-title-instagram-item-text:hover {
+            text-shadow: 0px 0px 1px #19d3da;
+            font-size: 101%; }
+    .about-whoweare-second-part-Parsa-Radfar {
+      grid-row: names-start / names-end;
+      grid-column: middle-start / middle-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-Parsa-Radfar {
+          grid-column: contributor-start / contributor-end;
+          grid-row: secondname-start / secondname-end; } }
+      .about-whoweare-second-part-Parsa-Radfar-image {
+        grid-column: left-start / left-end;
+        width: 100px;
+        height: 100px;
+        margin-top: 10px; }
         @media only screen and (max-width: 75em) {
-          .about-whoweare-second-part-Amin-Feili {
-            grid-column: contributor-start / contributor-end;
-            grid-row: thirdname-start / thirdname-end; } }
-        .about-whoweare-second-part-Amin-Feili-image {
-          grid-column: left-start / left-end;
-          width: 100px;
-          height: 100px;
-          margin-top: 10px; }
+          .about-whoweare-second-part-Parsa-Radfar-image {
+            grid-column: left-start / left-end;
+            width: 80px;
+            height: 80px;
+            margin-top: 22px;
+            margin-left: 20px; } }
+        .about-whoweare-second-part-Parsa-Radfar-image-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+      .about-whoweare-second-part-Parsa-Radfar-title {
+        grid-column: right-start / right-end;
+        font-weight: 100; }
+        .about-whoweare-second-part-Parsa-Radfar-title-name {
+          font-size: 230%;
+          font-weight: 100;
+          line-height: 0px;
+          margin-top: 37px;
+          margin-bottom: 3px; }
           @media only screen and (max-width: 75em) {
-            .about-whoweare-second-part-Amin-Feili-image {
-              grid-column: left-start / left-end;
-              width: 80px;
-              height: 80px;
-              margin-top: 22px;
-              margin-left: 20px; } }
-          .about-whoweare-second-part-Amin-Feili-image-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%; }
-        .about-whoweare-second-part-Amin-Feili-title {
-          grid-column: right-start / right-end;
-          font-weight: 100; }
-          .about-whoweare-second-part-Amin-Feili-title-name {
-            font-size: 230%;
-            font-weight: 100;
-            line-height: 0px;
-            margin-top: 37px;
-            margin-bottom: 3px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Amin-Feili-title-name {
-                font-size: 200%; } }
-          .about-whoweare-second-part-Amin-Feili-title-proficiency {
-            font-size: 120%;
-            line-height: 15px;
-            margin-top: 28px;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Amin-Feili-title-proficiency {
-                font-size: 105%;
-                line-height: 15px;
-                margin-top: 20px;
-                margin-left: 0px; } }
-          .about-whoweare-second-part-Amin-Feili-title-act {
-            font-size: 100%;
-            color: #1fab89;
-            margin-left: 2px; }
-            @media only screen and (max-width: 75em) {
-              .about-whoweare-second-part-Amin-Feili-title-act {
-                margin-left: 0px; } }
+            .about-whoweare-second-part-Parsa-Radfar-title-name {
+              font-size: 200%; } }
+        .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
+          font-size: 120%;
+          line-height: 15px;
+          margin-top: 28px;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
+              font-size: 105%;
+              line-height: 15px;
+              margin-top: 20px;
+              margin-left: 0px; } }
+        .about-whoweare-second-part-Parsa-Radfar-title-act {
+          font-size: 100%;
+          color: #1fab89;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Parsa-Radfar-title-act {
+              margin-left: 0px; } }
+    .about-whoweare-second-part-Amin-Feili {
+      grid-row: names-start / names-end;
+      grid-column: right-start / right-end;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: [left-start] 110px [left-end right-start] 1fr [right-end]; }
+      @media only screen and (max-width: 75em) {
+        .about-whoweare-second-part-Amin-Feili {
+          grid-column: contributor-start / contributor-end;
+          grid-row: thirdname-start / thirdname-end; } }
+      .about-whoweare-second-part-Amin-Feili-image {
+        grid-column: left-start / left-end;
+        width: 100px;
+        height: 100px;
+        margin-top: 10px; }
+        @media only screen and (max-width: 75em) {
+          .about-whoweare-second-part-Amin-Feili-image {
+            grid-column: left-start / left-end;
+            width: 80px;
+            height: 80px;
+            margin-top: 22px;
+            margin-left: 20px; } }
+        .about-whoweare-second-part-Amin-Feili-image-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+      .about-whoweare-second-part-Amin-Feili-title {
+        grid-column: right-start / right-end;
+        font-weight: 100; }
+        .about-whoweare-second-part-Amin-Feili-title-name {
+          font-size: 230%;
+          font-weight: 100;
+          line-height: 0px;
+          margin-top: 37px;
+          margin-bottom: 3px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Amin-Feili-title-name {
+              font-size: 200%; } }
+        .about-whoweare-second-part-Amin-Feili-title-proficiency {
+          font-size: 120%;
+          line-height: 15px;
+          margin-top: 28px;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Amin-Feili-title-proficiency {
+              font-size: 105%;
+              line-height: 15px;
+              margin-top: 20px;
+              margin-left: 0px; } }
+        .about-whoweare-second-part-Amin-Feili-title-act {
+          font-size: 100%;
+          color: #1fab89;
+          margin-left: 2px; }
+          @media only screen and (max-width: 75em) {
+            .about-whoweare-second-part-Amin-Feili-title-act {
+              margin-left: 0px; } }
   .about-resources {
     grid-row: resources-start / resources-end;
     margin-top: 30px; }
@@ -3035,7 +4207,8 @@ svg {
       display: grid;
       grid-template-rows: auto;
       grid-template-columns: 1fr 1fr 1fr;
-      margin: 20px 6%; }
+      margin: 20px 6%;
+      gap: 10px; }
       @media only screen and (max-width: 75em) {
         .about-resources-list {
           grid-template-columns: 1fr 1fr;
@@ -3051,7 +4224,6 @@ svg {
         display: grid;
         grid-template-rows: [title-start] 50px [title-end description-start] 140px [description-end];
         grid-template-columns: [image-start] 1fr [image-end text-start] 3fr [text-end];
-        margin: 8px 8px;
         border-radius: 8px;
         background: #141E30;
         /* fallback for old browsers */
@@ -3142,28 +4314,70 @@ svg {
             .about-resources-list-item-description {
               width: 200px;
               font-size: 85%; } }
+  .about-advantages {
+    grid-row: advantages-start/advantages-end;
+    text-align: left;
+    margin-left: 10%;
+    width: 80%; }
+    .about-advantages-title {
+      font-weight: 100;
+      text-align: center; }
+    .about-advantages-between {
+      text-align: center;
+      width: 70%;
+      margin-left: 15%;
+      height: 1px;
+      background: #8e9eab;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+      /* W3C, IE 10+/ Edge, Firefox 16+,Chrome 26+, Opera 12+, Safari 7+ */ }
+    .about-advantages-paragraph {
+      margin-top: 10px; }
+      .about-advantages-paragraph-heading {
+        color: #f6c90e; }
+      .about-advantages-paragraph-heading, .about-advantages-paragraph-text {
+        display: inline;
+        vertical-align: top;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        line-height: 28px; }
+        .about-advantages-paragraph-heading-bold, .about-advantages-paragraph-text-bold {
+          font-weight: bold; }
+        .about-advantages-paragraph-heading-internal-link, .about-advantages-paragraph-text-internal-link {
+          color: #19d3da; }
+        .about-advantages-paragraph-heading-internal-link:hover, .about-advantages-paragraph-text-internal-link:hover {
+          text-shadow: 0px 0px 1px #19d3da; }
+        .about-advantages-paragraph-heading-external-link, .about-advantages-paragraph-text-external-link {
+          color: #ff6f3c; }
+        .about-advantages-paragraph-heading-external-link:hover, .about-advantages-paragraph-text-external-link:hover {
+          text-shadow: 0px 0px 1px #ff6f3c; }
+      .about-advantages-paragraph-list {
+        margin-left: 4%; }
 
 .footer {
   display: grid;
-  grid-template-rows: [first-part-start] 470px [first-part-end second-part-start] 90px [second-part-end];
+  grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
   grid-template-columns: 1fr;
-  color: #bbb;
+  color: #eee;
   background: #14274e;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #14274e, #232526);
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #14274e, #232526);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  padding-top: 35px; }
+  padding-top: 35px;
+  gap: 5px; }
   @media only screen and (max-width: 75em) {
     .footer {
-      grid-template-rows: [first-part-start] auto [first-part-end second-part-start] 90px [second-part-end];
+      grid-template-rows: [first-part-start] auto [first-part-end second-part-start] auto [second-part-end];
       grid-template-columns: 1fr; } }
   .footer-first-part {
     grid-row: first-part-start / first-part-end;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: [left-start] minmax(10px, 100px) [left-end about-start] minmax(300px, 500px) [about-end maps-start] minmax(200px, 300px) [maps-end covid19-start] minmax(200px, 300px) minmax(200px, 300px) [covid19-end news-start] minmax(200px, 300px) [news-end right-start] 1fr [right-end];
+    grid-template-columns: [left-start] 1fr [left-end about-start] 1fr [about-end vaccine-start] 1fr [vaccine-end covid19-start] 1fr 1fr [covid19-end newsAndMap-start] 1fr [newsAndMap-end right-start] 1fr [right-end];
     gap: 40px; }
     @media only screen and (max-width: 75em) {
       .footer-first-part {
@@ -3178,7 +4392,7 @@ svg {
           width: 90%;
           margin-left: 5%; } }
       .footer-first-part-about-name {
-        font-size: 200%;
+        font-size: 230%;
         color: #eee; }
       .footer-first-part-about-between {
         width: 70%;
@@ -3199,16 +4413,58 @@ svg {
             /* Chrome 10-25, Safari 5.1-6 */
             background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
             /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ } }
+    .footer-first-part-vacAndTreat {
+      grid-column: vaccine-start / vaccine-end; }
+      @media only screen and (max-width: 75em) {
+        .footer-first-part-vacAndTreat {
+          grid-column: res-start / res-end;
+          text-align: center; } }
+      .footer-first-part-vacAndTreat-title {
+        font-size: 200%;
+        margin-top: 4px;
+        color: #eee;
+        margin-bottom: 5px; }
+      .footer-first-part-vacAndTreat-between {
+        width: 70%;
+        height: 1px;
+        background: #8e9eab;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab00);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #eef2f3, #8e9eab00);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        margin-bottom: 10px; }
+        @media only screen and (max-width: 75em) {
+          .footer-first-part-vacAndTreat-between {
+            width: 100%;
+            background: #8e9eab;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ } }
+      .footer-first-part-vacAndTreat-list {
+        list-style-type: none; }
+        .footer-first-part-vacAndTreat-list-item {
+          margin-bottom: 5px; }
+          .footer-first-part-vacAndTreat-list-item-link {
+            text-decoration: none;
+            color: #ddd;
+            transition: 0.2s; }
+          .footer-first-part-vacAndTreat-list-item-link:hover {
+            color: #fff;
+            text-shadow: 0px 0px 1px #fff; }
     .footer-first-part-maps {
-      grid-column: maps-start / maps-end; }
+      grid-column: newsAndMap-start / newsAndMap-end; }
       @media only screen and (max-width: 75em) {
         .footer-first-part-maps {
           grid-column: res-start / res-end;
           text-align: center; } }
       .footer-first-part-maps-title {
-        font-size: 175%;
-        margin-bottom: 8px;
-        color: #eee; }
+        font-size: 200%;
+        margin-top: 4px;
+        color: #eee;
+        margin-bottom: 5px; }
       .footer-first-part-maps-between {
         width: 70%;
         height: 1px;
@@ -3246,9 +4502,10 @@ svg {
           grid-column: res-start / res-end;
           text-align: center; } }
       .footer-first-part-covid19-title {
-        font-size: 175%;
-        margin-bottom: 8px;
-        color: #eee; }
+        font-size: 200%;
+        margin-top: 4px;
+        color: #eee;
+        margin-bottom: 5px; }
       .footer-first-part-covid19-between {
         width: 70%;
         height: 1px;
@@ -3285,15 +4542,16 @@ svg {
             color: #fff;
             text-shadow: 0px 0px 1px #fff; }
     .footer-first-part-news {
-      grid-column: news-start / news-end; }
+      grid-column: newsAndMap-start / newsAndMap-end; }
       @media only screen and (max-width: 75em) {
         .footer-first-part-news {
           grid-column: res-start / res-end;
           text-align: center; } }
       .footer-first-part-news-title {
-        font-size: 175%;
-        margin-bottom: 8px;
-        color: #eee; }
+        font-size: 200%;
+        margin-top: 4px;
+        color: #eee;
+        margin-bottom: 5px; }
       .footer-first-part-news-between {
         width: 70%;
         height: 1px;
@@ -3327,13 +4585,14 @@ svg {
   .footer-second-part {
     grid-row: second-part-start / second-part-end;
     display: grid;
-    grid-template-rows: 15px 1fr;
+    grid-template-rows: [between-start] 15px [between-end icons-start] 1fr [icons-end text-start] auto [text-end];
     grid-template-columns: [left-start] 2fr [left-end icons-start] 1fr [icons-end right-start] 2fr [right-left]; }
     @media only screen and (max-width: 75em) {
       .footer-second-part {
         margin-top: 5px; } }
     .footer-second-part-between {
       grid-column: icons-start / icons-end;
+      grid-row: between-start / between-end;
       width: 100%;
       height: 1px;
       background: #8e9eab;
@@ -3343,9 +4602,11 @@ svg {
       background: linear-gradient(to right, #8e9eab00, #eef2f3, #8e9eab00); }
     .footer-second-part-icons {
       grid-column: icons-start / icons-end;
+      grid-row: icons-start / icons-end;
       display: grid;
       grid-template-rows: 45px;
-      grid-template-columns: repeat(5, 70px); }
+      grid-template-columns: repeat(5, 70px);
+      justify-self: center; }
       @media only screen and (max-width: 56.25em) {
         .footer-second-part-icons {
           grid-template-rows: 45px;
@@ -3406,6 +4667,11 @@ svg {
         .footer-second-part-icons-spotify-logo:hover {
           color: #fff;
           text-shadow: 0px 0px 1px #ffffff; }
+    .footer-second-part-text {
+      grid-row: text-start / text-end;
+      grid-column: left-start / right-left;
+      text-align: center;
+      margin: 7px 0px; }
 
 .notfound {
   width: 100%;

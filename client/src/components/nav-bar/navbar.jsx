@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
+import { FiCoffee } from "react-icons/fi";
 
 export default class NavBar extends Component {
     constructor() {
@@ -45,27 +46,20 @@ export default class NavBar extends Component {
                     </div>
                     <div className="navigation-btns" id="mobile-nav1">
                         <ul className="navigation-btns-ul">
-                            {/* <li className="navigation-btns-li">
-                                <NavLink className="nav-link" exact={true} activeClassName='is-active' to="/">
-                                    OVERVIEW
-                                </NavLink>
-                            </li>
                             <li className="navigation-btns-li">
-                                <NavLink className="nav-link" activeClassName='is-active' to="/vaccine">
-                                    VACCINE
-                                </NavLink>
-                            </li> */}
-                            <li className="navigation-btns-li">
-                                {/* <NavLink className="nav-link" activeClassName='is-active' to="/covid-19/world-data"> */}
-                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/covid-19`, state: { continentName: 'World' } }}>
+                                {/* <NavLink className="nav-link" activeClassName='is-active' to="/covid-19-tracker/world-data"> */}
+                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/covid-19-tracker`, state: { continentName: 'World' } }}>
                                     COVID-19
                                 </NavLink>
                             </li>
-
                             <li className="navigation-btns-li">
-                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }}>
-                                    {" "}
-                                    NEWS
+                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/vaccine-tracker` }}>
+                                    VACCINE
+                                </NavLink>
+                            </li>
+                            <li className="navigation-btns-li">
+                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/treatment-tracker` }}>
+                                    TREATMENT
                                 </NavLink>
                             </li>
                             <li className="navigation-btns-li">
@@ -74,12 +68,17 @@ export default class NavBar extends Component {
                                     MAP
                                 </NavLink>
                             </li>
-                            {/* <li className="navigation-btns-li">
-                                <NavLink className="nav-link" activeClassName='is-active' to="/impacts">
+                            <li className="navigation-btns-li">
+                                <NavLink className="nav-link" activeClassName='is-active' to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }}>
                                     {" "}
-                                    IMPACTS
+                                    NEWS
                                 </NavLink>
-                            </li> */}
+                            </li>
+                            <li className="navigation-btns-li">
+                                <a href='http://docs.vaccovid.live/' className="nav-link" rel="noopener noreferrer" target='_blank'>
+                                    ARTICLES
+                                </a>
+                            </li>
                             <li className="navigation-btns-li">
                                 <NavLink className="nav-link" activeClassName='is-active' to="/about">
                                     {" "}
@@ -89,31 +88,25 @@ export default class NavBar extends Component {
 
                         </ul>
                     </div>
+                    <a href='https://ko-fi.com/V7V42SBFO' className="navigation-coffee" rel="noopener noreferrer" target='_blank'><span className="navigation-coffee-holder"><FiCoffee className="navigation-coffee-holder-logo" /></span><span className="navigation-coffee-text">Buy me a coffee</span></a>
                 </nav >
                 <nav className="res-navigation">
                     <div className={`res-navigation-responsive ${this.state.showNavbar === "off" ? "takeToSky" : ""}`} id="mobile-nav2">
                         <ul className="res-navigation-responsive-ul">
-                            {/* <li className="res-navigation-responsive-li">
-                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to="/">
-                                    OVERVIEW
-                                </NavLink>
-                            </li>
                             <li className="res-navigation-responsive-li">
-                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to="/vaccine">
-                                    VACCINE
-                                </NavLink>
-                            </li> */}
-                            <li className="res-navigation-responsive-li">
-                                {/* <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to="/covid-19/world-data"> */}
-                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} exact={true} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/covid-19`, state: { continentName: 'World' } }}>
+                                {/* <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to="/covid-19-tracker/world-data"> */}
+                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} exact={true} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/covid-19-tracker`, state: { continentName: 'World' } }}>
                                     COVID-19
                                 </NavLink>
                             </li>
-
                             <li className="res-navigation-responsive-li">
-                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }}>
-                                    {" "}
-                                    NEWS
+                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} exact={true} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/vaccine-tracker`, state: { continentName: 'World' } }}>
+                                    VACCINE
+                                </NavLink>
+                            </li>
+                            <li className="res-navigation-responsive-li">
+                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} exact={true} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/treatment-tracker`, state: { continentName: 'World' } }}>
+                                    TREATMENT
                                 </NavLink>
                             </li>
                             <li className="res-navigation-responsive-li">
@@ -122,12 +115,15 @@ export default class NavBar extends Component {
                                     MAP
                                 </NavLink>
                             </li>
-                            {/* <li className="res-navigation-responsive-li">
-                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to="/impacts">
+                            <li className="res-navigation-responsive-li">
+                                <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }}>
                                     {" "}
-                                    IMPACTS
+                                    NEWS
                                 </NavLink>
-                            </li> */}
+                            </li>
+                            <li className="res-navigation-responsive-li">
+                                <a href='http://docs.vaccovid.live/' className="res-navigation-responsive-li-nav-link" rel="noopener noreferrer" target='_blank'>ARTICLES</a>
+                            </li>
                             <li className="res-navigation-responsive-li">
                                 <NavLink className="res-navigation-responsive-li-nav-link" onClick={this.onClickShowNavbar} activeClassName='res-navigation-responsive-is-active' to="/about">
                                     {" "}

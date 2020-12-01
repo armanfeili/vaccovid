@@ -3,9 +3,11 @@ import { getManager } from "typeorm";
 import { OwidData } from "../db/models/OwidData";
 import {
     convertVaccineData, updateVaccine,
-    getAllVaccines, getAllPhase_PreClinical_Vaccines, getAllPhase_one_Vaccines, getAllPhase_two_Vaccines, getAllPhase_three_Vaccines, getAllPhase_four_Vaccines, get_FDA_Approved_Vaccines,
+    getAllVaccines, getAllPhase_PreClinical_Vaccines, getAllPhase_one_Vaccines, getAllPhase_two_Vaccines, getAllPhase_three_Vaccines, getAllPhase_four_Vaccines, get_FDA_Approved_Vaccines, getAllVaccineNames,
     getAllTreatments, getAllPreClinicalTreatments, getAllClinicalTreatments, getAll_FDA_Approved_Treatments,
-    getVaccineCategoryBased, getTreatmentCategoryBased
+    getVaccineCategoryBased, getTreatmentCategoryBased,
+    getEachOne,
+    getEverything
 } from "../utils/vaccineAndTreatment";
 
 const Router = Express.Router();
@@ -31,6 +33,15 @@ Router.put("/update-vaccine", async (req, res) => {
 /////////////////////////////////////////////////////
 ///////////////   Vaccines   ////////////////////////
 /////////////////////////////////////////////////////
+
+Router.get("/get-all-vaccine-names", async (req, res) => {
+    try {
+        const vacData = await getAllVaccineNames();
+        res.status(200).json(vacData);
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 Router.get("/get-all-vaccines", async (req, res) => {
     try {
@@ -160,3 +171,25 @@ Router.get("/get-treatments/:category", async (req, res) => {
 });
 
 export default Router;
+
+/////////////////////////////////////////////////
+///////////   Each One    ///////////////////////
+/////////////////////////////////////////////////
+
+Router.get("/get-vaccines/:category/:name", async (req, res) => {
+    try {
+        const vacData = await getEachOne(req.params.category, req.params.name);
+        res.status(200).json(vacData);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+Router.get("/get-everything", async (req, res) => {
+    try {
+        const vacData = await getEverything();
+        res.status(200).json(vacData);
+    } catch (error) {
+        console.log(error);
+    }
+});

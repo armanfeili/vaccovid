@@ -23,6 +23,13 @@ import BrazilMapComponent from './components/map/brazil-map';
 import GermanyMapComponent from './components/map/germany-map';
 import AustraliaMapComponent from './components/map/australia-map';
 
+import Vaccine from './components/vaccines/vaccine';
+import VaccineBase from './components/vaccines/vaccine-base';
+import Treatment from './components/vaccines/treatment';
+import TreatmentBase from './components/vaccines/treatment-base';
+import EachVaccine from './components/vaccines/each-vaccine';
+import EachTreatment from './components/vaccines/each-treatment';
+
 class App extends React.Component {
   render () {
     return (
@@ -35,19 +42,37 @@ class App extends React.Component {
               {/* <Route exact path="/" component={Landing} /> */}
               <div className='container'>
                 {/* <Switch>
-                  <Route exact path='/covid-19/world-data' component={CoronavirusWorldComponent} />
+                  <Route exact path='/covid-19-tracker/world-data' component={CoronavirusWorldComponent} />
                 </Switch> */}
                 <Switch>
                   <Route exact name="baseContinent1" path="/" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
                 </Switch>
                 <Switch>
-                  <Route exact name="baseContinent2" path="/covid-19" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
+                  <Route exact name="baseContinent2" path="/covid-19-tracker" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
                 </Switch>
                 <Switch>
-                  <Route exact name="eachContinent" path='/covid-19/:continentName' component={CoronavirusEachContinentComponent} />
+                  <Route exact name="eachContinent" path='/covid-19-tracker/:continentName' component={CoronavirusEachContinentComponent} />
                 </Switch>
                 <Switch>
-                  <Route exact name="eachCountry" path="/covid-19/:countryName/:iso" 
+                  <Route exact name="Vaccine" path='/vaccine-tracker' component={VaccineBase} />
+                </Switch>
+                <Switch>
+                  <Route exact name="Vaccine" path='/vaccine-tracker/:category' component={Vaccine} />
+                </Switch>
+                <Switch>
+                  <Route exact name="Treatment" path='/treatment-tracker' component={TreatmentBase} />
+                </Switch>
+                <Switch>
+                  <Route exact name="Treatment" path='/treatment-tracker/:category' component={Treatment} />
+                </Switch>
+                <Switch>
+                  <Route exact name="EachVaccine" path='/vaccine-tracker/:category/:name' component={EachVaccine} />
+                </Switch>
+                <Switch>
+                  <Route exact name="EachTreatment" path='/treatment-tracker/:category/:name' component={EachTreatment} />
+                </Switch>
+                <Switch>
+                  <Route exact name="eachCountry" path="/covid-19-tracker/:countryName/:iso" 
                   // handler={CoronavirusEachCountryComponent}
                    component={CoronavirusEachCountryComponent} />
                 </Switch>

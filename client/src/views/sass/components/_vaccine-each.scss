@@ -1,0 +1,530 @@
+th,
+td {
+    // padding: 15px;
+    text-align: left;
+}
+
+.each-vaccine {
+    background-color: #283149;
+    width: 98%;
+    margin: 50px auto;
+    display: grid;
+    // grid-template-rows: [regions-and-stats-start] 4fr [regions-end] 1fr [stats-end];
+    grid-template-rows: [titleAndPic-start] auto [titleAndPic-end description-start] 1fr [description-end];
+    grid-template-columns: [regions-start]minmax(150px, 1fr)[regions-end stats-start] minmax(200px, 6fr) [stats-end];
+    // grid-template-columns: [regions-start] 1fr [regions-end stats-start] 5fr [stats-end];
+    // grid-column-gap: 10px;
+    height: auto;
+    // height: 87vh;
+    // border: red 2px solid;
+    border-radius: 10px;
+    padding: 10px 8px;
+    gap: 2px 0px;
+
+    @include respond(tab-port) {
+        grid-template-rows: [header-start] 40px [header-end titleAndPic-start] auto [titleAndPic-end description-start] 1fr [description-end];
+        grid-template-columns: [responsive-start] 100% [responsive-end];
+        height: auto;
+        gap: 4px 0px;
+    }
+
+    @include respond(phone) {
+        // grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 300px [responsive-guide-end];
+        grid-template-rows: [header-start] 40px [header-end titleAndPic-start] auto [titleAndPic-end description-start] 1fr [description-end];
+        grid-template-columns: [responsive-start] 100% [responsive-end];
+        height: auto;
+        gap: 4px 0px;
+    }
+
+    @include respond(small-phone) {
+        // grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 330px [responsive-guide-end];
+        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+        grid-template-columns: [responsive-start] 100% [responsive-end];
+        height: auto;
+        gap: 4px 0px;
+    }
+
+    &-btnAndTitle {
+        @include respond(tab-port) {
+            display: grid;
+            grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 50px [region-name-end];
+        }
+
+        @include respond(phone) {
+            display: grid;
+            grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 65px [region-name-end];
+        }
+
+        grid-row: header-start / header-end;
+        display: none;
+        grid-template-rows: [region-btn-start] 40px [region-btn-end region-name-start] 50px [region-name-end];
+        grid-template-columns: 100%;
+
+
+
+        &-btn {
+            grid-row: region-btn-start / region-btn-end;
+            border: none;
+            font-size: 110%;
+            background-color: #0f4c75;
+            cursor: pointer;
+            color: #eee;
+            border-radius: 5px;
+            transition: 0.2s;
+            outline: 0;
+        }
+
+
+        &-btn:hover,
+        &-btn:active {
+            color: #fff;
+            text-shadow: 0px 0px 1px #eee;
+            background-color: #0a4274;
+        }
+
+        &-title {
+            @include respond(tab-port) {
+                font-size: 100%;
+            }
+
+            @include respond(phone) {
+                font-size: 100%;
+                line-height: 20px;
+            }
+
+            grid-row: region-name-start / region-name-end;
+            text-align: center;
+            font-size: 150%;
+            letter-spacing: 4px;
+            padding-top: 5px;
+            line-height: 23px;
+            background: -webkit-linear-gradient(#849099, #eee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+
+    &-responsive {
+        height: 100vh;
+        width: 100vw;
+        // width: 100vw;
+        position: fixed;
+        top: 50px;
+        left: 0;
+        z-index: 5;
+
+        background: #141E30;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #243B55, #141E30);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #243B55, #141E30);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        display: grid;
+        grid-template-rows: [responsive-regions-start] 1fr [responsive-regions-end];
+        grid-template-columns: [responsive-regions-start] 1fr [responsive-regions-end];
+
+        transition: 0.4s;
+
+        &-close_btn {
+            grid-row: responsive-regions-start / responsive-regions-end;
+            grid-column: responsive-regions-start / responsive-regions-end;
+            display: grid;
+            grid-template-rows: 0px;
+            grid-template-columns: 21px;
+            z-index: 10;
+            width: 45px;
+            height: 55px;
+            opacity: 0.7;
+            border: none;
+            background-color: transparent;
+            justify-self: end;
+            margin: 0px 30px;
+            padding: 0px 0px;
+            cursor: pointer;
+        }
+
+        &-close_btn:hover {
+            opacity: 1;
+        }
+
+        &-close_btn:before,
+        &-close_btn:after {
+            grid-row: -1;
+            grid-column: -1;
+            content: ' ';
+            height: 58px;
+            width: 2px;
+            background-color: #fff;
+        }
+
+        &-close_btn:before {
+            transform: rotate(45deg);
+        }
+
+        &-close_btn:after {
+            transform: rotate(-45deg);
+        }
+
+
+        &-allregions {
+
+            grid-row: responsive-regions-start / responsive-regions-end;
+            grid-column: responsive-regions-start / responsive-regions-end;
+
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 100%;
+            overflow: scroll;
+
+            @include respond(tab-port) {}
+
+            &-title {
+                position: relative;
+                height: 40px;
+                justify-self: center;
+                padding: 6px 0px;
+                font-size: 220%;
+                color: #fff;
+                margin-bottom: 30px;
+
+                @include respond(phone) {
+                    font-size: 180%;
+                }
+
+            }
+
+            &-title:first-child {
+                margin-top: 15vh;
+            }
+
+            &-title::after {
+                position: absolute;
+                content: '';
+                width: 120%;
+                height: 3px;
+                background-color: #fff;
+                top: 60px;
+                left: -10%;
+            }
+
+            &-btn {
+                justify-self: center;
+                font-size: 170%;
+                color: #fff;
+                transition: 0.2s;
+                text-decoration: none;
+
+                @include respond(phone) {
+                    font-size: 145%;
+                }
+
+                &-active {
+                    color: #19d3da;
+                    text-shadow: 0px 0px 1px #074f80;
+                }
+            }
+
+            &-btn:hover {
+                text-shadow: 0px 0px 2px #eee;
+                // background-color: #0d63a5;
+            }
+        }
+    }
+
+    &-list {
+        background-color: #1a1a2e;
+        grid-row: titleAndPic-start / description-end;
+        grid-column: regions-start / regions-end;
+        display: grid;
+        z-index: 2;
+        overflow: scroll;
+        margin-right: 8px;
+        border-radius: 10px;
+        padding: 4px 4px;
+        height: auto;
+
+        @include respond(tab-port) {
+            display: none;
+        }
+
+        &-title {
+            height: 40px;
+            justify-self: center;
+            padding: 6px 0px;
+            font-size: 130%;
+            color: #fff;
+
+            @include respond(tab-land) {
+                font-size: 100%;
+            }
+        }
+
+        &-btn {
+            background-color: #083358;
+            border-radius: 10px;
+            height: 90%;
+            text-decoration: none;
+            padding: 8px 8px;
+            margin: 2px 0px;
+            color: #fff;
+            transition: 0.2s;
+
+
+            @include respond(tab-land) {
+                font-size: 95%;
+                line-height: 17px;
+                padding: 4px 8px;
+            }
+
+            &-active {
+                text-shadow: 0px 0px 1px #eee;
+                background-color: #0d63a5;
+            }
+
+            &-loading {
+                // position: relative;
+                // background-color: #E2E2E2;
+
+                background-color: #36506c;
+                padding: 0px 0px;
+                margin: 4px 0px;
+                color: #fff;
+                transition: 0.2s;
+                overflow: hidden;
+
+                &.card-image {
+                    border-radius: 0;
+                }
+
+                &::after {
+                    display: block;
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    transform: translateX(-100%);
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+                    animation: loading 1.5s infinite;
+                }
+            }
+        }
+
+        &-btn:hover {
+            text-shadow: 0px 0px 1px #eee;
+            background-color: #0d63a5;
+        }
+    }
+
+    &-titleAndPic {
+        display: grid;
+        grid-template-rows: [titleAndPic-start]1fr[titleAndPic-end];
+        // grid-template-rows: [title-and-pic-start] 300px [title-and-pic-end description-start] 300px[description-end];
+        // grid-template-columns: 250px;
+        grid-template-columns: [title-start] 2fr [title-end pic-start] 1fr [pic-end];
+        background-color: #141E30;
+        padding: 12px;
+        border-radius: 8px 8px 0px 0px;
+
+        @include respond(tab-port) {}
+
+        @include respond(phone) {
+            grid-template-columns: [res-start] 100% [res-end];
+            grid-template-rows: [title-start] auto [title-end picc-start] auto [picc-end];
+        }
+
+        &-titleAndCategory {
+            grid-row: titleAndPic-start/titleAndPic-end;
+            grid-column: title-start/title-end;
+
+
+
+            display: grid;
+            grid-template-rows: auto 40px auto auto auto auto auto auto auto;
+            // grid-template-rows: auto minmax(50px, 1fr) 1fr;
+            gap: 10px;
+
+            @include respond(phone) {
+                grid-column: res-start/res-end;
+                grid-template-rows: auto auto auto auto auto auto auto auto auto;
+            }
+
+            &-title {
+                font-size: 250%;
+                letter-spacing: 4px;
+                padding-top: 5px;
+                line-height: 100%;
+                background: -webkit-linear-gradient(#849099, #eee);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+
+                @include respond(tab-port) {
+                    font-size: 180%;
+                }
+
+                @include respond(phone) {
+                    font-size: 130%;
+                }
+            }
+
+            &-category {
+                font-size: 200%;
+                letter-spacing: 4px;
+                padding-top: 5px;
+                line-height: 23px;
+                background: -webkit-linear-gradient(#665c2a, #e9d362);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+
+                @include respond(tab-port) {
+                    font-size: 150%;
+                }
+            }
+
+            &-treatmentVsVaccine {
+                color: #f6c90e;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-phase {
+                color: #f6c90e;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-funder {
+                color: #f6c90e;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-FDAApproved {
+                color: #f6c90e;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-lastUpdated {
+                color: #f6c90e;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-publishedResults {
+                color: #f6c90e;
+
+                &-text {
+                    &-link {
+                        color: #19d3da;
+                        text-decoration: none;
+                        margin-left: 10px;
+                        outline: none;
+                    }
+
+                    &-link:hover {
+                        // color: #19d3da;
+                        text-shadow: 0px 0px 2px #19d3da;
+                    }
+                }
+            }
+        }
+
+
+        &-categoryPic {
+            grid-row: titleAndPic-start/titleAndPic-end;
+            grid-column: pic-start/pic-end;
+            height: 300px;
+
+            @include respond(phone) {
+                grid-column: res-start/res-end;
+                grid-row: picc-start/picc-end;
+
+            }
+
+            display: grid;
+            grid-template-rows: [both-start] 1fr [both-end];
+            grid-template-columns: [both-start] 1fr [both-end];
+
+            &-cover {
+                grid-row: both-start/both-end;
+                grid-column: both-start/both-end;
+                z-index: 3;
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+                background: #141E30;
+                /* fallback for old browsers */
+                background: -webkit-linear-gradient(to bottom, #243b5500, #141E30);
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to bottom, #243b5500, #141E30);
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            }
+
+            &-pic {
+                grid-row: both-start/both-end;
+                grid-column: both-start/both-end;
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+            }
+        }
+    }
+
+    &-desc {
+        background-color: #141E30;
+        margin-top: -30px;
+        padding: 13px;
+        border-radius: 0px 0px 8px 8px;
+
+        &-allText {
+
+            &-description {
+                color: #f6c90e;
+                margin-bottom: 5px;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-nextSteps {
+                color: #f6c90e;
+                margin-bottom: 5px;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-clinicalTrialsForCovid19 {
+                color: #f6c90e;
+                margin-bottom: 5px;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+
+            &-clinicalTrialsForOtherDiseases {
+                color: #f6c90e;
+                margin-bottom: 5px;
+
+                &-text {
+                    color: #eee;
+                }
+            }
+        }
+    }
+}
