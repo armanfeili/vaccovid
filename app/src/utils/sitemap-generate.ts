@@ -4,7 +4,7 @@ import fs from "fs";
 import Path from "path";
 // import { Readable } from 'stream';
 
-import { worldSymbols } from './world';
+import { worldSymbols } from './world-sitemap';
 // const routeData = Path.resolve(__dirname, "route-data.json");
 import { routes } from './vacRoutes';
 // const pictureDirectory = path.join(__dirname, './../../../../pics');
