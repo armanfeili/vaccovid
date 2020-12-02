@@ -2840,7 +2840,7 @@ td {
     position: fixed;
     top: 50px;
     left: 0;
-    z-index: 5;
+    z-index: 15;
     background: #141E30;
     /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #243B55, #141E30);
@@ -2857,7 +2857,7 @@ td {
       display: grid;
       grid-template-rows: 0px;
       grid-template-columns: 21px;
-      z-index: 10;
+      z-index: 20;
       width: 45px;
       height: 55px;
       opacity: 0.7;
@@ -3413,7 +3413,7 @@ td {
         display: grid;
         overflow: hidden;
         grid-template-rows: [table-start] 1fr [table-end];
-        grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px; }
+        grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px; }
         .vaccine-page-table-title-stats-columns-item {
           color: #eee;
           padding: 2px 2px;
@@ -3471,7 +3471,7 @@ td {
       color: #fff;
       display: grid;
       grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-      grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px; }
+      grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px; }
       .vaccine-page-table-stats-item-each {
         font-weight: bold; }
       .vaccine-page-table-stats-item-number {

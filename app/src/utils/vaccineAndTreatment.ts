@@ -751,10 +751,7 @@ export async function getAllPhase_four_Vaccines() {
         const data = await vaccineRepository.find({
             where: [{
                 treatmentVsVaccine: "Vaccine",
-                phase: "Phase III/IV"
-            }, {
-                treatmentVsVaccine: "Vaccine",
-                phase: "Phase IV"
+                phase: Not(In(["Phase II", "Phase I", "Phase III", "Pre-clinical", "clinical", "Phase I/II", "Phase II/III"]))
             }],
             order: { lastUpdated: "DESC" }
         });

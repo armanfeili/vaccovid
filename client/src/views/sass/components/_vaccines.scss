@@ -108,7 +108,7 @@ td {
         position: fixed;
         top: 50px;
         left: 0;
-        z-index: 5;
+        z-index: 15;
 
         background: #141E30;
         /* fallback for old browsers */
@@ -129,7 +129,7 @@ td {
             display: grid;
             grid-template-rows: 0px;
             grid-template-columns: 21px;
-            z-index: 10;
+            z-index: 20;
             width: 45px;
             height: 55px;
             opacity: 0.7;
@@ -902,7 +902,7 @@ td {
                 display: grid;
                 overflow: hidden;
                 grid-template-rows: [table-start] 1fr [table-end];
-                grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px;
+                grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px;
                 // grid-template-columns: minmax(10px, 30px) minmax(100px, 400px) minmax(100px, 200px) minmax(60px, 100px) minmax(300px, 400px) minmax(300px, 400px) minmax(100px, 400px) minmax(100px, 400px) minmax(100px, 400px);
                 // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
                 // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
@@ -1075,7 +1075,7 @@ td {
 
             display: grid;
             grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-            grid-template-columns: 40px 400px 250px 100px 400px 400px 265px 400px 300px;
+            grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px;
             // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
             // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
 
