@@ -59,6 +59,10 @@ body {
   width: 4px;
   height: 2px;
   background: #1a1a2e; }
+  @media only screen and (max-width: 56.25em) {
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 4px; } }
 
 /* Track */
 ::-webkit-scrollbar-track {
@@ -2786,13 +2790,13 @@ td {
       gap: 4px 0px; } }
   @media only screen and (max-width: 37.5em) {
     .vaccine-page {
-      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] 75px [responsive-title-end responsive-stats-start] 360px [responsive-stats-end];
       grid-template-columns: [responsive-start] 100% [responsive-end];
       height: auto;
       gap: 4px 0px; } }
   @media only screen and (max-width: 18.7em) {
     .vaccine-page {
-      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+      grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] 75px [responsive-title-end responsive-stats-start] 360px [responsive-stats-end];
       grid-template-columns: [responsive-start] 100% [responsive-end];
       height: auto;
       gap: 4px 0px; } }
@@ -3290,6 +3294,12 @@ td {
       height: 60px;
       font-size: 200%;
       padding: 2px 0px; }
+      @media only screen and (max-width: 37.5em) {
+        .vaccine-page-desc-title {
+          height: 38px;
+          font-size: 110%;
+          padding: 2px 0;
+          text-align: center; } }
     .vaccine-page-desc-between {
       width: 70%;
       height: 1px;
@@ -3323,7 +3333,13 @@ td {
       .vaccine-page-table-title {
         grid-row: responsive-title-start / responsive-title-end;
         grid-column: responsive-start / responsive-end;
-        grid-template-rows: [caption-start] 45px [caption-end searchbar-start] 45px [searchbar-end table-start] 48px [table-end];
+        grid-template-rows: [caption-start] 40px [caption-end searchbar-start] 50px [searchbar-end table-start] 60px [table-end];
+        grid-template-columns: 1fr; } }
+    @media only screen and (max-width: 37.5em) {
+      .vaccine-page-table-title {
+        grid-row: responsive-title-start / responsive-title-end;
+        grid-column: responsive-start / responsive-end;
+        grid-template-rows: [caption-start] 30px [caption-end searchbar-start] 45px [searchbar-end table-start] 60px [table-end];
         grid-template-columns: 1fr; } }
     .vaccine-page-table-title-searchbar {
       grid-row: caption-start / caption-end;
@@ -3355,7 +3371,7 @@ td {
       @media only screen and (max-width: 56.25em) {
         .vaccine-page-table-title-stats {
           display: grid;
-          grid-template-rows: [cap-start] 1fr [cap-end nothing-start] 1fr [nothing-end title-start] 1fr [title-end];
+          grid-template-rows: [cap-start] auto [cap-end nothing-start] auto [nothing-end title-start] auto [title-end];
           grid-template-columns: [cap-and-title-start] 1fr [cap-and-title-end]; } }
       .vaccine-page-table-title-stats-caption {
         grid-row: caption-start / caption-end;
@@ -3371,19 +3387,9 @@ td {
         grid-template-columns: auto auto 1fr; }
         .vaccine-page-table-title-stats-caption-h1 {
           font-size: 100%; }
-        .vaccine-page-table-title-stats-caption-update-text {
-          font-size: 60%;
-          vertical-align: text-bottom; }
-        .vaccine-page-table-title-stats-caption-livepoint {
-          position: absolute;
-          color: #f62a66;
-          border: #f62a66 1px solid;
-          width: 5px;
-          height: 5px;
-          margin-top: 14px;
-          margin-left: 5px;
-          border-radius: 100%;
-          background-color: #f62a66; }
+          @media only screen and (max-width: 37.5em) {
+            .vaccine-page-table-title-stats-caption-h1 {
+              font-size: 65%; } }
         @media only screen and (max-width: 56.25em) {
           .vaccine-page-table-title-stats-caption {
             grid-row: cap-start / cap-end;
@@ -3435,6 +3441,7 @@ td {
     margin-top: 90px;
     border-radius: 0px 0px 10px 10px;
     overflow: scroll;
+    z-index: 5;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr; }

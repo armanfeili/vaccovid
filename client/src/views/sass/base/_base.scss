@@ -61,6 +61,10 @@ body {
     height: 2px;
     background: #1a1a2e;
 
+    @include respond(tab-port) {
+        width: 6px;
+        height: 4px;
+    }
 }
 
 /* Track */

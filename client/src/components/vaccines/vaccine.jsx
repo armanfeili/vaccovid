@@ -328,6 +328,8 @@ export class Vaccine extends Component {
                                     <Link to={{ pathname: `/vaccine-tracker/virus-like-particle` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "virus-like-particle" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Virus-Like Particle</Link>
                                     <Link to={{ pathname: `/vaccine-tracker/replicating-bacterial-vector` }} onClick={async () => { this.onClickShowRegions(); this.changeOffset(); }} className={`vaccine-page-responsive-allregions-btn ${category === "replicating-bacterial-vector" ? "vaccine-page-responsive-allregions-btn-active" : ""}`} >Replicating Bacterial Vector</Link>
                                     <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
+                                    <p className={`vaccine-page-responsive-allregions-btn`} >...</p>
                                     <p className={`vaccine-page-responsive-allregions-btn`} >---</p>
                                 </ul>
                             </div>

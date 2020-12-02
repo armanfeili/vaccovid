@@ -39,7 +39,7 @@ td {
 
     @include respond(phone) {
         // grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 300px [responsive-guide-end];
-        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] 75px [responsive-title-end responsive-stats-start] 360px [responsive-stats-end];
         grid-template-columns: [responsive-start] 100% [responsive-end];
         height: auto;
         gap: 4px 0px;
@@ -47,7 +47,7 @@ td {
 
     @include respond(small-phone) {
         // grid-template-rows: [header-start] 90px [header-end responsive-quick-facts-start] 440px [responsive-quick-facts-end responsive-title-start] 50px [responsive-title-end responsive-stats-start] 400px [responsive-stats-end responsive-guide-start] 330px [responsive-guide-end];
-        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] auto [responsive-title-end responsive-stats-start] 400px [responsive-stats-end];
+        grid-template-rows: [header-start] 40px [header-end categories-start] auto [categories-end desc-start] auto [desc-end responsive-title-start] 75px [responsive-title-end responsive-stats-start] 360px [responsive-stats-end];
         grid-template-columns: [responsive-start] 100% [responsive-end];
         height: auto;
         gap: 4px 0px;
@@ -726,6 +726,13 @@ td {
             height: 60px;
             font-size: 200%;
             padding: 2px 0px;
+
+            @include respond(phone) {
+                height: 38px;
+                font-size: 110%;
+                padding: 2px 0;
+                text-align: center;
+            }
         }
 
         &-between {
@@ -772,7 +779,16 @@ td {
             grid-row: responsive-title-start / responsive-title-end;
             grid-column: responsive-start / responsive-end;
 
-            grid-template-rows: [caption-start] 45px [caption-end searchbar-start] 45px [searchbar-end table-start] 48px [table-end];
+            grid-template-rows: [caption-start] 40px [caption-end searchbar-start] 50px [searchbar-end table-start] 60px [table-end];
+            grid-template-columns: 1fr;
+            // grid-template-columns: [caption-searchbar-start] 1fr [caption-searchbar-end];
+        }
+
+        @include respond(phone) {
+            grid-row: responsive-title-start / responsive-title-end;
+            grid-column: responsive-start / responsive-end;
+
+            grid-template-rows: [caption-start] 30px [caption-end searchbar-start] 45px [searchbar-end table-start] 60px [table-end];
             grid-template-columns: 1fr;
             // grid-template-columns: [caption-searchbar-start] 1fr [caption-searchbar-end];
         }
@@ -825,7 +841,7 @@ td {
 
             @include respond(tab-port) {
                 display: grid;
-                grid-template-rows: [cap-start]1fr [cap-end nothing-start] 1fr [nothing-end title-start] 1fr [title-end];
+                grid-template-rows: [cap-start]auto [cap-end nothing-start] auto [nothing-end title-start] auto [title-end];
                 grid-template-columns: [cap-and-title-start] 1fr [cap-and-title-end];
             }
 
@@ -845,43 +861,11 @@ td {
 
                 &-h1 {
                     font-size: 100%;
-                }
 
-                &-update-text {
-                    font-size: 60%;
-                    vertical-align: text-bottom;
+                    @include respond(phone) {
+                        font-size: 65%;
+                    }
                 }
-
-                &-livepoint {
-                    position: absolute;
-                    color: #f62a66;
-                    border: #f62a66 1px solid;
-                    width: 5px;
-                    height: 5px;
-                    margin-top: 14px;
-                    margin-left: 5px;
-                    border-radius: 100%;
-                    background-color: #f62a66;
-                }
-
-                // &-shiningpoint {
-                //     position: absolute;
-                //     color: #f62a66;
-                //     border: #f62a66 1px solid;
-                //     background-color: #f62a66;
-                //     width: 4px;
-                //     height: 4px;
-                //     margin-top: 14.5px;
-                //     margin-left: 5.7px;
-                //     border-radius: 100%;
-                //     animation: shiningLiveLogo 2s;
-                //     animation-iteration-count: 1;
-                //     animation-fill-mode: none;
-                //     animation-iteration-count: 1;
-                //     animation-fill-mode: none;
-                //     animation-fill-mode: both;
-                //     animation-iteration-count: infinite;
-                // }
 
                 @include respond(tab-port) {
                     grid-row: cap-start / cap-end;
@@ -1026,7 +1010,7 @@ td {
         margin-top: 90px;
         border-radius: 0px 0px 10px 10px;
         overflow: scroll;
-
+        z-index: 5;
         display: grid;
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;
