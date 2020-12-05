@@ -345,17 +345,17 @@ export class CoronavirusWorldComponent extends Component {
 
         return <div>
             <Helmet>
-                <title>Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news</title>
-                <meta name="description" content="Vaccine and Covid-19 tracker. The most comprehensive reliable Corona virus statistical data and impacts of the World on tables, charts, maps and news." />
+                <title>VACCOVID - Vaccine, Covid-19 and Treatment tracker</title>
+                <meta name="description" content="VACCOVID.LIVE comprehensive up-to-date Vaccine tracker, COVID-19 tracker and Treatment tracker website that makes people aware about coronavirus pandemic" />
                 {/* <!-- Open Graph / Facebook --> */}
                 <meta property="og:title" content="Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news" />
                 <meta property="og:description"
-                    content="Vaccine and Covid-19 tracker. The most comprehensive reliable Corona virus statistical data and impacts of the World on tables, charts, maps and news." />
+                    content="VACCOVID.LIVE comprehensive up-to-date Vaccine tracker, COVID-19 tracker and Treatment tracker website that make people aware about coronavirus pandemic" />
 
                 {/* <!-- Twitter --> */}
-                <meta property="twitter:title" content="Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news" />
+                <meta property="twitter:title" content="Vaccovid - Vaccine tracker, Covid-19 tracker and Treatment tracker" />
                 <meta property="twitter:description"
-                    content="Vaccine and Covid-19 tracker. The most comprehensive reliable Corona virus statistical data and impacts of the World on tables, charts, maps and news." />
+                    content="VACCOVID.LIVE comprehensive up-to-date Vaccine tracker, COVID-19 tracker and Treatment tracker website that make people aware about coronavirus pandemic" />
 
             </Helmet>
             {

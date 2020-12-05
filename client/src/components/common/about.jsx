@@ -25,7 +25,6 @@ export class About extends Component {
         return (
             <div>
                 <Helmet>
-
                     <title>About Vaccovid project, Contributers and Resources - vaccovid.live</title>
                     <meta name="description" content="all you need to know about Vaccovid project, Contributers and Resources - vaccovid.live" />
 

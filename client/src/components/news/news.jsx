@@ -192,16 +192,16 @@ export class NewsComponent extends Component {
         const { news } = this.props;
 
         // let { parameteres } = this.props.match.params; // url parameteres
-        let url_state = this.props.location.state;       // url passing state
+        // let url_state = this.props.location.state;       // url passing state
 
-        if (window.location.pathname === "/news" || window.location.pathname === "/news/" || url_state === undefined) {
-            return <Redirect to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }} push />
-        }
+        // if (window.location.pathname === "/news" || window.location.pathname === "/news/" || url_state === undefined) {
+        //     return <Redirect to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }} push />
+        // }
 
-        if (url_state.topic === null || url_state.topic === undefined) {
-            return <Redirect to={{ pathname: '/not-found' }} push />
-            // this.props.history.push('/not-found')
-        }
+        // if (url_state.topic === null || url_state.topic === undefined) {
+        //     return <Redirect to={{ pathname: '/not-found' }} push />
+        //     // this.props.history.push('/not-found')
+        // }
 
         const renderButtons = () => {
             if (this.state.active_btn === "covid19") {

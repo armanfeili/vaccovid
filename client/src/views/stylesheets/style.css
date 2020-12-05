@@ -3134,7 +3134,7 @@ td {
     grid-column: stats-start / stats-end;
     display: grid;
     grid-template-rows: auto;
-    grid-template-columns: 140px 140px 110px 90px 120px 110px 120px 95px 110px 300px;
+    grid-template-columns: 140px 140px 110px 105px 175px 110px 120px 95px 110px 300px;
     overflow: scroll;
     margin-top: 2px; }
     @media only screen and (max-width: 56.25em) {
