@@ -37,7 +37,7 @@ export const timers = async () => {
             //Start Fetcher - in this function we fetch data from covid19 npm
             await fetch_npmData();
             console.log("calling fetch_npmData is finished");
-        }, 1 * 10 * 60 * 1000); // Min * Sec * Ms - every 10 minutes 
+        }, 1 * 5 * 60 * 1000); // Min * Sec * Ms - every 5 minutes 
 
         setInterval(async () => {
             // countries

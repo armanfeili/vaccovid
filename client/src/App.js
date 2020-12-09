@@ -54,6 +54,12 @@ class App extends React.Component {
                   <Route exact name="eachContinent" path='/covid-19-tracker/:continentName' component={CoronavirusEachContinentComponent} />
                 </Switch>
                 <Switch>
+                  <Route exact name="baseContinent3" path="/covid-19" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
+                </Switch>
+                <Switch>
+                  <Route exact name="eachContinen2" path='/covid-19/:continentName' component={CoronavirusEachContinentComponent} />
+                </Switch>
+                <Switch>
                   <Route exact name="Vaccine" path='/vaccine-tracker' component={VaccineBase} />
                 </Switch>
                 <Switch>
@@ -72,9 +78,10 @@ class App extends React.Component {
                   <Route exact name="EachTreatment" path='/treatment-tracker/:category/:name' component={EachTreatment} />
                 </Switch>
                 <Switch>
-                  <Route exact name="eachCountry" path="/covid-19-tracker/:countryName/:iso" 
-                  // handler={CoronavirusEachCountryComponent}
-                   component={CoronavirusEachCountryComponent} />
+                  <Route exact name="eachCountry" path="/covid-19-tracker/:countryName/:iso" component={CoronavirusEachCountryComponent} />
+                </Switch>
+                <Switch>
+                  <Route exact name="eachCountry2" path="/covid-19/:countryName/:iso" component={CoronavirusEachCountryComponent} />
                 </Switch>
                 <Switch>
                   <Route exact path='/coronavirus-world-map' component={WorldMapComponent} />
