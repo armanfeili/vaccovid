@@ -3947,7 +3947,7 @@ td {
     justify-self: center;
     display: grid;
     grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
-    grid-template-columns: 1fr [left-start] auto [left-end middle-start] auto [middle-end right-start] auto [right-end] 1fr;
+    grid-template-columns: 1fr [left-start] 1fr [left-end middle-start] 1fr [middle-end right-start] 1fr [right-end] 1fr;
     margin-top: 15px;
     gap: 0px 3%; }
     @media only screen and (max-width: 75em) {
@@ -4015,7 +4015,7 @@ td {
         grid-column: right-start / right-end;
         font-weight: 100; }
         .about-whoweare-second-part-Arman-Feili-title-name {
-          font-size: 230%;
+          font-size: 180%;
           font-weight: 100;
           line-height: 0px;
           margin-top: 37px;
@@ -4024,7 +4024,7 @@ td {
             .about-whoweare-second-part-Arman-Feili-title-name {
               font-size: 200%; } }
         .about-whoweare-second-part-Arman-Feili-title-proficiency {
-          font-size: 120%;
+          font-size: 110%;
           line-height: 15px;
           margin-top: 28px;
           margin-left: 2px; }
@@ -4112,7 +4112,7 @@ td {
         grid-column: right-start / right-end;
         font-weight: 100; }
         .about-whoweare-second-part-Parsa-Radfar-title-name {
-          font-size: 230%;
+          font-size: 180%;
           font-weight: 100;
           line-height: 0px;
           margin-top: 37px;
@@ -4121,7 +4121,7 @@ td {
             .about-whoweare-second-part-Parsa-Radfar-title-name {
               font-size: 200%; } }
         .about-whoweare-second-part-Parsa-Radfar-title-proficiency {
-          font-size: 120%;
+          font-size: 110%;
           line-height: 15px;
           margin-top: 28px;
           margin-left: 2px; }
@@ -4168,7 +4168,7 @@ td {
         grid-column: right-start / right-end;
         font-weight: 100; }
         .about-whoweare-second-part-Amin-Feili-title-name {
-          font-size: 230%;
+          font-size: 180%;
           font-weight: 100;
           line-height: 0px;
           margin-top: 37px;
@@ -4177,7 +4177,7 @@ td {
             .about-whoweare-second-part-Amin-Feili-title-name {
               font-size: 200%; } }
         .about-whoweare-second-part-Amin-Feili-title-proficiency {
-          font-size: 120%;
+          font-size: 110%;
           line-height: 15px;
           margin-top: 28px;
           margin-left: 2px; }

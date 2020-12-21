@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import Footer from '../common/footer';
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
+import { FiUserPlus } from "react-icons/fi";
+import { BsPersonPlus } from "react-icons/bs";
 import { Helmet } from "react-helmet";
 import { Link } from 'react-router-dom';
 
@@ -84,6 +87,58 @@ export class About extends Component {
                                     </div>
                                     <div className="about-whoweare-second-part-Arman-Feili-title-instagram">
                                         <a className="about-whoweare-second-part-Arman-Feili-title-instagram-item" href="https://www.instagram.com/doctor._amin/" rel="noopener noreferrer" target="_blank" ><FaInstagram className="about-whoweare-second-part-Arman-Feili-title-instagram-item-logo" /><span className="about-whoweare-second-part-Arman-Feili-title-instagram-item-text">Follow @doctor._amin</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="about-whoweare-second-part">
+                            <div className="about-whoweare-second-part-Arman-Feili">
+                                <div className="about-whoweare-second-part-Arman-Feili-image">
+                                    <img className="about-whoweare-second-part-Arman-Feili-image-img" src={require(`./../../views/contributors/asep.jpg`)} alt="co-founder " />
+                                </div>
+                                <div className="about-whoweare-second-part-Arman-Feili-title">
+                                    <h2 className="about-whoweare-second-part-Arman-Feili-title-name">Asep Supriyadi</h2>
+                                    <p className="about-whoweare-second-part-Arman-Feili-title-proficiency"></p>
+                                    <p className="about-whoweare-second-part-Arman-Feili-title-act">Communication Manager</p>
+                                    <div className="about-whoweare-second-part-Arman-Feili-title-linkedIn">
+                                        <a className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item" href="https://www.linkedin.com/in/asep-supriyadi/" rel="noopener noreferrer" target="_blank" ><FaLinkedin className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo" /><span className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text">Follow on LinkedIn</span></a>
+                                    </div>
+                                    <div className="about-whoweare-second-part-Arman-Feili-title-instagram">
+                                        <a className="about-whoweare-second-part-Arman-Feili-title-instagram-item" href="https://www.instagram.com/assepsoepriyadhie/" rel="noopener noreferrer" target="_blank" ><FaInstagram className="about-whoweare-second-part-Arman-Feili-title-instagram-item-logo" /><span className="about-whoweare-second-part-Arman-Feili-title-instagram-item-text">@assepsoepriyadhie</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="about-whoweare-second-part-Parsa-Radfar">
+                                <div className="about-whoweare-second-part-Parsa-Radfar-image">
+                                    {/* <img className="about-whoweare-second-part-Parsa-Radfar-image-img" src={require(`./../../views/contributors/user-plus.jpg`)} alt="co-founder " /> */}
+                                    <BsPersonPlus className="about-whoweare-second-part-Parsa-Radfar-image-img" />
+                                </div>
+                                <div className="about-whoweare-second-part-Parsa-Radfar-title">
+                                    <h2 className="about-whoweare-second-part-Parsa-Radfar-title-name">Join The Team</h2>
+                                    <p className="about-whoweare-second-part-Parsa-Radfar-title-proficiency"></p>
+                                    <p className="about-whoweare-second-part-Parsa-Radfar-title-act">send us a message</p>
+                                    <div className="about-whoweare-second-part-Arman-Feili-title-instagram">
+                                        <a className="about-whoweare-second-part-Arman-Feili-title-instagram-item" href="mailto:vaccovid.live@gmail.com?subject=Hi%20there.%20I'm%20a%20visitor%20to%20your%20website,%20and%20here%20is%20my%20comment:" rel="noopener noreferrer" target="_blank" ><SiGmail className="about-whoweare-second-part-Arman-Feili-title-instagram-item-logo" /><span className="about-whoweare-second-part-Arman-Feili-title-instagram-item-text">Send us an Email</span></a>
+                                    </div>
+                                    <div className="about-whoweare-second-part-Arman-Feili-title-linkedIn">
+                                        <a className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item" href="https://www.linkedin.com/company/vaccovid/" rel="noopener noreferrer" target="_blank" ><FaLinkedin className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo" /><span className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text">Follow on LinkedIn</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="about-whoweare-second-part-Amin-Feili">
+                                <div className="about-whoweare-second-part-Amin-Feili-image">
+                                    {/* <img className="about-whoweare-second-part-Amin-Feili-image-img" src={require(`./../../views/contributors/user-plus.jpg`)} alt="data-analyser " /> */}
+                                    <BsPersonPlus className="about-whoweare-second-part-Amin-Feili-image-img" />
+                                </div>
+                                <div className="about-whoweare-second-part-Amin-Feili-title">
+                                    <h2 className="about-whoweare-second-part-Amin-Feili-title-name">Join The Team</h2>
+                                    <p className="about-whoweare-second-part-Amin-Feili-title-proficiency"></p>
+                                    <p className="about-whoweare-second-part-Amin-Feili-title-act">send us a message</p>
+                                    <div className="about-whoweare-second-part-Arman-Feili-title-instagram">
+                                        <a className="about-whoweare-second-part-Arman-Feili-title-instagram-item" href="mailto:vaccovid.live@gmail.com?subject=Hi%20there.%20I'm%20a%20visitor%20to%20your%20website,%20and%20here%20is%20my%20comment:" rel="noopener noreferrer" target="_blank" ><SiGmail className="about-whoweare-second-part-Arman-Feili-title-instagram-item-logo" /><span className="about-whoweare-second-part-Arman-Feili-title-instagram-item-text">Send us an Email</span></a>
+                                    </div>
+                                    <div className="about-whoweare-second-part-Arman-Feili-title-linkedIn">
+                                        <a className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item" href="https://www.linkedin.com/company/vaccovid/" rel="noopener noreferrer" target="_blank" ><FaLinkedin className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item-logo" /><span className="about-whoweare-second-part-Arman-Feili-title-linkedIn-item-text">Follow on LinkedIn</span></a>
                                     </div>
                                 </div>
                             </div>

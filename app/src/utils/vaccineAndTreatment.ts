@@ -855,13 +855,16 @@ export async function get_FDA_Approved_Vaccines() {
 
     try {
         const data = await vaccineRepository.find({
-            where: {
+            where: [{
                 treatmentVsVaccine: "Vaccine",
                 FDAApproved: Not(In(["undefined"]))
                 // FDAApproved: Not(In(["undefined", ""]))
                 // FDAApproved: Not("undefined") && Not("")
                 // Country: Not(In(["World", "Total:"])),
-            },
+            }, {
+                treatmentVsVaccine: "Vaccine",
+                phase: "Authorized"
+            }],
             order: { lastUpdated: "DESC" }
         });
 

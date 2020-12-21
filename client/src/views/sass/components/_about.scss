@@ -99,7 +99,9 @@
 
             display: grid;
             grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
-            grid-template-columns: 1fr [left-start] auto [left-end middle-start] auto [middle-end right-start] auto [right-end] 1fr;
+            grid-template-columns: 1fr [left-start] 1fr [left-end middle-start] 1fr [middle-end right-start] 1fr [right-end] 1fr;
+
+            // grid-template-columns: 1fr [left-start] auto [left-end middle-start] auto [middle-end right-start] auto [right-end] 1fr;
             // grid-template-columns: [left-start] minmax(300px, 330px) [left-end middle-start] minmax(300px, 330px) [middle-end right-start] minmax(300px, 330px) [right-end];
             margin-top: 15px;
             // gap: 10px;
@@ -188,7 +190,7 @@
                     font-weight: 100;
 
                     &-name {
-                        font-size: 230%;
+                        font-size: 180%;
                         font-weight: 100;
                         line-height: 0px;
                         margin-top: 37px;
@@ -201,7 +203,7 @@
                     }
 
                     &-proficiency {
-                        font-size: 120%;
+                        font-size: 110%;
                         line-height: 15px;
                         margin-top: 28px;
                         margin-left: 2px;
@@ -331,7 +333,7 @@
                     font-weight: 100;
 
                     &-name {
-                        font-size: 230%;
+                        font-size: 180%;
                         font-weight: 100;
                         line-height: 0px;
                         margin-top: 37px;
@@ -344,7 +346,7 @@
                     }
 
                     &-proficiency {
-                        font-size: 120%;
+                        font-size: 110%;
                         line-height: 15px;
                         margin-top: 28px;
                         margin-left: 2px;
@@ -410,7 +412,7 @@
                     font-weight: 100;
 
                     &-name {
-                        font-size: 230%;
+                        font-size: 180%;
                         font-weight: 100;
                         line-height: 0px;
                         margin-top: 37px;
@@ -423,7 +425,7 @@
                     }
 
                     &-proficiency {
-                        font-size: 120%;
+                        font-size: 110%;
                         line-height: 15px;
                         margin-top: 28px;
                         margin-left: 2px;

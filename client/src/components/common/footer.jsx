@@ -129,11 +129,11 @@ export class Footer extends Component {
                         </div>
                         <div className="footer-second-part-icons-facebook">
                             {/* <img className="footer-second-part-icons-tweeter-logo" src={require(`./../../views/socialmedia-icons/facebook.svg`)} /> */}
-                            <a href="https://www.facebook.com/vaccovid.live/" rel="noopener noreferrer" target="_blank" ><FaFacebook className="footer-second-part-icons-tweeter-logo" /></a>
+                            <a href="https://www.facebook.com/vaccovid" rel="noopener noreferrer" target="_blank" ><FaFacebook className="footer-second-part-icons-tweeter-logo" /></a>
                         </div>
                         <div className="footer-second-part-icons-linkedIn">
                             {/* <img className="footer-second-part-icons-tweeter-logo" src={require(`./../../views/socialmedia-icons/linkedin.svg`)} /> */}
-                            <a href="https://www.linkedin.com/in/vac-covid-23918b1bb/" rel="noopener noreferrer" target="_blank" ><FaLinkedin className="footer-second-part-icons-tweeter-logo" /></a>
+                            <a href="https://www.linkedin.com/company/vaccovid/" rel="noopener noreferrer" target="_blank" ><FaLinkedin className="footer-second-part-icons-tweeter-logo" /></a>
                         </div>
                         <div className="footer-second-part-icons-spotify">
                             {/* <img className="footer-second-part-icons-tweeter-logo" src={require(`./../../views/socialmedia-icons/spotify.svg`)} /> */}
