@@ -24,7 +24,8 @@ async function _downloadOvid() {
         console.log("request to download owid csv file");
 
         // const url = "https://covid.ourworldindata.org/data/owid-covid-data.json";
-        const url = "https://covid.ourworldindata.org/data/owid-covid-data.csv";
+        // const url = "https://covid.ourworldindata.org/data/owid-covid-data.csv";
+        const url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv";
         const csvFilePath = Path.resolve(__dirname, "owid-covid-data.csv");
 
         // axios image download with response type "stream"
@@ -42,7 +43,7 @@ async function _downloadOvid() {
             response.data.pipe(fs.createWriteStream(csvFilePath));
 
             // return a promise and resolve when download finishes
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 response.data.on("end", () => {
                     resolve();
                     console.log("owid csv file is updated");
@@ -122,7 +123,7 @@ async function _convertCsvToJsonOvid() {
 }
 
 export const downloadAndConvertOwidData = async () => {
-    await _downloadOvid();
+    // await _downloadOvid();
     await _convertCsvToJsonOvid();
 };
 

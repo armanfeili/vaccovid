@@ -20,8 +20,7 @@ async function _connect() {
 
 const StrToFloat = (str: string | number): number => {
     if (str === "") return 0;
-    const realStr = str.toString();
-    return parseFloat(realStr.replace(/,/g, ""));
+    return parseFloat(str.toString().replace(/,/g, ""));
 };
 
 function _searchCountryCode(countryName: any, worldSymbols: any) {
@@ -47,13 +46,13 @@ function _searchProvinceCode(provinceName: any, stateSymbols: any) {
 async function _fetchData() {
     // https://documenter.getpostman.com/view/8854915/SzS7NkAS?version=latest
     try {
-        const data = (await axios.get(`https://covid-api.com/api/reports/`)).data.data;
-
+        const data = (await axios.get(`http://covid-api.com/api/reports`));
+        
         if (data === undefined) {
             console.error("couldn't fetch data from API");
             return "no data";
-        }
-        return data;
+        } 
+        return data.data.data; 
     } catch (error) {
         console.log(error);
     }
@@ -87,7 +86,7 @@ export async function updateProvinces() {
     // await citiesRepository.clear();
     // if ((await provinceRepository.find()).length > 0) provinceRepository.query("DROP TABLE province CASCADE;");
 
-    await connect.queryRunner.startTransaction();
+    // await connect.queryRunner.startTransaction();
     try {
 
         let existProvince = await provinceRepository.find({
@@ -95,7 +94,7 @@ export async function updateProvinces() {
         });
         if (existProvince.length > 40) {
             console.log("provinces already existed");
-            await connect.queryRunner.rollbackTransaction();
+            // await connect.queryRunner.rollbackTransaction();
             return "provinces already existed";
         } else {
             const data = await _fetchData();
@@ -104,7 +103,7 @@ export async function updateProvinces() {
             // if (data === undefined) {
             if (!data) {
                 console.log("couldn't fetch provinces data");
-                await connect.queryRunner.rollbackTransaction();
+                // await connect.queryRunner.rollbackTransaction();
                 return "no data";
             }
 
@@ -171,15 +170,15 @@ export async function updateProvinces() {
                 // }
                 // // if (element.region.iso.length > 5) console.log(element);
             });
-            await connect.queryRunner.commitTransaction();
+            // await connect.queryRunner.commitTransaction();
         }
     } catch (error) {
         console.log(error);
-        await connect.queryRunner.rollbackTransaction();
+        // await connect.queryRunner.rollbackTransaction();
         return "Not Done";
     } finally {
         // you need to release query runner which is manually created:
-        await connect.queryRunner.release();
+        // await connect.queryRunner.release();
         return "done";
     }
 }
@@ -306,10 +305,10 @@ export async function addUSStates() {
     // entities to work with:
     const provinceRepository = connect.connection.getRepository(Province);
     const provinceReportRepository = connect.connection.getRepository(CovidProvincesAPI);
-
+    
+    try {
     await connect.queryRunner.startTransaction();
     // let worldData: Object | undefined = {}
-    try {
         const data = await _fetchUSData();
         // console.log(data);
         if (data === undefined) {
@@ -465,27 +464,29 @@ export async function getReports(iso: String) {
         let more_specific: any = [];
         data.forEach((e: any) => {
             let obj: any = {};
-
+            
             obj.name = e.name;
             obj.province = e.province;
             obj.TwoLetterSymbol = e.TwoLetterSymbol;
             obj.iso = e.iso;
             // obj.reports = e.reports;
-            obj.date = e.reports[0].date;
-            obj.confirmed = e.reports[0].confirmed;
-            obj.recovered = e.reports[0].recovered;
-            obj.deaths = e.reports[0].deaths;
-            obj.Case_Fatality_Rate = e.reports[0].Case_Fatality_Rate;
-            obj.datRecovery_Proporatione = e.reports[0].datRecovery_Proporatione;
-            obj.confirmed_diff = e.reports[0].confirmed_diff;
-            obj.deaths_diff = e.reports[0].deaths_diff;
-            obj.recovered_diff = e.reports[0].recovered_diff;
-            obj.active = e.reports[0].active;
-            obj.active_diff = e.reports[0].active_diff;
-            obj.fatality_rate = e.reports[0].fatality_rate;
-            obj.Recovery_Proporation = e.reports[0].Recovery_Proporation;
-
-            more_specific.push(obj);
+            if (e.reports[0] !== undefined) {
+                obj.date = e.reports[0]?.date;
+                obj.confirmed = e.reports[0].confirmed;
+                obj.recovered = e.reports[0].recovered;
+                obj.deaths = e.reports[0].deaths;
+                obj.Case_Fatality_Rate = e.reports[0].Case_Fatality_Rate;
+                obj.datRecovery_Proporatione = e.reports[0].datRecovery_Proporatione;
+                obj.confirmed_diff = e.reports[0].confirmed_diff;
+                obj.deaths_diff = e.reports[0].deaths_diff;
+                obj.recovered_diff = e.reports[0].recovered_diff;
+                obj.active = e.reports[0].active;
+                obj.active_diff = e.reports[0].active_diff;
+                obj.fatality_rate = e.reports[0].fatality_rate;
+                obj.Recovery_Proporation = e.reports[0].Recovery_Proporation;
+    
+                more_specific.push(obj);
+            }
         })
         return more_specific;
         // return data;

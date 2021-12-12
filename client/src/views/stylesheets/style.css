@@ -3947,7 +3947,7 @@ td {
     justify-self: center;
     display: grid;
     grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
-    grid-template-columns: 1fr [left-start] 1fr [left-end middle-start] 1fr [middle-end right-start] 1fr [right-end] 1fr;
+    grid-template-columns: 1fr [left-start] minmax(200px, 300px) [left-end middle-start] minmax(200px, 300px) [middle-end right-start] minmax(200px, 300px) [right-end] 1fr;
     margin-top: 15px;
     gap: 0px 3%; }
     @media only screen and (max-width: 75em) {

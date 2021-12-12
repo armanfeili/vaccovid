@@ -19,9 +19,9 @@ async function _connect() {
     }
 }
 
-const StrToFloat = (str: string): number => {
-    if (str == "") return 0;
-    return parseFloat(str.replace(/,/g, ""));
+const StrToFloat = (str: string | number): number => {
+    if (str === "") return 0;
+    return parseFloat(str.toString().replace(/,/g, ""));
 };
 
 const StrToInt = (str: string): number => {
@@ -91,7 +91,8 @@ export const fetch_npmData = async () => {
 
             temp.ActiveCases = e["ActiveCases"] === "" || e["ActiveCases"] === "N/A" ? 0 : StrToInt(e["ActiveCases"]);
             temp.TotalCases = e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : StrToInt(e["TotalCases"]);
-            temp.NewCases = e["NewCases"] === "" || e["NewCases"] === "N/A" ? 0 : StrToInt(e["NewCases"]);
+            if(e["NewCases"] !== "" || e["NewCases"] !== "N/A") temp.NewCases = StrToInt(e["NewCases"])
+            // temp.NewCases = e["NewCases"] === "" || e["NewCases"] === "N/A" ? 0 : StrToInt(e["NewCases"]);
             temp.TotalDeaths = e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" ? 0 : StrToInt(e["TotalDeaths"]);
             temp.NewDeaths = e["NewDeaths"] === "" || e["NewDeaths"] === "N/A" ? 0 : StrToInt(e["NewDeaths"]);
             temp.TotalRecovered = e["TotalRecovered"] === "" || e["TotalRecovered"] === "N/A" ? (e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" || e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : StrToInt(e["TotalCases"]) - StrToInt(e["TotalDeaths"])) : StrToInt(e["TotalRecovered"]);
@@ -136,7 +137,7 @@ export async function fetchCasesInAllUSStates() {
     const provinceRepository = connect.connection.getRepository(Province);
     const provinceReportRepository = connect.connection.getRepository(CovidProvincesAPI);
 
-    await connect.queryRunner.startTransaction();
+    // await connect.queryRunner.startTransaction();
     // let worldData: Object | undefined = {}
     try {
         // const data = await covid.getCasesInAllUSStates();
@@ -144,7 +145,7 @@ export async function fetchCasesInAllUSStates() {
         // console.log(data[0][0].table[0]);
         if (data === undefined) {
             console.log("couldn't fetch data");
-            await connect.queryRunner.rollbackTransaction();
+            // await connect.queryRunner.rollbackTransaction();
             // return "No Data";
         }
 
@@ -155,7 +156,7 @@ export async function fetchCasesInAllUSStates() {
 
             if (!existProvince) {
                 console.log("no such province");
-                await connect.queryRunner.rollbackTransaction();
+                // await connect.queryRunner.rollbackTransaction();
                 // return "no such province";
             }
 
@@ -207,10 +208,10 @@ export async function fetchCasesInAllUSStates() {
                 newData.province = existProvince;
                 // newData.province = element.province;
                 await provinceReportRepository.save(newData);
-                await connect.queryRunner.commitTransaction();
+                // await connect.queryRunner.commitTransaction();
             } else {
                 console.log("report already exists");
-                await connect.queryRunner.rollbackTransaction();
+                // await connect.queryRunner.rollbackTransaction();
                 // return "report already exists";
             }
         });
@@ -218,7 +219,7 @@ export async function fetchCasesInAllUSStates() {
         console.log(error);
     } finally {
         // you need to release query runner which is manually created:
-        await connect.queryRunner.release();
+        // await connect.queryRunner.release();
     }
 }
 

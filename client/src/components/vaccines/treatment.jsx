@@ -421,21 +421,6 @@ Treatment.propTypes = {
     vaccines: PropTypes.array,
     treatments: PropTypes.array,
     eachVaccine: PropTypes.array,
-
-    getAllCountriesData: PropTypes.func.isRequired,
-    getWorldData: PropTypes.func.isRequired,
-    getAllCountriesDataNameOrdered: PropTypes.func.isRequired,
-    getAsiaCountriesData: PropTypes.func.isRequired,
-    getAfricaCountriesData: PropTypes.func.isRequired,
-    getEuropeCountriesData: PropTypes.func.isRequired,
-    getNorthAmericaCountriesData: PropTypes.func.isRequired,
-    getSouthAmericaCountriesData: PropTypes.func.isRequired,
-    getAustraliaOceaniaCountriesData: PropTypes.func.isRequired,
-
-    getCountryISOBased: PropTypes.func.isRequired,
-    getProvinceReportISOBased: PropTypes.func.isRequired,
-
-    clearWorldData: PropTypes.func.isRequired,
 };
 
 

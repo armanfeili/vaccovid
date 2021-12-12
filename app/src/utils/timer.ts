@@ -20,7 +20,7 @@ export const timers = async () => {
             await updateOwid();
             console.log("calling updateOwid is finished");
         }, 1 * 2 * 60 * 1000); // after 2 minutes
-        setTimeout(async () => {
+        setTimeout(async () => { 
             await updateOwid();
             console.log("calling updateOwid is finished");
         }, 1 * 5 * 60 * 1000); // after 5 minutes
@@ -61,17 +61,17 @@ export const timers = async () => {
                 await updateVaccine();
                 console.log("calling updateVaccine is finished");
             }, 1 * 10 * 60 * 1000); // after 10 minutes
-        }, 5 * 60 * 60 * 1000); // Min * Sec * Ms - every 5 hours 
+        }, 17 * 60 * 60 * 1000); // Min * Sec * Ms - every 17 hours 
 
         setInterval(async () => {
             await fetchAndSaveWhoAndOtherNews();
             console.log("calling fetchAndSaveWhoAndOtherNews is finished");
-        }, 2 * 60 * 60 * 1000); // Min * Sec * Ms - every 2 hours
+        }, 7 * 60 * 60 * 1000); // Min * Sec * Ms - every 7 hours
 
         setInterval(async () => {
             await deleteAllOldNews();
             console.log("calling deleteAllOldNews is finished");
-        }, 5 * 60 * 60 * 1000); // Min * Sec * Ms - every 5 hours 
+        }, 5 * 13 * 60 * 60 * 1000); // Min * Sec * Ms - every 2.5 days 
     } catch (error) {
         console.log(error);
     }

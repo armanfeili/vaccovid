@@ -53,7 +53,7 @@ export class Server {
         // this.app.get("*", (req: Request, res: Response): void => {
         //     res.sendFile(path.resolve("./") + "/client/build/");
         // });
-
+ 
         // console.log(process.env.NODE_ENV);
 
         // *********************************************** //

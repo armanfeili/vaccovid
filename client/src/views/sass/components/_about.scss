@@ -99,7 +99,7 @@
 
             display: grid;
             grid-template-rows: [contributors-start] auto [contributors-end names-start] auto [names-end];
-            grid-template-columns: 1fr [left-start] 1fr [left-end middle-start] 1fr [middle-end right-start] 1fr [right-end] 1fr;
+            grid-template-columns: 1fr [left-start] minmax(200px, 300px) [left-end middle-start] minmax(200px, 300px) [middle-end right-start] minmax(200px, 300px) [right-end] 1fr;
 
             // grid-template-columns: 1fr [left-start] auto [left-end middle-start] auto [middle-end right-start] auto [right-end] 1fr;
             // grid-template-columns: [left-start] minmax(300px, 330px) [left-end middle-start] minmax(300px, 330px) [middle-end right-start] minmax(300px, 330px) [right-end];

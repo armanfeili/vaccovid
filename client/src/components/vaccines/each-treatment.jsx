@@ -148,9 +148,9 @@ export class EachTreatment extends Component {
                                             })}</span></div>
                                         </div>
                                         <div className="each-vaccine-titleAndPic-categoryPic">
-                                            <img className="each-vaccine-titleAndPic-categoryPic-pic" src={`${require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory}.jpg`) ?
-                                                require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory}.jpg`) :
-                                                require(`./../../views/vaccine-categories-pics/other.jpg`)}`} alt="category" />
+                                            <img className="each-vaccine-titleAndPic-categoryPic-pic" src={`${require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory === "other" ? "Other" : eachVacItem[0].trimedCategory}.jpg`) ?
+                                                require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory === "other" ? "Other" : eachVacItem[0].trimedCategory}.jpg`) :
+                                                require(`./../../views/vaccine-categories-pics/Other.jpg`)}`} alt="category" />
                                             <div className="each-vaccine-titleAndPic-categoryPic-cover"></div>
                                         </div>
                                     </section>
