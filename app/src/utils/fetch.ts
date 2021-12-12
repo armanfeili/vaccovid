@@ -91,7 +91,7 @@ export const fetch_npmData = async () => {
 
             temp.ActiveCases = e["ActiveCases"] === "" || e["ActiveCases"] === "N/A" ? 0 : StrToInt(e["ActiveCases"]);
             temp.TotalCases = e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : StrToInt(e["TotalCases"]);
-            if(e["NewCases"] !== "" || e["NewCases"] !== "N/A") temp.NewCases = StrToInt(e["NewCases"])
+            if(e["NewCases"] !== "" || e["NewCases"] !== "N/A" || e["NewCases"] !== 0) temp.NewCases = StrToInt(e["NewCases"])
             // temp.NewCases = e["NewCases"] === "" || e["NewCases"] === "N/A" ? 0 : StrToInt(e["NewCases"]);
             temp.TotalDeaths = e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" ? 0 : StrToInt(e["TotalDeaths"]);
             temp.NewDeaths = e["NewDeaths"] === "" || e["NewDeaths"] === "N/A" ? 0 : StrToInt(e["NewDeaths"]);
