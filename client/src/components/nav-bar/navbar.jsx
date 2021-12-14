@@ -75,11 +75,6 @@ export default class NavBar extends Component {
                                 </NavLink>
                             </li>
                             <li className="navigation-btns-li">
-                                <a href='http://docs.vaccovid.live/' className="nav-link" rel="noopener noreferrer" target='_blank'>
-                                    ARTICLES
-                                </a>
-                            </li>
-                            <li className="navigation-btns-li">
                                 <NavLink className="nav-link" activeClassName='is-active' to="/about">
                                     {" "}
                                     ABOUT
@@ -120,9 +115,6 @@ export default class NavBar extends Component {
                                     {" "}
                                     NEWS
                                 </NavLink>
-                            </li>
-                            <li className="res-navigation-responsive-li">
-                                <a href='http://docs.vaccovid.live/' className="res-navigation-responsive-li-nav-link" rel="noopener noreferrer" target='_blank'>ARTICLES</a>
                             </li>
                             <li className="res-navigation-responsive-li">
                                 <NavLink className="res-navigation-responsive-li-nav-link" onClick={() => { this.onClickShowNavbar(); this.changeOffset() }} activeClassName='res-navigation-responsive-is-active' to="/about">
