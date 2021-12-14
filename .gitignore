@@ -1,6 +1,6 @@
 owid-covid-data.json
 node_modules
-./app/ormconfig.json
+ormconfig.json
 .env
 /build/*
 !not-emprty.md
