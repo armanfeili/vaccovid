@@ -4,7 +4,7 @@ import Footer from '../common/footer';
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
-import { FiUserPlus } from "react-icons/fi";
+// import { FiUserPlus } from "react-icons/fi";
 import { BsPersonPlus } from "react-icons/bs";
 import { Helmet } from "react-helmet";
 import { Link } from 'react-router-dom';
