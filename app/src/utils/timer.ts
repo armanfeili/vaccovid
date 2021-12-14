@@ -16,14 +16,6 @@ export const timers = async () => {
         console.log("calling addDailyReports is finished");
         await downloadAndConvertOwidData();
         console.log("calling downloadAndConvertOwidData is finished");
-        setTimeout(async () => {
-            await updateOwid();
-            console.log("calling updateOwid is finished");
-        }, 1 * 2 * 60 * 1000); // after 2 minutes
-        setTimeout(async () => { 
-            await updateOwid();
-            console.log("calling updateOwid is finished");
-        }, 1 * 5 * 60 * 1000); // after 5 minutes
         await fetchAndSaveWhoAndOtherNews();
         console.log("calling fetchAndSaveWhoAndOtherNews is finished");
         await deleteAllOldNews();
@@ -32,6 +24,10 @@ export const timers = async () => {
         console.log("calling convertVaccineData is finished");
         await updateVaccine();
         console.log("calling updateVaccine is finished");
+        setTimeout(async () => { 
+            await updateOwid();
+            console.log("calling updateOwid is finished");
+        }, 1 * 5 * 60 * 1000); // after 5 minutes
 
         setInterval(async () => {
             //Start Fetcher - in this function we fetch data from covid19 npm
@@ -51,7 +47,7 @@ export const timers = async () => {
                 await updateOwid();
                 console.log("calling updateOwid is finished");
             }, 1 * 5 * 60 * 1000); // after 5 minutes
-        }, 12 * 60 * 60 * 1000); // Min * Sec * Ms - 2 times a day 
+        }, 11 * 60 * 60 * 1000); // Min * Sec * Ms - 2 times a day 
 
         setInterval(async () => {
             // update vaccine
