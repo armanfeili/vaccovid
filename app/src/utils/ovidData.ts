@@ -124,7 +124,7 @@ async function _convertCsvToJsonOvid() {
 
 export const downloadAndConvertOwidData = async () => {
     // await _downloadOvid();
-    await _convertCsvToJsonOvid();
+    // await _convertCsvToJsonOvid();
 };
 
 export const updateOwid = async () => {

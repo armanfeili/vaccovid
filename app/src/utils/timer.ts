@@ -1,7 +1,8 @@
 import { fetch_npmData } from "./fetch";
 import { fetchAndSaveWhoAndOtherNews, deleteAllOldNews } from "./newsData";
 import { updateProvinces, addDailyReports } from "./covidAPIData";
-import { downloadAndConvertOwidData, updateOwid } from "./ovidData";
+import { updateOwid } from "./ovidData";
+// import { downloadAndConvertOwidData, updateOwid } from "./ovidData";
 import { convertVaccineData, updateVaccine } from "./vaccineAndTreatment";
 
 export const timers = async () => {
@@ -18,10 +19,10 @@ export const timers = async () => {
             await addDailyReports();
             console.log("calling addDailyReports is finished");
         }, 1 * 2 * 60 * 1000); // after 2 minute
-        setTimeout(async () => { 
-            await downloadAndConvertOwidData();
-            console.log("calling downloadAndConvertOwidData is finished");
-        }, 1 * 3 * 60 * 1000); // after 3 minute
+        // setTimeout(async () => { 
+        //     await downloadAndConvertOwidData();
+        //     console.log("calling downloadAndConvertOwidData is finished");
+        // }, 1 * 3 * 60 * 1000); // after 3 minute
         setTimeout(async () => { 
             await fetchAndSaveWhoAndOtherNews();
             console.log("calling fetchAndSaveWhoAndOtherNews is finished");
@@ -57,10 +58,10 @@ export const timers = async () => {
                 console.log("calling addDailyReports is finished");
             }, 1 * 1 * 60 * 1000); // after 1 minute
             
-            setTimeout(async () => { 
-                await downloadAndConvertOwidData();
-                console.log("calling downloadAndConvertOwidData is finished");
-            }, 1 * 3 * 60 * 1000); // after 2 minute
+            // setTimeout(async () => { 
+            //     await downloadAndConvertOwidData();
+            //     console.log("calling downloadAndConvertOwidData is finished");
+            // }, 1 * 3 * 60 * 1000); // after 2 minute
             
             setTimeout(async () => {
                 await updateOwid();
