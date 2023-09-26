@@ -1,37 +1,5 @@
-# Vaccine Now
+# VACCOVID Website
 
-Wishing all viruses defeat
+VACCOVID.LIVE was a comprehensive, up-to-date Vaccine, COVID-19, and Treatment tracker website. It had been launched to inform people throughout the planet about the ongoing novel coronavirus (COVID-19) pandemic.
 
-## Installation
-
-1. Rename "TEST.ormconfig.json" to "ormconfig.json" and fill with your database details
-2. Rename "TEST.env" to ".env" and fill the details
-3. Install packages using:
-
-```bash
-npm install
-```
-
-then install client packages using:
-
-```bash
-cd client
-npm install
-cd ..
-```
-
-4. install concurrently globally (if you don't have it):
-
-```bash
-npm i concurrently -g
-```
-
-5. Start the server using:
-
-```bash
-npm start
-```
-
-### Contributors
-
-Parsa Radfar - Arman Feili
+This website was my first project. Therefore it is not well-organized.
