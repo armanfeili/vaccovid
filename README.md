@@ -1,5 +1,9 @@
-# VACCOVID Website
+VACCOVID.LIVE was a comprehensive and up-to-date website that served as a tracker for vaccines, COVID-19, and treatments. It was launched with the aim of providing information to people worldwide regarding the ongoing novel coronavirus (COVID-19) pandemic.
 
-VACCOVID.LIVE was a comprehensive, up-to-date Vaccine, COVID-19, and Treatment tracker website. It had been launched to inform people throughout the planet about the ongoing novel coronavirus (COVID-19) pandemic.
+This website was my first project; therefore, it may lack proper organization.
 
-This website was my first project. Therefore it is not well-organized.
+Here is a teaser for the VACCOVID website:
+https://www.youtube.com/watch?v=5gTknFJ4oj4
+
+You can find additional screenshots of the web pages in this directory:
+/pictures
