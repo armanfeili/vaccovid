@@ -6,4 +6,4 @@ Here is a teaser for the VACCOVID website:
 https://www.youtube.com/watch?v=5gTknFJ4oj4
 
 You can find additional screenshots of the web pages in this directory:
-/pictures
+/vaccovid-images
