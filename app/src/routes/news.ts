@@ -4,12 +4,8 @@ import { validateSearchNews } from '../validation/val-news/searchNews';
 
 const Router = express.Router();
 
-// error handling ?
-// news results are not based on order
-
 Router.put('/update-who-news', async (req, res) => {
   try {
-    // get raw WHO news and save them into db
     await saveWhoNews();
 
     res.status(200).json({ message: 'News database is updated.' });
@@ -20,7 +16,6 @@ Router.put('/update-who-news', async (req, res) => {
 
 Router.put('/update-other-news', async (req, res) => {
   try {
-    // get raw news and save them into db
     await saveOtherNews();
 
     res.status(200).json({ message: 'News database is updated.' });
@@ -31,7 +26,6 @@ Router.put('/update-other-news', async (req, res) => {
 
 Router.get('/fetch-news-images', async (req, res) => {
   try {
-    // get raw news and save them into db
     await fetchOtherNewsImages();
 
     res.status(200).json({ message: 'News images are getting fetched.' });
@@ -42,7 +36,6 @@ Router.get('/fetch-news-images', async (req, res) => {
 
 Router.put('/update-store-news-images', async (req, res) => {
   try {
-    // get raw news and save them into db
     await update_DB_WithNewsImages();
 
     res.status(200).json({ message: 'News images are updated.' });
@@ -53,7 +46,6 @@ Router.put('/update-store-news-images', async (req, res) => {
 
 Router.delete('/delete-old-news-images', async (req, res) => {
   try {
-    // get raw news and save them into db
     await deleteOldOtherNewsImages();
 
     res.status(200).json({ message: 'Old News images are getting deleted.' });
@@ -141,7 +133,6 @@ Router.get('/get-health-news/:page', async (req, res) => {
 
 Router.delete('/delete-old-news', async (req, res) => {
   try {
-    // get raw news and save them into db
     await deleteOldNews();
 
     res.status(200).json({ message: 'Old News are deleted.' });

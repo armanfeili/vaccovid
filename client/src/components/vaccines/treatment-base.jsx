@@ -14,7 +14,6 @@ import {
 export class TreatmentBase extends Component {
     constructor() {
         super();
-        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
@@ -33,7 +32,6 @@ export class TreatmentBase extends Component {
         this.onClickShowRegions = this.onClickShowRegions.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.compareValues = this.compareValues.bind(this);
-        // this.numberWithCommas = this.numberWithCommas.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.search = this.search.bind(this);
         this.changeOffset = this.changeOffset.bind(this);
@@ -53,7 +51,6 @@ export class TreatmentBase extends Component {
 
             this.setState({ category: this.props.match.params.category })
             this.setState({ name: this.props.match.params.name })
-            // await this.getProvinceCovidData();
         }
     }
 
@@ -84,11 +81,9 @@ export class TreatmentBase extends Component {
         this.setState({ value: event.target.value });
     }
 
-    // sort array of objects based on their values: string or number
     compareValues(key, order = 'asc') {
         return function innerSort(a, b) {
             if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-                // property doesn't exist on either object
                 return 0;
             }
 
@@ -111,40 +106,23 @@ export class TreatmentBase extends Component {
     }
 
     onScroll = (element) => {
-        // http://jsfiddle.net/gwcoffey/9EfUy/
-        // https://andrewnoske.com/wiki/JavaScript_-_Synchronize_Two_Scroll_Areas
-        // https://codepen.io/JohnReynolds57/pen/NLNOyO?editors=0011
-        // https://www.w3schools.com/jsref/prop_element_scrolltop.asp
-
         if (this.regionRef.current !== "undefined" && this.titleRef.current !== "undefined" && this.tableRef.current !== "undefined") {
-            // console.log(this.regionRef.current);  // this is the element
-            // const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
-            // let scrollTitle = this.titleRef.current.scrollLeft
             let scrollTable = this.tableRef.current.scrollLeft
-
-            if (element === "columns") {
-                // this.tableRef.current.scrollLeft = scrollTitle
-                // scrollTable = scrollTitle;
-            }
-            else if (element === "coronavirusTable") {
+            if (element === "coronavirusTable") {
                 this.titleRef.current.scrollLeft = scrollTable
-                // scrollTitle = scrollTable;
             }
         }
     }
 
     search() {
-        // Declare variables
         let input = document.getElementById("input");
         let filter = input !== "undefined" && input !== null ? input.value.toUpperCase() : '';
         let table = document.getElementById("coronavirusTable");
         let selectedTR = []
         let td = []
         let txtValue;
-        // console.log(table);
-
         let tr = table !== "undefined" && table !== null && input !== null ? table.getElementsByTagName("tr") : '';
-        // Loop through all table rows, and hide those who don't match the search query
+
         for (let i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[1];
             if (td) {
@@ -231,7 +209,6 @@ export class TreatmentBase extends Component {
                 category ? (
                     <div>
                         <div className="vaccine-page">
-                            {/* <section className="vaccine-page-list"></section> */}
                             <div className="vaccine-page-btnAndTitle">
                                 <button className="vaccine-page-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Category &#9662;</button>
                                 <h1 className="vaccine-page-btnAndTitle-title">{category.toUpperCase()}</h1>
@@ -295,13 +272,11 @@ export class TreatmentBase extends Component {
                             </main>
                             <div className="vaccine-page-table-title">
                                 <input className="vaccine-page-table-title-searchbar" type="text" id="input" placeholder="Search For Company" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
-                                {/* <h4 className="vaccine-page-table-title-update-text">Update in <span id="time">05:00</span><span className="navigation-brand__livepoint"></span><span className="navigation-brand__shiningpoint"></span></h4> */}
                                 <table className="vaccine-page-table-title-stats" id="t01">
                                     <caption className="vaccine-page-table-title-stats-caption"><h1 className="vaccine-page-table-title-stats-caption-h1">{category === "all-treatments" ? "All Treatments" : category.toUpperCase() + " Treatments"} </h1></caption>
                                     <thead className="vaccine-page-table-title-stats-thead">
                                         <tr className="vaccine-page-table-title-stats-columns" id="columns"
                                             ref={this.titleRef}
-                                            // onScroll={this.onScroll('columns')}
                                             onScroll={() => this.onScroll('columns')}
                                         >
                                             <th className={`vaccine-page-table-title-stats-columns-item vaccine-page-table-title-stats-columns-number`}>NUM</th>
@@ -320,7 +295,6 @@ export class TreatmentBase extends Component {
 
                             <table className="vaccine-page-table-stats" id="coronavirusTable"
                                 ref={this.tableRef}
-                                // onscroll={this.onScroll('coronavirusTable')}
                                 onScroll={() => this.onScroll('coronavirusTable')}
                             >
                                 <tbody>
@@ -365,8 +339,6 @@ export class TreatmentBase extends Component {
                                     }
                                 </tbody>
                             </table>
-
-                            {/* <section className="vaccine-page-table"></section> */}
                         </div>
                     </div>
                 ) : (<h6>loading</h6>)
@@ -378,14 +350,12 @@ export class TreatmentBase extends Component {
 }
 
 TreatmentBase.propTypes = {
-    // world: PropTypes.object,
     vaccines: PropTypes.array,
     treatments: PropTypes.array,
     eachVaccine: PropTypes.array,
 };
 
 
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     vaccines: state.vaccineObject.vaccines,
     treatments: state.vaccineObject.treatments,

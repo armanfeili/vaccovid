@@ -4,7 +4,6 @@ import { worldSymbols } from "./world";
 import { Province } from "../db/models/Provinces";
 import { CovidProvincesAPI } from "../db/models/CovidProvincesAPI";
 
-// import covid from 'covid19-api';
 const covid = require("covid19-api");
 
 async function _connect() {
@@ -48,7 +47,6 @@ function searchCountry3LetterCode(countryName: any, worldSymbols: any) {
             (countryName !== "Channel Islands" || countryName !== "MS Zaandam" || countryName !== "Diamond Princess")
         ) {
             return worldSymbols[i].alpha3;
-            // return [worldSymbols[i].alpha2, worldSymbols[i].alpha3, countryName];
         }
     }
 }
@@ -74,8 +72,6 @@ export const fetch_npmData = async () => {
             const Case_Fatality_Rate = e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" || e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : parseFloat(((StrToFloat(e["TotalDeaths"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
             const Test_Percentage = e["TotalTests"] === "" || e["TotalTests"] === "N/A" || e["Population"] === "" || e["Population"] === "N/A" ? 0 : parseFloat(((StrToFloat(e["TotalTests"]) / StrToFloat(e["Population"])) * 100).toFixed(2));
             const Recovery_Proporation = e["TotalRecovered"] === "" || e["TotalRecovered"] === "N/A" || e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : parseFloat(((StrToFloat(e["TotalRecovered"]) / StrToFloat(e["TotalCases"])) * 100).toFixed(2));
-            // console.log(alpha);
-            // console.log(alpha[0]);
 
             temp.rank = StrToFloat(e["#"]);
             temp.Country = e["Country"];
@@ -87,12 +83,10 @@ export const fetch_npmData = async () => {
             temp.Case_Fatality_Rate = Case_Fatality_Rate;
             temp.Recovery_Proporation = Recovery_Proporation;
             temp.Test_Percentage = Test_Percentage;
-            // console.log(e["ActiveCases"]);
 
             temp.ActiveCases = e["ActiveCases"] === "" || e["ActiveCases"] === "N/A" ? 0 : StrToInt(e["ActiveCases"]);
             temp.TotalCases = e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : StrToInt(e["TotalCases"]);
             if(e["NewCases"] !== "" || e["NewCases"] !== "N/A" || e["NewCases"] !== 0) temp.NewCases = StrToInt(e["NewCases"])
-            // temp.NewCases = e["NewCases"] === "" || e["NewCases"] === "N/A" ? 0 : StrToInt(e["NewCases"]);
             temp.TotalDeaths = e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" ? 0 : StrToInt(e["TotalDeaths"]);
             temp.NewDeaths = e["NewDeaths"] === "" || e["NewDeaths"] === "N/A" ? 0 : StrToInt(e["NewDeaths"]);
             temp.TotalRecovered = e["TotalRecovered"] === "" || e["TotalRecovered"] === "N/A" ? (e["TotalDeaths"] === "" || e["TotalDeaths"] === "N/A" || e["TotalCases"] === "" || e["TotalCases"] === "N/A" ? 0 : StrToInt(e["TotalCases"]) - StrToInt(e["TotalDeaths"])) : StrToInt(e["TotalRecovered"]);
@@ -115,38 +109,26 @@ export const fetch_npmData = async () => {
             } catch (error) {
                 console.log(error);
             }
-            // console.log(num / data[0][0].table[0].length);
         });
         console.log("all countries are updated from npm");
         return data;
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 
 };
 
 export async function fetchCasesInAllUSStates() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
-    // const usRepository = connect.connection.getRepository(USStatistics);
     const provinceRepository = connect.connection.getRepository(Province);
     const provinceReportRepository = connect.connection.getRepository(CovidProvincesAPI);
 
-    // await connect.queryRunner.startTransaction();
-    // let worldData: Object | undefined = {}
     try {
-        // const data = await covid.getCasesInAllUSStates();
         const data = await covid.getUnitedStateCasesByStates();
-        // console.log(data[0][0].table[0]);
         if (data === undefined) {
             console.log("couldn't fetch data");
-            // await connect.queryRunner.rollbackTransaction();
-            // return "No Data";
         }
 
         await data[0][0].table.forEach(async (element: any, num: any) => {
@@ -156,14 +138,11 @@ export async function fetchCasesInAllUSStates() {
 
             if (!existProvince) {
                 console.log("no such province");
-                // await connect.queryRunner.rollbackTransaction();
-                // return "no such province";
             }
 
             const provinceReportExist = await provinceReportRepository.findOne({
                 date: new Date(element.dateModified),
                 province: existProvince,
-                // name: existProvince
             });
 
             const Case_Fatality_Rate = parseFloat(
@@ -173,27 +152,9 @@ export async function fetchCasesInAllUSStates() {
             const Recovery_Proporation = parseFloat(((element.recovered / StrToFloat(element.death)) * 100).toFixed(2));
 
             if (!provinceReportExist) {
-                // const newData: any = new CovidProvincesAPI();
-                // newData.confirmed = element.total;
-                // newData.deaths = element.death;
-                // // newData.recovered = element.recovered;
-                // newData.recovered = element.recovered;
-                // newData.Case_Fatality_Rate = Case_Fatality_Rate;
-                // newData.Recovery_Proporation = Recovery_Proporation;
-                // newData.confirmed_diff = element.confirmed_diff;
-                // newData.deaths_diff = element.deaths_diff;
-                // newData.recovered_diff = element.recovered_diff;
-                // newData.date = new Date(element.date);
-                // newData.active = activeCases;
-                // newData.active_diff = element.active_diff;
-                // newData.fatality_rate = element.fatality_rate;
-                // newData.province = existProvince;
-                // // newData.province = element.province;
-                // await provinceReportRepository.save(newData);
                 const newData: any = new CovidProvincesAPI();
                 newData.confirmed = element.positive;
                 newData.deaths = element.death;
-                // newData.recovered = element.recovered;
                 newData.recovered = element.recovered;
                 newData.Case_Fatality_Rate = Case_Fatality_Rate;
                 newData.Recovery_Proporation = Recovery_Proporation;
@@ -201,18 +162,13 @@ export async function fetchCasesInAllUSStates() {
                 newData.deaths_diff = element.deathIncrease;
                 newData.recovered_diff = 0;
                 newData.date = new Date(element.dateModified);
-                // newData.date = new Date(element.dateModified);
                 newData.active = activeCases;
                 newData.active_diff = 0;
                 newData.fatality_rate = 0;
                 newData.province = existProvince;
-                // newData.province = element.province;
                 await provinceReportRepository.save(newData);
-                // await connect.queryRunner.commitTransaction();
             } else {
                 console.log("report already exists");
-                // await connect.queryRunner.rollbackTransaction();
-                // return "report already exists";
             }
         });
     } catch (error) {
@@ -224,10 +180,7 @@ export async function fetchCasesInAllUSStates() {
 }
 
 export async function getWorldData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -237,16 +190,12 @@ export async function getWorldData() {
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getAllCountriesNameOrdered() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const allCountriesData = connect.connection.getRepository(Statistics);
 
     try {
@@ -273,21 +222,16 @@ export async function getAllCountriesNameOrdered() {
             names.push(obj);
         })
         return names;
-        // return countriesData;
 
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getAllCountriesData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -327,12 +271,9 @@ export async function getAllCountriesData() {
             more_specific.push(obj);
         })
         return more_specific;
-        // return countriesData;
-
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
@@ -355,16 +296,12 @@ export async function getNPMProvincesBasedOnISO(countryName: String, iso: String
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getAsiaCountriesData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -380,22 +317,16 @@ export async function getAsiaCountriesData() {
             },
         });
 
-        // console.log(AsiaData.length);
-
         return AsiaData;
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getAfricaCountriesData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -411,22 +342,16 @@ export async function getAfricaCountriesData() {
             },
         });
 
-        // console.log(AfricaData.length);
-
         return AfricaData;
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getEuropeCountriesData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -442,22 +367,16 @@ export async function getEuropeCountriesData() {
             },
         });
 
-        // console.log(EuropeData.length);
-
         return EuropeData;
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getNorthAmericaCountriesData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -473,22 +392,16 @@ export async function getNorthAmericaCountriesData() {
             },
         });
 
-        // console.log(NorthAmericaData.length);
-
         return NorthAmericaData;
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getSouthAmericaCountriesData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -503,23 +416,16 @@ export async function getSouthAmericaCountriesData() {
                 TotalCases: "DESC",
             },
         });
-
-        // console.log(SouthAmericaData.length);
-
         return SouthAmericaData;
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }
 
 export async function getAustraliaOceaniaCountriesData() {
-    // getConnection to DB
     const connect: any = await _connect();
-
-    // entities to work with:
     const StatRepository = connect.connection.getRepository(Statistics);
 
     try {
@@ -535,13 +441,10 @@ export async function getAustraliaOceaniaCountriesData() {
             },
         });
 
-        // console.log(AustraliaOceaniaData.length);
-
         return AustraliaOceaniaData;
     } catch (error) {
         console.log(error);
     } finally {
-        // you need to release query runner which is manually created:
         await connect.queryRunner.release();
     }
 }

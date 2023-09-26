@@ -17,7 +17,6 @@ export class WorldMapComponent extends Component {
             countryCode: ''
         }
 
-        // This binding is necessary to make `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
         this.searchCountryCode = this.searchCountryCode.bind(this);
         this.onGetAllCountriesData = this.onGetAllCountriesData.bind(this);
@@ -25,30 +24,13 @@ export class WorldMapComponent extends Component {
         this.onRegionTipShow = this.onRegionTipShow.bind(this);
     }
 
-    // You may call setState() immediately in componentDidMount().It will trigger 
-    // an extra rendering, but it will happen before the browser updates the 
-    // screen.This guarantees that even though the render() will be called twice 
-    // in this case, the user won’t see the intermediate state.Use this pattern 
-    // with caution because it often causes performance issues.In most cases, 
-    // you should be able to assign the initial state in the constructor() instead.
     async componentDidMount() {
         this.onGetAllCountriesData();
     }
 
-    // This method is not called for the initial render.
-    // Use this as an opportunity to operate on the DOM when the component has been 
-    // updated.This is also a good place to do network requests as long as you 
-    // compare the current props to previous props(e.g.a network request may not be 
-    // necessary if the props have not changed). it doesn't update state immidiatly
     async componentDidUpdate(prevProps) {
-        // Typical usage (don't forget to compare props):
         if (this.props.countries !== prevProps.countries) {
             this.setState({ countries: this.props.countries })
-            // console.log(this.props.countries);  // returns [...]
-            // console.log(this.state.countries);  // returns []
-            setTimeout(() => {
-                // console.log(this.state.countries);  // returns [...]
-            }, 2000);
         }
     }
 
@@ -56,28 +38,17 @@ export class WorldMapComponent extends Component {
         await this.props.clearCountriesData();
     }
 
-    // You may call setState() immediately in componentDidUpdate() but note that 
-    // it must be wrapped in a condition like in the example above, or you’ll 
-    // cause an infinite loop
-
     async onGetAllCountriesData() {
         await this.props.getAllCountriesData();
     };
 
     searchCountryCode(countryCode, countries) {
-        // console.log(countryCode);
-        // console.log(countries);
         for (var i = 0; i < countries.length; i++) {
             if (countries[i].TwoLetterSymbol === countryCode.toLowerCase()) {
                 return countries[i];
             }
         }
     }
-
-    handleClick(e, countryCode) {
-        // console.log(countryCode);
-        // return this.mapData.paths[l].name
-    };
 
     numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -136,9 +107,6 @@ export class WorldMapComponent extends Component {
         }
     }
 
-    // <div class="map-info-information-newcases">New Cases: </div><div class="map-info-information-number map-info-information-newcases-color">${country.NewCases === null || country.NewCases === 0 ? '---' : this.numberWithCommas(country.NewCases)}</div>
-    // <div class="map-info-information-newdeaths">New Deaths: </div><div class="map-info-information-number map-info-information-newdeaths-color">${country.NewDeaths === null || country.NewDeaths === 0 ? '---' : this.numberWithCommas(country.NewDeaths)}</div>
-
     render() {
 
         const { countries } = this.props;
@@ -164,7 +132,7 @@ export class WorldMapComponent extends Component {
                         <div>
                             <VectorMap
                                 map={"world_mill"}
-                                backgroundColor="transparent" //change it to ocean blue: #0077be
+                                backgroundColor="transparent"
                                 zoomOnScroll={true}
                                 containerStyle={{ width: "100%", height: "520px" }}
                                 onRegionClick={this.handleClick}
@@ -181,12 +149,6 @@ export class WorldMapComponent extends Component {
                                     hover: {
                                         "fill-opacity": 0.8,
                                         cursor: "pointer"
-                                    },
-                                    selected: {
-                                        // fill: "#2938bc" //color for the clicked country
-                                    },
-                                    selectedHover: {
-                                        // fill: "#ec1515" //color for the clicked country
                                     }
                                 }
                                 }
@@ -213,38 +175,13 @@ export class WorldMapComponent extends Component {
     }
 }
 
-// world_mill [yes][check]
-// us_aea [yes]
-// europe_mill
-// continents_mill
-// ch_mill
-// oceania_mill
-// africa_mill
-// asia_mill
-// north_america_mill
-// south_america_mill
-// ca_lcc [yes]
-// brazil [yes]
-// se_mill
-// es_mill
-// vietnam
-// indonesia
-// th_mill
-// de_mill [yes]
-// ar_mill
-// au_mill [yes]
-// kr_mill
-// co_mill
-
 WorldMapComponent.propTypes = {
     countries: PropTypes.array
 };
 
 
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     countries: state.countriesObject.countries,
-    // newsLoading: state.newsObject.newsLoading,
 });
 
 export default connect(

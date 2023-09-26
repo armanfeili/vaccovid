@@ -13,7 +13,6 @@ import {
 export class EachTreatment extends Component {
     constructor() {
         super();
-        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
@@ -47,7 +46,6 @@ export class EachTreatment extends Component {
 
             this.setState({ category: this.props.match.params.category })
             this.setState({ name: this.props.match.params.name })
-            // await this.getProvinceCovidData();
         }
     }
 
@@ -72,8 +70,7 @@ export class EachTreatment extends Component {
     };
 
     render() {
-        let { category, name } = this.props.match.params; // url parameteres
-        // console.log(this.props.match.params);
+        let { category, name } = this.props.match.params;
         let { eachVacItem } = this.props;
 
         return <div>
@@ -85,7 +82,6 @@ export class EachTreatment extends Component {
                 category ? (
                     <div>
                         <div className="each-vaccine">
-                            {/* <section className="each-vaccine-list"></section> */}
                             <div className="each-vaccine-btnAndTitle">
                                 <button className="each-vaccine-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Category &#9662;</button>
                                 <h1 className="each-vaccine-btnAndTitle-title">{name.toUpperCase()}</h1>
@@ -166,7 +162,6 @@ export class EachTreatment extends Component {
                                     </div>
                                 </main>
                                 : <div>...</div>}
-                            {/* <section className="each-vaccine-table"></section> */}
                         </div>
                     </div>
                 ) : (<h6>loading</h6>)
@@ -184,10 +179,7 @@ EachTreatment.propTypes = {
 };
 
 
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
-    // vaccines: state.vaccineObject.vaccines,
-    // treatments: state.vaccineObject.treatments,
     eachVacItem: state.vaccineObject.eachVacItem,
 });
 

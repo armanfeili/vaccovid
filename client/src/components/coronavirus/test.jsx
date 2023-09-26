@@ -15,11 +15,9 @@ import {
 export class countryEachCountryComponent extends Component {
     constructor() {
         super();
-        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
-        // this.chartReference = React.createRef();
 
         this.state = {
             value: '',
@@ -44,8 +42,6 @@ export class countryEachCountryComponent extends Component {
         };
 
         this.getProvinceCovidData = this.getProvinceCovidData.bind(this);
-
-        // this.onClickGetCovidWorldData = this.onClickGetCovidWorldData.bind(this);
         this.onClickShowRegions = this.onClickShowRegions.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.compareValues = this.compareValues.bind(this);
@@ -80,15 +76,12 @@ export class countryEachCountryComponent extends Component {
         }
 
         if (this.props.ovidData.length > 1) {
-            // console.log(this.props.ovidData);
             this.quickFactsChart(this.props.countryISOBased);
             this.compareToWorldChart(this.props.countryISOBased, this.props.world);
-
             this.totalCasesChart(this.props.ovidData);
             this.newCasesChart(this.props.ovidData);
             this.totalDeathsChart(this.props.ovidData);
             this.newDeathsChart(this.props.ovidData);
-            // console.log("ovid");
         }
     }
 
@@ -100,16 +93,11 @@ export class countryEachCountryComponent extends Component {
         if (this.state.iso !== this.props.match.params.iso) {
             iso = this.props.match.params.iso;
             countryName = this.props.match.params.countryName;
-            // await this.props.getAllCountriesDataNameOrdered();
-            // var replaced = countryName.split('-').join(' ');
-
             await this.props.clearOvidData();
-
             await this.props.getWorldData();
             await this.props.getOvidData(iso.toUpperCase());
             await this.props.getCountryISOBased(countryName.split('-').join(' '), iso.toUpperCase());
             await this.props.getProvinceReportISOBased(iso.toUpperCase());
-            // await this.props.getCitiesReportISOBased(iso.toUpperCase());
 
             this.setState({ iso: iso });
         } else if (this.props.match.params === null || this.props.match.params === undefined) {
@@ -160,11 +148,9 @@ export class countryEachCountryComponent extends Component {
         this.setState({ value: event.target.value });
     }
 
-    // sort array of objects based on their values: string or number
     compareValues(key, order = 'asc') {
         return function innerSort(a, b) {
             if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-                // property doesn't exist on either object
                 return 0;
             }
 
@@ -179,7 +165,6 @@ export class countryEachCountryComponent extends Component {
             } else if (varA < varB) {
                 comparison = -1;
             }
-            // console.log(comparison)
             return (
                 (order === 'desc') ? (comparison * -1) : comparison
             );
@@ -191,45 +176,24 @@ export class countryEachCountryComponent extends Component {
     }
 
     onScroll = (element) => {
-        // http://jsfiddle.net/gwcoffey/9EfUy/
-        // https://andrewnoske.com/wiki/JavaScript_-_Synchronize_Two_Scroll_Areas
-        // https://codepen.io/JohnReynolds57/pen/NLNOyO?editors=0011
-        // https://www.w3schools.com/jsref/prop_element_scrolltop.asp
-
         if (this.regionRef.current !== null && this.titleRef.current !== null && this.tableRef.current !== null) {
-            // console.log(this.regionRef.current);  // this is the element
-            // const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
-            // let scrollTitle = this.titleRef.current.scrollLeft
             let scrollTable = this.tableRef.current.scrollLeft
 
-            if (element === "columns") {
-                // this.tableRef.current.scrollLeft = scrollTitle
-                // scrollTable = scrollTitle;
-            }
-            else if (element === "countryTable") {
+            if (element === "countryTable") {
                 this.titleRef.current.scrollLeft = scrollTable
-                // scrollTitle = scrollTable;
             }
-
-            // this.setState({
-            //     scrollTitle: scrollTitle,
-            //     scrollTable: scrollTable
-            // })
         }
     }
 
     search() {
-        // Declare variables
         let input = document.getElementById("input");
         let filter = input !== null ? input.value.toUpperCase() : '';
         let table = document.getElementById("countryTable");
         let selectedTR = []
         let td = []
         let txtValue;
-        // console.log(table);
 
         let tr = table !== null ? table.getElementsByTagName("tr") : '';
-        // Loop through all table rows, and hide those who don't match the search query
         for (let i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[1];
             if (td) {
@@ -293,9 +257,8 @@ export class countryEachCountryComponent extends Component {
             },
             options: {
                 animation: {
-                    duration: 0 // general animation time
+                    duration: 0
                 },
-                // events: ['click'],
                 title: {
                     display: true,
                     text: "The condition of all cases in the country",
@@ -303,7 +266,6 @@ export class countryEachCountryComponent extends Component {
                 },
                 legend: {
                     labels: {
-                        // This more specific font property overrides the global property
                         fontColor: 'white'
                     }
                 },
@@ -324,7 +286,6 @@ export class countryEachCountryComponent extends Component {
     compareToWorldChart(data, worldData) {
         let ctx = document.getElementById('compare-to-world-chart');
         new Chart(ctx, {
-            // type: 'pie',
             type: 'bar',
             data: {
                 labels: ['Total Cases', 'Active Cases', 'Serious Critical', 'Total Deaths', 'Total Recovered'],
@@ -383,16 +344,14 @@ export class countryEachCountryComponent extends Component {
                             'rgba(153, 102, 255, 1)',
                         ],
                         borderWidth: 1,
-                        // borderSkipped: 'top',
                         type: 'bar'
                     }
                 ]
             },
             options: {
                 animation: {
-                    duration: 0 // general animation time
+                    duration: 0
                 },
-                // events: [],
                 title: {
                     display: true,
                     text: "The comparison of (country data/its population) and (the world data/its population)"
@@ -450,22 +409,18 @@ export class countryEachCountryComponent extends Component {
             },
             options: {
                 animation: {
-                    duration: 0 // general animation time
+                    duration: 0 
                 },
-                // events: [],
                 title: {
                     display: true,
                     text: "Total Cases of the country for last six months"
                 },
                 legend: {
                     labels: {
-                        // This more specific font property overrides the global property
                     }
                 },
                 elements: {
                     line: {
-                        // borderWidth: 3,
-                        // fill: false
                     },
                     point: {
                         backgroundColor: "#19dac0",
@@ -493,7 +448,6 @@ export class countryEachCountryComponent extends Component {
             eachDayDeaths.y = e.new_cases;
             newCases.push(eachDayDeaths);
         });
-        // console.log(newCases);
         let ctx = document.getElementById('new-cases-chart');
         new Chart(ctx, {
             type: 'line',
@@ -515,16 +469,14 @@ export class countryEachCountryComponent extends Component {
             },
             options: {
                 animation: {
-                    duration: 0 // general animation time
+                    duration: 0
                 },
-                // events: [],
                 title: {
                     display: true,
                     text: "New Cases of the country for last six months"
                 },
                 legend: {
                     labels: {
-                        // This more specific font property overrides the global property
                     }
                 },
                 elements: {
@@ -579,9 +531,8 @@ export class countryEachCountryComponent extends Component {
             },
             options: {
                 animation: {
-                    duration: 0 // general animation time
+                    duration: 0 
                 },
-                // events: [],
                 title: {
                     display: true,
                     text: "Total Deaths of the country for last six months"
@@ -597,7 +548,6 @@ export class countryEachCountryComponent extends Component {
                 },
                 legend: {
                     labels: {
-                        // This more specific font property overrides the global property
                     }
                 },
                 defaultFontSize: 12,
@@ -643,9 +593,8 @@ export class countryEachCountryComponent extends Component {
             },
             options: {
                 animation: {
-                    duration: 0 // general animation time
+                    duration: 0
                 },
-                // events: [],
                 title: {
                     display: true,
                     text: "New Deaths of the country for last six months"
@@ -653,14 +602,11 @@ export class countryEachCountryComponent extends Component {
                 legend: {
 
                     labels: {
-                        // This more specific font property overrides the global property
                     }
                 },
                 defaultFontSize: 12,
                 elements: {
                     line: {
-                        // borderWidth: 3,
-                        // fill: false
                     },
                     point: {
                         backgroundColor: "#f62a66",
@@ -691,23 +637,13 @@ export class countryEachCountryComponent extends Component {
         let { countriesNameOrdered } = this.props;
         let { countryISOBased } = this.props;
         let { eachCountryProvinces } = this.props;
-        // let { eachCountryCities } = this.props;
         let { ovidData } = this.props;
 
-        let { continentName } = this.props.match.params; // url parameteres
-        let url_state = this.props.match.params;       // url parameteres
-        // let url_state = this.props.location.state;       // url passing state
-
-        // let { iso } = this.props.match.params; // url parameteres
-        // let { iso } = this.props.location.params; // state parameteres
-
-        // if (window.location.pathname === "/covid-19" || window.location.pathname === "/covid-19/" || url_state === undefined) {
-        //     return <Redirect to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} push />
-        // }
+        let { continentName } = this.props.match.params;
+        let url_state = this.props.match.params;       
 
         if (url_state.iso === null || url_state.iso === undefined || url_state.countryName === null || url_state.countryName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
-            // this.props.history.push('/not-found')
         }
 
         const trimString = (str) => {
@@ -716,17 +652,12 @@ export class countryEachCountryComponent extends Component {
         }
 
         const orderConfirmed = () => {
-            // console.log(eachCountryProvinces);
-            // if (eachCountryProvinces.province !== "Grand Princess" && eachCountryProvinces.province !== "Recovered" && eachCountryProvinces.province !== "Diamond Princess"){
-            // if (eachCountryProvinces.reports.length > 0) {
             if (this.state.firstTimeOrdering === true) {
-                // eachCountryProvinces.reports[0] = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
                 eachCountryProvinces = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
                 this.setState({ order: 'asc' })
                 this.setState({ order_kind: 'confirmed' })
                 this.setState({ firstTimeOrdering: false })
             } else if (this.state.order_kind !== 'confirmed') {
-                // eachCountryProvinces.reports[0] = eachCountryProvinces.sort(this.compareValues('confirmed', 'desc'));
                 eachCountryProvinces = eachCountryProvinces.sort(this.compareValues('confirmed', 'desc'));
                 this.setState({ activeTitle: 'confirmed' })
                 this.setState({ order: 'desc' })
@@ -734,16 +665,13 @@ export class countryEachCountryComponent extends Component {
             } else if (this.state.order_kind === 'confirmed') {
                 this.setState({ activeTitle: 'confirmed' })
                 if (this.state.order === 'desc') {
-                    // eachCountryProvinces.reports[0] = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
                     eachCountryProvinces = eachCountryProvinces.sort(this.compareValues('confirmed', 'asc'));
                     this.setState({ order: 'asc' })
                 } else if (this.state.order === 'asc') {
-                    // eachCountryProvinces.reports[0] = eachCountryProvinces.sort(this.compareValues('confirmed', 'desc'));
                     eachCountryProvinces = eachCountryProvinces.sort(this.compareValues('confirmed', 'desc'));
                     this.setState({ order: 'desc' })
                 }
             }
-            // }
         }
 
         const orderName = () => {
@@ -786,7 +714,6 @@ export class countryEachCountryComponent extends Component {
 
         return url_state
             &&
-            // eachCountryProvinces !== undefined &&
             ovidData.length > 1
             ? (
                 <div>
@@ -796,7 +723,6 @@ export class countryEachCountryComponent extends Component {
                         }`}>
                         <div className="country-btnAndTitle">
                             <button className="country-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
-                            {/* <h1 className="country-regions-name">SOUTH AMERICA</h1> */}
                             <h1 className="country-btnAndTitle-title">{url_state.countryName.toUpperCase()}</h1>
                         </div>
 
@@ -804,10 +730,8 @@ export class countryEachCountryComponent extends Component {
                             <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                             <ul className={`country-responsive-allregions`} id="region">
                                 <h2 className={`country-responsive-allregions-title`}>Continents</h2>
-                                {/* <Link to="/covid-19/world-data" className={`country-responsive-allregions-btn ${this.state.active_btn === "world" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link> */}
                                 <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
                                 <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                                {/* <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={() => continentBasedCountries('Asia')} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link> */}
                                 <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
                                 <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
                                 <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
@@ -860,8 +784,6 @@ export class countryEachCountryComponent extends Component {
 
                         <ul className="country-regions" id="region"
                             ref={this.regionRef}
-                            // onScroll={this.onScroll('region')}
-                            // ref={this.myRef}
                             onScroll={() => this.onScroll('region')}
 
                         >
@@ -907,12 +829,10 @@ export class countryEachCountryComponent extends Component {
                                 return <Link to={{
                                     pathname: `/covid-19/${trimString(country.Country)}/${country.ThreeLetterSymbol.toUpperCase()}`, state: { iso: country.ThreeLetterSymbol, countryName: country.Country }
                                 }}
-                                    // onClick={async () => { await this.props.getCountryISOBased(url_state.countryName, url_state.iso.toUpperCase()); await this.props.getProvinceReportISOBased(url_state.iso.toUpperCase()); }}
                                     onClick={async () => { this.getProvinceCovidData(); }}
                                     key={index} className={`country-regions-btn ${country.ThreeLetterSymbol.toUpperCase() === this.props.match.params.iso ? "country-regions-btn-active" : ""}`}>{country.Country}</Link>
                             }) : (
                                     <div>
-                                        {/* <div className={`country-regions-btn country-regions-btn-loading`}></div> */}
                                         <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
                                         <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
                                         <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
@@ -976,17 +896,14 @@ export class countryEachCountryComponent extends Component {
                                 )
                         }
                         {
-                            // eachCountryProvinces === undefined ?
                             eachCountryProvinces.length > 1 ? (
                                 <div className="country-table-title">
                                     <input className="country-table-title-searchbar" type="text" id="input" placeholder="Your State" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
                                     <table className="country-table-title-stats" id="t01">
                                         <caption className="country-table-title-stats-caption"><h2 className="country-table-title-stats-caption-h2">{countryISOBased.length > 0 ? countryISOBased[0].Country + " States" : "Data"}<span className="country-table-title-stats-caption-update-text">- Live Update in <span id="time">05:00</span></span><span className="country-table-title-stats-caption-livepoint"></span><span className="country-table-title-stats-caption-shiningpoint"></span></h2></caption>
-                                        {/* <caption className="country-table-title-stats-caption">World Data</caption> */}
                                         <thead className="country-table-title-stats-thead">
                                             <tr className="country-table-title-stats-columns" id="columns"
                                                 ref={this.titleRef}
-                                                // onScroll={this.onScroll('columns')}
                                                 onScroll={() => this.onScroll('columns')}
                                             >
                                                 <th className={`country-table-title-stats-columns-item country-table-title-stats-columns-number`}>NUM</th>
@@ -1008,14 +925,12 @@ export class countryEachCountryComponent extends Component {
 
                         <table className="country-table-stats" id="countryTable"
                             ref={this.tableRef}
-                            // onscroll={this.onScroll('countryTable')}
                             onScroll={() => this.onScroll('countryTable')}
                         >
                             <tbody>
                                 {eachCountryProvinces.length > 1 ? eachCountryProvinces.map((country, index) => {
                                     if (country.confirmed !== 0 && country.province !== "Grand Princess" && country.province !== "Recovered" && country.province !== "Diamond Princess") {
                                         return <tr key={index} className="country-table-stats-item">
-                                            {/* <td className="country-table-stats-item-each country-table-stats-item-name"><Link to="eachCountry" params={{ iso: country.ThreeLetterSymbol.toUpperCase() }}>{country.Country}</Link></td> */}
                                             <td className="country-table-stats-item-each country-table-stats-item-number">{index + 1}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-name">{country.province.substr(0, 24)}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-confirmed">{country.reports === true && country.confirmed !== null ? this.numberWithCommas(country.confirmed) : "No Data"}</td>
@@ -1089,7 +1004,6 @@ export class countryEachCountryComponent extends Component {
                         }`}>
                         <div className="country-btnAndTitle">
                             <button className="country-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
-                            {/* <h1 className="country-regions-name">SOUTH AMERICA</h1> */}
                             <h1 className="country-btnAndTitle-title">{url_state.countryName.toUpperCase()}</h1>
                         </div>
 
@@ -1097,10 +1011,8 @@ export class countryEachCountryComponent extends Component {
                             <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                             <ul className={`country-responsive-allregions`} id="region">
                                 <h2 className={`country-responsive-allregions-title`}>Continents</h2>
-                                {/* <Link to="/covid-19/world-data" className={`country-responsive-allregions-btn ${this.state.active_btn === "world" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link> */}
                                 <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
                                 <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                                {/* <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={() => continentBasedCountries('Asia')} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link> */}
                                 <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
                                 <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
                                 <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
@@ -1141,8 +1053,6 @@ export class countryEachCountryComponent extends Component {
 
                         <ul className="country-regions" id="region"
                             ref={this.regionRef}
-                            // onScroll={this.onScroll('region')}
-                            // ref={this.myRef}
                             onScroll={() => this.onScroll('region')}
 
                         >
@@ -1183,7 +1093,6 @@ export class countryEachCountryComponent extends Component {
                                 return <div></div>
                             }) : (
                                     <div>
-                                        {/* <div className={`country-regions-btn country-regions-btn-loading`}></div> */}
                                         <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
                                         <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
                                         <div className={`country-regions-btn country-regions-btn-loading loading`}></div>
@@ -1226,14 +1135,6 @@ export class countryEachCountryComponent extends Component {
                     </div>
                     <Footer />
                 </div >
-                // <div className="country-loading">
-                //     <div className="country-loading-regions country-loading-load"></div>
-                //     <div className="country-loading-stats country-loading-load"></div>
-                //     <div className="country-loading-chart-one country-loading-load"></div>
-                //     <div className="country-loading-chart-two country-loading-load"></div>
-                //     <div className="country-loading-chart-three country-loading-load"></div>
-                //     <div className="country-loading-chart-four country-loading-load"></div>
-                // </div>
             );
 
 
@@ -1261,15 +1162,10 @@ countryEachCountryComponent.propTypes = {
     getOvidData: PropTypes.func.isRequired,
 
     clearData: PropTypes.func.isRequired,
-    // clearAllCountriesNameOrderedData: PropTypes.func.isRequired,
-    // clearProvinceReportISOBasedData: PropTypes.func.isRequired,
-    // clearCountryISOBasedData: PropTypes.func.isRequired,
     clearOvidData: PropTypes.func.isRequired,
-    // clearWorldData: PropTypes.func.isRequired,
 };
 
 
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     countriesNameOrdered: state.countriesObject.countriesNameOrdered,
     world: state.countriesObject.world,
@@ -1277,7 +1173,6 @@ const mapStateToProps = state => ({
 
     countryISOBased: state.countriesObject.countryISOBased,
     eachCountryProvinces: state.countriesObject.eachCountryProvinces,
-    // eachCountryCities: state.provincesObject.eachCountryCities,
 });
 
 export default connect(

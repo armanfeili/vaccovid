@@ -7,15 +7,8 @@ import {
 
 const Router = express.Router();
 
-// Route: /api/getdata
-// Example: /api/getdata
-// Public
-// return all covid19 npm data that fetched every 30 min
-
 Router.get("/", async (req, res) => {
     const connection = getConnection();
-    // const queryRunner = connection.createQueryRunner();
-
     const StatRepository = await connection.getRepository(Statistics);
     res.send(
         await StatRepository.find({
@@ -73,7 +66,6 @@ Router.get("/countries", async (req, res) => {
 
 Router.get("/country-report-iso-based/:countryname/:iso", async (req, res) => {
     try {
-        // return res.send(await getProvincesBasedOnISO(req.params.iso.toUpperCase()));
         const countryArray = await getNPMProvincesBasedOnISO(req.params.countryname, req.params.iso.toLowerCase());
         res.status(200).json(countryArray);
     } catch (error) {

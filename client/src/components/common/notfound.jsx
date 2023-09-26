@@ -6,8 +6,6 @@ export class NotFound extends Component {
         super();
         this.state = {
         };
-
-        // this.healthPrevious = this.healthPrevious.bind(this);
     }
 
     async componentDidMount() {
@@ -21,7 +19,6 @@ export class NotFound extends Component {
         return (
             <div className="notfound">
                 <h1 className="notfound-text">Page not found !!!</h1>
-                {/* <h1 className="notfound-text">V</h1> */}
             </div>
         );
     }

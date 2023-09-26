@@ -4,7 +4,6 @@ import csv from 'csvtojson';
 
 import { getConnection, Not, In, Like } from "typeorm";
 import { Vaccine } from "../db/models/Vaccine";
-// import { Console } from "console";
 
 async function _connect() {
     try {

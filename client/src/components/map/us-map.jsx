@@ -17,7 +17,6 @@ export class USMapComponent extends Component {
             countryCode: ''
         }
 
-        // This binding is necessary to make `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
         this.searchStateCode = this.searchStateCode.bind(this);
         this.onGetAllStatesData = this.onGetAllStatesData.bind(this);
@@ -30,13 +29,9 @@ export class USMapComponent extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        // Typical usage (don't forget to compare props):
         if (this.props.provinces !== prevProps.provinces) {
             this.setState({ provinces: this.props.provinces })
-            // console.log(this.props.provinces);  // returns [...]
-            // console.log(this.state.provinces);  // returns []
             setTimeout(() => {
-                // console.log(this.state.provinces);  // returns [...]
             }, 2000);
         }
     }
@@ -50,8 +45,6 @@ export class USMapComponent extends Component {
     };
 
     searchStateCode(stateCode, provinces) {
-        // console.log(stateCode);
-        // console.log(provinces);
         for (var i = 0; i < provinces.length; i++) {
             if (provinces[i].TwoLetterSymbol === stateCode) {
                 return provinces[i];
@@ -61,7 +54,6 @@ export class USMapComponent extends Component {
 
     handleClick(e, stateCode) {
         console.log(stateCode);
-        // return this.mapData.paths[l].name
     };
 
     numberWithCommas(x) {
@@ -70,11 +62,8 @@ export class USMapComponent extends Component {
 
 
     onRegionTipShow(event, label, code) {
-        // console.log(code);  // US-NC
         const provinceCode = code.slice(3, 5);
-        // console.log(provinceCode);
         const province = this.searchStateCode(provinceCode, this.props.provinces);
-        // console.log(province);
         if (province !== undefined) {
             label.html(
                 `
@@ -98,9 +87,7 @@ export class USMapComponent extends Component {
 
                 `
             )
-        }
-        //  <div class="map-info-information-recovered">Fatality rate:</div><div class="map-info-information-number map-info-information-recovered-color">${province.reports[0].fatality_rate !== null ? province.reports[0].fatality_rate : 'no data'}</div>
-        else {
+        } else {
             label.html(
                 `
                 <div class="map-info">
@@ -129,8 +116,6 @@ export class USMapComponent extends Component {
     render() {
 
         const { provinces } = this.props;
-
-        // console.log(provinces);
         return (
 
             <div className="map-page">
@@ -155,7 +140,6 @@ export class USMapComponent extends Component {
                                 zoomOnScroll={true}
                                 containerStyle={{ width: "100%", height: "520px" }}
                                 onRegionClick={this.handleClick}
-                                //gets the country code
                                 containerClassName="maps"
                                 regionStyle={{
                                     initial: {
@@ -168,12 +152,6 @@ export class USMapComponent extends Component {
                                     hover: {
                                         "fill-opacity": 0.8,
                                         cursor: "pointer"
-                                    },
-                                    selected: {
-                                        // fill: "#2938bc" //color for the clicked country
-                                    },
-                                    selectedHover: {
-                                        // fill: "#ec1515" //color for the clicked country
                                     }
                                 }
                                 }
@@ -188,36 +166,6 @@ export class USMapComponent extends Component {
                                     }
                                 }
                                 onRegionTipShow={this.onRegionTipShow}
-                            // regionLabelStyle={{
-                            //     initial: {
-                            //         fill: '#B90E32'
-                            //     },
-                            // }}
-                            // labels={{
-                            //     regions: {
-                            //         render: function (code) {
-                            //             var doNotShow = ['US-RI', 'US-DC', 'US-DE', 'US-MD'];
-
-                            //             if (doNotShow.indexOf(code) === -1) {
-                            //                 return code.split('-')[1];
-                            //             }
-                            //         },
-                            //         offsets: function (code) {
-                            //             return {
-                            //                 'CA': [-20, 10],
-                            //                 'ID': [0, 40],
-                            //                 'OK': [25, 0],
-                            //                 'LA': [-20, 0],
-                            //                 'FL': [45, 0],
-                            //                 'KY': [10, 5],
-                            //                 'VA': [15, 5],
-                            //                 'MI': [30, 30],
-                            //                 'AK': [50, -25],
-                            //                 'HI': [25, 50]
-                            //             }[code.split('-')[1]];
-                            //         }
-                            //     }
-                            // }}
                             />
                         </div>
                         :
@@ -235,10 +183,8 @@ USMapComponent.propTypes = {
 };
 
 
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     provinces: state.provincesObject.provinces,
-    // newsLoading: state.newsObject.newsLoading,
 });
 
 export default connect(

@@ -2,13 +2,9 @@ import { SitemapStream, streamToPromise } from 'sitemap';
 import { createGzip } from 'zlib';
 import fs from "fs";
 import Path from "path";
-// import { Readable } from 'stream';
 
 import { worldSymbols } from './world-sitemap';
-// const routeData = Path.resolve(__dirname, "route-data.json");
 import { routes } from './vacRoutes';
-// const pictureDirectory = path.join(__dirname, './../../../../pics');
-
 
 export async function generateSitemap(res: any) {
 
@@ -19,8 +15,6 @@ export async function generateSitemap(res: any) {
     })
 
     const pipeline = smStream.pipe(createGzip())
-    // pipe your entries or directly write them.
-
 
     routes.forEach(async (e: any, i: number) => {
         if (e !== undefined) {
@@ -91,11 +85,6 @@ export async function generateSitemap(res: any) {
             smStream.write({ url: `/covid-19-tracker/${e.name}/${e.alpha3.toUpperCase()}`, changefreq: 'daily', lastmod: `${new Date().toDateString()}`, priority: 0.8 })
         }
     })
-
-    /* or use
-    Readable.from([{url: '/page-1'}...]).pipe(smStream)
-    if you are looking to avoid writing your own loop.
-    */
 
     // cache the response
     streamToPromise(pipeline).then((sm: any) => sitemap = sm)

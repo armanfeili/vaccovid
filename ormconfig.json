@@ -2,9 +2,9 @@
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "postgres",
-    "password": "armanbatman",
-    "database": "vaccinenow",
+    "username": "XXX",
+    "password": "XXX",
+    "database": "vaccovid",
     "synchronize": true,
     "cache": {
         "duration": 30000

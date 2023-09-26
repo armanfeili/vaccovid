@@ -1,27 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { Link, Redirect } from 'react-router-dom';
 import { Link} from 'react-router-dom';
 import moment from 'moment';
 import { Helmet } from "react-helmet";
 import Footer from '../common/footer';
 
-// import * as Scroll from 'react-scroll';
-// import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import { getCoronavirusNews, getVaccineNews, getHealthNews } from '../../actions/news';
 
 export class NewsComponent extends Component {
-    // components are like JavaScript functions. They accept arbitrary inputs (called “props”) 
-    // and return React elements describing what should appear on the screen.
-    // When React sees an element representing a user-defined component, it passes JSX attributes and 
-    // children to this component as a single object.We call this object “props”.
-    // Props are Read-Only. All React components must act like pure functions with 
-    // respect to their props.
-    // Class components should always call the base constructor with props.
     constructor() {
         super();
-        // State is similar to props, but it is private and fully controlled by the component.
         this.state = {
             news: [],
             active_btn: "vaccine",
@@ -29,19 +18,15 @@ export class NewsComponent extends Component {
             showRegions: "off",
         };
 
-        // This binding is necessary to make `this` work in the callback
         this.onClickGetVaccineNews = this.onClickGetVaccineNews.bind(this);
         this.vaccineNext = this.vaccineNext.bind(this);
         this.vaccinePrevious = this.vaccinePrevious.bind(this);
-
         this.onClickGetCoronavirusNews = this.onClickGetCoronavirusNews.bind(this);
         this.coronavirusNext = this.coronavirusNext.bind(this);
         this.coronavirusPrevious = this.coronavirusPrevious.bind(this);
-
         this.onClickGetHealthNews = this.onClickGetHealthNews.bind(this);
         this.healthNext = this.healthNext.bind(this);
         this.healthPrevious = this.healthPrevious.bind(this);
-
         this.onClickShowRegions = this.onClickShowRegions.bind(this);
 
     }
@@ -51,22 +36,13 @@ export class NewsComponent extends Component {
     }
 
     async componentDidUpdate() {
-        // console.log(this.props.match.params.topic);
         if (this.props.match.params.topic === "vaccine" && this.state.active_btn !== this.props.match.params.topic) {
-            // if (this.props.match.params.topic === "vaccine") {
-            // console.log("vaccine");
             this.onClickGetVaccineNews()
         } else if (this.props.match.params.topic === "covid19" && this.state.active_btn !== this.props.match.params.topic) {
-            // console.log("covid19");
             this.onClickGetCoronavirusNews()
         } else if (this.props.match.params.topic === "health" && this.state.active_btn !== this.props.match.params.topic) {
-            // console.log("health");
             this.onClickGetHealthNews()
         }
-        // this.props.history.listen(async (location, action) => {
-        //     console.log("on route change");
-        //     // await this.getProvinceCovidData();
-        // });
     }
 
 
@@ -75,10 +51,7 @@ export class NewsComponent extends Component {
         this.setState({ page: 0 });
         await this.props.getVaccineNews(0);
         const allNews = this.props.news.news;
-        // console.log(await this.props.news);
-        // console.log(await this.props.news.news);
         this.setState({ news: allNews });
-        // console.log(this.state.news); // it still returens old data (previous state)
     };
 
     async vaccineNext() {
@@ -144,13 +117,10 @@ export class NewsComponent extends Component {
     async onClickGetHealthNews() {
         this.setState({ active_btn: "health" });
         this.setState({ page: 0 });
-        // const health = 
 
         await this.props.getHealthNews(0);
-        // console.log(health);
         const allNews = this.props.news.news;
         this.setState({ news: allNews });
-        // console.log(this.state.news); // it still returens old data (previous state)
     };
 
     async healthNext() {
@@ -188,21 +158,7 @@ export class NewsComponent extends Component {
     };
 
     render() {
-        // const links = this.props.news.news;
-        // const linksLoop = [];
         const { news } = this.props;
-
-        // let { parameteres } = this.props.match.params; // url parameteres
-        // let url_state = this.props.location.state;       // url passing state
-
-        // if (window.location.pathname === "/news" || window.location.pathname === "/news/" || url_state === undefined) {
-        //     return <Redirect to={{ pathname: `/news/vaccine`, state: { topic: 'vaccine' } }} push />
-        // }
-
-        // if (url_state.topic === null || url_state.topic === undefined) {
-        //     return <Redirect to={{ pathname: '/not-found' }} push />
-        //     // this.props.history.push('/not-found')
-        // }
 
         const renderButtons = () => {
             if (this.state.active_btn === "covid19") {
@@ -228,8 +184,6 @@ export class NewsComponent extends Component {
                 )
             }
         }
-        // console.log(news.news);
-        // console.log(news);
         return (
             <div>
                 <Helmet>
@@ -281,9 +235,7 @@ export class NewsComponent extends Component {
                                     <img
                                         className='news-item--news-list-eachNews-newsImg'
                                         src={news.reference !== "who" ? news.urlToImage : `${require(`../../views/who-pics/who-${Math.floor(Math.random() * 21) + 1}.jpg`)}`}
-                                        // src={`${require(`../../../../pics${news.imageInLocalStorage}`)}`}
                                         alt="..."
-                                    // style={{ width: '25px', marginRight: '5px' }}
                                     />
                                     <div className="news-item--news-list-eachNews-newsImg-cover"></div>
                                     <div className="news-item--news-list-eachNews-pubDate">{moment(news.pubDate).fromNow()}</div>
@@ -314,7 +266,6 @@ export class NewsComponent extends Component {
 }
 
 NewsComponent.propTypes = {
-    // news: PropTypes.array,
     news: PropTypes.object,
     getCoronavirusNews: PropTypes.func.isRequired,
     getVaccineNews: PropTypes.func.isRequired,

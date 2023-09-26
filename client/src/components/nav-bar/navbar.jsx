@@ -5,7 +5,6 @@ import { FiCoffee } from "react-icons/fi";
 export default class NavBar extends Component {
     constructor() {
         super();
-        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
@@ -47,7 +46,6 @@ export default class NavBar extends Component {
                     <div className="navigation-btns" id="mobile-nav1">
                         <ul className="navigation-btns-ul">
                             <li className="navigation-btns-li">
-                                {/* <NavLink className="nav-link" activeClassName='is-active' to="/covid-19-tracker/world-data"> */}
                                 <NavLink className="nav-link" activeClassName='is-active' exact={true} to={{ pathname: `/`, state: { continentName: 'World' } }}>
                                     COVID-19
                                 </NavLink>

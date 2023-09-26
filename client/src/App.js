@@ -1,6 +1,4 @@
 import React from 'react';
-// import logo from './logo.svg'
-// import './App.css'
 import './views/stylesheets/style.css';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -35,15 +33,10 @@ render () {
 return (
 <Provider store={store}>
 <Router>
-{/* Router here is actualy BrowserRouter */}
 <div className='style'>
 <Navbar />
 <div>
-{/* <Route exact path="/" component={Landing} /> */}
 <div className='container'>
-  {/* <Switch>
-    <Route exact path='/covid-19-tracker/world-data' component={CoronavirusWorldComponent} />
-  </Switch> */}
   <Switch>
     <Route exact name="baseContinent1" path="/" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
   </Switch>
@@ -111,14 +104,8 @@ return (
     <Route exact path='/about' component={About} />
   </Switch>
   <Switch>
-    {/* React Router’s <Switch> component will render the first matched component, making it the perfect tool for us! */}
-    {/* This means if the routes above haven’t matched, the only possible solution is we’ve hit a route that doesn’t actually exist. */}
-    {/* for every private route we just need to wrap it in <switch>, and it prevent from strange redirect issues */}
     <Route path='/not-found' component={NotFound} />
-    {/* <Route path="/*" component={NotFound} /> */}
   </Switch>
-    {/* <Redirect to="/not-found" /> */}
-  {/* <Route exact path="/not-found" component={NotFound} /> */}
 </div>
 </div>
 </div>
@@ -127,26 +114,5 @@ return (
 );
 }
 }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   )
-// }
 
 export default App;

@@ -1,6 +1,0 @@
-host: lcoalhost
-port: 5432
-Maintenance database: postgres
-username: postgres
-pass: armanbatman
-database: test1

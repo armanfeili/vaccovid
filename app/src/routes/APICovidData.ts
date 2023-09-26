@@ -1,4 +1,3 @@
-// import Express from "express";
 import express from "express";
 import {
     addReports,
@@ -16,7 +15,6 @@ import {
     addCityReports,
 } from "../utils/covidAPIData";
 
-// const Router = Express.Router();
 const Router = express.Router();
 
 Router.put("/clear-data", async (req, res) => {
@@ -28,7 +26,6 @@ Router.put("/clear-data", async (req, res) => {
 });
 
 Router.put("/updateProvinces", async (req, res) => {
-    // console.log("We are here");
     try {
         return res.send(await updateProvinces());
     } catch (error) {
@@ -37,7 +34,6 @@ Router.put("/updateProvinces", async (req, res) => {
 });
 
 Router.put("/addReports", async (req, res) => {
-    // console.log("We are here 2");
     try {
         await addReports();
         return res.send({ message: "all reports are updated" });
@@ -47,7 +43,6 @@ Router.put("/addReports", async (req, res) => {
 });
 
 Router.put("/addUsReports", async (req, res) => {
-    // console.log("We are here 2");
     try {
         await addUSStates();
         return res.send({ message: "all US reports are updated" });
@@ -67,7 +62,6 @@ Router.put("/addCityReports", async (req, res) => {
 });
 
 Router.get("/allreports", async (req, res) => {
-    // console.log("We are here, wait");
     try {
         return res.send(await getAll());
     } catch (error) {
@@ -76,7 +70,6 @@ Router.get("/allreports", async (req, res) => {
 });
 
 Router.get("/reports/:iso", async (req, res) => {
-    // console.log("We are here, wait");
     try {
         return res.send(await getReports(req.params.iso.toUpperCase()));
     } catch (error) {
@@ -86,7 +79,6 @@ Router.get("/reports/:iso", async (req, res) => {
 
 Router.get("/provinces-report-iso-based/:iso", async (req, res) => {
     try {
-        // return res.send(await getProvincesBasedOnISO(req.params.iso.toUpperCase()));
         const provinces = await getProvincesBasedOnISO(req.params.iso.toUpperCase());
         res.status(200).json(provinces);
     } catch (error) {
@@ -105,7 +97,6 @@ Router.get("/cities-report-iso-based/:iso", async (req, res) => {
 
 Router.get("/usa-states", async (req, res) => {
     try {
-        // get just usa province data from db
         const usaProvinces = await getUsaProvinces();
 
         res.status(200).json(usaProvinces);
@@ -116,7 +107,6 @@ Router.get("/usa-states", async (req, res) => {
 
 Router.get("/canada-states", async (req, res) => {
     try {
-        // get just usa province data from db
         const canadaProvinces = await getCanadaProvinces();
 
         res.status(200).json(canadaProvinces);
@@ -127,7 +117,6 @@ Router.get("/canada-states", async (req, res) => {
 
 Router.get("/brazil-states", async (req, res) => {
     try {
-        // get just usa province data from db
         const brazilProvinces = await getBrazilProvinces();
 
         res.status(200).json(brazilProvinces);
@@ -138,7 +127,6 @@ Router.get("/brazil-states", async (req, res) => {
 
 Router.get("/germany-states", async (req, res) => {
     try {
-        // get just usa province data from db
         const germanyProvinces = await getGermanyProvinces();
 
         res.status(200).json(germanyProvinces);
@@ -149,7 +137,6 @@ Router.get("/germany-states", async (req, res) => {
 
 Router.get("/australia-states", async (req, res) => {
     try {
-        // get just usa province data from db
         const australiaProvinces = await getAustraliaProvinces();
 
         res.status(200).json(australiaProvinces);

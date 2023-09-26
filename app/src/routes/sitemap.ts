@@ -7,9 +7,7 @@ const Router = express.Router();
 Router.get('/', async (req, res) => {
     res.header('Content-Type', 'application/xml');
     res.header('Content-Encoding', 'gzip');
-    // if we have a cached entry send it
     try {
-        // const sitemap =
         await generateSitemap(res);
         // if (sitemap !== undefined) {
         //     res.status(200).json({ message: 'sitemap has been generated.' });

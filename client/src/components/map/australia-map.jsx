@@ -17,7 +17,6 @@ export class AustraliaMapComponent extends Component {
             countryCode: ''
         }
 
-        // This binding is necessary to make `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
         this.searchStateCode = this.searchStateCode.bind(this);
         this.onGetAllStatesData = this.onGetAllStatesData.bind(this);
@@ -30,14 +29,8 @@ export class AustraliaMapComponent extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        // Typical usage (don't forget to compare props):
         if (this.props.provinces !== prevProps.provinces) {
             this.setState({ provinces: this.props.provinces })
-            // console.log(this.props.provinces);  // returns [...]
-            // console.log(this.state.provinces);  // returns []
-            setTimeout(() => {
-                // console.log(this.state.provinces);  // returns [...]
-            }, 2000);
         }
     }
 
@@ -50,8 +43,6 @@ export class AustraliaMapComponent extends Component {
     };
 
     searchStateCode(stateCode, provinces) {
-        // console.log(stateCode);
-        // console.log(provinces);
         for (var i = 0; i < provinces.length; i++) {
             if (provinces[i].TwoLetterSymbol === stateCode) {
                 return provinces[i];
@@ -61,18 +52,14 @@ export class AustraliaMapComponent extends Component {
 
     handleClick(e, stateCode) {
         console.log(stateCode);
-        // return this.mapData.paths[l].name
     };
 
     numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     onRegionTipShow(event, label, code) {
-        // console.log(code);  // US-NC
         const provinceCode = code.slice(3, 5);
-        // console.log(provinceCode);
         const province = this.searchStateCode(provinceCode, this.props.provinces);
-        // console.log(province);
         if (province !== undefined) {
             label.html(
                 `
@@ -126,7 +113,6 @@ export class AustraliaMapComponent extends Component {
     render() {
 
         const { provinces } = this.props;
-        // console.log(provinces);
         return (
 
             <div className="map-page">
@@ -147,7 +133,7 @@ export class AustraliaMapComponent extends Component {
                     { provinces && provinces.length > 0 ?
                         <div>
                             <VectorMap map={"au_mill"}
-                                backgroundColor="transparent" //change it to ocean blue: #0077be
+                                backgroundColor="transparent" 
                                 zoomOnScroll={true}
                                 containerStyle={{ width: "100%", height: "520px" }}
                                 onRegionClick={this.handleClick}
@@ -166,10 +152,8 @@ export class AustraliaMapComponent extends Component {
                                         cursor: "pointer"
                                     },
                                     selected: {
-                                        // fill: "#2938bc" //color for the clicked country
                                     },
                                     selectedHover: {
-                                        // fill: "#ec1515" //color for the clicked country
                                     }
                                 }
                                 }
@@ -177,7 +161,7 @@ export class AustraliaMapComponent extends Component {
                                 series={
                                     {
                                         regions: [{
-                                            values: provinceData, //this is your data
+                                            values: provinceData,
                                             scale: ['#ffffd2', '#ffd700'],
                                             normalizeFunction: "polynomial"
                                         }]
@@ -201,10 +185,8 @@ AustraliaMapComponent.propTypes = {
 };
 
 
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     provinces: state.provincesObject.provinces,
-    // newsLoading: state.newsObject.newsLoading,
 });
 
 export default connect(

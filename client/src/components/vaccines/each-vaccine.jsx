@@ -13,7 +13,6 @@ import {
 export class EachVaccine extends Component {
     constructor() {
         super();
-        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
@@ -47,7 +46,6 @@ export class EachVaccine extends Component {
 
             this.setState({ category: this.props.match.params.category })
             this.setState({ name: this.props.match.params.name })
-            // await this.getProvinceCovidData();
         }
     }
 
@@ -73,7 +71,6 @@ export class EachVaccine extends Component {
 
     render() {
         let { category, name } = this.props.match.params; // url parameteres
-        // console.log(this.props.match.params);
         let { eachVacItem } = this.props;
 
         return <div>
@@ -85,7 +82,6 @@ export class EachVaccine extends Component {
                 category ? (
                     <div>
                         <div className="each-vaccine">
-                            {/* <section className="each-vaccine-list"></section> */}
                             <div className="each-vaccine-btnAndTitle">
                                 <button className="each-vaccine-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Category &#9662;</button>
                                 <h1 className="each-vaccine-btnAndTitle-title">{name.toUpperCase()}</h1>
@@ -146,7 +142,6 @@ export class EachVaccine extends Component {
                                             <div className={`each-vaccine-titleAndPic-titleAndCategory-FDAApproved ${eachVacItem[0].FDAApproved === "undefined" ? "displayOff" : ""}`}>FDA Approval: <span className="each-vaccine-titleAndPic-titleAndCategory-FDAApproved-text">{eachVacItem[0].FDAApproved}</span></div>
                                             <div className={`each-vaccine-titleAndPic-titleAndCategory-lastUpdated ${eachVacItem[0].lastUpdated === "undefined" ? "displayOff" : ""}`}>Last Update: <span className="each-vaccine-titleAndPic-titleAndCategory-lastUpdated-text">{moment(eachVacItem[0].lastUpdated).fromNow()}</span></div>
                                             <div className={`each-vaccine-titleAndPic-titleAndCategory-publishedResults ${eachVacItem[0].publishedResults[0] === "undefined" ? "displayOff" : ""}`}>Published Results: <span className="each-vaccine-titleAndPic-titleAndCategory-publishedResults-text">{eachVacItem[0].publishedResults[0] === "undefined" ? "" : eachVacItem[0].publishedResults.map((e, i) => {
-                                                // return <div>{e}</div>
                                                 return <a className="each-vaccine-titleAndPic-titleAndCategory-publishedResults-text-link" href={`${e}`} rel="noopener noreferrer" target="_blank">Link-{i + 1}</a>
                                             })}</span></div>
                                         </div>
@@ -169,7 +164,6 @@ export class EachVaccine extends Component {
                                     </div>
                                 </main>
                                 : <div>...</div>}
-                            {/* <section className="each-vaccine-table"></section> */}
                         </div>
                     </div>
                 ) : (<h6>loading</h6>)
@@ -186,11 +180,7 @@ EachVaccine.propTypes = {
     getEachVacOrTreat: PropTypes.func.isRequired,
 };
 
-
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
-    // vaccines: state.vaccineObject.vaccines,
-    // treatments: state.vaccineObject.treatments,
     eachVacItem: state.vaccineObject.eachVacItem,
 });
 

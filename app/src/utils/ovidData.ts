@@ -22,9 +22,6 @@ async function _connect() {
 async function _downloadOvid() {
     try {
         console.log("request to download owid csv file");
-
-        // const url = "https://covid.ourworldindata.org/data/owid-covid-data.json";
-        // const url = "https://covid.ourworldindata.org/data/owid-covid-data.csv";
         const url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv";
         const csvFilePath = Path.resolve(__dirname, "owid-covid-data.csv");
 
@@ -91,19 +88,7 @@ async function _convertCsvToJsonOvid() {
                     }
                 });
 
-                // let data = JSON.stringify(jsonObj[0]);
-                // console.log(properedArary);
                 let data = JSON.stringify(properedArary);
-
-                // let data = JSON.stringify(jsonObj);
-                // let data3 = [jsonObj[0], jsonObj[1]];
-                // let jsonData3 = JSON.stringify(data3);
-                // fs.writeFileSync(jsonFilePath, data);
-                // console.log('the owid json file has been saved!');
-
-                // const json = await jsonObj[0].pipe(fs.createWriteStream(jsonFilePath));
-                // fs.writeFile(jsonFilePath, jsonObj.toString(), (err) => {
-
                 fs.writeFile(jsonFilePath, data, (err) => {
                     // fs.writeFile(jsonFilePath, jsonData3, (err) => {
                     if (err) {
@@ -124,7 +109,7 @@ async function _convertCsvToJsonOvid() {
 
 export const downloadAndConvertOwidData = async () => {
     // await _downloadOvid();
-    // await _convertCsvToJsonOvid();
+    await _convertCsvToJsonOvid();
 };
 
 export const updateOwid = async () => {
@@ -205,8 +190,6 @@ export const updateOwid = async () => {
 
 export async function getOvidISOBased(iso: String) {
     let today = new Date();
-    // let oneMonthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-    // let twoMonthAgo = new Date(today.getTime() - 2 * 30 * 24 * 60 * 60 * 1000);
     let sixMonthAgo = new Date(today.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
 
     const connect: any = await _connect();

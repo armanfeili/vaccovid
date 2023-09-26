@@ -4,8 +4,6 @@ import { getConnection, Like, Not } from 'typeorm';
 import { News } from './../db/models/News';
 import { secretData } from './../config/secretData';
 
-// const pictureDirectory = path.join(__dirname, './../../../../pics');
-
 interface newsType {
   title: string;
   link: string;
@@ -29,7 +27,6 @@ async function _connect() {
 }
 
 function _sortArrayOfObjects(a: any, b: any) {
-  //invert return value by multiplying by -1
   if (a.pubDate < b.pubDate) {
     return -1 * -1;
   }
@@ -56,7 +53,6 @@ async function _fetchOtherNewsFirstAPI(whichSource: any) {
       `${options.url}?sortBy=${options.sortBy}&pageSize=${options.pageSize}&page=${options.page}&apiKey=${options.apiKey}&sources=${options.sources[whichSource]}`
     );
 
-    // should return an array of objects
     return response.data;
   } catch (error) {
     console.log("couldn't update news with first API - external api problem or exceed limitation");
@@ -81,7 +77,6 @@ async function _fetchOtherNewsSecondAPI(whichSource: any) {
       `${options.url}?sortBy=${options.sortBy}&pageSize=${options.pageSize}&page=${options.page}&apiKey=${options.apiKey}&sources=${options.sources[whichSource]}`
     );
 
-    // should return an array of objects
     return response.data;
   } catch (error) {
     console.log("couldn't update news - external api problem or exceed limitation");
@@ -93,22 +88,15 @@ async function _fetchWhoNews() {
   // https://documenter.getpostman.com/view/8854915/SzS7NkAS?version=latest
 
   try {
-    // create a RSS parser
     let parser = new Parser();
-
-    // get the RSS from URL
     let whoFeed: any = await parser.parseURL(
       'https://www.who.int/rss-feeds/news-english.xml'
     );
-
-    // get the RSS from URL
     let outbreakFeed: any = await parser.parseURL(
       'https://www.who.int/feeds/entity/csr/don/en/rss.xml'
     );
 
-    // whoFeed.items;
     const feed = whoFeed.items.concat(outbreakFeed.items);
-    // return all news
     return feed;
   } catch (error) {
     console.log(error);
@@ -384,7 +372,6 @@ export async function saveOtherNews() {
         for (let j = 0; j < eachNews.length; j++) {
           // check if any news is matched with one of our news in DB.
           if (databaseNews[i].link === eachNews[j].url) {
-            // console.log('find the match');
             existed_News.push(eachNews[j]);
           }
         }
@@ -466,8 +453,6 @@ export async function saveWhoNews() {
 
     // get the raw data
     const rawNews: any = await _fetchWhoNews();
-
-    // const OutbreakNews = await getOutbreakNews();
 
     // check if we got data
     if (rawNews === undefined) {

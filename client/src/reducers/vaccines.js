@@ -11,7 +11,6 @@ const initialState = {
     treatments: [],
     eachVacItem:[],
     errors: []
-    // newsLoading: false,
 
 };
 

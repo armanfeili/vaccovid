@@ -13,7 +13,6 @@ import {
 export class CoronavirusEachContinentComponent extends Component {
     constructor() {
         super();
-        // State is similar to props, but it is private and fully controlled by the component.
         this.titleRef = React.createRef()
         this.tableRef = React.createRef()
         this.regionRef = React.createRef()
@@ -45,7 +44,6 @@ export class CoronavirusEachContinentComponent extends Component {
     }
 
     async componentDidMount() {
-        // this.onClickGetCovidWorldData();
         this.onClickGetDynamicCovidData();
         this.onload();
     }
@@ -71,36 +69,22 @@ export class CoronavirusEachContinentComponent extends Component {
             await this.props.getAllCountriesData();
             await this.props.getWorldData();
         }
-        // let { continentName } = this.props.match.params;
 
         if (continentName === 'World') {
-            // base url
             await this.props.getAllCountriesData();
             await this.props.getWorldData();
         } else if (continentName === 'Asia') {
-            // await this.props.clearWorldData();
             await this.props.getAsiaCountriesData();
-
         } else if (continentName === 'Africa') {
-            // await this.props.clearWorldData();
             await this.props.getAfricaCountriesData();
-
         } else if (continentName === 'Europe') {
-            // await this.props.clearWorldData();
             await this.props.getEuropeCountriesData();
-
         } else if (continentName === 'North America') {
-            // await this.props.clearWorldData();
             await this.props.getNorthAmericaCountriesData();
-
         } else if (continentName === 'South America') {
-            // await this.props.clearWorldData();
             await this.props.getSouthAmericaCountriesData();
-
         } else if (continentName === 'Australia/Oceania') {
-            // await this.props.clearWorldData();
             await this.props.getAustraliaOceaniaCountriesData();
-
         }
     };
 
@@ -109,21 +93,13 @@ export class CoronavirusEachContinentComponent extends Component {
         await this.props.getAllCountriesData();
         await this.props.getAllCountriesDataNameOrdered();
         await this.props.getWorldData();
-        // const allNews = this.props.news.news;
-        // console.log(this.state.news); // it still returens old data (previous state)
     };
 
     async onClickGetCovidAsiaData() {
         this.setState({ active_btn: "asia" });
-        // await this.props.getVaccineNews(0);
-        // const allNews = this.props.news.news;
-        // console.log(this.state.news); // it still returens old data (previous state)
     };
     async onClickGetCovidAfricaData() {
         this.setState({ active_btn: "africa" });
-        // await this.props.getVaccineNews(0);
-        // const allNews = this.props.news.news;
-        // console.log(this.state.news); // it still returens old data (previous state)
     };
 
     countDown(duration, display) {
@@ -172,11 +148,9 @@ export class CoronavirusEachContinentComponent extends Component {
         this.setState({ value: event.target.value });
     }
 
-    // sort array of objects based on their values: string or number
     compareValues(key, order = 'asc') {
         return function innerSort(a, b) {
             if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-                // property doesn't exist on either object
                 return 0;
             }
 
@@ -191,7 +165,6 @@ export class CoronavirusEachContinentComponent extends Component {
             } else if (varA < varB) {
                 comparison = -1;
             }
-            // console.log(comparison)
             return (
                 (order === 'desc') ? (comparison * -1) : comparison
             );
@@ -203,40 +176,24 @@ export class CoronavirusEachContinentComponent extends Component {
     }
 
     onScroll = (element) => {
-        // http://jsfiddle.net/gwcoffey/9EfUy/
-        // https://andrewnoske.com/wiki/JavaScript_-_Synchronize_Two_Scroll_Areas
-        // https://codepen.io/JohnReynolds57/pen/NLNOyO?editors=0011
-        // https://www.w3schools.com/jsref/prop_element_scrolltop.asp
-
         if (this.regionRef.current !== null && this.titleRef.current !== null && this.tableRef.current !== null) {
-            // console.log(this.regionRef.current);  // this is the element
-            // const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
-            // let scrollTitle = this.titleRef.current.scrollLeft
             let scrollTable = this.tableRef.current.scrollLeft
 
-            if (element === "columns") {
-                // this.tableRef.current.scrollLeft = scrollTitle
-                // scrollTable = scrollTitle;
-            }
-            else if (element === "coronavirusTable") {
+            if (element === "coronavirusTable") {
                 this.titleRef.current.scrollLeft = scrollTable
-                // scrollTitle = scrollTable;
             }
         }
     }
 
     search() {
-        // Declare variables
         let input = document.getElementById("input");
         let filter = input !== null ? input.value.toUpperCase() : '';
         let table = document.getElementById("coronavirusTable");
         let selectedTR = []
         let td = []
         let txtValue;
-        // console.log(table);
 
         let tr = table !== null ? table.getElementsByTagName("tr") : '';
-        // Loop through all table rows, and hide those who don't match the search query
         for (let i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[1];
             if (td) {
@@ -283,12 +240,9 @@ export class CoronavirusEachContinentComponent extends Component {
 
         if (continentName === null || continentName === undefined || url_state === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
-            // this.props.history.push('/not-found')
         }
 
         const trimString = (str) => {
-            // str = str.replace(' ', /-/g);
-            // return str;
             str = str.replace(/\s+/g, '-');
             return str;
         }
@@ -543,12 +497,10 @@ export class CoronavirusEachContinentComponent extends Component {
 
                             <table className="coronavirus-table-stats" id="coronavirusTable"
                                 ref={this.tableRef}
-                                // onscroll={this.onScroll('coronavirusTable')}
                                 onScroll={() => this.onScroll('coronavirusTable')}
                             >
                                 <tbody>
                                     {countries.length > 0 ? countries.map((country, index) => {
-                                        // changeColor();
                                         return <tr key={index} className="coronavirus-table-stats-item">
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-number">{index + 1}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-name"><Link className="coronavirus-table-stats-item-name-link" to={{
@@ -633,7 +585,6 @@ export class CoronavirusEachContinentComponent extends Component {
 }
 
 CoronavirusEachContinentComponent.propTypes = {
-    // world: PropTypes.object,
     world: PropTypes.array,
     countries: PropTypes.array,
     countriesNameOrdered: PropTypes.array,
@@ -655,10 +606,8 @@ CoronavirusEachContinentComponent.propTypes = {
 };
 
 
-// pass the application state (main data) to our component as props. so we can access it by props
 const mapStateToProps = state => ({
     countries: state.countriesObject.countries,
-    // continentCountries: state.countriesObject.continentCountries,
     countriesNameOrdered: state.countriesObject.countriesNameOrdered,
     world: state.countriesObject.world,
 });
