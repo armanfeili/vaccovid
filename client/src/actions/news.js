@@ -1,8 +1,5 @@
 import { GET_ERRORS, GET_CORONAVIRUS_NEWS, GET_VACCINE_NEWS, GET_HEALTH_NEWS, NEWS_LOADING } from './types';
-import axios from 'axios';
-import {secretData} from './config';
-
-const baseURL = secretData.baseURL;
+import mockAPI from '../utils/mockApi';
 
 export const setNewsLoading = () => {
   return {
@@ -11,7 +8,7 @@ export const setNewsLoading = () => {
 };
 
 export const getCoronavirusNews = (page) => dispatch => {
-  axios.get(`${baseURL}/news/get-coronavirus-news/${page}`)
+  mockAPI.getNewsByCategory('coronavirus', page)
     .then(res => {
       dispatch({
         type: GET_CORONAVIRUS_NEWS,
@@ -24,7 +21,7 @@ export const getCoronavirusNews = (page) => dispatch => {
 };
 
 export const getVaccineNews = (page) => dispatch => {
-  axios.get(`${baseURL}/news/get-vaccine-news/${page}`)
+  mockAPI.getNewsByCategory('vaccine', page)
     .then(res => {
       dispatch({
         type: GET_VACCINE_NEWS,
@@ -38,7 +35,7 @@ export const getVaccineNews = (page) => dispatch => {
 
 export const getHealthNews = (page) => dispatch => {
   // dispatch(setProfileLoading())
-  axios.get(`${baseURL}/news/get-health-news/${page}`)
+  mockAPI.getNewsByCategory('health', page)
     .then(res => {
       // console.log(res.data.news);
       dispatch({

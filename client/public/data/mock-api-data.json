@@ -1,0 +1,580 @@
+{{
+
+  "world": {  "world": {
+
+    "success": true,    "success": true,
+
+    "data": {    "data": {
+
+      "total_cases": 42000000,      "total_cases": 42_000_000,
+
+      "total_deaths": 1150000,      "total_deaths": 1_150_000,
+
+      "total_recovered": 30000000,      "total_recovered": 30_000_000,
+
+      "new_cases": 350000,      "new_cases": 350_000,
+
+      "new_deaths": 5500,      "new_deaths": 5_500,
+
+      "active_cases": 10850000,      "active_cases": 10_850_000,
+
+      "serious_critical": 85000,      "serious_critical": 85_000,
+
+      "total_tests": 500000000,      "total_tests": 500_000_000,
+
+      "infection_risk": 0.54,      "infection_risk": 0.54,
+
+      "case_fatality_rate": 2.74,      "case_fatality_rate": 2.74,
+
+      "test_percentage": 6.42,      "test_percentage": 6.42,
+
+      "recovery_percentage": 71.43      "recovery_percentage": 71.43
+
+    }    }
+
+  },  },
+
+  "countries": [  "countries": [
+
+    {    {
+
+      "country": "USA",      "country": "USA",
+
+      "iso": "USA",      "iso": "USA",
+
+      "total_cases": 8500000,      "total_cases": 8_500_000,
+
+      "new_cases": 65000,      "new_cases": 65_000,
+
+      "total_deaths": 225000,      "total_deaths": 225_000,
+
+      "new_deaths": 800,      "new_deaths": 800,
+
+      "total_recovered": 5300000,      "total_recovered": 5_300_000,
+
+      "active_cases": 2975000,      "active_cases": 2_975_000,
+
+      "serious_critical": 18500,      "serious_critical": 18_500,
+
+      "total_tests": 120000000,      "total_tests": 120_000_000,
+
+      "population": 331900000,      "population": 331_900_000,
+
+      "infection_risk": 2.56,      "infection_risk": 2.56,
+
+      "case_fatality_rate": 2.65,      "case_fatality_rate": 2.65,
+
+      "test_percentage": 36.16,      "test_percentage": 36.16,
+
+      "recovery_percentage": 62.35      "recovery_percentage": 62.35
+
+    },    },
+
+    {    {
+
+      "country": "India",      "country": "India",
+
+      "iso": "IND",      "iso": "IND",
+
+      "total_cases": 8100000,      "total_cases": 8_100_000,
+
+      "new_cases": 45000,      "new_cases": 45_000,
+
+      "total_deaths": 121000,      "total_deaths": 121_000,
+
+      "new_deaths": 500,      "new_deaths": 500,
+
+      "total_recovered": 7500000,      "total_recovered": 7_500_000,
+
+      "active_cases": 479000,      "active_cases": 479_000,
+
+      "serious_critical": 3500,      "serious_critical": 3_500,
+
+      "total_tests": 85000000,      "total_tests": 85_000_000,
+
+      "population": 1393400000,      "population": 1_393_400_000,
+
+      "infection_risk": 0.58,      "infection_risk": 0.58,
+
+      "case_fatality_rate": 1.49,      "case_fatality_rate": 1.49,
+
+      "test_percentage": 6.10,      "test_percentage": 6.10,
+
+      "recovery_percentage": 92.59      "recovery_percentage": 92.59
+
+    },    },
+
+    {    {
+
+      "country": "United Kingdom",      "country": "United Kingdom",
+
+      "iso": "GBR",      "iso": "GBR",
+
+      "total_cases": 1014700,      "total_cases": 1_014_700,
+
+      "new_cases": 15000,      "new_cases": 15_000,
+
+      "total_deaths": 47600,      "total_deaths": 47_600,
+
+      "new_deaths": 360,      "new_deaths": 360,
+
+      "total_recovered": 500000,      "total_recovered": 500_000,
+
+      "active_cases": 467100,      "active_cases": 467_100,
+
+      "serious_critical": 2500,      "serious_critical": 2_500,
+
+      "total_tests": 25000000,      "total_tests": 25_000_000,
+
+      "population": 67220000,      "population": 67_220_000,
+
+      "infection_risk": 1.51,      "infection_risk": 1.51,
+
+      "case_fatality_rate": 4.69,      "case_fatality_rate": 4.69,
+
+      "test_percentage": 37.19,      "test_percentage": 37.19,
+
+      "recovery_percentage": 49.26      "recovery_percentage": 49.26
+
+    },    },
+
+    {    {
+
+      "country": "Brazil",      "country": "Brazil",
+
+      "iso": "BRA",      "iso": "BRA",
+
+      "total_cases": 5200000,      "total_cases": 5_200_000,
+
+      "new_cases": 35000,      "new_cases": 35_000,
+
+      "total_deaths": 155000,      "total_deaths": 155_000,
+
+      "new_deaths": 750,      "new_deaths": 750,
+
+      "total_recovered": 4500000,      "total_recovered": 4_500_000,
+
+      "active_cases": 545000,      "active_cases": 545_000,
+
+      "serious_critical": 12000,      "serious_critical": 12_000,
+
+      "total_tests": 18000000,      "total_tests": 18_000_000,
+
+      "population": 212559000,      "population": 212_559_000,
+
+      "infection_risk": 2.45,      "infection_risk": 2.45,
+
+      "case_fatality_rate": 2.98,      "case_fatality_rate": 2.98,
+
+      "test_percentage": 8.46,      "test_percentage": 8.46,
+
+      "recovery_percentage": 86.54      "recovery_percentage": 86.54
+
+    },    },
+
+    {    {
+
+      "country": "France",      "country": "France",
+
+      "iso": "FRA",      "iso": "FRA",
+
+      "total_cases": 850000,      "total_cases": 850_000,
+
+      "new_cases": 12000,      "new_cases": 12_000,
+
+      "total_deaths": 32500,      "total_deaths": 32_500,
+
+      "new_deaths": 250,      "new_deaths": 250,
+
+      "total_recovered": 650000,      "total_recovered": 650_000,
+
+      "active_cases": 167500,      "active_cases": 167_500,
+
+      "serious_critical": 2000,      "serious_critical": 2_000,
+
+      "total_tests": 20000000,      "total_tests": 20_000_000,
+
+      "population": 65426000,      "population": 65_426_000,
+
+      "infection_risk": 1.30,      "infection_risk": 1.30,
+
+      "case_fatality_rate": 3.82,      "case_fatality_rate": 3.82,
+
+      "test_percentage": 30.61,      "test_percentage": 30.61,
+
+      "recovery_percentage": 76.47      "recovery_percentage": 76.47
+
+    }    }
+
+  ],  ],
+
+  "vaccines": [  "vaccines": [
+
+    {    {
+
+      "id": 1,      "id": 1,
+
+      "name": "Pfizer-BioNTech",      "name": "Pfizer-BioNTech",
+
+      "developer": "Pfizer Inc / BioNTech",      "developer": "Pfizer Inc / BioNTech",
+
+      "platform": "mRNA",      "platform": "mRNA",
+
+      "clinical_stage": "Phase IV",      "clinical_stage": "Phase IV",
+
+      "fda_approved": true,      "fda_approved": true,
+
+      "description": "mRNA-based vaccine using lipid nanoparticle delivery",      "description": "mRNA-based vaccine using lipid nanoparticle delivery",
+
+      "announced_date": "2020-11-09",      "announced_date": "2020-11-09",
+
+      "phase_1_date": "2020-05-01",      "phase_1_date": "2020-05-01",
+
+      "phase_2_date": "2020-07-27",      "phase_2_date": "2020-07-27",
+
+      "phase_3_date": "2020-07-27"      "phase_3_date": "2020-07-27"
+
+    },    },
+
+    {    {
+
+      "id": 2,      "id": 2,
+
+      "name": "Moderna",      "name": "Moderna",
+
+      "developer": "Moderna Inc",      "developer": "Moderna Inc",
+
+      "platform": "mRNA",      "platform": "mRNA",
+
+      "clinical_stage": "Phase IV",      "clinical_stage": "Phase IV",
+
+      "fda_approved": true,      "fda_approved": true,
+
+      "description": "mRNA-1273 vaccine using self-amplifying RNA",      "description": "mRNA-1273 vaccine using self-amplifying RNA",
+
+      "announced_date": "2020-05-18",      "announced_date": "2020-05-18",
+
+      "phase_1_date": "2020-03-16",      "phase_1_date": "2020-03-16",
+
+      "phase_2_date": "2020-05-29",      "phase_2_date": "2020-05-29",
+
+      "phase_3_date": "2020-07-27"      "phase_3_date": "2020-07-27"
+
+    },    },
+
+    {    {
+
+      "id": 3,      "id": 3,
+
+      "name": "AstraZeneca",      "name": "AstraZeneca",
+
+      "developer": "AstraZeneca / University of Oxford",      "developer": "AstraZeneca / University of Oxford",
+
+      "platform": "Viral Vector",      "platform": "Viral Vector",
+
+      "clinical_stage": "Phase III",      "clinical_stage": "Phase III",
+
+      "fda_approved": false,      "fda_approved": false,
+
+      "description": "Non-replicating viral vector vaccine using ChAdOx1",      "description": "Non-replicating viral vector vaccine using ChAdOx1",
+
+      "announced_date": "2020-05-18",      "announced_date": "2020-05-18",
+
+      "phase_1_date": "2020-04-23",      "phase_1_date": "2020-04-23",
+
+      "phase_2_date": "2020-05-17",      "phase_2_date": "2020-05-17",
+
+      "phase_3_date": "2020-08-28"      "phase_3_date": "2020-08-28"
+
+    },    },
+
+    {    {
+
+      "id": 4,      "id": 4,
+
+      "name": "Johnson & Johnson",      "name": "Johnson & Johnson",
+
+      "developer": "Janssen Pharmaceuticals / Johnson & Johnson",      "developer": "Janssen Pharmaceuticals / Johnson & Johnson",
+
+      "platform": "Viral Vector",      "platform": "Viral Vector",
+
+      "clinical_stage": "Phase III",      "clinical_stage": "Phase III",
+
+      "fda_approved": false,      "fda_approved": false,
+
+      "description": "Replicating viral vector vaccine using recombinant vaccine platform",      "description": "Replicating viral vector vaccine using recombinant vaccine platform",
+
+      "announced_date": "2020-03-30",      "announced_date": "2020-03-30",
+
+      "phase_1_date": "2020-09-23",      "phase_1_date": "2020-09-23",
+
+      "phase_2_date": "2020-09-23",      "phase_2_date": "2020-09-23",
+
+      "phase_3_date": "2020-09-23"      "phase_3_date": "2020-09-23"
+
+    },    },
+
+    {    {
+
+      "id": 5,      "id": 5,
+
+      "name": "Sinovac",      "name": "Sinovac",
+
+      "developer": "Sinovac Biotech",      "developer": "Sinovac Biotech",
+
+      "platform": "Inactivated Virus",      "platform": "Inactivated Virus",
+
+      "clinical_stage": "Phase III",      "clinical_stage": "Phase III",
+
+      "fda_approved": false,      "fda_approved": false,
+
+      "description": "Inactivated virus vaccine with aluminum adjuvant",      "description": "Inactivated virus vaccine with aluminum adjuvant",
+
+      "announced_date": "2020-04-16",      "announced_date": "2020-04-16",
+
+      "phase_1_date": "2020-04-16",      "phase_1_date": "2020-04-16",
+
+      "phase_2_date": "2020-08-13",      "phase_2_date": "2020-08-13",
+
+      "phase_3_date": "2020-08-13"      "phase_3_date": "2020-08-13"
+
+    },    },
+
+    {    {
+
+      "id": 6,      "id": 6,
+
+      "name": "Sinopharm",      "name": "Sinopharm",
+
+      "developer": "China National Pharmaceutical Group",      "developer": "China National Pharmaceutical Group",
+
+      "platform": "Inactivated Virus",      "platform": "Inactivated Virus",
+
+      "clinical_stage": "Phase III",      "clinical_stage": "Phase III",
+
+      "fda_approved": false,      "fda_approved": false,
+
+      "description": "Inactivated SARS-CoV-2 virus vaccine",      "description": "Inactivated SARS-CoV-2 virus vaccine",
+
+      "announced_date": "2020-04-11",      "announced_date": "2020-04-11",
+
+      "phase_1_date": "2020-04-11",      "phase_1_date": "2020-04-11",
+
+      "phase_2_date": "2020-07-22",      "phase_2_date": "2020-07-22",
+
+      "phase_3_date": "2020-07-22"      "phase_3_date": "2020-07-22"
+
+    }    }
+
+  ],  ],
+
+  "treatments": [  "treatments": [
+
+    {    {
+
+      "id": 1,      "id": 1,
+
+      "name": "Remdesivir",      "name": "Remdesivir",
+
+      "category": "Antivirals",      "category": "Antivirals",
+
+      "clinical_stage": "Clinical",      "clinical_stage": "Clinical",
+
+      "fda_approved": true,      "fda_approved": true,
+
+      "developer": "Gilead Sciences",      "developer": "Gilead Sciences",
+
+      "description": "Nucleotide prodrug that inhibits viral RNA polymerase",      "description": "Nucleotide prodrug that inhibits viral RNA polymerase",
+
+      "trial_status": "Phase III Complete"      "trial_status": "Phase III Complete"
+
+    },    },
+
+    {    {
+
+      "id": 2,      "id": 2,
+
+      "name": "Dexamethasone",      "name": "Dexamethasone",
+
+      "category": "Antivirals",      "category": "Antivirals",
+
+      "clinical_stage": "Clinical",      "clinical_stage": "Clinical",
+
+      "fda_approved": true,      "fda_approved": true,
+
+      "developer": "Multiple Manufacturers",      "developer": "Multiple Manufacturers",
+
+      "description": "Corticosteroid that reduces inflammation in severe cases",      "description": "Corticosteroid that reduces inflammation in severe cases",
+
+      "trial_status": "In Use"      "trial_status": "In Use"
+
+    },    },
+
+    {    {
+
+      "id": 3,      "id": 3,
+
+      "name": "Monoclonal Antibodies (REGN-COV2)",      "name": "Monoclonal Antibodies (REGN-COV2)",
+
+      "category": "Antibodies",      "category": "Antibodies",
+
+      "clinical_stage": "Clinical",      "clinical_stage": "Clinical",
+
+      "fda_approved": true,      "fda_approved": true,
+
+      "developer": "Regeneron",      "developer": "Regeneron",
+
+      "description": "Combination of monoclonal antibodies against spike protein",      "description": "Combination of monoclonal antibodies against spike protein",
+
+      "trial_status": "EUA Approved"      "trial_status": "EUA Approved"
+
+    },    },
+
+    {    {
+
+      "id": 4,      "id": 4,
+
+      "name": "Convalescent Plasma",      "name": "Convalescent Plasma",
+
+      "category": "Antibodies",      "category": "Antibodies",
+
+      "clinical_stage": "Clinical",      "clinical_stage": "Clinical",
+
+      "fda_approved": true,      "fda_approved": true,
+
+      "developer": "Multiple Blood Banks",      "developer": "Multiple Blood Banks",
+
+      "description": "Plasma from recovered COVID-19 patients containing antibodies",      "description": "Plasma from recovered COVID-19 patients containing antibodies",
+
+      "trial_status": "EUA Approved"      "trial_status": "EUA Approved"
+
+    },    },
+
+    {    {
+
+      "id": 5,      "id": 5,
+
+      "name": "Chloroquine/Hydroxychloroquine",      "name": "Chloroquine/Hydroxychloroquine",
+
+      "category": "Antivirals",      "category": "Antivirals",
+
+      "clinical_stage": "Clinical",      "clinical_stage": "Clinical",
+
+      "fda_approved": false,      "fda_approved": false,
+
+      "developer": "Multiple Manufacturers",      "developer": "Multiple Manufacturers",
+
+      "description": "Antimalarial drug being investigated for COVID-19",      "description": "Antimalarial drug being investigated for COVID-19",
+
+      "trial_status": "Limited Use"      "trial_status": "Limited Use"
+
+    }    }
+
+  ],  ],
+
+  "news": [  "news": [
+
+    {    {
+
+      "id": 1,      "id": 1,
+
+      "title": "WHO Declares COVID-19 Global Health Emergency",      "title": "WHO Declares COVID-19 Global Health Emergency",
+
+      "source": "WHO",      "source": "WHO",
+
+      "category": "coronavirus",      "category": "coronavirus",
+
+      "content": "The World Health Organization declared COVID-19 a Public Health Emergency of International Concern.",      "content": "The World Health Organization declared COVID-19 a Public Health Emergency of International Concern.",
+
+      "published_date": "2020-01-30T10:00:00Z",      "published_date": "2020-01-30T10:00:00Z",
+
+      "link": "https://www.who.int/",      "link": "https://www.who.int/",
+
+      "image_url": "https://www.who.int/images/default-source/homepage/who-logo.png"      "image_url": "https://www.who.int/images/default-source/homepage/who-logo.png"
+
+    },    },
+
+    {    {
+
+      "id": 2,      "id": 2,
+
+      "title": "Pfizer Reports 95% Vaccine Efficacy",      "title": "Pfizer Reports 95% Vaccine Efficacy",
+
+      "source": "Pfizer",      "source": "Pfizer",
+
+      "category": "vaccine",      "category": "vaccine",
+
+      "content": "Pfizer and BioNTech announced their COVID-19 vaccine shows 95% efficacy in clinical trials.",      "content": "Pfizer and BioNTech announced their COVID-19 vaccine shows 95% efficacy in clinical trials.",
+
+      "published_date": "2020-11-09T15:00:00Z",      "published_date": "2020-11-09T15:00:00Z",
+
+      "link": "https://www.pfizer.com/",      "link": "https://www.pfizer.com/",
+
+      "image_url": "https://www.pfizer.com/favicon.ico"      "image_url": "https://www.pfizer.com/favicon.ico"
+
+    },    },
+
+    {    {
+
+      "id": 3,      "id": 3,
+
+      "title": "Global Deaths Exceed 1 Million",      "title": "Global Deaths Exceed 1 Million",
+
+      "source": "Reuters",      "source": "Reuters",
+
+      "category": "coronavirus",      "category": "coronavirus",
+
+      "content": "The global death toll from COVID-19 has exceeded 1 million, according to Reuters tally.",      "content": "The global death toll from COVID-19 has exceeded 1 million, according to Reuters tally.",
+
+      "published_date": "2020-09-28T12:00:00Z",      "published_date": "2020-09-28T12:00:00Z",
+
+      "link": "https://www.reuters.com/",      "link": "https://www.reuters.com/",
+
+      "image_url": "https://www.reuters.com/favicon.ico"      "image_url": "https://www.reuters.com/favicon.ico"
+
+    },    },
+
+    {    {
+
+      "id": 4,      "id": 4,
+
+      "title": "New COVID-19 Variants Emerge",      "title": "New COVID-19 Variants Emerge",
+
+      "source": "BBC",      "source": "BBC",
+
+      "category": "health",      "category": "health",
+
+      "content": "Health officials warn about new variants of COVID-19 spreading rapidly across countries.",      "content": "Health officials warn about new variants of COVID-19 spreading rapidly across countries.",
+
+      "published_date": "2020-12-15T08:00:00Z",      "published_date": "2020-12-15T08:00:00Z",
+
+      "link": "https://www.bbc.com/",      "link": "https://www.bbc.com/",
+
+      "image_url": "https://www.bbc.com/favicon.ico"      "image_url": "https://www.bbc.com/favicon.ico"
+
+    },    },
+
+    {    {
+
+      "id": 5,      "id": 5,
+
+      "title": "Vaccine Rollout Begins in Multiple Countries",      "title": "Vaccine Rollout Begins in Multiple Countries",
+
+      "source": "CNN",      "source": "CNN",
+
+      "category": "vaccine",      "category": "vaccine",
+
+      "content": "COVID-19 vaccination programs begin in major countries as healthcare workers receive first doses.",      "content": "COVID-19 vaccination programs begin in major countries as healthcare workers receive first doses.",
+
+      "published_date": "2020-12-21T09:30:00Z",      "published_date": "2020-12-21T09:30:00Z",
+
+      "link": "https://www.cnn.com/",      "link": "https://www.cnn.com/",
+
+      "image_url": "https://www.cnn.com/favicon.ico"      "image_url": "https://www.cnn.com/favicon.ico"
+
+    }    }
+
+  ]  ]
+
+}}
+

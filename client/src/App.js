@@ -32,7 +32,7 @@ class App extends React.Component {
 render () {
 return (
 <Provider store={store}>
-<Router>
+<Router basename={process.env.PUBLIC_URL || '/vaccovid'}>
 <div className='style'>
 <Navbar />
 <div>
@@ -91,7 +91,7 @@ return (
     <Switch>
     <Route exact path='/coronavirus-germany-map' component={GermanyMapComponent} />
   </Switch>
-  <Switch>
+    <Switch>
     <Route exact path='/coronavirus-australia-map' component={AustraliaMapComponent} />
   </Switch>
   <Switch>
@@ -100,11 +100,12 @@ return (
   <Switch>
     <Route exact path='/news/:topic' component={NewsComponent} />
   </Switch>
-    <Switch>
-    <Route exact path='/about' component={About} />
-  </Switch>
   <Switch>
-    <Route path='/not-found' component={NotFound} />
+    <Route path='/about' component={About} />
+  </Switch>
+
+  <Switch>
+    <Route path='*' component={NotFound} />
   </Switch>
 </div>
 </div>

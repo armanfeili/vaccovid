@@ -2,10 +2,8 @@ import { GET_ERRORS, GET_WORLD_COVID_DATA, GET_ALL_COUNTRIES_COVID_DATA, GET_ASI
   CLEAR_DATA, CLEAR_WORLD_DATA, CLEAR_ALL_COUNTRIES_COVID_DATA_NAME_ORDERED_DATA, CLEAR_ALL_COUNTRIES_COVID_DATA, CLEAR_COUNTRY_ISO_BASED_DATA, CLEAR_COUNTRY_STATES_AND_CITIES_DATA, CLEAR_PROVINCE_ISO_REPORT_DATA, CLEAR_CITIES_ISO_REPORT_DATA,CLEAR_OVID_DATA,
   CLEAR_COUNTRIES_DATA, CLEAR_PROVINCES_DATA
 } from './types';
-import axios from 'axios';
-import {secretData} from './config';
+import mockAPI from '../utils/mockApi';
 
-const baseURL = secretData.baseURL;
 export const clearData = () => dispatch => {
   try {
     dispatch(
@@ -44,7 +42,7 @@ export const clearProvincesData = () => dispatch => {
 
 
 export const getWorldData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/world`)
+  mockAPI.getWorldData()
     .then(res => {
       dispatch({
         type: GET_WORLD_COVID_DATA,
@@ -70,7 +68,7 @@ export const clearWorldData = () => dispatch => {
 };
 
 export const getAllCountriesDataNameOrdered = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/countries-name-ordered`)
+  mockAPI.getAllCountriesNameOrdered()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -96,7 +94,7 @@ export const clearAllCountriesNameOrderedData = () => dispatch => {
 };
 
 export const getAllCountriesData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/countries`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -123,7 +121,7 @@ export const clearAllCountriesData = () => dispatch => {
 };
 
 export const getCountryISOBased = (countryName, iso) => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/country-report-iso-based/${countryName}/${iso}`)
+  mockAPI.getCountryByISO(iso)
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -149,7 +147,7 @@ export const clearCountryISOBasedData = () => dispatch => {
 };
 
 export const getPrrovinceAndCities = (iso) => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/reports/${iso}`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -175,7 +173,7 @@ export const clearPrrovinceAndCitiesData = () => dispatch => {
 };
 
 export const getProvinceReportISOBased = (iso) => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/provinces-report-iso-based/${iso}`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -202,7 +200,7 @@ export const clearProvinceReportISOBasedData = () => dispatch => {
 };
 
 export const getCitiesReportISOBased = (iso) => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/cities-report-iso-based/${iso}`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -229,7 +227,7 @@ export const clearCitiesReportISOBasedData = () => dispatch => {
 };
 
 export const getUSAStatesData = () => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/usa-states`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -243,7 +241,7 @@ export const getUSAStatesData = () => dispatch => {
 };
 
 export const getCanadaStatesData = () => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/canada-states`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -257,7 +255,7 @@ export const getCanadaStatesData = () => dispatch => {
 };
 
 export const getBrazilStatesData = () => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/brazil-states`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -271,7 +269,7 @@ export const getBrazilStatesData = () => dispatch => {
 };
 
 export const getGermanyStatesData = () => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/germany-states`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -285,7 +283,7 @@ export const getGermanyStatesData = () => dispatch => {
 };
 
 export const getAustraliaStatesData = () => dispatch => {
-  axios.get(`${baseURL}/api-covid-data/australia-states`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -299,7 +297,7 @@ export const getAustraliaStatesData = () => dispatch => {
 };
 
 export const getAsiaCountriesData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/asia`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -313,7 +311,7 @@ export const getAsiaCountriesData = () => dispatch => {
 };
 
 export const getAfricaCountriesData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/africa`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -327,7 +325,7 @@ export const getAfricaCountriesData = () => dispatch => {
 };
 
 export const getEuropeCountriesData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/europe`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -341,7 +339,7 @@ export const getEuropeCountriesData = () => dispatch => {
 };
 
 export const getNorthAmericaCountriesData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/northamerica`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -355,7 +353,7 @@ export const getNorthAmericaCountriesData = () => dispatch => {
 };
 
 export const getSouthAmericaCountriesData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/southamerica`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -369,7 +367,7 @@ export const getSouthAmericaCountriesData = () => dispatch => {
 };
 
 export const getAustraliaOceaniaCountriesData = () => dispatch => {
-  axios.get(`${baseURL}/npm-covid-data/australia`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({
@@ -383,7 +381,7 @@ export const getAustraliaOceaniaCountriesData = () => dispatch => {
 };
 
 export const getOvidData = (iso) => dispatch => {
-  axios.get(`${baseURL}/covid-ovid-data/sixmonth/${iso}`)
+  mockAPI.getAllCountries()
     .then(res => {
       // console.log(res.data)
       dispatch({

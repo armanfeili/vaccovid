@@ -4,10 +4,7 @@ import { GET_ERRORS,
     CLEAR_VACCINE_DATA, CLEAR_EACH_VACCINE, CLEAR_TREATMENT_DATA,
     GET_EACH
 } from './types';
-import axios from 'axios';
-import {secretData} from './config';
-
-const baseURL = secretData.baseURL;
+import mockAPI from '../utils/mockApi';
 
 export const clearVaccineData = () => dispatch => {
   try {
@@ -53,7 +50,7 @@ export const clearEachVaccine = () => dispatch => {
 /////////////////////////////////////////////////////
 
 export const getAllVaccines = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-vaccines`)
+  mockAPI.getAllVaccines()
     .then(res => {
       dispatch({
         type: GET_ALL_VACCINES,
@@ -70,7 +67,7 @@ export const getAllVaccines = () => dispatch => {
 };
 
 export const getAllVaccinesPreClinical = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-vaccines-pre-clinical`)
+  mockAPI.getVaccinesByPhase("pre-clinical")
     .then(res => {
       dispatch({
         type: GET_ALL_VACCINES_PRE_CLINICAL,
@@ -87,7 +84,7 @@ export const getAllVaccinesPreClinical = () => dispatch => {
 };
 
 export const getAllVaccinesPhaseOne = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-vaccines-phase-i`)
+  mockAPI.getVaccinesByPhase("Phase I")
     .then(res => {
       dispatch({
         type: GET_ALL_VACCINES_PHASE_ONE,
@@ -104,7 +101,7 @@ export const getAllVaccinesPhaseOne = () => dispatch => {
 };
 
 export const getAllVaccinesPhaseTwo = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-vaccines-phase-ii`)
+  mockAPI.getVaccinesByPhase("Phase II")
     .then(res => {
       dispatch({
         type: GET_ALL_VACCINES_PHASE_TWO,
@@ -121,7 +118,7 @@ export const getAllVaccinesPhaseTwo = () => dispatch => {
 };
 
 export const getAllVaccinesPhaseThree = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-vaccines-phase-iii`)
+  mockAPI.getVaccinesByPhase("Phase III")
     .then(res => {
       dispatch({
         type: GET_ALL_VACCINES_PHASE_THREE,
@@ -138,7 +135,7 @@ export const getAllVaccinesPhaseThree = () => dispatch => {
 };
 
 export const getAllVaccinesPhaseFour = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-vaccines-phase-iv`)
+  mockAPI.getFDAApprovedVaccines()
     .then(res => {
       dispatch({
         type: GET_ALL_VACCINES_PHASE_FOUR,
@@ -155,7 +152,7 @@ export const getAllVaccinesPhaseFour = () => dispatch => {
 };
 
 export const get_FDA_Approved_Vaccines = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-fda-approved-vaccines`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_FDA_APPROVED_VACCINES,
@@ -173,7 +170,7 @@ export const get_FDA_Approved_Vaccines = () => dispatch => {
 
 
 export const getVaccinesCategoryBased = (category) => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-vaccines/${category}`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_VACCINES_CATEGORY_BASED,
@@ -194,7 +191,7 @@ export const getVaccinesCategoryBased = (category) => dispatch => {
 /////////////////////////////////////////////////////
 
 export const getAllTreatments = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-treatment`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS,
@@ -211,7 +208,7 @@ export const getAllTreatments = () => dispatch => {
 };
 
 export const getAllTreatmentsPreClinical = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-treatment-pre-clinical`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS_PRE_CLINICAL,
@@ -228,7 +225,7 @@ export const getAllTreatmentsPreClinical = () => dispatch => {
 };
 
 export const getAllTreatmentsClinical = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-treatment-clinical`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS_CLINICAL,
@@ -245,7 +242,7 @@ export const getAllTreatmentsClinical = () => dispatch => {
 };
 
 export const getAllTreatmentsFDAApproved = () => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-all-fda-approved-treatment`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS_FDA_APPROVED,
@@ -262,7 +259,7 @@ export const getAllTreatmentsFDAApproved = () => dispatch => {
 };
 
 export const getTreatmentsCategoryBased = (category) => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-treatments/${category}`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_TREATMENTS_CATEGORY_BASED,
@@ -284,7 +281,7 @@ export const getTreatmentsCategoryBased = (category) => dispatch => {
 
 
 export const getEachVacOrTreat = (category,name) => dispatch => {
-  axios.get(`${baseURL}/vaccines/get-vaccines/${category}/${name}`)
+  mockAPI.getAllVaccines(`${)
     .then(res => {
       dispatch({
         type: GET_EACH,

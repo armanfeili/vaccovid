@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://armanfeili.github.io/vaccovid/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -30,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sitemap": "babel-node src/sitemap-generator.js",
-    "predeploy": "npm run sitemap"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "secure": false,
   "eslintConfig": {
@@ -56,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.14.1"
+    "gh-pages": "^3.2.3",
+    "sass": "^1.32.0"
   }
 }
