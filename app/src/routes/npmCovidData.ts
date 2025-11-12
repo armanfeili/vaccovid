@@ -2,40 +2,31 @@ import { getConnection, getManager } from "typeorm";
 import { Statistics } from "../db/models/Statistics";
 import express from "express";
 import {
-    fetch_npmData, getWorldData, getAllCountriesData, getAustraliaOceaniaCountriesData, getSouthAmericaCountriesData, getNorthAmericaCountriesData, getEuropeCountriesData, getAfricaCountriesData, getAsiaCountriesData, fetchCasesInAllUSStates, getAllCountriesNameOrdered, getNPMProvincesBasedOnISO,
+    getWorldData, getAllCountriesData, getAustraliaOceaniaCountriesData, getSouthAmericaCountriesData, getNorthAmericaCountriesData, getEuropeCountriesData, getAfricaCountriesData, getAsiaCountriesData, getAllCountriesNameOrdered, getNPMProvincesBasedOnISO,
+    // DEPRECATED: fetch_npmData, fetchCasesInAllUSStates - data no longer updated
 } from "../utils/fetch";
 
 const Router = express.Router();
 
-Router.get("/", async (req, res) => {
-    const connection = getConnection();
-    const StatRepository = await connection.getRepository(Statistics);
-    res.send(
-        await StatRepository.find({
-            order: {
-                rank: "ASC",
-            },
-        })
-    );
-});
+// DEPRECATED ENDPOINTS - Data no longer updated (REMOVED)
+// - POST /fetch-npm-data (REMOVED)
+// - PUT /update-us-states (REMOVED)
+// This website now serves archived COVID data only.
 
-Router.post("/fetch-npm-data", async (req, res) => {
-    try {
-        const data = await fetch_npmData();
-        res.status(200).json({ message: "all countries are updated from npm", data: data })
-    } catch (error) {
-        console.log(error);
-    }
-});
+// Uncomment if you need deprecation warnings instead:
+/*
+const deprecatedEndpoint = (req, res) => {
+  res.status(410).json({ 
+    error: "This endpoint is deprecated. Data is no longer updated.",
+    message: "This website now displays archived COVID data only."
+  });
+};
 
-Router.put("/update-us-states", async (req, res) => {
-    try {
-        await fetchCasesInAllUSStates();
-        res.status(200).json({ message: "us states are updated" })
-    } catch (error) {
-        console.log(error);
-    }
-});
+Router.post("/fetch-npm-data", deprecatedEndpoint);
+Router.put("/update-us-states", deprecatedEndpoint);
+*/
+
+// KEPT: GET endpoints for reading archived COVID data
 
 Router.get("/world", async (req, res) => {
     try {

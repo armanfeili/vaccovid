@@ -1,0 +1,135 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vaccovid-postgres-pv
+  labels:
+    app: vaccovid
+    component: postgres
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  hostPath:
+    path: /data/vaccovid-postgres
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vaccovid-postgres-pvc
+  namespace: vaccovid
+  labels:
+    app: vaccovid
+    component: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vaccovid-postgres
+  namespace: vaccovid
+  labels:
+    app: vaccovid
+    component: postgres
+spec:
+  serviceName: vaccovid-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaccovid
+      component: postgres
+  template:
+    metadata:
+      labels:
+        app: vaccovid
+        component: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+          name: postgresql
+        env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: vaccovid-secrets
+              key: DATABASE_PASSWORD
+        - name: POSTGRES_DB
+          value: vaccovid
+        - name: POSTGRES_INITDB_ARGS
+          value: "--encoding=UTF8 --locale=en_US.UTF-8"
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        - name: init-scripts
+          mountPath: /docker-entrypoint-initdb.d
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - pg_isready -U postgres
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - pg_isready -U postgres
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: init-scripts
+        configMap:
+          name: vaccovid-init-db
+          defaultMode: 0755
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaccovid-postgres
+  namespace: vaccovid
+  labels:
+    app: vaccovid
+    component: postgres
+spec:
+  clusterIP: None
+  selector:
+    app: vaccovid
+    component: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+    name: postgresql

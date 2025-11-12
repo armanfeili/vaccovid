@@ -104,36 +104,29 @@ export class countryEachCountryComponent extends Component {
         }
     }
 
-    countDown(duration, display) {
-        var timer = duration, minutes, seconds;
-        setInterval(function () {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.textContent = minutes + ":" + seconds;
-
-            if (--timer < 0) {
-                timer = duration;
-            }
-        }, 1000);
-    }
+    // DEPRECATED: countDown function removed - Data is archived (no live updates)
+    // countDown(duration, display) {
+    //     var timer = duration, minutes, seconds;
+    //     setInterval(function () {
+    //         minutes = parseInt(timer / 60, 10);
+    //         seconds = parseInt(timer % 60, 10);
+    //
+    //         minutes = minutes < 10 ? "0" + minutes : minutes;
+    //         seconds = seconds < 10 ? "0" + seconds : seconds;
+    //
+    //         display.textContent = minutes + ":" + seconds;
+    //
+    //         if (--timer < 0) {
+    //             timer = duration;
+    //         }
+    //     }, 1000);
+    // }
 
     onload() {
-        setTimeout(() => {
-            if (
-                this.props.eachCountryProvinces !== null && this.props.eachCountryProvinces !== undefined && this.props.eachCountryProvinces.length > 1 &&
-                this.props.ovidData.length > 1
-            ) {
-                let fiveMinutes = 60 * 5,
-                    display = document.querySelector('#time');
-                if (display !== null) {
-                    this.countDown(fiveMinutes, display);
-                }
-            }
-        }, 5000);
+        // DEPRECATED: setTimeout for countdown timer removed - Data is archived
+        // const fiveMinutes = 60 * 5,
+        //     display = document.querySelector('#time');
+        // this.countDown(fiveMinutes, display);
     };
 
     onClickShowRegions() {

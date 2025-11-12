@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: vaccovid-postgres
+    environment:
+      POSTGRES_USER: vaccovid_user
+      POSTGRES_PASSWORD: vaccovid_password
+      POSTGRES_DB: vaccovid
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vaccovid_user -d vaccovid"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vaccovid-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vaccovid-backend
+    environment:
+      NODE_ENV: development
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: vaccovid_user
+      DATABASE_PASSWORD: vaccovid_password
+      DATABASE_NAME: vaccovid
+      PORT: 5000
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./build:/app/build
+      - ./app/src:/app/app/src
+    networks:
+      - vaccovid-network
+    restart: unless-stopped
+
+  frontend:
+    image: node:16-alpine
+    container_name: vaccovid-frontend
+    working_dir: /app/client
+    environment:
+      REACT_APP_API_URL: http://localhost:5000
+    command: npm start
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app/client
+      - ./client/node_modules:/app/client/node_modules
+    depends_on:
+      - backend
+    networks:
+      - vaccovid-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  vaccovid-network:
+    driver: bridge

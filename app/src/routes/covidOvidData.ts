@@ -1,8 +1,8 @@
 import Express from "express";
 import { getManager } from "typeorm";
 import { OwidData } from "../db/models/OwidData";
-import { updateOwid, downloadAndConvertOwidData } from "../utils/ovidData";
 import { getOvidISOBased } from "../utils/ovidData";
+// DEPRECATED: updateOwid, downloadAndConvertOwidData - data no longer updated
 
 const Router = Express.Router();
 
@@ -12,23 +12,25 @@ Router.get("/", async (req, res) => {
     return res.send(data);
 });
 
-Router.put("/update-ovid", async (req, res) => {
-    try {
-        const covData = await updateOwid();
-        res.status(200).json(covData);
-    } catch (error) {
-        console.log(error);
-    }
-});
+// DEPRECATED ENDPOINTS - Data no longer updated (REMOVED)
+// - PUT /update-ovid (REMOVED)
+// - POST /download-and-convert-owid-data (REMOVED)
+// This website now serves archived COVID data only.
 
-Router.post("/download-and-convert-owid-data", async (req, res) => {
-    try {
-        res.status(200).json(await downloadAndConvertOwidData());
-    } catch (error) {
-        console.log(error);
-    }
-});
+// Uncomment if you need deprecation warnings instead:
+/*
+const deprecatedEndpoint = (req, res) => {
+  res.status(410).json({ 
+    error: "This endpoint is deprecated. Data is no longer updated.",
+    message: "This website now displays archived COVID data only."
+  });
+};
 
+Router.put("/update-ovid", deprecatedEndpoint);
+Router.post("/download-and-convert-owid-data", deprecatedEndpoint);
+*/
+
+// KEPT: GET endpoints for reading archived COVID data
 
 Router.put("/sixmonth/:iso", async (req, res) => {
     try {

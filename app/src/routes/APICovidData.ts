@@ -1,9 +1,8 @@
 import express from "express";
 import {
-    addReports,
     getAll,
     getReports,
-    updateProvinces,
+    // DEPRECATED: addReports, updateProvinces, addUSStates, addCityReports - data no longer updated
     getUsaProvinces,
     getCanadaProvinces,
     getBrazilProvinces,
@@ -11,55 +10,35 @@ import {
     getAustraliaProvinces,
     getProvincesBasedOnISO,
     getCitiesBasedOnISO,
-    addUSStates,
-    addCityReports,
 } from "../utils/covidAPIData";
 
 const Router = express.Router();
 
-Router.put("/clear-data", async (req, res) => {
-    try {
-        return res.send('data is cleared');
-    } catch (error) {
-        console.log(error);
-    }
-});
+// DEPRECATED ENDPOINTS - Data no longer updated (REMOVED)
+// - PUT /clear-data (REMOVED)
+// - PUT /updateProvinces (REMOVED)
+// - PUT /addReports (REMOVED)
+// - PUT /addUsReports (REMOVED)
+// - PUT /addCityReports (REMOVED)
+// This website now serves archived COVID data only.
 
-Router.put("/updateProvinces", async (req, res) => {
-    try {
-        return res.send(await updateProvinces());
-    } catch (error) {
-        console.log(error);
-    }
-});
+// Uncomment if you need deprecation warnings instead:
+/*
+const deprecatedEndpoint = (req, res) => {
+  res.status(410).json({ 
+    error: "This endpoint is deprecated. Data is no longer updated.",
+    message: "This website now displays archived COVID data only."
+  });
+};
 
-Router.put("/addReports", async (req, res) => {
-    try {
-        await addReports();
-        return res.send({ message: "all reports are updated" });
-    } catch (error) {
-        console.log(error);
-    }
-});
+Router.put("/clear-data", deprecatedEndpoint);
+Router.put("/updateProvinces", deprecatedEndpoint);
+Router.put("/addReports", deprecatedEndpoint);
+Router.put("/addUsReports", deprecatedEndpoint);
+Router.put("/addCityReports", deprecatedEndpoint);
+*/
 
-Router.put("/addUsReports", async (req, res) => {
-    try {
-        await addUSStates();
-        return res.send({ message: "all US reports are updated" });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-Router.put("/addCityReports", async (req, res) => {
-    console.log("We are here city");
-    try {
-        await addCityReports();
-        return res.send({ message: "all cities reports are updated" });
-    } catch (error) {
-        console.log(error);
-    }
-});
+// KEPT: GET endpoints for reading archived COVID data
 
 Router.get("/allreports", async (req, res) => {
     try {

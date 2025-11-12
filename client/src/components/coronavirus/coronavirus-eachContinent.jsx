@@ -102,22 +102,23 @@ export class CoronavirusEachContinentComponent extends Component {
         this.setState({ active_btn: "africa" });
     };
 
-    countDown(duration, display) {
-        var timer = duration, minutes, seconds;
-        setInterval(function () {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.textContent = minutes + ":" + seconds;
-
-            if (--timer < 0) {
-                timer = duration;
-            }
-        }, 1000);
-    }
+    // DEPRECATED: countDown function removed - Data is archived (no live updates)
+    // countDown(duration, display) {
+    //     var timer = duration, minutes, seconds;
+    //     setInterval(function () {
+    //         minutes = parseInt(timer / 60, 10);
+    //         seconds = parseInt(timer % 60, 10);
+    //
+    //         minutes = minutes < 10 ? "0" + minutes : minutes;
+    //         seconds = seconds < 10 ? "0" + seconds : seconds;
+    //
+    //         display.textContent = minutes + ":" + seconds;
+    //
+    //         if (--timer < 0) {
+    //             timer = duration;
+    //         }
+    //     }, 1000);
+    // }
 
     onload() {
         let { countries } = this.props;
@@ -466,9 +467,8 @@ export class CoronavirusEachContinentComponent extends Component {
                             </div>
                             <div className="coronavirus-table-title">
                                 <input className="coronavirus-table-title-searchbar" type="text" id="input" placeholder="Your Country" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
-                                {/* <h4 className="coronavirus-table-title-update-text">Update in <span id="time">05:00</span><span className="navigation-brand__livepoint"></span><span className="navigation-brand__shiningpoint"></span></h4> */}
                                 <table className="coronavirus-table-title-stats" id="t01">
-                                    <caption className="coronavirus-table-title-stats-caption"><h1 className="coronavirus-table-title-stats-caption-h1">{url_state.continentName} Data <span className="coronavirus-table-title-stats-caption-update-text">- Live Update in <span id="time">05:00</span></span><span className="coronavirus-table-title-stats-caption-livepoint"></span><span className="coronavirus-table-title-stats-caption-shiningpoint"></span></h1></caption>
+                                    <caption className="coronavirus-table-title-stats-caption"><h1 className="coronavirus-table-title-stats-caption-h1">{url_state.continentName} Data <span className="coronavirus-table-title-stats-caption-update-text">(Data as of February 14, 2023)</span></h1></caption>
                                     <thead className="coronavirus-table-title-stats-thead">
                                         <tr className="coronavirus-table-title-stats-columns" id="columns"
                                             ref={this.titleRef}

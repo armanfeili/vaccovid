@@ -1,0 +1,183 @@
+# Default values for vaccovid Helm chart
+# This is a YAML-formatted file for Helm chart values
+
+# Global settings
+global:
+  environment: production
+  domain: vaccovid.app
+  imagePullSecrets: []
+
+# Backend configuration
+backend:
+  enabled: true
+  replicaCount: 3
+  image:
+    repository: ghcr.io/yourusername/vaccovid
+    tag: latest
+    pullPolicy: Always
+  
+  service:
+    type: ClusterIP
+    port: 5000
+    targetPort: 5000
+  
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+  
+  env:
+    NODE_ENV: production
+    PORT: 5000
+    HOST: "0.0.0.0"
+    DATABASE_SYNCHRONIZE: "false"
+    LOG_LEVEL: info
+    READ_ONLY_MODE: "true"
+    CACHE_ENABLED: "true"
+    CORS_ENABLED: "true"
+    COMPRESSION_ENABLED: "true"
+
+# Frontend configuration
+frontend:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: ghcr.io/yourusername/vaccovid
+    tag: latest
+    pullPolicy: Always
+  
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 3000
+  
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 75
+  
+  env:
+    REACT_APP_API_URL: "https://api.vaccovid.app"
+
+# PostgreSQL configuration
+postgres:
+  enabled: true
+  image:
+    repository: postgres
+    tag: "15-alpine"
+    pullPolicy: IfNotPresent
+  
+  port: 5432
+  
+  persistence:
+    enabled: true
+    storageClass: "standard"
+    size: 10Gi
+    path: /var/lib/postgresql/data
+  
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  
+  # Database credentials
+  database:
+    name: vaccovid
+    user: vaccovid_user
+    # Password should be provided via --set or secrets
+    password: ""
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  
+  hosts:
+    - host: vaccovid.app
+      paths:
+        - path: /
+          pathType: Prefix
+          backend: frontend
+    - host: api.vaccovid.app
+      paths:
+        - path: /
+          pathType: Prefix
+          backend: backend
+  
+  tls:
+    enabled: true
+    issuer: letsencrypt-prod
+
+# Namespace
+namespace:
+  create: true
+  name: vaccovid
+
+# Network policies
+networkPolicy:
+  enabled: true
+  ingress: true
+  egress: true
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: true
+  backend:
+    minAvailable: 1
+  frontend:
+    minAvailable: 1
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+# Monitoring
+monitoring:
+  enabled: false
+  prometheus:
+    enabled: false
+    port: 9090
+  grafana:
+    enabled: false
+    port: 3000
+
+# Logging
+logging:
+  enabled: true
+  level: info
+  format: json
+
+# Feature flags
+features:
+  readOnlyMode: true
+  cacheEnabled: true
+  corsEnabled: true
+  compressionEnabled: true

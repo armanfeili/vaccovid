@@ -1,0 +1,19 @@
+apiVersion: v2
+name: vaccovid
+description: "VacCOVID - COVID-19 Vaccine & News Archive Platform"
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - covid-19
+  - vaccine
+  - news
+  - archive
+  - data-visualization
+maintainers:
+  - name: VacCOVID Team
+    email: team@vaccovid.app
+home: https://vaccovid.app
+sources:
+  - https://github.com/yourusername/vaccovid
+dependencies: []

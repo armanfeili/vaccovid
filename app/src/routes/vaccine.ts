@@ -2,7 +2,7 @@ import Express from "express";
 import { getManager } from "typeorm";
 import { OwidData } from "../db/models/OwidData";
 import {
-    convertVaccineData, updateVaccine,
+    // DEPRECATED: convertVaccineData, updateVaccine - data no longer updated
     getAllVaccines, getAllPhase_PreClinical_Vaccines, getAllPhase_one_Vaccines, getAllPhase_two_Vaccines, getAllPhase_three_Vaccines, getAllPhase_four_Vaccines, get_FDA_Approved_Vaccines, getAllVaccineNames,
     getAllTreatments, getAllPreClinicalTreatments, getAllClinicalTreatments, getAll_FDA_Approved_Treatments,
     getVaccineCategoryBased, getTreatmentCategoryBased,
@@ -12,22 +12,27 @@ import {
 
 const Router = Express.Router();
 
+// DEPRECATED ENDPOINTS - Data no longer updated
+// - POST /download-and-convert-vaccine-data (REMOVED)
+// - PUT /update-vaccine (REMOVED)
+// This website now serves archived vaccine data only.
+
+// Uncomment the routes below if you need deprecation warnings instead of removal:
+/*
 Router.post("/download-and-convert-vaccine-data", async (req, res) => {
-    try {
-        res.status(200).json(await convertVaccineData());
-    } catch (error) {
-        console.log(error);
-    }
+    res.status(410).json({ 
+        error: "This endpoint is deprecated. Data is no longer updated.",
+        message: "This website now displays archived vaccine data only."
+    });
 });
 
 Router.put("/update-vaccine", async (req, res) => {
-    try {
-        const vacData = await updateVaccine();
-        res.status(200).json(vacData);
-    } catch (error) {
-        console.log(error);
-    }
+    res.status(410).json({ 
+        error: "This endpoint is deprecated. Data is no longer updated.",
+        message: "This website now displays archived vaccine data only."
+    });
 });
+*/
 
 
 /////////////////////////////////////////////////////

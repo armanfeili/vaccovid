@@ -1,58 +1,36 @@
 import express from 'express';
-import { saveWhoNews, getNews, saveOtherNews, fetchOtherNewsImages, update_DB_WithNewsImages, deleteOldOtherNewsImages, deleteOldNews } from '../utils/newsData';
+import { getNews } from '../utils/newsData';
 import { validateSearchNews } from '../validation/val-news/searchNews';
 
 const Router = express.Router();
 
-Router.put('/update-who-news', async (req, res) => {
-  try {
-    await saveWhoNews();
+// DEPRECATED ENDPOINTS - Data no longer updated (REMOVED)
+// - PUT /update-who-news (REMOVED)
+// - PUT /update-other-news (REMOVED)
+// - GET /fetch-news-images (REMOVED)
+// - PUT /update-store-news-images (REMOVED)
+// - DELETE /delete-old-news-images (REMOVED)
+// - DELETE /delete-old-news (REMOVED)
+// This website now serves archived news data only.
 
-    res.status(200).json({ message: 'News database is updated.' });
-  } catch (error) {
-    console.log(error);
-  }
-});
+// Uncomment if you need deprecation warnings instead:
+/*
+const deprecatedEndpoint = (req, res) => {
+  res.status(410).json({ 
+    error: "This endpoint is deprecated. Data is no longer updated.",
+    message: "This website now displays archived news data only."
+  });
+};
 
-Router.put('/update-other-news', async (req, res) => {
-  try {
-    await saveOtherNews();
+Router.put('/update-who-news', deprecatedEndpoint);
+Router.put('/update-other-news', deprecatedEndpoint);
+Router.get('/fetch-news-images', deprecatedEndpoint);
+Router.put('/update-store-news-images', deprecatedEndpoint);
+Router.delete('/delete-old-news-images', deprecatedEndpoint);
+Router.delete('/delete-old-news', deprecatedEndpoint);
+*/
 
-    res.status(200).json({ message: 'News database is updated.' });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-Router.get('/fetch-news-images', async (req, res) => {
-  try {
-    await fetchOtherNewsImages();
-
-    res.status(200).json({ message: 'News images are getting fetched.' });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-Router.put('/update-store-news-images', async (req, res) => {
-  try {
-    await update_DB_WithNewsImages();
-
-    res.status(200).json({ message: 'News images are updated.' });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-Router.delete('/delete-old-news-images', async (req, res) => {
-  try {
-    await deleteOldOtherNewsImages();
-
-    res.status(200).json({ message: 'Old News images are getting deleted.' });
-  } catch (error) {
-    console.log(error);
-  }
-});
+// KEPT: GET endpoints for reading archived news data
 
 Router.get('/get-all-news/:page', async (req, res) => {
   const { errors, isValid } = validateSearchNews(req.body);
@@ -126,16 +104,6 @@ Router.get('/get-health-news/:page', async (req, res) => {
 
     const news = await getNews(keywords, req.params.page);
     res.status(200).json({ news });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-Router.delete('/delete-old-news', async (req, res) => {
-  try {
-    await deleteOldNews();
-
-    res.status(200).json({ message: 'Old News are deleted.' });
   } catch (error) {
     console.log(error);
   }

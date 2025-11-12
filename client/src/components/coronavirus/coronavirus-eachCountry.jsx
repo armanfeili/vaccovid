@@ -112,22 +112,23 @@ export class countryEachCountryComponent extends Component {
         }
     }
 
-    countDown(duration, display) {
-        var timer = duration, minutes, seconds;
-        setInterval(function () {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.textContent = minutes + ":" + seconds;
-
-            if (--timer < 0) {
-                timer = duration;
-            }
-        }, 1000);
-    }
+    // DEPRECATED: countDown function removed - Data is archived (no live updates)
+    // countDown(duration, display) {
+    //     var timer = duration, minutes, seconds;
+    //     setInterval(function () {
+    //         minutes = parseInt(timer / 60, 10);
+    //         seconds = parseInt(timer % 60, 10);
+    //
+    //         minutes = minutes < 10 ? "0" + minutes : minutes;
+    //         seconds = seconds < 10 ? "0" + seconds : seconds;
+    //
+    //         display.textContent = minutes + ":" + seconds;
+    //
+    //         if (--timer < 0) {
+    //             timer = duration;
+    //         }
+    //     }, 1000);
+    // }
 
     onload() {
         setTimeout(() => {
@@ -902,7 +903,7 @@ export class countryEachCountryComponent extends Component {
                                     <div className="country-table-title">
                                         <input className="country-table-title-searchbar" type="text" id="input" placeholder="Your State" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
                                         <table className="country-table-title-stats" id="t01">
-                                            <caption className="country-table-title-stats-caption"><h2 className="country-table-title-stats-caption-h2">{countryISOBased.length > 0 ? countryISOBased[0].Country + " States" : "Data"}<span className="country-table-title-stats-caption-update-text">- Live Update in <span id="time">05:00</span></span><span className="country-table-title-stats-caption-livepoint"></span><span className="country-table-title-stats-caption-shiningpoint"></span></h2></caption>
+                                            <caption className="country-table-title-stats-caption"><h2 className="country-table-title-stats-caption-h2">{countryISOBased.length > 0 ? countryISOBased[0].Country + " States" : "Data"}<span className="country-table-title-stats-caption-update-text">(Data as of February 14, 2023)</span></h2></caption>
                                             <thead className="country-table-title-stats-thead">
                                                 <tr className="country-table-title-stats-columns" id="columns"
                                                     ref={this.titleRef}

@@ -11,7 +11,6 @@
     "start": "concurrently \"lsof -t -i tcp:5000 | xargs kill -9\" \"node build/index.js\" \"npm run client\"",
     "start1": "concurrently \"lsof -t -i tcp:5000 | xargs kill -9\"  \"npm run server\" \"npm run client\"",
     "dev1": "concurrently \"lsof -t -i tcp:5000 | xargs kill -9\"  \"npm run server\" \"npm run client\" \"tsc -w\" \"npm run watch:sass\"",
-    "timer": "node build/fetch.js",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",

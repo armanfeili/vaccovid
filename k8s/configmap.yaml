@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vaccovid-init-db
+  namespace: vaccovid
+data:
+  init-vaccovid.sql: |
+    -- Create extensions
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+    
+    -- Create vaccine table
+    CREATE TABLE IF NOT EXISTS vaccine (
+      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      name VARCHAR(255) NOT NULL,
+      description TEXT,
+      manufacturer VARCHAR(255),
+      approvalDate TIMESTAMP,
+      efficacy DECIMAL(5,2),
+      sideEffects TEXT,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    -- Create news table
+    CREATE TABLE IF NOT EXISTS news (
+      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      source VARCHAR(255),
+      url VARCHAR(500),
+      imageUrl VARCHAR(500),
+      author VARCHAR(255),
+      publishedAt TIMESTAMP,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    -- Create indexes for performance
+    CREATE INDEX IF NOT EXISTS idx_vaccine_name ON vaccine USING gin(name gin_trgm_ops);
+    CREATE INDEX IF NOT EXISTS idx_vaccine_approvalDate ON vaccine(approvalDate);
+    CREATE INDEX IF NOT EXISTS idx_news_source ON news(source);
+    CREATE INDEX IF NOT EXISTS idx_news_publishedAt ON news(publishedAt DESC);
+    CREATE INDEX IF NOT EXISTS idx_news_title ON news USING gin(title gin_trgm_ops);
+    
+    -- Create read-only vaccovid_user if not exists
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_user WHERE usename = 'vaccovid_user') THEN
+        CREATE USER vaccovid_user WITH PASSWORD 'replace-with-secure-password';
+      END IF;
+    END $$;
+    
+    -- Grant permissions to vaccovid_user (read-only)
+    GRANT CONNECT ON DATABASE vaccovid TO vaccovid_user;
+    GRANT USAGE ON SCHEMA public TO vaccovid_user;
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO vaccovid_user;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO vaccovid_user;
+    
+    -- Revoke write permissions
+    REVOKE INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public FROM vaccovid_user;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE INSERT, UPDATE, DELETE ON TABLES FROM vaccovid_user;
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vaccovid-nginx-config
+  namespace: vaccovid
+data:
+  nginx.conf: |
+    events {
+      worker_connections 1024;
+    }
+    
+    http {
+      upstream backend {
+        server vaccovid-backend:5000;
+      }
+    
+      server {
+        listen 80;
+        server_name api.vaccovid.app;
+    
+        location / {
+          proxy_pass http://backend;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_connect_timeout 60s;
+          proxy_send_timeout 60s;
+          proxy_read_timeout 60s;
+        }
+      }
+    }
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vaccovid-app-config
+  namespace: vaccovid
+data:
+  app.env: |
+    NODE_ENV=production
+    PORT=5000
+    HOST=0.0.0.0
+    DATABASE_SYNCHRONIZE=false
+    LOG_LEVEL=info
+    READ_ONLY_MODE=true
+    CACHE_ENABLED=true
+    CORS_ENABLED=true
+    COMPRESSION_ENABLED=true

@@ -5,7 +5,7 @@
     "username": "XXX",
     "password": "XXX",
     "database": "vaccovid",
-    "synchronize": true,
+    "synchronize": false,
     "cache": {
         "duration": 30000
     },
