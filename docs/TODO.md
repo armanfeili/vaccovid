@@ -197,12 +197,14 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
   - If Docker: remove database dependency
   - If CI/CD: remove data update jobs/steps
   - Simplify deployment process
+  - Status: Pending (requires deployment target decision)
 
 ### 6.3 Testing Setup
 - [ ] **Update or create test files:**
   - Remove tests for data fetching operations
   - Add tests for archived data display
   - Test that update endpoints return deprecation errors
+  - Status: Pending (test plan needed)
 
 ---
 
@@ -222,14 +224,14 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 ### 7.2 Add Deprecation Notices ✅ (Partially Complete)
 - [x] **Added deprecation comments:** In all modified route files
 - [x] **Created DEPRECATED_FUNCTIONS.md:** Lists all deprecated functions
-- [ ] **Update API documentation:** Mark endpoints as archived data only
+- [x] **Update API documentation:** Mark endpoints as archived data only (`docs/API_ARCHIVE.md`)
 - [ ] **Add data age/collection date:** To all responses (optional)
 
 ### 7.3 Create Migration Guide
-- [ ] **Document migration process:**
+- [x] **Document migration process:**
   - List all deprecated features
   - Explain what was removed and why
-  - Provide examples for users
+  - Provide examples for users (`docs/MIGRATION_GUIDE.md`)
 
 ---
 
@@ -341,9 +343,9 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 
 ## Summary
 
-**Completed:** Phases 1-3 (Backend cleanup, database config, build setup)  
-**In Progress:** Ready for Phase 4 (Frontend updates)  
-**Total Timeline:** ~1-2 weeks (now: ~2-3 days remaining)  
+**Completed:** Phases 1-4 (Backend cleanup, database config, build/UI updates)  
+**In Progress:** Phases 5-10 (data export/verification, testing, deployment)  
+**Total Timeline:** ~1-2 weeks (remaining: ~2-3 days)  
 
 **Key Achievements:**
 - ✅ All data update endpoints removed
@@ -352,6 +354,7 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 - ✅ Dependencies installed
 - ✅ Build directory created
 - ✅ Documentation created (IMPLEMENTATION_SUMMARY.md, CHANGELOG.md, DEPRECATED_FUNCTIONS.md)
+- ✅ API archive documentation and migration guide added
 
 **Ready For:**
 - Local testing with React build
