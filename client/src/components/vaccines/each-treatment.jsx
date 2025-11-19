@@ -72,6 +72,7 @@ export class EachTreatment extends Component {
     render() {
         let { category, name } = this.props.match.params;
         let { eachVacItem } = this.props;
+        const formatDate = (date) => date ? moment(date).format('LL') : 'Date unavailable';
 
         return <div>
             <Helmet>
@@ -137,16 +138,16 @@ export class EachTreatment extends Component {
                                             <div className={`each-vaccine-titleAndPic-titleAndCategory-phase ${eachVacItem[0].phase === "undefined" ? "displayOff" : ""}`}>Stage: <span className="each-vaccine-titleAndPic-titleAndCategory-phase-text">{eachVacItem[0].phase}</span></div>
                                             <div className={`each-vaccine-titleAndPic-titleAndCategory-funder ${eachVacItem[0].funder === "undefined" ? "displayOff" : ""}`}>Funder: <span className="each-vaccine-titleAndPic-titleAndCategory-funder-text">{eachVacItem[0].funder}</span></div>
                                             <div className={`each-vaccine-titleAndPic-titleAndCategory-FDAApproved ${eachVacItem[0].FDAApproved === "undefined" ? "displayOff" : ""}`}>FDA Approval: <span className="each-vaccine-titleAndPic-titleAndCategory-FDAApproved-text">{eachVacItem[0].FDAApproved}</span></div>
-                                            <div className={`each-vaccine-titleAndPic-titleAndCategory-lastUpdated ${eachVacItem[0].lastUpdated === "undefined" ? "displayOff" : ""}`}>Last Update: <span className="each-vaccine-titleAndPic-titleAndCategory-lastUpdated-text">{moment(eachVacItem[0].lastUpdated).fromNow()}</span></div>
+                                            <div className={`each-vaccine-titleAndPic-titleAndCategory-lastUpdated ${eachVacItem[0].lastUpdated === "undefined" ? "displayOff" : ""}`}>Last Update: <span className="each-vaccine-titleAndPic-titleAndCategory-lastUpdated-text">{formatDate(eachVacItem[0].lastUpdated)}</span></div>
                                             <div className={`each-vaccine-titleAndPic-titleAndCategory-publishedResults ${eachVacItem[0].publishedResults[0] === "undefined" ? "displayOff" : ""}`}>Published Results: <span className="each-vaccine-titleAndPic-titleAndCategory-publishedResults-text">{eachVacItem[0].publishedResults[0] === "undefined" ? "" : eachVacItem[0].publishedResults.map((e, i) => {
                                                 // return <div>{e}</div>
                                                 return <a className="each-vaccine-titleAndPic-titleAndCategory-publishedResults-text-link" href={`${e}`} rel="noopener noreferrer" target="_blank">Link-{i + 1}</a>
                                             })}</span></div>
                                         </div>
                                         <div className="each-vaccine-titleAndPic-categoryPic">
-                                            <img className="each-vaccine-titleAndPic-categoryPic-pic" src={`${require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory === "other" ? "Other" : eachVacItem[0].trimedCategory}.jpg`) ?
-                                                require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory === "other" ? "Other" : eachVacItem[0].trimedCategory}.jpg`) :
-                                                require(`./../../views/vaccine-categories-pics/Other.jpg`)}`} alt="category" />
+                                            <img className="each-vaccine-titleAndPic-categoryPic-pic" src={`${require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory === "other" ? "other" : eachVacItem[0].trimedCategory}.jpg`) ?
+                                                require(`./../../views/vaccine-categories-pics/${eachVacItem[0].trimedCategory === "other" ? "other" : eachVacItem[0].trimedCategory}.jpg`) :
+                                                require(`./../../views/vaccine-categories-pics/other.jpg`)}`} alt="category" />
                                             <div className="each-vaccine-titleAndPic-categoryPic-cover"></div>
                                         </div>
                                     </section>

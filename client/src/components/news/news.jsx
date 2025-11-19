@@ -187,11 +187,15 @@ export class NewsComponent extends Component {
         return (
             <div>
                 <Helmet>
-                    <title>{this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live</title>
-                    <meta name="description" content={`${this.state.active_btn === 'covid19' ? 'Coronavirus' : 'Coronavirus ' + this.state.active_btn} News - Latest covid-19 and vaccine news from the most reliable broadcasting. WHO, CDC, BBC, CNN, Washington Post, Time, Fox-News`} />
+                    <title>Archived {this.state.active_btn === 'covid19' ? 'covid-19' : 'covid-19 ' + this.state.active_btn} news - vaccovid.live</title>
+                    <meta name="description" content={`${this.state.active_btn === 'covid19' ? 'Coronavirus' : 'Coronavirus ' + this.state.active_btn} news archive. Static snapshot of COVID-19, vaccine, and health articles (no new updates).`} />
 
                 </Helmet>
                 <div id="news" className="news">
+
+                    <div className="archive-notice">
+                        <strong>Archived articles:</strong> These stories reflect the final collected dataset and will not receive new updates.
+                    </div>
 
                     <div className="news-btnAndTitle">
                         <button className="news-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your topic &#9662;</button>
@@ -217,8 +221,12 @@ export class NewsComponent extends Component {
                     </div>
                     <div className="news-item news-item--news">
 
+                        {
+                            // Format publication dates so they read as historical snapshots
+                        }
                         <ul className="news-item--news-list" id="containerElement">
                             {news.news ? news.news.map(news => {
+                                const publishedLabel = news.pubDate ? moment(news.pubDate).format('LL') : 'Unknown date';
                                 // {news ? news.map(news => {
                                 return <a href={news.link} rel="noopener noreferrer" target="_blank" key={news.news_id} className="news-item--news-list-eachNews">
                                     <img
@@ -238,7 +246,7 @@ export class NewsComponent extends Component {
                                         alt="..."
                                     />
                                     <div className="news-item--news-list-eachNews-newsImg-cover"></div>
-                                    <div className="news-item--news-list-eachNews-pubDate">{moment(news.pubDate).fromNow()}</div>
+                                    <div className="news-item--news-list-eachNews-pubDate">{publishedLabel}</div>
                                 </a>
                             }
                             ) : (

@@ -10,6 +10,8 @@ import {
     clearWorldData
 } from '../../actions/covid_countries';
 
+const ARCHIVE_DATE = 'February 14, 2023';
+
 export class CoronavirusWorldComponent extends Component {
     constructor() {
         super();
@@ -27,8 +29,7 @@ export class CoronavirusWorldComponent extends Component {
             page: 0,
             orderNameForTitles: '',
             activeTitle: 'TotalCase',
-            showRegions: "off",
-            timer: 5
+            showRegions: "off"
         };
 
         this.onClickGetCovidWorldData = this.onClickGetCovidWorldData.bind(this);
@@ -39,13 +40,10 @@ export class CoronavirusWorldComponent extends Component {
         this.onScroll = this.onScroll.bind(this);
         this.search = this.search.bind(this);
         this.changeOffset = this.changeOffset.bind(this);
-        this.onload = this.onload.bind(this);
-        // this.countDown = this.countDown.bind(this); // REMOVED: Method no longer exists
     }
 
     async componentDidMount() {
         this.onClickGetDynamicCovidData();
-        this.onload();
     }
 
     async componentDidUpdate(prevProps) {
@@ -106,37 +104,6 @@ export class CoronavirusWorldComponent extends Component {
     async onClickGetCovidAfricaData() {
         this.setState({ active_btn: "africa" });
 
-    };
-
-    // DEPRECATED: countDown function removed - Data is archived (no live updates)
-    // countDown(duration, display) {
-    //     var timer = duration, minutes, seconds;
-    //     setInterval(function () {
-    //         minutes = parseInt(timer / 60, 10);
-    //         seconds = parseInt(timer % 60, 10);
-    //
-    //         minutes = minutes < 10 ? "0" + minutes : minutes;
-    //         seconds = seconds < 10 ? "0" + seconds : seconds;
-    //
-    //         display.textContent = minutes + ":" + seconds;
-    //
-    //         if (--timer < 0) {
-    //             timer = duration;
-    //         }
-    //     }, 1000);
-    // }
-
-    onload() {
-        let { countries } = this.props;
-        let { countriesNameOrdered } = this.props;
-        let { world } = this.props;
-        if (countriesNameOrdered !== undefined && countries !== undefined && world !== undefined) {
-            var fiveMinutes = 60 * 5,
-                display = document.querySelector('#time');
-            if (display !== null) {
-                this.countDown(fiveMinutes, display);
-            }
-        }
     };
 
     changeOffset() {
@@ -238,6 +205,7 @@ export class CoronavirusWorldComponent extends Component {
         let tableIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         let continentName = 'world-data'
         let url_state = { continentName: 'World' };  
+        const archiveNotice = `Showing archived COVID-19 data. Last collected on ${ARCHIVE_DATE}. There are no live updates.`;
 
         if (continentName === null || continentName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
@@ -312,21 +280,24 @@ export class CoronavirusWorldComponent extends Component {
         return <div>
             <Helmet>
                 <title>VACCOVID - Vaccine, Covid-19 and Treatment tracker</title>
-                <meta name="description" content="VACCOVID.LIVE comprehensive up-to-date Vaccine tracker, COVID-19 tracker and Treatment tracker website that makes people aware about coronavirus pandemic" />
+                <meta name="description" content="VacCOVID archived snapshot of COVID-19, vaccine, and treatment data as of February 2023. No live updates are running." />
                 {/* <!-- Open Graph / Facebook --> */}
                 <meta property="og:title" content="Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news" />
                 <meta property="og:description"
-                    content="VACCOVID.LIVE comprehensive up-to-date Vaccine tracker, COVID-19 tracker and Treatment tracker website that make people aware about coronavirus pandemic" />
+                    content="Archived COVID-19, vaccine, and treatment tracker data (static snapshot, no live refresh)." />
 
                 {/* <!-- Twitter --> */}
                 <meta property="twitter:title" content="Vaccovid - Vaccine tracker, Covid-19 tracker and Treatment tracker" />
                 <meta property="twitter:description"
-                    content="VACCOVID.LIVE comprehensive up-to-date Vaccine tracker, COVID-19 tracker and Treatment tracker website that make people aware about coronavirus pandemic" />
+                    content="Archived COVID-19, vaccine, and treatment tracker data (static snapshot, no live refresh)." />
 
             </Helmet>
             {
                 url_state && countriesNameOrdered !== undefined && countries !== undefined && world !== undefined ? (
                     <div>
+                        <div className="archive-notice">
+                            <strong>Archived dataset:</strong> {archiveNotice}
+                        </div>
                         <div className={`coronavirus ${url_state.continentName !== "World" ? "coronavirus-removeQuickFactsHeight" : ""} ${url_state.continentName === "Australia/Oceania" ? "coronavirus-removeQuickFactsHeight-heightWhenAustralia" : ""}`}>
                             <div className="coronavirus-btnAndTitle">
                                 <button className="coronavirus-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>

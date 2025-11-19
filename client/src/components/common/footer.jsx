@@ -34,7 +34,7 @@ export class Footer extends Component {
                     <div className="footer-first-part-about">
                         <h2 className="footer-first-part-about-name">VACCOVID.LIVE</h2>
                         <div className="footer-first-part-about-between"></div>
-                        <p className="footer-first-part-about-text">VacCovid is an up to date vaccine and covid-19 tracker which has been landed in order to inform people from all over the planet about the present novel coronavirus (COVID-19) pandemic.</p>
+                        <p className="footer-first-part-about-text">VacCOVID now hosts an archived snapshot of vaccine, COVID-19, and treatment data collected during the pandemic. The site remains online for historical reference.</p>
                     </div>
                     <div className="footer-first-part-vacAndTreat">
                         <h3 className="footer-first-part-vacAndTreat-title">Vaccine</h3>

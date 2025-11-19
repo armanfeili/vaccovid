@@ -7,8 +7,7 @@ Convert VacCOVID from a dynamic real-time data fetching application to a static 
 
 ## Status Summary
 
-✅ **Phase 1-3: COMPLETE** - Backend cleanup, database config, and build successful  
-⏳ **Phase 4: PENDING** - Frontend UI updates  
+✅ **Phase 1-4: COMPLETE** - Backend cleanup, database config, build, and frontend archive UI  
 ⏳ **Phase 5-10: PENDING** - Testing, docs, deployment  
 
 **Build Status:** TypeScript compilation ✅ | Dependencies ✅ | Ready for testing ✅
@@ -123,36 +122,33 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 
 ---
 
-## Phase 4: Frontend Cleanup ⏳ PENDING
+## Phase 4: Frontend Cleanup ✅ COMPLETE
 
 ### 4.1 Remove API Fetch Dependencies from Actions
-- [ ] **In `client/src/actions/news.js`:**
-  - GET endpoints are read-only - no changes needed
+- [x] **In `client/src/actions/news.js`:**
+  - GET-only calls verified; no live update routes referenced
 
-- [ ] **In `client/src/actions/vaccine.js`:**
-  - GET endpoints are read-only - no changes needed
+- [x] **In `client/src/actions/vaccine.js`:**
+  - GET-only calls verified; no live update routes referenced
 
-- [ ] **In `client/src/actions/covid_countries.js`:**
-  - Verify all endpoints are GET (read-only)
-  - No changes needed
+- [x] **In `client/src/actions/covid_countries.js`:**
+  - Verified all endpoints are GET (read-only)
+  - No mutation or polling hooks remain
 
-- [ ] **In `client/src/actions/config.js`:**
-  - Verify `baseURL` configuration is correct
-  - Ensure no hardcoded production URLs for live data sources
+- [x] **In `client/src/actions/config.js`:**
+  - `baseURL` set to `/api` (no external/live sources)
 
 ### 4.2 Remove Redux Actions for Live Updates
-- [ ] **Review `client/src/store.js` and Redux setup:**
-  - Remove any middleware for handling live data updates
-  - Remove any polling or WebSocket connections (if present)
+- [x] **Review `client/src/store.js` and Redux setup:**
+  - No polling/WebSocket middleware present; thunk kept for dispatching GET reads
 
 ### 4.3 Update React Components
-- [ ] **Review all components in `client/src/components/`:**
-  - Remove "loading latest data" indicators
-  - Remove "data last updated" timestamps
-  - Update UI text to indicate data is archived/historical
-  - Verify no background fetch requests
+- [x] **Review all components in `client/src/components/`:**
+  - Removed countdown/refresh timers
+  - Added archived-data notices and static timestamps
+  - Verified no background fetch requests
 
-- [ ] **Specific components to review:**
+- [x] **Specific components updated:**
   - `coronavirus-world.jsx`
   - `coronavirus-eachContinent.jsx`
   - `coronavirus-eachCountry.jsx`
@@ -169,6 +165,7 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
   - Export existing data as JSON or CSV files
   - Store in `app/src/data/` for reference
   - Document data collection date and sources
+  - Status: Blocked in this workspace (no database access provided)
 
 - [ ] **Verify archived data completeness:**
   - Ensure all countries have data
@@ -187,13 +184,13 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 ## Phase 6: Build & Deployment Setup ⏳ PENDING
 
 ### 6.1 Update Build Process
-- [ ] **Verify TypeScript compilation:** ✅ Already working
-- [ ] **Test React build:**
+- [x] **Verify TypeScript compilation:** ✅ Already working
+- [x] **Test React build:**
   ```bash
   npm run build --prefix client
   ```
-- [ ] **Verify no environment variables required for data fetching**
-- [ ] **Check build includes all static assets**
+- [x] **Verify no environment variables required for data fetching**
+- [x] **Check build includes all static assets** (build emits case-sensitivity warning to clean later)
 
 ### 6.2 Remove Docker/Deployment Files
 - [ ] **Review deployment configuration:**
@@ -212,12 +209,12 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 ## Phase 7: Documentation & Communication ⏳ PENDING
 
 ### 7.1 Update README Files
-- [ ] **In root `README.md`:**
+- [x] **In root `README.md`:**
   - Document that this is a static archive
   - Explain datasets are no longer updated
   - Provide setup instructions
 
-- [ ] **In `client/README.md`:**
+- [x] **In `client/README.md`:**
   - Update to reflect static-only nature
   - Remove live data fetching instructions
   - Document available static data endpoints
@@ -358,5 +355,5 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 
 **Ready For:**
 - Local testing with React build
-- Frontend UI updates
+- Data export/verification
 - Production deployment

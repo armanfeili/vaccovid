@@ -13,6 +13,8 @@ import {
     clearData, clearOvidData
 } from '../../actions/covid_countries';
 
+const ARCHIVE_DATE = 'February 14, 2023';
+
 export class countryEachCountryComponent extends Component {
     constructor() {
         super();
@@ -35,11 +37,8 @@ export class countryEachCountryComponent extends Component {
             showRegions: "off",
             data: [],
             world: [],
-            timer: 5,
-
             iso: "",
-            countryName: "",
-            updated: ''
+            countryName: ""
         };
 
         this.getProvinceCovidData = this.getProvinceCovidData.bind(this);
@@ -56,8 +55,6 @@ export class countryEachCountryComponent extends Component {
         this.newCasesChart = this.newCasesChart.bind(this);
         this.totalDeathsChart = this.totalDeathsChart.bind(this);
         this.newDeathsChart = this.newDeathsChart.bind(this);
-        this.onload = this.onload.bind(this);
-        this.countDown = this.countDown.bind(this);
 
     }
 
@@ -111,39 +108,6 @@ export class countryEachCountryComponent extends Component {
         } else if (this.props.match.params === null || this.props.match.params === undefined) {
         }
     }
-
-    // DEPRECATED: countDown function removed - Data is archived (no live updates)
-    // countDown(duration, display) {
-    //     var timer = duration, minutes, seconds;
-    //     setInterval(function () {
-    //         minutes = parseInt(timer / 60, 10);
-    //         seconds = parseInt(timer % 60, 10);
-    //
-    //         minutes = minutes < 10 ? "0" + minutes : minutes;
-    //         seconds = seconds < 10 ? "0" + seconds : seconds;
-    //
-    //         display.textContent = minutes + ":" + seconds;
-    //
-    //         if (--timer < 0) {
-    //             timer = duration;
-    //         }
-    //     }, 1000);
-    // }
-
-    onload() {
-        setTimeout(() => {
-            if (
-                this.props.eachCountryProvinces !== null && this.props.eachCountryProvinces !== undefined && this.props.eachCountryProvinces.length > 1 &&
-                this.props.ovidData.length > 1
-            ) {
-                let fiveMinutes = 60 * 5,
-                    display = document.querySelector('#time');
-                if (display !== null) {
-                    this.countDown(fiveMinutes, display);
-                }
-            }
-        }, 5000);
-    };
 
     onClickShowRegions() {
         if (this.state.showRegions === "on") {
@@ -655,6 +619,7 @@ export class countryEachCountryComponent extends Component {
         let continent = countryName.split('-data').join('');
         let continent2 = continent.split('-').join(' ');
         let continent3 = continent2.charAt(0).toUpperCase() + continent2.slice(1);
+        const archiveNotice = `Showing archived COVID-19 data. Last collected on ${ARCHIVE_DATE}. There are no live updates.`;
 
         if (url_state.iso === null || url_state.iso === undefined || url_state.countryName === null || url_state.countryName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
@@ -729,9 +694,12 @@ export class countryEachCountryComponent extends Component {
         return <div>
             <Helmet>
                 <title>{continent3} Coronavirus tracker on table of data - vaccovid</title>
-                <meta name="description" content={`Vaccine and Covid-19 tracker. ${continent3} Corona virus statistical data for all states. Including total and new cases on tables and charts`} />
+                <meta name="description" content={`Archived COVID-19 statistics for ${continent3}. Snapshot as of February 2023 with no live updates.`} />
 
             </Helmet>
+            <div className="archive-notice">
+                <strong>Archived dataset:</strong> {archiveNotice}
+            </div>
             {url_state
                 &&
                 ovidData.length > 1
