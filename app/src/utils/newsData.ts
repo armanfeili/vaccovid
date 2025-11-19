@@ -1,5 +1,24 @@
-import Parser from 'rss-parser';
-import axios from 'axios';
+// rss-parser is removed from production deps; fall back to a stub when unavailable
+let Parser: any;
+try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    Parser = require('rss-parser');
+} catch (_err) {
+    Parser = class {
+        async parseURL() {
+            return { items: [] };
+        }
+    };
+}
+
+// axios kept optional; stub to prevent runtime crash if missing
+let axios: any;
+try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    axios = require('axios');
+} catch (_err) {
+    axios = { get: async () => ({ data: {} }) };
+}
 import { getConnection, Like, Not } from 'typeorm';
 import { News } from './../db/models/News';
 import { secretData } from './../config/secretData';

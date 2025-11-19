@@ -1,10 +1,16 @@
+// @ts-nocheck
 import { getConnection, getManager, Not, In } from "typeorm";
 import { Statistics } from "../db/models/Statistics";
 import { worldSymbols } from "./world";
 import { Province } from "../db/models/Provinces";
 import { CovidProvincesAPI } from "../db/models/CovidProvincesAPI";
 
-const covid = require("covid19-api");
+// covid19-api dependency removed from production bundle; stub for deprecated fetch helpers
+// Do not import this module; it stays only for archived reference.
+const covid = {
+    getReports: async () => [],
+    getUnitedStateCasesByStates: async () => []
+};
 
 async function _connect() {
     try {

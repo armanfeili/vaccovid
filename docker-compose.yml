@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: vaccovid_password
       POSTGRES_DB: vaccovid
     ports:
-      - "5432:5432"
+      - "55432:5432" # host port changed to avoid conflicts
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
@@ -54,7 +54,7 @@ services:
       REACT_APP_API_URL: http://localhost:5000
     command: npm start
     ports:
-      - "3000:3000"
+      - "3200:3000" # changed host port to avoid conflicts
     volumes:
       - ./client:/app/client
       - ./client/node_modules:/app/client/node_modules
