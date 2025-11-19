@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Frontend Archive Refresh] - 2025-11-03
+
+### Changed
+- Added archived-data notices across COVID, vaccine, treatment, and news pages; removed countdown/polling code
+- Updated vaccine/treatment tables to show recorded dates instead of relative "last updated" timers
+- News dates now display original publication dates (no "from now" text)
+- Updated About/Footer copy and both README files to clarify static, historical status
+
 ## [Static] - 2025-11-03
 
 ### Removed

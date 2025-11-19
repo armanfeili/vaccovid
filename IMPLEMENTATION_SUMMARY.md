@@ -104,6 +104,16 @@
 
 ---
 
+## Phase 4: Frontend UI Updates (Completed)
+
+- ✅ Removed countdown/polling code from COVID world, continent, and country views
+- ✅ Added archived-data notices to major pages (COVID views, news, vaccine, treatment)
+- ✅ Replaced relative "last updated" text with recorded dates for vaccines, treatments, and news
+- ✅ Updated About/Footer copy and both README files to emphasize static, historical data
+- ✅ Verified Redux actions/config remain GET-only with `/api` base URL; no polling middleware present
+
+---
+
 ## Data Structure After Changes
 
 ### Active (Read-Only) Endpoints

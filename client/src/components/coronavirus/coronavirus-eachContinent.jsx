@@ -10,6 +10,8 @@ import {
     clearWorldData
 } from '../../actions/covid_countries';
 
+const ARCHIVE_DATE = 'February 14, 2023';
+
 export class CoronavirusEachContinentComponent extends Component {
     constructor() {
         super();
@@ -27,8 +29,7 @@ export class CoronavirusEachContinentComponent extends Component {
             page: 0,
             orderNameForTitles: '',
             activeTitle: 'TotalCase',
-            showRegions: "off",
-            timer: 5
+            showRegions: "off"
         };
 
         this.onClickGetCovidWorldData = this.onClickGetCovidWorldData.bind(this);
@@ -39,13 +40,10 @@ export class CoronavirusEachContinentComponent extends Component {
         this.onScroll = this.onScroll.bind(this);
         this.search = this.search.bind(this);
         this.changeOffset = this.changeOffset.bind(this);
-        this.onload = this.onload.bind(this);
-        this.countDown = this.countDown.bind(this);
     }
 
     async componentDidMount() {
         this.onClickGetDynamicCovidData();
-        this.onload();
     }
 
     async componentDidUpdate(prevProps) {
@@ -100,37 +98,6 @@ export class CoronavirusEachContinentComponent extends Component {
     };
     async onClickGetCovidAfricaData() {
         this.setState({ active_btn: "africa" });
-    };
-
-    // DEPRECATED: countDown function removed - Data is archived (no live updates)
-    // countDown(duration, display) {
-    //     var timer = duration, minutes, seconds;
-    //     setInterval(function () {
-    //         minutes = parseInt(timer / 60, 10);
-    //         seconds = parseInt(timer % 60, 10);
-    //
-    //         minutes = minutes < 10 ? "0" + minutes : minutes;
-    //         seconds = seconds < 10 ? "0" + seconds : seconds;
-    //
-    //         display.textContent = minutes + ":" + seconds;
-    //
-    //         if (--timer < 0) {
-    //             timer = duration;
-    //         }
-    //     }, 1000);
-    // }
-
-    onload() {
-        let { countries } = this.props;
-        let { countriesNameOrdered } = this.props;
-        let { world } = this.props;
-        if (countriesNameOrdered !== undefined && countries !== undefined && world !== undefined) {
-            var fiveMinutes = 60 * 5,
-                display = document.querySelector('#time');
-            if (display !== null) {
-                this.countDown(fiveMinutes, display);
-            }
-        }
     };
 
     changeOffset() {
@@ -234,6 +201,7 @@ export class CoronavirusEachContinentComponent extends Component {
         let continent = continentName.split('-data').join('');
         let continent2 = continent.split('-').join(' ');
         let continent3 = continent2.charAt(0).toUpperCase() + continent2.slice(1);
+        const archiveNotice = `Showing archived COVID-19 data. Last collected on ${ARCHIVE_DATE}. There are no live updates.`;
 
         if (window.location.pathname === "/covid-19-tracker" || window.location.pathname === "/covid-19-tracker/" || url_state === undefined) {
             return <Redirect to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} push />
@@ -312,12 +280,15 @@ export class CoronavirusEachContinentComponent extends Component {
         return <div>
             <Helmet>
                 <title>{continent3} Coronavirus tracker table of statistical data - vaccovid</title>
-                <meta name="description" content={`Vaccine and Covid-19 tracker. Corona virus statistical data of all countries in ${continent3}. Including New Cases,New Deaths,Total Cases,Total Deaths`} />
+                <meta name="description" content={`Archived COVID-19 statistics for ${continent3}. Snapshot as of February 2023 with no live updates.`} />
 
             </Helmet>
             {
                 url_state && countriesNameOrdered !== undefined && countries !== undefined && world !== undefined ? (
                     <div>
+                        <div className="archive-notice">
+                            <strong>Archived dataset:</strong> {archiveNotice}
+                        </div>
                         <div className={`coronavirus ${url_state.continentName !== "World" ? "coronavirus-removeQuickFactsHeight" : ""} ${url_state.continentName === "Australia/Oceania" ? "coronavirus-removeQuickFactsHeight-heightWhenAustralia" : ""}`}>
                             <div className="coronavirus-btnAndTitle">
                                 <button className="coronavirus-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>

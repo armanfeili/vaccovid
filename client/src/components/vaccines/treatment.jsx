@@ -11,6 +11,8 @@ import {
     clearTreatmentData
 } from '../../actions/vaccine';
 
+const ARCHIVE_DATE = 'February 14, 2023';
+
 export class Treatment extends Component {
     constructor() {
         super();
@@ -192,6 +194,8 @@ export class Treatment extends Component {
         let { treatments } = this.props;
         let tableIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+        const archiveNotice = `Archived treatment data. Last collected on ${ARCHIVE_DATE}. No live updates.`;
+        const formatDate = (date) => date ? moment(date).format('LL') : 'Date unavailable';
 
 
         const orderName = (titleName, orderBase) => {
@@ -239,12 +243,15 @@ export class Treatment extends Component {
 
         return <div>
             <Helmet>
-                <title>Coronavirus {category} treatment tracker, drugs and medicine - vaccovid</title>
-                <meta name="description" content={`Vaccine and Covid-19 tracker. Coronavirus Treatment Tracker ${category} statistical data. Including Category,Company,Stages,results`} />
+                <title>Archived coronavirus {category} treatment tracker, drugs and medicine - vaccovid</title>
+                <meta name="description" content={`Archived treatment tracker data for ${category}. Snapshot as of February 2023 with no live updates.`} />
             </Helmet>
             {
                 category ? (
                     <div>
+                        <div className="archive-notice">
+                            <strong>Archived dataset:</strong> {archiveNotice}
+                        </div>
                         <div className="vaccine-page">
                             {/* <section className="vaccine-page-list"></section> */}
                             <div className="vaccine-page-btnAndTitle">
@@ -327,7 +334,7 @@ export class Treatment extends Component {
                                             <th className={`vaccine-page-table-title-stats-columns-item vaccine-page-table-title-stats-columns-confirmedpermil ${this.state.activeTitle === 'nextSteps' ? "vaccine-page-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName('nextSteps', 'nextSteps') }}>Anticipated Next Steps <span className="sign">&#9662;</span></th>
                                             <th className={`vaccine-page-table-title-stats-columns-item vaccine-page-table-title-stats-columns-active ${this.state.activeTitle === 'FDAApproved' ? "vaccine-page-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName('FDAApproved', 'FDAApproved') }}>FDA-Approved Indications <span className="sign">&#9662;</span></th>
                                             <th className={`vaccine-page-table-title-stats-columns-item vaccine-page-table-title-stats-columns-critical ${this.state.activeTitle === 'funder' ? "vaccine-page-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderName('funder', 'funder') }}>Funder <span className="sign">&#9662;</span></th>
-                                            <th className={`vaccine-page-table-title-stats-columns-item vaccine-page-table-title-stats-columns-deceased ${this.state.activeTitle === 'lastUpdated' ? "vaccine-page-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderDate('lastUpdated', 'lastUpdated') }}>Date Last Updated <span className="sign">&#9662;</span></th>
+                                            <th className={`vaccine-page-table-title-stats-columns-item vaccine-page-table-title-stats-columns-deceased ${this.state.activeTitle === 'lastUpdated' ? "vaccine-page-table-title-stats-columns-active_btn" : ""}`} onClick={() => { orderDate('lastUpdated', 'lastUpdated') }}>Recorded Date (archived) <span className="sign">&#9662;</span></th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -350,7 +357,7 @@ export class Treatment extends Component {
                                             <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-critical"><Link className="vaccine-page-table-stats-item-critical" to={{ pathname: `/treatment-tracker/${vaccine.trimedCategory}/${vaccine.trimedName}` }} onClick={this.changeOffset} >{vaccine.nextSteps !== "undefined" ? vaccine.nextSteps : "No Data - More info"}<span className="sign">&#9662;</span></Link> </td>
                                             <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-deceased"><Link className="vaccine-page-table-stats-item-deceased" to={{ pathname: `/treatment-tracker/${vaccine.trimedCategory}/${vaccine.trimedName}` }} onClick={this.changeOffset} >{vaccine.FDAApproved !== "undefined" ? vaccine.FDAApproved : "Not Approved Yet"} <span className="sign">&#9662;</span></Link></td>
                                             <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-active"><Link className="vaccine-page-table-stats-item-active" to={{ pathname: `/treatment-tracker/${vaccine.trimedCategory}/${vaccine.trimedName}` }} onClick={this.changeOffset} >{vaccine.funder !== "undefined" ? vaccine.funder : "No Data - More info"} <span className="sign">&#9662;</span></Link></td>
-                                            <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">{vaccine.lastUpdated !== "undefined" ? moment(vaccine.lastUpdated).fromNow() : "No Data"}</td>
+                                            <td className="vaccine-page-table-stats-item-each vaccine-page-table-stats-item-newdeaths">{vaccine.lastUpdated !== "undefined" ? formatDate(vaccine.lastUpdated) : "No Data"}</td>
                                         </tr>
                                     }
 
