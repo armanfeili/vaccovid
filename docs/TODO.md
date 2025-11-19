@@ -289,10 +289,9 @@ See `IMPLEMENTATION_SUMMARY.md` for detailed changes made.
 ## Phase 9: Cleanup & Optimization ⏳ PENDING
 
 ### 9.1 Remove Unused Dependencies
-- [ ] **Audit dependencies:**
-  - `covid19-api` - no longer needed
-  - `rss-parser` - no longer needed
-  - Run: `npm audit`
+- [x] **Audit dependencies:**
+  - Removed `covid19-api` and `rss-parser` from root dependencies (deprecated utilities stubbed)
+  - Run: `npm audit` (pending remediation)
 
 - [ ] **Update dependencies:**
   - Update to latest secure versions
