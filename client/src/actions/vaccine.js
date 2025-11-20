@@ -1,5 +1,5 @@
 import { GET_ERRORS, 
-    GET_ALL_VACCINES,GET_ALL_VACCINES_PRE_CLINICAL,GET_ALL_VACCINES_PHASE_ONE,GET_ALL_VACCINES_PHASE_TWO,GET_ALL_VACCINES_PHASE_THREE,GET_ALL_VACCINES_PHASE_FOUR,GET_FDA_APPROVED_VACCINES,GET_VACCINES_CATEGORY_BASED,
+    GET_ALL_VACCINES,GET_ALL_VACCINES_PRE_CLINICAL,GET_ALL_VACCINES_PHASE_ONE,GET_ALL_VACCINES_PHASE_TWO,GET_ALL_VACCINES_PHASE_THREE,GET_ALL_VACCINES_PHASE_FOUR,GET_FDA_APPROVED_VACCINES,GET_VACCI...
     GET_ALL_TREATMENTS,GET_ALL_TREATMENTS_PRE_CLINICAL,GET_ALL_TREATMENTS_CLINICAL,GET_ALL_TREATMENTS_FDA_APPROVED,GET_TREATMENTS_CATEGORY_BASED,
     CLEAR_VACCINE_DATA, CLEAR_EACH_VACCINE, CLEAR_TREATMENT_DATA,
     GET_EACH
@@ -152,7 +152,7 @@ export const getAllVaccinesPhaseFour = () => dispatch => {
 };
 
 export const get_FDA_Approved_Vaccines = () => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  mockAPI.getFDAApprovedVaccines()
     .then(res => {
       dispatch({
         type: GET_FDA_APPROVED_VACCINES,
@@ -170,7 +170,7 @@ export const get_FDA_Approved_Vaccines = () => dispatch => {
 
 
 export const getVaccinesCategoryBased = (category) => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  mockAPI.getVaccinesByCategory(category)
     .then(res => {
       dispatch({
         type: GET_VACCINES_CATEGORY_BASED,
@@ -191,7 +191,7 @@ export const getVaccinesCategoryBased = (category) => dispatch => {
 /////////////////////////////////////////////////////
 
 export const getAllTreatments = () => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  mockAPI.getAllTreatments()
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS,
@@ -208,7 +208,7 @@ export const getAllTreatments = () => dispatch => {
 };
 
 export const getAllTreatmentsPreClinical = () => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  mockAPI.getTreatmentsByPhase("pre-clinical")
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS_PRE_CLINICAL,
@@ -225,7 +225,7 @@ export const getAllTreatmentsPreClinical = () => dispatch => {
 };
 
 export const getAllTreatmentsClinical = () => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  mockAPI.getTreatmentsByPhase("clinical")
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS_CLINICAL,
@@ -242,7 +242,7 @@ export const getAllTreatmentsClinical = () => dispatch => {
 };
 
 export const getAllTreatmentsFDAApproved = () => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  mockAPI.getFDAApprovedTreatments()
     .then(res => {
       dispatch({
         type: GET_ALL_TREATMENTS_FDA_APPROVED,
@@ -259,7 +259,7 @@ export const getAllTreatmentsFDAApproved = () => dispatch => {
 };
 
 export const getTreatmentsCategoryBased = (category) => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  mockAPI.getTreatmentsByCategory(category)
     .then(res => {
       dispatch({
         type: GET_TREATMENTS_CATEGORY_BASED,
@@ -275,24 +275,45 @@ export const getTreatmentsCategoryBased = (category) => dispatch => {
     });
 };
 
-////////////////////////////////////////////////
+///////////////////////////////////////////////
 /////////////  Get Each   //////////////////////
-////////////////////////////////////////////////
+///////////////////////////////////////////////
 
 
 export const getEachVacOrTreat = (category,name) => dispatch => {
-  mockAPI.getAllVaccines(`${)
+  // Try to get a vaccine by name/category first, fall back to treatment if not found
+  mockAPI.getVaccineByNameAndCategory(category, name)
     .then(res => {
-      dispatch({
-        type: GET_EACH,
-        payload: res.data
-      });})
-    .catch(err => 
-        {
-        console.log(err);
+      const data = res.data && res.data.data;
+      const hasData = data && (Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0);
+      if (hasData) {
         dispatch({
-            type: GET_ERRORS,
-            payload: {}
-        })
+          type: GET_EACH,
+          payload: res.data
+        });
+      } else {
+        // fallback to treatment lookup
+        mockAPI.getTreatmentByNameAndCategory(category, name)
+          .then(res2 => {
+            dispatch({
+              type: GET_EACH,
+              payload: res2.data
+            });
+          })
+          .catch(err2 => {
+            console.log(err2);
+            dispatch({
+              type: GET_ERRORS,
+              payload: {}
+            });
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      });
     });
 };
