@@ -381,7 +381,7 @@ export const getAustraliaOceaniaCountriesData = () => dispatch => {
 };
 
 export const getOvidData = (iso) => dispatch => {
-  mockAPI.getAllCountries()
+  mockAPI.getOwidData(iso)
     .then(res => {
       // console.log(res.data)
       dispatch({

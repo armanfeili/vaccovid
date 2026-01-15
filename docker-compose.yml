@@ -22,26 +22,20 @@ services:
       - vaccovid-network
 
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:16-alpine
     container_name: vaccovid-backend
+    working_dir: /app
     environment:
       NODE_ENV: development
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USER: vaccovid_user
-      DATABASE_PASSWORD: vaccovid_password
-      DATABASE_NAME: vaccovid
       PORT: 5000
     ports:
       - "5000:5000"
-    depends_on:
-      postgres:
-        condition: service_healthy
+    command: sh -c "npm install --production --ignore-scripts && node server.js"
     volumes:
-      - ./build:/app/build
-      - ./app/src:/app/app/src
+      - ./server.js:/app/server.js
+      - ./mockApi.js:/app/mockApi.js
+      - ./client/build:/app/client/build
+      - ./package.json:/app/package.json
     networks:
       - vaccovid-network
     restart: unless-stopped

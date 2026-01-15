@@ -1,0 +1,15 @@
+{
+  "name": "vaccovid-tests",
+  "version": "1.0.0",
+  "description": "Tests for VacCOVID static site",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --detectOpenHandles",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  }
+}

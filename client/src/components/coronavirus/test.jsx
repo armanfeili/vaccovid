@@ -925,7 +925,7 @@ export class countryEachCountryComponent extends Component {
                                     if (country.confirmed !== 0 && country.province !== "Grand Princess" && country.province !== "Recovered" && country.province !== "Diamond Princess") {
                                         return <tr key={index} className="country-table-stats-item">
                                             <td className="country-table-stats-item-each country-table-stats-item-number">{index + 1}</td>
-                                            <td className="country-table-stats-item-each country-table-stats-item-name">{country.province.substr(0, 24)}</td>
+                                            <td className="country-table-stats-item-each country-table-stats-item-name">{(country.province || '').substr(0, 24)}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-confirmed">{country.reports === true && country.confirmed !== null ? this.numberWithCommas(country.confirmed) : "No Data"}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-newcases">{country.reports === true && country.confirmed_diff !== null ? this.numberWithCommas(country.confirmed_diff) : "No Data"}</td>
                                             <td className="country-table-stats-item-each country-table-stats-item-active">{country.reports === true && country.active !== null && country.active !== 0 ? this.numberWithCommas(country.active) : "No Data"}</td>

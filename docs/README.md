@@ -39,6 +39,22 @@ All comprehensive documentation for the VacCOVID COVID-19 Tracker project has be
    └─ Navigation guide to all documentation
 ```
 
+### New Documentation (December 2025)
+
+```
+✅ CONFIGURATION.md
+   └─ All config files, environment variables, Docker settings
+
+✅ MOCK_API_GUIDE.md
+   └─ Mock API endpoints, data structure, usage guide
+
+✅ STATIC_DEPLOYMENT.md
+   └─ GitHub Pages, Netlify, Vercel, Docker static deployment
+
+✅ SCRIPTS_REFERENCE.md
+   └─ Utility scripts documentation (deploy, export, init)
+```
+
 ### Supporting Files
 
 ```

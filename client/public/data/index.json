@@ -1,0 +1,21 @@
+{
+  "exportDate": "2026-01-02T14:02:59.376Z",
+  "dataSource": "Our World in Data (OWID)",
+  "lastDataUpdate": "2023-02-14",
+  "version": "2.0.0",
+  "files": [
+    {
+      "name": "mock-api-data.json",
+      "description": "Combined static data for all API endpoints - comprehensive COVID, vaccine, and treatment data",
+      "size": 50676
+    }
+  ],
+  "stats": {
+    "countries": 49,
+    "vaccines": 18,
+    "treatments": 14,
+    "news": 5,
+    "worldTotalCases": 673112695,
+    "worldTotalDeaths": 6856026
+  }
+}

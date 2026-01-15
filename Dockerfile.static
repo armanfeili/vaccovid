@@ -1,0 +1,23 @@
+# Simplified Dockerfile for VacCOVID with Mock API
+# For static deployment - no database needed
+
+FROM node:16-alpine
+
+WORKDIR /app
+
+# Copy only what we need for the static server
+COPY server.js ./
+COPY mockApi.js ./
+COPY client/build ./client/build
+
+# Create minimal package.json and install only express
+RUN echo '{"name":"vaccovid-static","version":"1.0.0","dependencies":{"express":"^4.17.1"}}' > package.json && \
+    npm install --only=production
+
+EXPOSE 3000
+
+# Set environment
+ENV NODE_ENV=production
+ENV PORT=3000
+
+CMD ["node", "server.js"]

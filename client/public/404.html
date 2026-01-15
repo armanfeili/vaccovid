@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VacCOVID - Redirecting...</title>
+  <script>
+    // GitHub Pages SPA redirect script
+    // This script handles client-side routing for React Router on GitHub Pages
+    // When a user directly navigates to a route like /vaccovid/vaccine-tracker,
+    // GitHub Pages returns a 404. This page intercepts that and redirects to
+    // the main app with the original path encoded in the URL.
+    
+    var pathSegmentsToKeep = 1; // Keep '/vaccovid' as the base path
+    
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
+</head>
+<body>
+  <p>Redirecting to VacCOVID...</p>
+</body>
+</html>

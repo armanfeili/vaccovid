@@ -1,7 +1,7 @@
 import React from 'react';
 import './views/stylesheets/style.css';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import Navbar from './components/nav-bar/navbar';
@@ -32,7 +32,7 @@ class App extends React.Component {
 render () {
 return (
 <Provider store={store}>
-<Router basename={process.env.PUBLIC_URL || '/vaccovid'}>
+<Router>
 <div className='style'>
 <Navbar />
 <div>
