@@ -286,9 +286,6 @@ export class CoronavirusEachContinentComponent extends Component {
             {
                 url_state && countriesNameOrdered !== undefined && countries !== undefined && world !== undefined ? (
                     <div>
-                        <div className="archive-notice">
-                            <strong>Archived dataset:</strong> {archiveNotice}
-                        </div>
                         <div className={`coronavirus ${url_state.continentName !== "World" ? "coronavirus-removeQuickFactsHeight" : ""} ${url_state.continentName === "Australia/Oceania" ? "coronavirus-removeQuickFactsHeight-heightWhenAustralia" : ""}`}>
                             <div className="coronavirus-btnAndTitle">
                                 <button className="coronavirus-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
@@ -481,7 +478,7 @@ export class CoronavirusEachContinentComponent extends Component {
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newcases">{country.NewCases !== null ? this.numberWithCommas(country.NewCases) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmedpermil">{country.Infection_Risk !== null ? country.Infection_Risk + "%" : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-critical">{country.Serious_Critical !== null ? this.numberWithCommas(country.Serious_Critical) : "No Data"}</td>
-                                            <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-active">{country.ActiveCases !== null && country.ActiveCases !== 0 && country.ActiveCases !== "0" ? this.numberWithCommas(country.ActiveCases) : "No Data"}</td>
+                                            <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-active">{country.ActiveCases !== null && country.ActiveCases !== undefined ? this.numberWithCommas(country.ActiveCases) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deceased">{country.TotalDeaths !== null ? this.numberWithCommas(country.TotalDeaths) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newdeaths">{country.NewDeaths !== null ? this.numberWithCommas(country.NewDeaths) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deathspermil">{country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>

@@ -65,7 +65,8 @@ export class countryEachCountryComponent extends Component {
 
     async componentDidUpdate(prevProps) {
         if (this.state.iso !== this.props.match.params.iso) {
-            this.onload();
+            // Reset scroll position when country changes
+            window.scrollTo(0, 0);
 
             this.setState({ iso: this.props.match.params.iso })
             await this.getProvinceCovidData();
@@ -697,9 +698,6 @@ export class countryEachCountryComponent extends Component {
                 <meta name="description" content={`Archived COVID-19 statistics for ${continent3}. Snapshot as of February 2023 with no live updates.`} />
 
             </Helmet>
-            <div className="archive-notice">
-                <strong>Archived dataset:</strong> {archiveNotice}
-            </div>
             {url_state
                 &&
                 ovidData.length > 1
@@ -848,7 +846,7 @@ export class countryEachCountryComponent extends Component {
                                                 <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">New Deaths: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-NewDeaths">{countryISOBased[0].NewDeaths !== null && countryISOBased[0].NewDeaths !== undefined ? this.numberWithCommas(countryISOBased[0].NewDeaths) : "No Data"}</span></li>
                                                 <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Infection Risk: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Infection_Risk">{countryISOBased[0].Infection_Risk !== null && countryISOBased[0].Infection_Risk !== undefined ? this.numberWithCommas(countryISOBased[0].Infection_Risk) + "%" : "No Data"}</span></li>
                                                 <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Case Fatality Rate: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Case_Fatality_Rate">{countryISOBased[0].Case_Fatality_Rate !== null && countryISOBased[0].Case_Fatality_Rate !== undefined ? this.numberWithCommas(countryISOBased[0].Case_Fatality_Rate) + "%" : "No Data"}</span></li>
-                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">{countryISOBased[0].ActiveCases !== null && countryISOBased[0].ActiveCases !== 0 && countryISOBased[0].ActiveCases !== undefined ? this.numberWithCommas(countryISOBased[0].ActiveCases) : "No Data"}</span></li>
+                                                <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Active Cases: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-ActiveCases">{countryISOBased[0].ActiveCases !== null && countryISOBased[0].ActiveCases !== undefined ? this.numberWithCommas(countryISOBased[0].ActiveCases) : "No Data"}</span></li>
                                                 <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Total Tests: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-TotalTests">{countryISOBased[0].TotalTests !== null && countryISOBased[0].TotalTests !== undefined ? this.numberWithCommas(countryISOBased[0].TotalTests) : "No Data"}</span></li>
                                                 <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Serious Critical: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Serious_Critical">{countryISOBased[0].Serious_Critical !== null && countryISOBased[0].Serious_Critical !== undefined ? this.numberWithCommas(countryISOBased[0].Serious_Critical) : "No Data"}</span></li>
                                                 <li className="country-name_and_flag-stats-number"><span className="country-name_and_flag-stats-number-left">Test Percentage: </span><span className="country-name_and_flag-stats-number-right country-name_and_flag-stats-number-Test_Percentage">{countryISOBased[0].Test_Percentage !== null && countryISOBased[0].Test_Percentage !== undefined ? this.numberWithCommas(countryISOBased[0].Test_Percentage) + "%" : "No Data"}</span></li>
@@ -907,7 +905,7 @@ export class countryEachCountryComponent extends Component {
                                                 <td className="country-table-stats-item-each country-table-stats-item-name">{(country.province || '').substr(0, 24)}</td>
                                                 <td className="country-table-stats-item-each country-table-stats-item-confirmed">{country.reports === true && country.confirmed !== null ? this.numberWithCommas(country.confirmed) : "No Data"}</td>
                                                 <td className="country-table-stats-item-each country-table-stats-item-newcases">{country.reports === true && country.confirmed_diff !== null ? this.numberWithCommas(country.confirmed_diff) : "No Data"}</td>
-                                                <td className="country-table-stats-item-each country-table-stats-item-active">{country.reports === true && country.active !== null && country.active !== 0 ? this.numberWithCommas(country.active) : "No Data"}</td>
+                                                <td className="country-table-stats-item-each country-table-stats-item-active">{country.reports === true && country.active !== null && country.active !== undefined ? this.numberWithCommas(country.active) : "No Data"}</td>
                                                 <td className="country-table-stats-item-each country-table-stats-item-deceased">{country.reports === true && country.deaths !== null ? this.numberWithCommas(country.deaths) : "No Data"}</td>
                                                 <td className="country-table-stats-item-each country-table-stats-item-newdeaths">{country.reports === true && country.deaths_diff !== null ? this.numberWithCommas(country.deaths_diff) : "No Data"}</td>
                                                 <td className="country-table-stats-item-each country-table-stats-item-deathspermil">{country.reports === true && country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>

@@ -282,9 +282,6 @@ export class Vaccine extends Component {
             {
                 category ? (
                     <div>
-                        <div className="archive-notice">
-                            <strong>Archived dataset:</strong> {archiveNotice}
-                        </div>
                         <div className="vaccine-page">
                             <div className="vaccine-page-btnAndTitle">
                                 <button className="vaccine-page-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Category &#9662;</button>

@@ -38,74 +38,29 @@ return (
 <div>
 <div className='container'>
   <Switch>
-    <Route exact name="baseContinent1" path="/" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
-  </Switch>
-  <Switch>
-    <Route exact name="baseContinent2" path="/covid-19-tracker" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
-  </Switch>
-  <Switch>
-    <Route exact name="eachContinent" path='/covid-19-tracker/:continentName' component={CoronavirusEachContinentComponent} />
-  </Switch>
-  <Switch>
-    <Route exact name="baseContinent3" path="/covid-19" handler={CoronavirusWorldComponent} component={CoronavirusWorldComponent} />
-  </Switch>
-  <Switch>
-    <Route exact name="eachContinen2" path='/covid-19/:continentName' component={CoronavirusEachContinentComponent} />
-  </Switch>
-  <Switch>
-    <Route exact name="Vaccine" path='/vaccine-tracker' component={VaccineBase} />
-  </Switch>
-  <Switch>
-    <Route exact name="Vaccine" path='/vaccine-tracker/:category' component={Vaccine} />
-  </Switch>
-  <Switch>
-    <Route exact name="Treatment" path='/treatment-tracker' component={TreatmentBase} />
-  </Switch>
-  <Switch>
-    <Route exact name="Treatment" path='/treatment-tracker/:category' component={Treatment} />
-  </Switch>
-  <Switch>
-    <Route exact name="EachVaccine" path='/vaccine-tracker/:category/:name' component={EachVaccine} />
-  </Switch>
-  <Switch>
-    <Route exact name="EachTreatment" path='/treatment-tracker/:category/:name' component={EachTreatment} />
-  </Switch>
-  <Switch>
-    <Route exact name="eachCountry" path="/covid-19-tracker/:countryName/:iso" component={CoronavirusEachCountryComponent} />
-  </Switch>
-  <Switch>
-    <Route exact name="eachCountry2" path="/covid-19/:countryName/:iso" component={CoronavirusEachCountryComponent} />
-  </Switch>
-  <Switch>
+    <Route exact path="/" component={CoronavirusWorldComponent} />
+    <Route exact path="/covid-19-tracker" component={CoronavirusWorldComponent} />
+    <Route exact path="/covid-19" component={CoronavirusWorldComponent} />
+    <Route exact path='/covid-19-tracker/:continentName' component={CoronavirusEachContinentComponent} />
+    <Route exact path='/covid-19/:continentName' component={CoronavirusEachContinentComponent} />
+    <Route exact path="/covid-19-tracker/:countryName/:iso" component={CoronavirusEachCountryComponent} />
+    <Route exact path="/covid-19/:countryName/:iso" component={CoronavirusEachCountryComponent} />
+    <Route exact path='/vaccine-tracker' component={VaccineBase} />
+    <Route exact path='/vaccine-tracker/:category' component={Vaccine} />
+    <Route exact path='/vaccine-tracker/:category/:name' component={EachVaccine} />
+    <Route exact path='/treatment-tracker' component={TreatmentBase} />
+    <Route exact path='/treatment-tracker/:category' component={Treatment} />
+    <Route exact path='/treatment-tracker/:category/:name' component={EachTreatment} />
     <Route exact path='/coronavirus-world-map' component={WorldMapComponent} />
-  </Switch>
-    <Switch>
     <Route exact path='/coronavirus-usa-map' component={USMapComponent} />
-  </Switch>
-    <Switch>
     <Route exact path='/coronavirus-canada-map' component={CanadaMapComponent} />
-  </Switch>
-    <Switch>
     <Route exact path='/coronavirus-brazil-map' component={BrazilMapComponent} />
-  </Switch>
-    <Switch>
     <Route exact path='/coronavirus-germany-map' component={GermanyMapComponent} />
-  </Switch>
-    <Switch>
     <Route exact path='/coronavirus-australia-map' component={AustraliaMapComponent} />
-  </Switch>
-  <Switch>
-    <Route exact name="newsBaseContinent" path="/news" handler={NewsComponent} component={NewsComponent} />
-  </Switch>
-  <Switch>
+    <Route exact path="/news" component={NewsComponent} />
     <Route exact path='/news/:topic' component={NewsComponent} />
-  </Switch>
-  <Switch>
     <Route path='/about' component={About} />
-  </Switch>
-
-  <Switch>
-    <Route path='*' component={NotFound} />
+    <Route path='/not-found' component={NotFound} />
   </Switch>
 </div>
 </div>

@@ -21,6 +21,8 @@ try {
 }
 
 // Serve static files from client build
+// The client was built with PUBLIC_URL=/vaccovid/, so serve at both paths
+app.use('/vaccovid', express.static(BUILD_DIR));
 app.use(express.static(BUILD_DIR));
 
 // Handle React Router - serve index.html for all non-file requests

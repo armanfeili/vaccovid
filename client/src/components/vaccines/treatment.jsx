@@ -249,9 +249,6 @@ export class Treatment extends Component {
             {
                 category ? (
                     <div>
-                        <div className="archive-notice">
-                            <strong>Archived dataset:</strong> {archiveNotice}
-                        </div>
                         <div className="vaccine-page">
                             {/* <section className="vaccine-page-list"></section> */}
                             <div className="vaccine-page-btnAndTitle">

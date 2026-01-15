@@ -10,7 +10,6 @@ import {
     clearWorldData
 } from '../../actions/covid_countries';
 
-const ARCHIVE_DATE = 'February 14, 2023';
 
 export class CoronavirusWorldComponent extends Component {
     constructor() {
@@ -204,8 +203,7 @@ export class CoronavirusWorldComponent extends Component {
         let { world } = this.props;
         let tableIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         let continentName = 'world-data'
-        let url_state = { continentName: 'World' };  
-        const archiveNotice = `Showing archived COVID-19 data. Last collected on ${ARCHIVE_DATE}. There are no live updates.`;
+        let url_state = { continentName: 'World' };
 
         if (continentName === null || continentName === undefined) {
             return <Redirect to={{ pathname: '/not-found' }} push />
@@ -280,24 +278,21 @@ export class CoronavirusWorldComponent extends Component {
         return <div>
             <Helmet>
                 <title>VACCOVID - Vaccine, Covid-19 and Treatment tracker</title>
-                <meta name="description" content="VacCOVID archived snapshot of COVID-19, vaccine, and treatment data as of February 2023. No live updates are running." />
+                <meta name="description" content="VacCOVID - COVID-19, vaccine, and treatment data tracker." />
                 {/* <!-- Open Graph / Facebook --> */}
                 <meta property="og:title" content="Vaccovid - Vaccine and Covid-19 tracker on tables of data, maps & news" />
                 <meta property="og:description"
-                    content="Archived COVID-19, vaccine, and treatment tracker data (static snapshot, no live refresh)." />
+                    content="COVID-19, vaccine, and treatment tracker data." />
 
                 {/* <!-- Twitter --> */}
                 <meta property="twitter:title" content="Vaccovid - Vaccine tracker, Covid-19 tracker and Treatment tracker" />
                 <meta property="twitter:description"
-                    content="Archived COVID-19, vaccine, and treatment tracker data (static snapshot, no live refresh)." />
+                    content="COVID-19, vaccine, and treatment tracker data." />
 
             </Helmet>
             {
                 url_state && countriesNameOrdered !== undefined && countries !== undefined && world !== undefined ? (
                     <div>
-                        <div className="archive-notice">
-                            <strong>Archived dataset:</strong> {archiveNotice}
-                        </div>
                         <div className={`coronavirus ${url_state.continentName !== "World" ? "coronavirus-removeQuickFactsHeight" : ""} ${url_state.continentName === "Australia/Oceania" ? "coronavirus-removeQuickFactsHeight-heightWhenAustralia" : ""}`}>
                             <div className="coronavirus-btnAndTitle">
                                 <button className="coronavirus-btnAndTitle-btn" onClick={this.onClickShowRegions}>Choose Your Region &#9662;</button>
@@ -307,17 +302,8 @@ export class CoronavirusWorldComponent extends Component {
                             <div className={`coronavirus-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
                                 <button className="coronavirus-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                                 <ul className={`coronavirus-responsive-allregions`} id="region">
-                                    <h2 className={`coronavirus-responsive-allregions-title`}>Continents</h2>
-                                    <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "world-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>World</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "asia-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "africa-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Africa</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "australia-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Australia</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "europe-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Europe</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "north-america-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>North America</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "south-america-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>South America</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "oceania-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
-
                                     <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewed</h2>
+                                    <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`coronavirus-responsive-allregions-btn ${continentName === "world-data" ? "coronavirus-responsive-allregions-btn-active" : ""}`}>World</Link>
                                     <Link to={{
                                         pathname: `/covid-19-tracker/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                                     }} className={`coronavirus-responsive-allregions-btn`}>United States</Link>
@@ -360,17 +346,8 @@ export class CoronavirusWorldComponent extends Component {
                                 onScroll={() => this.onScroll('region')}
 
                             >
-                                <h2 className={`coronavirus-regions-title`}>Continents</h2>
-                                <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`coronavirus-regions-btn ${continentName === "world-data" ? "coronavirus-regions-btn-active" : ""}`}>World</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "asia-data" ? "coronavirus-regions-btn-active" : ""}`} >Asia</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "africa-data" ? "coronavirus-regions-btn-active" : ""}`}>Africa</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "australia-data" ? "coronavirus-regions-btn-active" : ""}`}>Australia</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "europe-data" ? "coronavirus-regions-btn-active" : ""}`}>Europe</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "north-america-data" ? "coronavirus-regions-btn-active" : ""}`}>North America</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "south_america-data" ? "coronavirus-regions-btn-active" : ""}`}>South America</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`coronavirus-regions-btn ${continentName === "oceania-data" ? "coronavirus-regions-btn-active" : ""}`}>Oceania</Link>
-
                                 <h2 className={`coronavirus-regions-title`}>Most Viewed</h2>
+                                <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`coronavirus-regions-btn ${continentName === "world-data" ? "coronavirus-regions-btn-active" : ""}`}>World</Link>
 
                                 <Link to={{
                                     pathname: `/covid-19-tracker/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
@@ -442,7 +419,7 @@ export class CoronavirusWorldComponent extends Component {
                             <div className="coronavirus-table-title">
                                 <input className="coronavirus-table-title-searchbar" type="text" id="input" placeholder="Your Country" onKeyUp={this.search()} value={this.state.value} onChange={this.handleChange} />
                                 <table className="coronavirus-table-title-stats" id="t01">
-                                    <caption className="coronavirus-table-title-stats-caption"><h1 className="coronavirus-table-title-stats-caption-h1">{url_state.continentName} Data <span className="coronavirus-table-title-stats-caption-update-text">(Data as of February 14, 2023)</span></h1></caption>
+                                    <caption className="coronavirus-table-title-stats-caption"><h1 className="coronavirus-table-title-stats-caption-h1">{url_state.continentName} Data</h1></caption>
                                     <thead className="coronavirus-table-title-stats-thead">
                                         <tr className="coronavirus-table-title-stats-columns" id="columns"
                                             ref={this.titleRef}
@@ -483,7 +460,7 @@ export class CoronavirusWorldComponent extends Component {
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newcases">{country.NewCases !== null ? this.numberWithCommas(country.NewCases) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-confirmedpermil">{country.Infection_Risk !== null ? country.Infection_Risk + "%" : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-critical">{country.Serious_Critical !== null ? this.numberWithCommas(country.Serious_Critical) : "No Data"}</td>
-                                            <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-active">{country.ActiveCases !== null && country.ActiveCases !== 0 && country.ActiveCases !== "0" ? this.numberWithCommas(country.ActiveCases) : "No Data"}</td>
+                                            <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-active">{country.ActiveCases !== null && country.ActiveCases !== undefined ? this.numberWithCommas(country.ActiveCases) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deceased">{country.TotalDeaths !== null ? this.numberWithCommas(country.TotalDeaths) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-newdeaths">{country.NewDeaths !== null ? this.numberWithCommas(country.NewDeaths) : "No Data"}</td>
                                             <td className="coronavirus-table-stats-item-each coronavirus-table-stats-item-deathspermil">{country.Case_Fatality_Rate !== null ? country.Case_Fatality_Rate + "%" : "No Data"}</td>

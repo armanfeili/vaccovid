@@ -53,8 +53,8 @@ export const mockAPI = {
       c.iso?.toUpperCase() === iso?.toUpperCase() || 
       c.ThreeLetterSymbol?.toUpperCase() === iso?.toUpperCase()
     );
-    // Component uses countryISOBased as an object
-    return { data: country || {} };
+    // Component expects countryISOBased as an ARRAY (checks countryISOBased.length > 0)
+    return { data: country ? [country] : [] };
   },
 
   getAllCountriesNameOrdered: async () => {
@@ -65,29 +65,36 @@ export const mockAPI = {
     return { data: sorted };
   },
 
+  getProvincesByISO: async (iso) => {
+    const data = await loadMockData();
+    const isoUpper = iso?.toUpperCase();
+    const provinces = data?.provinces?.[isoUpper] || [];
+    return { data: provinces };
+  },
+
   getUSStates: async () => {
     const data = await loadMockData();
-    return { data: data?.countries || [] };
+    return { data: data?.provinces?.USA || [] };
   },
 
   getCanadaStates: async () => {
     const data = await loadMockData();
-    return { data: data?.countries || [] };
+    return { data: data?.provinces?.CAN || [] };
   },
 
   getBrazilStates: async () => {
     const data = await loadMockData();
-    return { data: data?.countries || [] };
+    return { data: data?.provinces?.BRA || [] };
   },
 
   getGermanyStates: async () => {
     const data = await loadMockData();
-    return { data: data?.countries || [] };
+    return { data: data?.provinces?.DEU || [] };
   },
 
   getAustraliaStates: async () => {
     const data = await loadMockData();
-    return { data: data?.countries || [] };
+    return { data: data?.provinces?.AUS || [] };
   },
 
   getOwidData: async (iso) => {
