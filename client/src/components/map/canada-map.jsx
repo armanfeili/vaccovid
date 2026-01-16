@@ -50,6 +50,10 @@ export class CanadaMapComponent extends Component {
         }
     }
 
+    handleClick(e, stateCode) {
+        console.log(stateCode);
+    };
+
     numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }

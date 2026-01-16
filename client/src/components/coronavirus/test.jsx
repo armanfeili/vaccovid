@@ -722,17 +722,9 @@ export class countryEachCountryComponent extends Component {
                         <div className={`country-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
                             <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                             <ul className={`country-responsive-allregions`} id="region">
-                                <h2 className={`country-responsive-allregions-title`}>Continents</h2>
-                                <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
-                                <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                                <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
-                                <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
-                                <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
-                                <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "north-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>North America</Link>
-                                <Link to={{ pathname: `/covid-19/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "south-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>South America</Link>
-                                <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "oceania-data" ? "country-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
-
                                 <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewed</h2>
+                                <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
+
                                 <Link to={{
                                     pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                                 }} onClick={async () => { await this.props.getCountryISOBased('USA', 'USA'); await this.props.getProvinceReportISOBased('USA'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
@@ -780,17 +772,9 @@ export class countryEachCountryComponent extends Component {
                             onScroll={() => this.onScroll('region')}
 
                         >
-                            <h2 className={`country-regions-title`}>Continents</h2>
-                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
-                            <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`country-regions-btn ${continentName === "asia-data" ? "country-regions-btn-active" : ""}`} >Asia</Link>
-                            <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`country-regions-btn ${continentName === "africa-data" ? "country-regions-btn-active" : ""}`}>Africa</Link>
-                            <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "australia-data" ? "country-regions-btn-active" : ""}`}>Australia</Link>
-                            <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`country-regions-btn ${continentName === "europe-data" ? "country-regions-btn-active" : ""}`}>Europe</Link>
-                            <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "north_america-data" ? "country-regions-btn-active" : ""}`}>North America</Link>
-                            <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "south_america-data" ? "country-regions-btn-active" : ""}`}>South America</Link>
-                            <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "oceania-data" ? "country-regions-btn-active" : ""}`}>Oceania</Link>
-
                             <h2 className={`country-regions-title`}>Most Viewed</h2>
+                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
+
                             <Link to={{
                                 pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                             }} onClick={async () => { this.getProvinceCovidData(); }}
@@ -1003,17 +987,9 @@ export class countryEachCountryComponent extends Component {
                         <div className={`country-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
                             <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                             <ul className={`country-responsive-allregions`} id="region">
-                                <h2 className={`country-responsive-allregions-title`}>Continents</h2>
-                                <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
-                                <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                                <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
-                                <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
-                                <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
-                                <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "north-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>North America</Link>
-                                <Link to={{ pathname: `/covid-19/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "south-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>South America</Link>
-                                <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "oceania-data" ? "country-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
-
                                 <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewed</h2>
+                                <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
+
                                 <Link to={{
                                     pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                                 }} className={`country-responsive-allregions-btn 
@@ -1049,17 +1025,9 @@ export class countryEachCountryComponent extends Component {
                             onScroll={() => this.onScroll('region')}
 
                         >
-                            <h2 className={`country-regions-title`}>Continents</h2>
-                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
-                            <Link to={{ pathname: `/covid-19/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`country-regions-btn ${continentName === "asia-data" ? "country-regions-btn-active" : ""}`} >Asia</Link>
-                            <Link to={{ pathname: `/covid-19/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`country-regions-btn ${continentName === "africa-data" ? "country-regions-btn-active" : ""}`}>Africa</Link>
-                            <Link to={{ pathname: `/covid-19/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "australia-data" ? "country-regions-btn-active" : ""}`}>Australia</Link>
-                            <Link to={{ pathname: `/covid-19/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`country-regions-btn ${continentName === "europe-data" ? "country-regions-btn-active" : ""}`}>Europe</Link>
-                            <Link to={{ pathname: `/covid-19/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "north_america-data" ? "country-regions-btn-active" : ""}`}>North America</Link>
-                            <Link to={{ pathname: `/covid-19/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "south_america-data" ? "country-regions-btn-active" : ""}`}>South America</Link>
-                            <Link to={{ pathname: `/covid-19/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "oceania-data" ? "country-regions-btn-active" : ""}`}>Oceania</Link>
-
                             <h2 className={`country-regions-title`}>Most Viewed</h2>
+                            <Link to={{ pathname: `/covid-19/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
+
                             <Link to={{
                                 pathname: `/covid-19/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                             }}

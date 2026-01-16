@@ -298,12 +298,12 @@ export const getEachVacOrTreat = (category,name) => dispatch => {
   // Try to get a vaccine by name/category first, fall back to treatment if not found
   mockAPI.getVaccineByNameAndCategory(category, name)
     .then(res => {
-      const data = res.data && res.data.data;
-      const hasData = data && (Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0);
+      const data = res.data;
+      const hasData = data && Array.isArray(data) && data.length > 0;
       if (hasData) {
         dispatch({
           type: GET_EACH,
-          payload: res.data
+          payload: data
         });
       } else {
         // fallback to treatment lookup
@@ -311,7 +311,7 @@ export const getEachVacOrTreat = (category,name) => dispatch => {
           .then(res2 => {
             dispatch({
               type: GET_EACH,
-              payload: res2.data
+              payload: res2.data || []
             });
           })
           .catch(err2 => {

@@ -1,5 +1,50 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
+
+// Load all mock data from mock-api-data.json
+let provincesData = {};
+let vaccinesData = [];
+let treatmentsData = [];
+let newsData = [];
+try {
+  const mockDataPath = path.join(__dirname, 'client', 'public', 'data', 'mock-api-data.json');
+  const mockData = JSON.parse(fs.readFileSync(mockDataPath, 'utf8'));
+  provincesData = mockData.provinces || {};
+  vaccinesData = mockData.vaccines || [];
+  treatmentsData = mockData.treatments || [];
+  newsData = mockData.news || [];
+  console.log('✅ Provinces data loaded:', Object.keys(provincesData).length, 'countries');
+  console.log('✅ Vaccine data loaded:', vaccinesData.length, 'vaccines');
+  console.log('✅ Treatment data loaded:', treatmentsData.length, 'treatments');
+  console.log('✅ News data loaded:', newsData.length, 'articles');
+} catch (err) {
+  console.warn('⚠️ Could not load mock data:', err.message);
+}
+
+// Helper function to filter news by category
+function filterNewsByCategory(news, category) {
+  const catLower = category.toLowerCase();
+  return news.filter(n => {
+    const newsCategory = (n.category || '').toLowerCase();
+    const keywords = (n.keywords || []).map(k => k.toLowerCase());
+    
+    if (catLower.includes('coronavirus') || catLower.includes('covid')) {
+      return newsCategory === 'coronavirus' || 
+             keywords.some(k => k.includes('covid') || k.includes('corona') || k.includes('pandemic'));
+    }
+    if (catLower.includes('vaccine')) {
+      return newsCategory === 'vaccine' || 
+             keywords.some(k => k.includes('vaccine') || k.includes('vaccination'));
+    }
+    if (catLower.includes('health')) {
+      return newsCategory === 'health' || 
+             keywords.some(k => k.includes('health') || k.includes('who') || k.includes('medical'));
+    }
+    return newsCategory.includes(catLower);
+  });
+}
 
 // COVID-19 data from Worldometers (final data as of April 13, 2024)
 // Total countries: 229
@@ -6434,18 +6479,33 @@ const mockCovidData = {
   }
 };
 
-const mockVaccines = [
-  { id: 1, name: "Pfizer-BioNTech", description: "mRNA vaccine", stage: "Approved", developer: "Pfizer/BioNTech", category: "approved" },
-  { id: 2, name: "Moderna", description: "mRNA vaccine", stage: "Approved", developer: "Moderna", category: "approved" },
-  { id: 3, name: "AstraZeneca", description: "Viral vector vaccine", stage: "Approved", developer: "AstraZeneca/Oxford", category: "approved" },
-  { id: 4, name: "Johnson & Johnson", description: "Viral vector vaccine", stage: "Approved", developer: "Johnson & Johnson", category: "approved" },
-  { id: 5, name: "Novavax", description: "Protein subunit vaccine", stage: "Approved", developer: "Novavax", category: "approved" },
-  { id: 6, name: "Sinovac", description: "Inactivated virus vaccine", stage: "Approved", developer: "Sinovac", category: "approved" }
-];
+// Helper function to filter by phase
+function filterByPhase(items, phase) {
+  const phaseLower = phase.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return items.filter(item => {
+    const itemPhase = (item.phase || item.clinical_stage || item.stage || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    return itemPhase.includes(phaseLower) || phaseLower.includes(itemPhase);
+  });
+}
 
-const mockNews = [
-  { id: 1, title: "COVID-19 Data", source: "Worldometers", date: "2024-04-13", description: "COVID-19 statistics", url: "#" }
-];
+// Helper function to filter by category
+function filterByCategory(items, category) {
+  const catLower = category.toLowerCase();
+  return items.filter(item => 
+    (item.category || item.platform || '').toLowerCase().includes(catLower)
+  );
+}
+
+// Helper function to find item by name and category
+function findByNameAndCategory(items, category, name) {
+  const nameLower = (name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return items.find(item => {
+    const itemName = (item.trimedName || item.developerResearcher || item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    return itemName.includes(nameLower) || nameLower.includes(itemName);
+  });
+}
+
+// News data is loaded from mock-api-data.json (newsData variable)
 
 // Generate historical data for charts
 function generateOwidData(iso) {
@@ -6531,34 +6591,147 @@ router.get('/covid/countries', (req, res) => {
 
 // Province data endpoint
 router.get('/npm-covid-data/provinces/:iso', (req, res) => {
-  // Return empty array - no province data available
-  res.json([]);
+  const iso = req.params.iso.toUpperCase();
+  const provinces = provincesData[iso] || [];
+  console.log(`📊 Province request for ${iso}: ${provinces.length} provinces found`);
+  res.json(provinces);
 });
 
-router.get('/vaccine/all', (req, res) => res.json(mockVaccines));
+// Vaccine endpoints
+router.get('/vaccine/all', (req, res) => res.json(vaccinesData));
 router.get('/vaccine/:id', (req, res) => {
-  const v = mockVaccines.find(v => v.id === parseInt(req.params.id));
+  const v = vaccinesData[parseInt(req.params.id) - 1];
   res.json(v || {});
 });
 
-router.get('/vaccines/get-all-vaccines', (req, res) => res.json(mockVaccines));
-router.get('/vaccines/get-all-vaccines-pre-clinical', (req, res) => res.json([]));
-router.get('/vaccines/get-all-vaccines-phase-i', (req, res) => res.json([]));
-router.get('/vaccines/get-all-vaccines-phase-ii', (req, res) => res.json([]));
-router.get('/vaccines/get-all-vaccines-phase-iii', (req, res) => res.json([]));
-router.get('/vaccines/get-all-vaccines-phase-iv', (req, res) => res.json([]));
-router.get('/vaccines/get-fda-approved-vaccines', (req, res) => res.json(mockVaccines));
-router.get('/vaccines/get-vaccines/:category', (req, res) => res.json(mockVaccines));
-router.get('/vaccines/get-vaccines/:category/:name', (req, res) => res.json(mockVaccines[0] || {}));
+router.get('/vaccines/get-all-vaccines', (req, res) => {
+  console.log('📊 Returning all vaccines:', vaccinesData.length);
+  res.json(vaccinesData);
+});
+router.get('/vaccines/get-all-vaccines-pre-clinical', (req, res) => {
+  const filtered = filterByPhase(vaccinesData, 'pre-clinical');
+  console.log('📊 Pre-clinical vaccines:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-all-vaccines-phase-i', (req, res) => {
+  const filtered = filterByPhase(vaccinesData, 'phase i');
+  console.log('📊 Phase I vaccines:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-all-vaccines-phase-ii', (req, res) => {
+  const filtered = filterByPhase(vaccinesData, 'phase ii');
+  console.log('📊 Phase II vaccines:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-all-vaccines-phase-iii', (req, res) => {
+  const filtered = filterByPhase(vaccinesData, 'phase iii');
+  console.log('📊 Phase III vaccines:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-all-vaccines-phase-iv', (req, res) => {
+  const filtered = vaccinesData.filter(v => 
+    v.fda_approved || 
+    (v.phase || v.clinical_stage || '').toLowerCase().includes('approved') ||
+    (v.phase || v.clinical_stage || '').toLowerCase().includes('phase iv')
+  );
+  console.log('📊 Phase IV/Approved vaccines:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-fda-approved-vaccines', (req, res) => {
+  const filtered = vaccinesData.filter(v => 
+    v.fda_approved || 
+    (v.FDAApproved && v.FDAApproved !== 'Not Approved Yet' && v.FDAApproved !== 'N/A')
+  );
+  console.log('📊 FDA Approved vaccines:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-vaccines/:category', (req, res) => {
+  const filtered = filterByCategory(vaccinesData, req.params.category);
+  console.log('📊 Vaccines by category', req.params.category, ':', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-vaccines/:category/:name', (req, res) => {
+  const item = findByNameAndCategory(vaccinesData, req.params.category, req.params.name);
+  console.log('📊 Vaccine by name', req.params.name, ':', item ? 'found' : 'not found');
+  res.json(item || {});
+});
 
-router.get('/vaccines/get-all-treatment', (req, res) => res.json([]));
-router.get('/vaccines/get-all-treatment-pre-clinical', (req, res) => res.json([]));
-router.get('/vaccines/get-all-treatment-clinical', (req, res) => res.json([]));
-router.get('/vaccines/get-all-fda-approved-treatment', (req, res) => res.json([]));
-router.get('/vaccines/get-treatments/:category', (req, res) => res.json([]));
+// Treatment endpoints
+router.get('/vaccines/get-all-treatment', (req, res) => {
+  console.log('💊 Returning all treatments:', treatmentsData.length);
+  res.json(treatmentsData);
+});
+router.get('/vaccines/get-all-treatment-pre-clinical', (req, res) => {
+  const filtered = filterByPhase(treatmentsData, 'pre-clinical');
+  console.log('💊 Pre-clinical treatments:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-all-treatment-clinical', (req, res) => {
+  const filtered = filterByPhase(treatmentsData, 'clinical');
+  console.log('💊 Clinical treatments:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-all-fda-approved-treatment', (req, res) => {
+  const filtered = treatmentsData.filter(t => 
+    t.fda_approved || 
+    (t.FDAApproved && t.FDAApproved !== 'Not Approved Yet' && t.FDAApproved !== 'N/A')
+  );
+  console.log('💊 FDA Approved treatments:', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-treatments/:category', (req, res) => {
+  const filtered = filterByCategory(treatmentsData, req.params.category);
+  console.log('💊 Treatments by category', req.params.category, ':', filtered.length);
+  res.json(filtered);
+});
+router.get('/vaccines/get-treatments/:category/:name', (req, res) => {
+  const item = findByNameAndCategory(treatmentsData, req.params.category, req.params.name);
+  console.log('💊 Treatment by name', req.params.name, ':', item ? 'found' : 'not found');
+  res.json(item || {});
+});
 
-router.get('/news', (req, res) => res.json(mockNews));
-router.get('/news/:source', (req, res) => res.json(mockNews));
+// News endpoints
+router.get('/news/get-all-news/:page', (req, res) => {
+  const page = parseInt(req.params.page) || 0;
+  const pageSize = 10;
+  const start = page * pageSize;
+  const news = newsData.slice(start, start + pageSize);
+  console.log('📰 All news page', page, ':', news.length, 'articles');
+  res.json({ news });
+});
+
+router.get('/news/get-coronavirus-news/:page', (req, res) => {
+  const page = parseInt(req.params.page) || 0;
+  const pageSize = 10;
+  const filtered = filterNewsByCategory(newsData, 'coronavirus');
+  const start = page * pageSize;
+  const news = filtered.slice(start, start + pageSize);
+  console.log('📰 Coronavirus news page', page, ':', news.length, 'articles');
+  res.json({ news });
+});
+
+router.get('/news/get-vaccine-news/:page', (req, res) => {
+  const page = parseInt(req.params.page) || 0;
+  const pageSize = 10;
+  const filtered = filterNewsByCategory(newsData, 'vaccine');
+  const start = page * pageSize;
+  const news = filtered.slice(start, start + pageSize);
+  console.log('📰 Vaccine news page', page, ':', news.length, 'articles');
+  res.json({ news });
+});
+
+router.get('/news/get-health-news/:page', (req, res) => {
+  const page = parseInt(req.params.page) || 0;
+  const pageSize = 10;
+  const filtered = filterNewsByCategory(newsData, 'health');
+  const start = page * pageSize;
+  const news = filtered.slice(start, start + pageSize);
+  console.log('📰 Health news page', page, ':', news.length, 'articles');
+  res.json({ news });
+});
+
+router.get('/news', (req, res) => res.json({ news: newsData.slice(0, 10) }));
+router.get('/news/:source', (req, res) => res.json({ news: newsData.slice(0, 10) }));
 
 router.get('/health', (req, res) => {
   res.json({ 

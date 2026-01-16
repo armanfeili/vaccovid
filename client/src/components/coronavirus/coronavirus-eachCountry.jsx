@@ -262,24 +262,50 @@ export class countryEachCountryComponent extends Component {
 
     compareToWorldChart(data, worldData) {
         let ctx = document.getElementById('compare-to-world-chart');
+        
+        // World data: Total cases ~704,753,169, Population ~8.3 billion
+        const worldPop = 8300000000; // 8.3 billion
+        const worldTotalCases = 704753169;
+        const worldTotalDeaths = worldData[0]?.TotalDeaths || 6900000;
+        const worldTotalRecovered = worldData[0]?.TotalRecovered || 676000000;
+        
+        // Calculate actual fractions (data / population) - these will be < 1
+        let countryFractions = [0, 0, 0, 0, 0];
+        let worldFractions = [0, 0, 0, 0, 0];
+        
+        // Country: calculate (metric / population) for each metric
+        if (data[0] !== undefined && data[0].Population) {
+            const countryPop = data[0].Population;
+            countryFractions = [
+                (data[0].TotalCases || 0) / countryPop,
+                (data[0].ActiveCases || 0) / countryPop,
+                (data[0].Serious_Critical || 0) / countryPop,
+                (data[0].TotalDeaths || 0) / countryPop,
+                (data[0].TotalRecovered || 0) / countryPop,
+            ];
+        }
+        
+        // World: calculate (metric / world population) for each metric
+        worldFractions = [
+            worldTotalCases / worldPop,           // ~0.085
+            0 / worldPop,                         // Active cases = 0
+            0 / worldPop,                         // Critical = 0
+            worldTotalDeaths / worldPop,          // ~0.00083
+            worldTotalRecovered / worldPop,       // ~0.081
+        ];
+        
+        // Round to 4 decimal places for display
+        const countryData = countryFractions.map(val => parseFloat(val.toFixed(4)));
+        const worldDataChart = worldFractions.map(val => parseFloat(val.toFixed(4)));
+        
         new Chart(ctx, {
-            // type: 'pie',
             type: 'bar',
             data: {
                 labels: ['Total Cases', 'Active Cases', 'Serious Critical', 'Total Deaths', 'Total Recovered'],
                 datasets: [
                     {
-                        label: 'Country percentage',
-                        data:
-                            data[0] !== undefined ?
-                                [
-                                    ((data[0].TotalCases / data[0].Population) * 100).toFixed(3),
-                                    ((data[0].ActiveCases / data[0].Population) * 100).toFixed(3),
-                                    ((data[0].Serious_Critical / data[0].Population) * 100).toFixed(3),
-                                    ((data[0].TotalDeaths / data[0].Population) * 100).toFixed(3),
-                                    ((data[0].TotalRecovered / data[0].Population) * 100).toFixed(3),
-                                ]
-                                : [0, 0, 0, 0, 0],
+                        label: 'Country (data/population)',
+                        data: countryData,
                         backgroundColor: [
                             'rgba(75, 192, 192, 0.6)',
                             'rgba(255, 206, 86, 0.6)',
@@ -297,16 +323,8 @@ export class countryEachCountryComponent extends Component {
                         borderWidth: 1,
                         fontColor: '#eee',
                     }, {
-                        label: 'World percentage',
-                        data:
-                            worldData[0] !== undefined ?
-                                [
-                                    ((worldData[0].TotalCases / 7782884635) * 100).toFixed(3),
-                                    ((worldData[0].ActiveCases / 7782884635) * 100).toFixed(3),
-                                    ((worldData[0].Serious_Critical / 7782884635) * 100).toFixed(3),
-                                    ((worldData[0].TotalDeaths / 7782884635) * 100).toFixed(3),
-                                    ((worldData[0].TotalRecovered / 7782884635) * 100).toFixed(3),
-                                ] : [0, 0, 0, 0, 0],
+                        label: 'World (data/population)',
+                        data: worldDataChart,
                         backgroundColor: [
                             'rgba(153, 102, 255, 0.6)',
                             'rgba(153, 102, 255, 0.6)',
@@ -332,10 +350,17 @@ export class countryEachCountryComponent extends Component {
                 },
                 title: {
                     display: true,
-                    text: "The comparison of (country data/its population) and (the world data/its population)"
+                    text: "Comparison: Country vs World (data/population, scale 0-1)"
                 },
                 tooltips: {
                     enabled: true,
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            const value = tooltipItem.yLabel;
+                            const percentage = (value * 100).toFixed(2);
+                            return `${data.datasets[tooltipItem.datasetIndex].label}: ${percentage}%`;
+                        }
+                    }
                 },
                 labels: {
                 },
@@ -348,6 +373,10 @@ export class countryEachCountryComponent extends Component {
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
+                            max: 1,
+                            callback: function(value) {
+                                return (value * 100).toFixed(0) + '%';
+                            }
                         }
                     }]
                 }
@@ -715,17 +744,9 @@ export class countryEachCountryComponent extends Component {
                             <div className={`country-responsive ${this.state.showRegions === "off" ? "take_underground" : ""}`}>
                                 <button className="country-responsive-close_btn" onClick={this.onClickShowRegions}></button>
                                 <ul className={`country-responsive-allregions`} id="region">
-                                    <h2 className={`country-responsive-allregions-title`}>Continents</h2>
-                                    <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "asia-data" ? "country-responsive-allregions-btn-active" : ""}`} >Asia</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "africa-data" ? "country-responsive-allregions-btn-active" : ""}`}>Africa</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "australia-data" ? "country-responsive-allregions-btn-active" : ""}`}>Australia</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "europe-data" ? "country-responsive-allregions-btn-active" : ""}`}>Europe</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "north-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>North America</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/south-america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "south-america-data" ? "country-responsive-allregions-btn-active" : ""}`}>South America</Link>
-                                    <Link to={{ pathname: `/covid-19-tracker/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "oceania-data" ? "country-responsive-allregions-btn-active" : ""}`}>Oceania</Link>
-
                                     <h2 className={`coronavirus-responsive-allregions-title`}>Most Viewed</h2>
+                                    <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn ${continentName === "world-data" ? "country-responsive-allregions-btn-active" : ""}`}>World</Link>
+
                                     <Link to={{
                                         pathname: `/covid-19-tracker/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                                     }} onClick={async () => { await this.props.getCountryISOBased('USA', 'USA'); await this.props.getProvinceReportISOBased('USA'); this.onClickShowRegions(); }} className={`country-responsive-allregions-btn 
@@ -773,17 +794,9 @@ export class countryEachCountryComponent extends Component {
                                 onScroll={() => this.onScroll('region')}
 
                             >
-                                <h2 className={`country-regions-title`}>Continents</h2>
-                                <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/asia-data`, state: { continentName: 'Asia' } }} onClick={async () => { await this.props.getAsiaCountriesData(); }} className={`country-regions-btn ${continentName === "asia-data" ? "country-regions-btn-active" : ""}`} >Asia</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/africa-data`, state: { continentName: 'Africa' } }} onClick={async () => { this.props.getAfricaCountriesData(); }} className={`country-regions-btn ${continentName === "africa-data" ? "country-regions-btn-active" : ""}`}>Africa</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/australia-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "australia-data" ? "country-regions-btn-active" : ""}`}>Australia</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/europe-data`, state: { continentName: 'Europe' } }} onClick={async () => { this.props.getEuropeCountriesData(); }} className={`country-regions-btn ${continentName === "europe-data" ? "country-regions-btn-active" : ""}`}>Europe</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/north-america-data`, state: { continentName: 'North America' } }} onClick={async () => { this.props.getNorthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "north_america-data" ? "country-regions-btn-active" : ""}`}>North America</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/south_america-data`, state: { continentName: 'South America' } }} onClick={async () => { this.props.getSouthAmericaCountriesData(); }} className={`country-regions-btn ${continentName === "south_america-data" ? "country-regions-btn-active" : ""}`}>South America</Link>
-                                <Link to={{ pathname: `/covid-19-tracker/oceania-data`, state: { continentName: 'Australia/Oceania' } }} onClick={async () => { this.props.getAustraliaOceaniaCountriesData(); }} className={`country-regions-btn ${continentName === "oceania-data" ? "country-regions-btn-active" : ""}`}>Oceania</Link>
-
                                 <h2 className={`country-regions-title`}>Most Viewed</h2>
+                                <Link to={{ pathname: `/covid-19-tracker/world-data`, state: { continentName: 'World' } }} onClick={async () => { await this.props.getAllCountriesData(); await this.props.getWorldData(); }} className={`country-regions-btn ${continentName === "world-data" ? "country-regions-btn-active" : ""}`}>World</Link>
+
                                 <Link to={{
                                     pathname: `/covid-19-tracker/USA/USA`, state: { iso: 'usa', countryName: 'USA' }
                                 }} onClick={async () => { this.getProvinceCovidData(); }}

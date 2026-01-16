@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
-import { FiCoffee } from "react-icons/fi";
 
 export default class NavBar extends Component {
     constructor() {
@@ -81,7 +80,6 @@ export default class NavBar extends Component {
 
                         </ul>
                     </div>
-                    <a href='https://ko-fi.com/V7V42SBFO' className="navigation-coffee" rel="noopener noreferrer" target='_blank'><span className="navigation-coffee-holder"><FiCoffee className="navigation-coffee-holder-logo" /></span><span className="navigation-coffee-text">Buy us a coffee</span></a>
                 </nav >
                 <nav className="res-navigation">
                     <div className={`res-navigation-responsive ${this.state.showNavbar === "off" ? "takeToSky" : ""}`} id="mobile-nav2">

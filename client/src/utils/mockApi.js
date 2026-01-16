@@ -176,6 +176,7 @@ export const mockAPI = {
   // Vaccine Data
   getAllVaccines: async () => {
     const data = await loadMockData();
+    console.log('📊 getAllVaccines: returning', (data?.vaccines || []).length, 'vaccines');
     return { data: data?.vaccines || [] };
   },
 
@@ -183,9 +184,10 @@ export const mockAPI = {
     const data = await loadMockData();
     const phaseLower = phase.toLowerCase().replace(/[^a-z0-9]/g, '');
     const filtered = (data?.vaccines || []).filter(v => {
-      const stage = (v.clinical_stage || v.stage || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-      return stage.includes(phaseLower) || phaseLower.includes(stage);
+      const vPhase = (v.phase || v.clinical_stage || v.stage || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      return vPhase.includes(phaseLower) || phaseLower.includes(vPhase);
     });
+    console.log('📊 getVaccinesByPhase:', phase, '- returning', filtered.length, 'vaccines');
     return { data: filtered };
   },
 
@@ -193,8 +195,10 @@ export const mockAPI = {
     const data = await loadMockData();
     const approved = (data?.vaccines || []).filter(v => 
       v.fda_approved || 
-      (v.clinical_stage || v.stage || '').toLowerCase().includes('approved')
+      (v.FDAApproved && v.FDAApproved !== 'Not Approved Yet' && v.FDAApproved !== 'N/A') ||
+      (v.phase || v.clinical_stage || '').toLowerCase().includes('approved')
     );
+    console.log('📊 getFDAApprovedVaccines: returning', approved.length, 'vaccines');
     return { data: approved };
   },
 
@@ -202,19 +206,22 @@ export const mockAPI = {
     const data = await loadMockData();
     const catLower = category.toLowerCase();
     const filtered = (data?.vaccines || []).filter(v => 
-      (v.platform || v.category || '').toLowerCase().includes(catLower)
+      (v.category || v.platform || '').toLowerCase().includes(catLower)
     );
+    console.log('📊 getVaccinesByCategory:', category, '- returning', filtered.length, 'vaccines');
     return { data: filtered };
   },
 
   getVaccineByNameAndCategory: async (category, name) => {
     const data = await loadMockData();
-    const nameLower = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const vaccine = (data?.vaccines || []).find(v => 
-      (v.name || '').toLowerCase().replace(/[^a-z0-9]/g, '').includes(nameLower) ||
-      nameLower.includes((v.name || '').toLowerCase().replace(/[^a-z0-9]/g, ''))
-    );
-    return { data: vaccine || {} };
+    const nameLower = (name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const vaccine = (data?.vaccines || []).find(v => {
+      const vName = (v.trimedName || v.developerResearcher || v.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      return vName.includes(nameLower) || nameLower.includes(vName);
+    });
+    console.log('📊 getVaccineByNameAndCategory:', name, '- found:', !!vaccine);
+    // Return as { data: [vaccine] } array because the component expects eachVacItem[0]
+    return { data: vaccine ? [vaccine] : [] };
   },
 
   getAllVaccineNames: async () => {
@@ -225,21 +232,28 @@ export const mockAPI = {
   // Treatment Data
   getAllTreatments: async () => {
     const data = await loadMockData();
+    console.log('💊 getAllTreatments: returning', (data?.treatments || []).length, 'treatments');
     return { data: data?.treatments || [] };
   },
 
   getTreatmentsByPhase: async (phase) => {
     const data = await loadMockData();
-    const phaseLower = phase.toLowerCase();
-    const filtered = (data?.treatments || []).filter(t => 
-      (t.clinical_stage || '').toLowerCase().includes(phaseLower)
-    );
+    const phaseLower = phase.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const filtered = (data?.treatments || []).filter(t => {
+      const tPhase = (t.phase || t.clinical_stage || t.stage || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      return tPhase.includes(phaseLower) || phaseLower.includes(tPhase);
+    });
+    console.log('💊 getTreatmentsByPhase:', phase, '- returning', filtered.length, 'treatments');
     return { data: filtered };
   },
 
   getFDAApprovedTreatments: async () => {
     const data = await loadMockData();
-    const approved = (data?.treatments || []).filter(t => t.fda_approved);
+    const approved = (data?.treatments || []).filter(t => 
+      t.fda_approved || 
+      (t.FDAApproved && t.FDAApproved !== 'Not Approved Yet' && t.FDAApproved !== 'N/A')
+    );
+    console.log('💊 getFDAApprovedTreatments: returning', approved.length, 'treatments');
     return { data: approved };
   },
 
@@ -249,41 +263,68 @@ export const mockAPI = {
     const filtered = (data?.treatments || []).filter(t => 
       (t.category || '').toLowerCase().includes(catLower)
     );
+    console.log('💊 getTreatmentsByCategory:', category, '- returning', filtered.length, 'treatments');
     return { data: filtered };
   },
 
   getTreatmentByNameAndCategory: async (category, name) => {
     const data = await loadMockData();
-    const nameLower = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const treatment = (data?.treatments || []).find(t => 
-      (t.name || '').toLowerCase().replace(/[^a-z0-9]/g, '').includes(nameLower)
-    );
-    return { data: treatment || {} };
+    const nameLower = (name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const treatment = (data?.treatments || []).find(t => {
+      const tName = (t.trimedName || t.developerResearcher || t.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      return tName.includes(nameLower) || nameLower.includes(tName);
+    });
+    console.log('💊 getTreatmentByNameAndCategory:', name, '- found:', !!treatment);
+    // Return as { data: [treatment] } array because the component expects eachVacItem[0]
+    return { data: treatment ? [treatment] : [] };
   },
 
   // News Data
-  getAllNews: async (page = 1) => {
+  getAllNews: async (page = 0) => {
     const data = await loadMockData();
     const pageSize = 10;
-    const start = (page - 1) * pageSize;
+    const start = page * pageSize;
     const news = (data?.news || []).slice(start, start + pageSize);
-    return { data: news };
+    console.log('📰 getAllNews page', page, '- returning', news.length, 'articles');
+    // Return format expected by reducer: { news: [...] }
+    return { data: { news } };
   },
 
-  getNewsByCategory: async (category, page = 1) => {
+  getNewsByCategory: async (category, page = 0) => {
     const data = await loadMockData();
     const pageSize = 10;
     const catLower = category.toLowerCase();
-    // For static data, return all news as matching the category
-    const filtered = (data?.news || []).filter(n => 
-      (n.category || 'coronavirus').toLowerCase().includes(catLower) ||
-      catLower.includes('coronavirus') ||
-      catLower.includes('vaccine') ||
-      catLower.includes('health')
-    );
-    const start = (page - 1) * pageSize;
-    const news = filtered.length > 0 ? filtered.slice(start, start + pageSize) : (data?.news || []).slice(start, start + pageSize);
-    return { data: news };
+    
+    // Filter by category or keywords
+    let filtered = (data?.news || []).filter(n => {
+      const newsCategory = (n.category || '').toLowerCase();
+      const keywords = (n.keywords || []).map(k => k.toLowerCase());
+      
+      if (catLower.includes('coronavirus') || catLower.includes('covid')) {
+        return newsCategory === 'coronavirus' || 
+               keywords.some(k => k.includes('covid') || k.includes('corona') || k.includes('pandemic'));
+      }
+      if (catLower.includes('vaccine')) {
+        return newsCategory === 'vaccine' || 
+               keywords.some(k => k.includes('vaccine') || k.includes('vaccination'));
+      }
+      if (catLower.includes('health')) {
+        return newsCategory === 'health' || 
+               keywords.some(k => k.includes('health') || k.includes('who') || k.includes('medical'));
+      }
+      return newsCategory.includes(catLower);
+    });
+    
+    // If no matches, return all news for the page
+    if (filtered.length === 0) {
+      filtered = data?.news || [];
+    }
+    
+    const start = page * pageSize;
+    const news = filtered.slice(start, start + pageSize);
+    console.log('📰 getNewsByCategory', category, 'page', page, '- returning', news.length, 'articles');
+    // Return format expected by reducer: { news: [...] }
+    return { data: { news } };
   },
 
   // Sitemap

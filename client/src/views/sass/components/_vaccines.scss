@@ -239,7 +239,8 @@ td {
         margin-right: 8px;
         border-radius: 10px;
         padding: 4px 4px;
-        height: 81%;
+        height: 100%;
+        align-content: start;
 
         @include respond(tab-port) {
             display: none;
@@ -1058,60 +1059,70 @@ td {
         //     }
         // }
 
-        &-item {
+&-item {
 
-            // grid-column: name-start / population-end;
-            height: 30px;
-            text-decoration: none;
-            padding: 0px 8px;
-            font-size: 95%;
-            color: #fff;
-            // display: grid;
-            // grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-            // grid-template-columns: repeat(14, minmax(100px, 7%));
-            // grid-template-columns: repeat(14, 1fr);
-            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
-            // width: 80.8%;
+                            // grid-column: name-start / population-end;
+                            height: 30px;
+                            text-decoration: none;
+                            padding: 0px 8px;
+                            font-size: 95%;
+                            color: #fff;
+                            // display: grid;
+                            // grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+                            // grid-template-columns: repeat(14, minmax(100px, 7%));
+                            // grid-template-columns: repeat(14, 1fr);
+                            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+                            // width: 80.8%;
 
-            display: grid;
-            grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-            grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px;
-            // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
-            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
+                            display: grid;
+                            grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+                            grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px;
+                            // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
+                            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
 
 
-            &-each {
-                font-weight: bold;
-            }
+                            &-each {
+                                font-weight: bold;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                max-width: 100%;
+                                display: block;
+                            }
 
             &-number {
                 // grid-column: confirmed-start / confirmed-end;
                 color: #ffcf0f;
             }
 
-            &-name {
-                // grid-column: name-start / name-end;
-                color: #eee;
-                font-size: 105%;
-                transition: 0.1s;
+&-name {
+                                // grid-column: name-start / name-end;
+                                color: #eee;
+                                font-size: 105%;
+                                transition: 0.1s;
 
-                &-link {
-                    color: #eee;
-                    font-weight: bold;
-                    text-decoration: none;
-                    cursor: pointer;
-                }
+                                &-link {
+                                    color: #eee;
+                                    font-weight: bold;
+                                    text-decoration: none;
+                                    cursor: pointer;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    display: block;
+                                    max-width: 100%;
+                                }
 
-                &-link:hover {
-                    color: #f6c90e;
-                }
-            }
+                                &-link:hover {
+                                    color: #f6c90e;
+                                }
+                            }
 
-            &-name:hover {
-                color: #f6c90e;
-                font-weight: bold;
-                // text-shadow: 0px 0px 1px #facd1a;
-            }
+                            &-name:hover {
+                                color: #f6c90e;
+                                font-weight: bold;
+                                // text-shadow: 0px 0px 1px #facd1a;
+                            }
 
             &-confirmed {
                 // grid-column: confirmed-start / confirmed-end;
@@ -1125,49 +1136,69 @@ td {
 
             }
 
-            &-confirmedpermil {
-                color: #ff6f3c;
-                text-decoration: none;
-                // cursor: pointer;
-            }
+&-confirmedpermil {
+                                color: #ff6f3c;
+                                text-decoration: none;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                display: block;
+                                max-width: 100%;
+                                // cursor: pointer;
+                            }
 
-            &-confirmedpermil:hover {
-                color: #f6c90e;
-                font-weight: bold;
-            }
+                            &-confirmedpermil:hover {
+                                color: #f6c90e;
+                                font-weight: bold;
+                            }
 
-            &-critical {
-                color: #1fab89;
-                text-decoration: none;
-                // cursor: pointer;
-            }
+                            &-critical {
+                                color: #1fab89;
+                                text-decoration: none;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                display: block;
+                                max-width: 100%;
+                                // cursor: pointer;
+                            }
 
-            &-critical:hover {
-                color: #f6c90e;
-                font-weight: bold;
-            }
+                            &-critical:hover {
+                                color: #f6c90e;
+                                font-weight: bold;
+                            }
 
-            &-active {
-                color: #b88a00;
-                text-decoration: none;
-                // cursor: pointer;
-            }
+                            &-active {
+                                color: #b88a00;
+                                text-decoration: none;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                display: block;
+                                max-width: 100%;
+                                // cursor: pointer;
+                            }
 
-            &-active:hover {
-                color: #f6c90e;
-                font-weight: bold;
-            }
+                            &-active:hover {
+                                color: #f6c90e;
+                                font-weight: bold;
+                            }
 
-            &-deceased {
-                color: #f73859;
-                text-decoration: none;
-                // cursor: pointer;
-            }
+                            &-deceased {
+                                color: #f73859;
+                                text-decoration: none;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                display: block;
+                                max-width: 100%;
+                                // cursor: pointer;
+                            }
 
-            &-deceased:hover {
-                color: #f6c90e;
-                font-weight: bold;
-            }
+                            &-deceased:hover {
+                                color: #f6c90e;
+                                font-weight: bold;
+                            }
 
             &-newdeaths {
                 color: #19d3da;

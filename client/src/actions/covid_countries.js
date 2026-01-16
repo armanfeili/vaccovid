@@ -227,9 +227,9 @@ export const clearCitiesReportISOBasedData = () => dispatch => {
 };
 
 export const getUSAStatesData = () => dispatch => {
-  mockAPI.getAllCountries()
+  mockAPI.getUSStates()
     .then(res => {
-      // console.log(res.data)
+      console.log('📍 USA States data loaded:', res.data?.length || 0, 'states');
       dispatch({
         type: GET_USA_STATES_DATA,
         payload: res.data
@@ -241,9 +241,9 @@ export const getUSAStatesData = () => dispatch => {
 };
 
 export const getCanadaStatesData = () => dispatch => {
-  mockAPI.getAllCountries()
+  mockAPI.getCanadaStates()
     .then(res => {
-      // console.log(res.data)
+      console.log('📍 Canada States data loaded:', res.data?.length || 0, 'provinces');
       dispatch({
         type: GET_CANADA_STATES_DATA,
         payload: res.data
@@ -255,9 +255,9 @@ export const getCanadaStatesData = () => dispatch => {
 };
 
 export const getBrazilStatesData = () => dispatch => {
-  mockAPI.getAllCountries()
+  mockAPI.getBrazilStates()
     .then(res => {
-      // console.log(res.data)
+      console.log('📍 Brazil States data loaded:', res.data?.length || 0, 'states');
       dispatch({
         type: GET_BRAZIL_STATES_DATA,
         payload: res.data
@@ -269,9 +269,9 @@ export const getBrazilStatesData = () => dispatch => {
 };
 
 export const getGermanyStatesData = () => dispatch => {
-  mockAPI.getAllCountries()
+  mockAPI.getGermanyStates()
     .then(res => {
-      // console.log(res.data)
+      console.log('📍 Germany States data loaded:', res.data?.length || 0, 'states');
       dispatch({
         type: GET_GERMANY_STATES_DATA,
         payload: res.data
@@ -283,9 +283,9 @@ export const getGermanyStatesData = () => dispatch => {
 };
 
 export const getAustraliaStatesData = () => dispatch => {
-  mockAPI.getAllCountries()
+  mockAPI.getAustraliaStates()
     .then(res => {
-      // console.log(res.data)
+      console.log('📍 Australia States data loaded:', res.data?.length || 0, 'states');
       dispatch({
         type: GET_AUSTRALIA_STATES_DATA,
         payload: res.data

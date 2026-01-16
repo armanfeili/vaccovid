@@ -50,6 +50,10 @@ export class WorldMapComponent extends Component {
         }
     }
 
+    handleClick(e, countryCode) {
+        console.log(countryCode);
+    };
+
     numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
