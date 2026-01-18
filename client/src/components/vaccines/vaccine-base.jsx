@@ -51,8 +51,11 @@ export class VaccineBase extends Component {
 
     async callActionMethods() {
         let category = "all-vaccines"
+        console.log('🔄 VaccineBase callActionMethods called');
         if (category === "all-vaccines") {
+            console.log('🔄 Calling getAllVaccines...');
             await this.props.getAllVaccines();
+            console.log('🔄 getAllVaccines completed, vaccines in props:', this.props.vaccines?.length);
             this.setState({ descriptionText: "Here you can find all of the developing or approved vaccines in every phase. You can sort the table based on each columns or search for a unique vaccine name." })
         }
     }
@@ -147,6 +150,8 @@ export class VaccineBase extends Component {
         let category = "all-vaccines"
         let { vaccines } = this.props;
         let tableIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        
+        console.log('🖥️ VaccineBase render - vaccines:', vaccines?.length || 0);
 
         const formatDate = (date) => date ? moment(date).format('LL') : 'Date unavailable';
 

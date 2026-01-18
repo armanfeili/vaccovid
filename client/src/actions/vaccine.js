@@ -18,7 +18,9 @@ import {
     CLEAR_TREATMENT_DATA,
     GET_EACH
 } from './types';
-import mockAPI from '../utils/mockApi';
+// Use backend API instead of client-side mock API
+import api from '../utils/api';
+const mockAPI = api; // Map to api for backward compatibility
 
 export const clearVaccineData = () => dispatch => {
   try {
@@ -64,15 +66,20 @@ export const clearEachVaccine = () => dispatch => {
 /////////////////////////////////////////////////////
 
 export const getAllVaccines = () => dispatch => {
+  console.log('🚀 getAllVaccines action called');
   mockAPI.getAllVaccines()
     .then(res => {
+      console.log('✅ getAllVaccines response:', res.data?.length || 0, 'vaccines');
+      if (res.data?.length > 0) {
+        console.log('📊 Sample vaccine:', res.data[0].developerResearcher);
+      }
       dispatch({
         type: GET_ALL_VACCINES,
         payload: res.data
       });})
     .catch(err => 
         {
-        console.log(err);
+        console.log('❌ getAllVaccines error:', err);
         dispatch({
             type: GET_ERRORS,
             payload: {}
@@ -205,15 +212,20 @@ export const getVaccinesCategoryBased = (category) => dispatch => {
 /////////////////////////////////////////////////////
 
 export const getAllTreatments = () => dispatch => {
+  console.log('🚀 getAllTreatments action called');
   mockAPI.getAllTreatments()
     .then(res => {
+      console.log('✅ getAllTreatments response:', res.data?.length || 0, 'treatments');
+      if (res.data?.length > 0) {
+        console.log('💊 Sample treatment:', res.data[0].developerResearcher);
+      }
       dispatch({
         type: GET_ALL_TREATMENTS,
         payload: res.data
       });})
     .catch(err => 
         {
-        console.log(err);
+        console.log('❌ getAllTreatments error:', err);
         dispatch({
             type: GET_ERRORS,
             payload: {}

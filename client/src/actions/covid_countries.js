@@ -175,7 +175,11 @@ export const clearPrrovinceAndCitiesData = () => dispatch => {
 export const getProvinceReportISOBased = (iso) => dispatch => {
   mockAPI.getProvincesByISO(iso)
     .then(res => {
-      // console.log(res.data)
+      console.log('📍 getProvinceReportISOBased response for', iso, ':', res.data?.length, 'provinces');
+      if (res.data?.length > 0) {
+        const sample = res.data[0];
+        console.log('📍 Sample province:', sample.province, '- reports:', sample.reports, '(type:', typeof sample.reports, '), confirmed:', sample.confirmed);
+      }
       dispatch({
         type: GET_PROVINCE_ISO_REPORT_DATA,
         payload: res.data

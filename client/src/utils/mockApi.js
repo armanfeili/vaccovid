@@ -8,15 +8,48 @@ let mockData = null;
 
 // Load mock data
 export const loadMockData = async () => {
-  if (mockData) return mockData;
+  if (mockData) {
+    console.log('📦 Using cached mock data');
+    return mockData;
+  }
   
   try {
-    const url = `${process.env.PUBLIC_URL || ''}/data/mock-api-data.json`;
-    const response = await fetch(url);
-    mockData = await response.json();
-    return mockData;
+    // Try multiple possible paths for the data file
+    const possiblePaths = [
+      `${process.env.PUBLIC_URL || ''}/data/mock-api-data.json`,
+      '/data/mock-api-data.json',
+      '/vaccovid/data/mock-api-data.json',
+      './data/mock-api-data.json'
+    ];
+    
+    let lastError = null;
+    for (const url of possiblePaths) {
+      try {
+        console.log('📥 Loading mock data from:', url);
+        const response = await fetch(url);
+        if (response.ok) {
+          mockData = await response.json();
+          console.log('✅ Mock data loaded:', {
+            vaccines: mockData?.vaccines?.length || 0,
+            treatments: mockData?.treatments?.length || 0,
+            countries: mockData?.countries?.length || 0
+          });
+          return mockData;
+        } else {
+          console.warn(`⚠️ Failed to load from ${url}:`, response.status, response.statusText);
+          lastError = new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+      } catch (err) {
+        console.warn(`⚠️ Error loading from ${url}:`, err.message);
+        lastError = err;
+      }
+    }
+    
+    // If all paths failed, throw the last error
+    console.error('❌ All attempts to load mock data failed. Last error:', lastError);
+    throw lastError || new Error('Failed to load mock data from any path');
   } catch (error) {
-    console.error('Failed to load mock data:', error);
+    console.error('❌ Failed to load mock data:', error);
     return null;
   }
 };
@@ -69,6 +102,10 @@ export const mockAPI = {
     const data = await loadMockData();
     const isoUpper = iso?.toUpperCase();
     const provinces = data?.provinces?.[isoUpper] || [];
+    console.log('🗺️ getProvincesByISO:', iso, '- found', provinces.length, 'provinces');
+    if (provinces.length > 0) {
+      console.log('🗺️ First province sample:', JSON.stringify(provinces[0], null, 2));
+    }
     return { data: provinces };
   },
 
@@ -185,6 +222,14 @@ export const mockAPI = {
     const phaseLower = phase.toLowerCase().replace(/[^a-z0-9]/g, '');
     const filtered = (data?.vaccines || []).filter(v => {
       const vPhase = (v.phase || v.clinical_stage || v.stage || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      // Handle special cases
+      if (phaseLower === 'preclinical' || phaseLower === 'pre-clinical') {
+        return vPhase.includes('preclinical') || vPhase.includes('pre') && vPhase.includes('clinical');
+      }
+      if (phaseLower === 'clinical') {
+        // Clinical but not pre-clinical
+        return vPhase.includes('clinical') && !vPhase.includes('preclinical') && !vPhase.includes('pre');
+      }
       return vPhase.includes(phaseLower) || phaseLower.includes(vPhase);
     });
     console.log('📊 getVaccinesByPhase:', phase, '- returning', filtered.length, 'vaccines');
@@ -193,21 +238,38 @@ export const mockAPI = {
 
   getFDAApprovedVaccines: async () => {
     const data = await loadMockData();
-    const approved = (data?.vaccines || []).filter(v => 
-      v.fda_approved || 
-      (v.FDAApproved && v.FDAApproved !== 'Not Approved Yet' && v.FDAApproved !== 'N/A') ||
-      (v.phase || v.clinical_stage || '').toLowerCase().includes('approved')
-    );
+    const approved = (data?.vaccines || []).filter(v => {
+      // Check explicit fda_approved flag
+      if (v.fda_approved === true) return true;
+      // Check FDAApproved field has meaningful content
+      const fdaField = (v.FDAApproved || '').toLowerCase().trim();
+      if (fdaField && 
+          fdaField !== 'not approved yet' && 
+          fdaField !== 'n/a' && 
+          fdaField !== 'undefined' &&
+          fdaField !== '') {
+        return true;
+      }
+      // Check phase includes 'approved' or 'authorized'
+      const phase = (v.phase || v.clinical_stage || '').toLowerCase();
+      if (phase.includes('approved') || phase.includes('authorized')) return true;
+      return false;
+    });
     console.log('📊 getFDAApprovedVaccines: returning', approved.length, 'vaccines');
     return { data: approved };
   },
 
   getVaccinesByCategory: async (category) => {
     const data = await loadMockData();
-    const catLower = category.toLowerCase();
-    const filtered = (data?.vaccines || []).filter(v => 
-      (v.category || v.platform || '').toLowerCase().includes(catLower)
-    );
+    // Normalize category for flexible matching (dashes to spaces, lowercase)
+    const catNormalized = category.toLowerCase().replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+    const filtered = (data?.vaccines || []).filter(v => {
+      const vCategory = (v.category || v.platform || '').toLowerCase().replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+      // Check for substring match in either direction
+      return vCategory.includes(catNormalized) || catNormalized.includes(vCategory) ||
+        // Also check trimedCategory for exact URL-style match
+        (v.trimedCategory || '').toLowerCase() === category.toLowerCase().replace(/\s+/g, '-');
+    });
     console.log('📊 getVaccinesByCategory:', category, '- returning', filtered.length, 'vaccines');
     return { data: filtered };
   },
@@ -241,6 +303,14 @@ export const mockAPI = {
     const phaseLower = phase.toLowerCase().replace(/[^a-z0-9]/g, '');
     const filtered = (data?.treatments || []).filter(t => {
       const tPhase = (t.phase || t.clinical_stage || t.stage || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      // Handle special cases
+      if (phaseLower === 'preclinical' || phaseLower === 'pre-clinical') {
+        return tPhase.includes('preclinical') || (tPhase.includes('pre') && tPhase.includes('clinical'));
+      }
+      if (phaseLower === 'clinical') {
+        // Clinical but not pre-clinical
+        return tPhase.includes('clinical') && !tPhase.includes('preclinical') && !tPhase.includes('pre');
+      }
       return tPhase.includes(phaseLower) || phaseLower.includes(tPhase);
     });
     console.log('💊 getTreatmentsByPhase:', phase, '- returning', filtered.length, 'treatments');
@@ -249,20 +319,38 @@ export const mockAPI = {
 
   getFDAApprovedTreatments: async () => {
     const data = await loadMockData();
-    const approved = (data?.treatments || []).filter(t => 
-      t.fda_approved || 
-      (t.FDAApproved && t.FDAApproved !== 'Not Approved Yet' && t.FDAApproved !== 'N/A')
-    );
+    const approved = (data?.treatments || []).filter(t => {
+      // Check explicit fda_approved flag
+      if (t.fda_approved === true) return true;
+      // Check FDAApproved field has meaningful content
+      const fdaField = (t.FDAApproved || '').toLowerCase().trim();
+      if (fdaField && 
+          fdaField !== 'not approved yet' && 
+          fdaField !== 'n/a' && 
+          fdaField !== 'undefined' &&
+          fdaField !== '') {
+        return true;
+      }
+      // Check phase includes 'approved' or 'authorized'
+      const phase = (t.phase || t.clinical_stage || '').toLowerCase();
+      if (phase.includes('approved') || phase.includes('authorized')) return true;
+      return false;
+    });
     console.log('💊 getFDAApprovedTreatments: returning', approved.length, 'treatments');
     return { data: approved };
   },
 
   getTreatmentsByCategory: async (category) => {
     const data = await loadMockData();
-    const catLower = category.toLowerCase();
-    const filtered = (data?.treatments || []).filter(t => 
-      (t.category || '').toLowerCase().includes(catLower)
-    );
+    // Normalize category for flexible matching (dashes to spaces, lowercase)
+    const catNormalized = category.toLowerCase().replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+    const filtered = (data?.treatments || []).filter(t => {
+      const tCategory = (t.category || '').toLowerCase().replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+      // Check for substring match in either direction
+      return tCategory.includes(catNormalized) || catNormalized.includes(tCategory) ||
+        // Also check trimedCategory for exact URL-style match
+        (t.trimedCategory || '').toLowerCase() === category.toLowerCase().replace(/\s+/g, '-');
+    });
     console.log('💊 getTreatmentsByCategory:', category, '- returning', filtered.length, 'treatments');
     return { data: filtered };
   },

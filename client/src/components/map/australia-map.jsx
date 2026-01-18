@@ -73,11 +73,11 @@ export class AustraliaMapComponent extends Component {
                     <div class="map-info-country-name">${province.province}</div>
 
                     <div class="map-info-information">
-                    <div class="map-info-information-confirmed">Confirmed:</div><div class="map-info-information-number map-info-information-confirmed-color">${province.reports[0].confirmed !== null ? this.numberWithCommas(province.reports[0].confirmed) : 'no data'}</div>
-                    <div class="map-info-information-deceased">Deceased:</div><div class="map-info-information-number map-info-information-deceased-color">${province.reports[0].deaths !== null ? this.numberWithCommas(province.reports[0].deaths) : 'no data'}</div>
-                    <div class="map-info-information-active">Active:</div><div class="map-info-information-number map-info-information-active-color">${province.reports[0].active !== null ? this.numberWithCommas(province.reports[0].active) : 'no data'}</div>
-                    <div class="map-info-information-newcases">New Cases:</div><div class="map-info-information-number map-info-information-newcases-color">${province.reports[0].confirmed_diff === null || province.NewCases === 0 ? 0 : this.numberWithCommas(province.reports[0].confirmed_diff)}</div>
-                    <div class="map-info-information-recovered">Fatality rate:</div><div class="map-info-information-number map-info-information-recovered-color">${province.reports[0].fatality_rate !== null ? province.reports[0].fatality_rate : 'no data'}</div>
+                    <div class="map-info-information-confirmed">Confirmed:</div><div class="map-info-information-number map-info-information-confirmed-color">${province.confirmed != null ? this.numberWithCommas(province.confirmed) : 'no data'}</div>
+                    <div class="map-info-information-deceased">Deceased:</div><div class="map-info-information-number map-info-information-deceased-color">${province.deaths != null ? this.numberWithCommas(province.deaths) : 'no data'}</div>
+                    <div class="map-info-information-active">Active:</div><div class="map-info-information-number map-info-information-active-color">${province.active != null ? this.numberWithCommas(province.active) : 'no data'}</div>
+                    <div class="map-info-information-newcases">New Cases:</div><div class="map-info-information-number map-info-information-newcases-color">${province.confirmed_diff != null ? this.numberWithCommas(province.confirmed_diff) : 0}</div>
+                    <div class="map-info-information-recovered">Fatality rate:</div><div class="map-info-information-number map-info-information-recovered-color">${province.Case_Fatality_Rate != null ? province.Case_Fatality_Rate : 'no data'}</div>
                     </div>
                 </div>
 

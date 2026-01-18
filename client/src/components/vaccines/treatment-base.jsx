@@ -60,8 +60,11 @@ export class TreatmentBase extends Component {
 
     async callActionMethods() {
         let category = "all-treatments"
+        console.log('🔄 TreatmentBase callActionMethods called');
         if (category === "all-treatments") {
+            console.log('🔄 Calling getAllTreatments...');
             await this.props.getAllTreatments();
+            console.log('🔄 getAllTreatments completed, treatments in props:', this.props.treatments?.length);
             this.setState({ descriptionText: "Here you can find all of the developing or approved treatments and drugs in every stage. You can sort the table based on each columns or search for a unique treatment name." })
         }
     }
@@ -154,6 +157,8 @@ export class TreatmentBase extends Component {
         let category = "all-treatments"
         let { treatments } = this.props;
         let tableIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        
+        console.log('🖥️ TreatmentBase render - treatments:', treatments?.length || 0);
 
         const formatDate = (date) => date ? moment(date).format('LL') : 'Date unavailable';
 
