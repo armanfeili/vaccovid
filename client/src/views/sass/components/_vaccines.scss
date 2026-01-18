@@ -1088,6 +1088,15 @@ td {
                                 text-overflow: ellipsis;
                                 max-width: 100%;
                                 display: block;
+                                
+                                // Ensure all links inside table cells also truncate
+                                a, Link {
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    display: block;
+                                    max-width: 100%;
+                                }
                             }
 
             &-number {
@@ -1144,7 +1153,7 @@ td {
                                 text-overflow: ellipsis;
                                 display: block;
                                 max-width: 100%;
-                                // cursor: pointer;
+                                cursor: pointer;
                             }
 
                             &-confirmedpermil:hover {
@@ -1160,7 +1169,7 @@ td {
                                 text-overflow: ellipsis;
                                 display: block;
                                 max-width: 100%;
-                                // cursor: pointer;
+                                cursor: pointer;
                             }
 
                             &-critical:hover {
@@ -1176,7 +1185,7 @@ td {
                                 text-overflow: ellipsis;
                                 display: block;
                                 max-width: 100%;
-                                // cursor: pointer;
+                                cursor: pointer;
                             }
 
                             &-active:hover {
@@ -1192,7 +1201,7 @@ td {
                                 text-overflow: ellipsis;
                                 display: block;
                                 max-width: 100%;
-                                // cursor: pointer;
+                                cursor: pointer;
                             }
 
                             &-deceased:hover {
