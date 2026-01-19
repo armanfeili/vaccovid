@@ -57,8 +57,9 @@ export class Vaccine extends Component {
         }
     }
 
-    async componentWillUnmount() {
-        await this.props.clearVaccineData();
+    componentWillUnmount() {
+        // Data is managed by Redux, no need to clear on unmount
+        // Clearing causes race conditions when navigating between pages
     }
 
     async callActionMethods() {

@@ -3470,14 +3470,15 @@ td {
       font-size: 95%;
       color: #fff;
       display: grid;
-      grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-      grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px; }
+      grid-template-rows: 30px;
+      grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px;
+      align-items: center; }
       .vaccine-page-table-stats-item-each {
         font-weight: bold;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 0; }
+        min-width: 0; }
       .vaccine-page-table-stats-item-number {
         color: #ffcf0f; }
       .vaccine-page-table-stats-item-name {

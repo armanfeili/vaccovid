@@ -45,8 +45,9 @@ export class VaccineBase extends Component {
     async componentDidUpdate(prevProps) {
     }
 
-    async componentWillUnmount() {
-        await this.props.clearVaccineData();
+    componentWillUnmount() {
+        // Data is managed by Redux, no need to clear on unmount
+        // Clearing causes race conditions when navigating between pages
     }
 
     async callActionMethods() {
@@ -152,6 +153,9 @@ export class VaccineBase extends Component {
         let tableIndex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         
         console.log('🖥️ VaccineBase render - vaccines:', vaccines?.length || 0);
+        if (vaccines && vaccines.length > 0) {
+            console.log('📋 First vaccine data:', JSON.stringify(vaccines[0], null, 2));
+        }
 
         const formatDate = (date) => date ? moment(date).format('LL') : 'Date unavailable';
 

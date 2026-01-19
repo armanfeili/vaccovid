@@ -3,24 +3,122 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
-// Load all mock data from mock-api-data.json
+// Helper function to extract URLs from text
+function urlify(text) {
+  if (!text) return [];
+  const urlRegex = /\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig;
+  const arr = text.match(urlRegex);
+  return arr || [];
+}
+
+// Helper function to trim strings for category/name
+function trimString(str) {
+  if (!str) return '';
+  str = str.replace(/\s+/g, '-');
+  str = str.replace(/\//g, '');
+  str = str.replace(',', '-');
+  str = str.replace('---', '-');
+  str = str.replace('--', '-');
+  str = str.replace(/;/g, '');
+  str = str.replace("'", '');
+  return str.toLowerCase();
+}
+
+function trimCategories(str) {
+  if (!str) return '';
+  str = str.replace(/\s+/g, '-');
+  return str.toLowerCase();
+}
+
+// Transform raw vaccine data from CSV format to API format
+function transformVaccineData(rawData) {
+  return rawData.map((e, index) => {
+    const resultUrls = urlify(e['Published Results']);
+    const sourceUrls = urlify(e['Sources']);
+    const treatmentVsVaccine = e['Treatment vs'] ? e['Treatment vs'][' Vaccine'] : 'Unknown';
+    const category = e['Product Category'] === 'Unknown' ? 'Other' : (e['Product Category'] || 'Other');
+    const stage = (e['Stage of Development'] || '').toLowerCase();
+    const hasFDAIndication = e['FDA-Approved Indications'] && e['FDA-Approved Indications'] !== 'Unknown' && e['FDA-Approved Indications'] !== 'N/A' && !e['FDA-Approved Indications'].includes('Not Approved');
+    const isAuthorizedOrApproved = stage.includes('authorized') || stage.includes('approved') || stage.includes('phase iv');
+    
+    return {
+      developerResearcher: e['Developer / Researcher'] || '',
+      trimedName: trimString(e['Developer / Researcher']),
+      category: category,
+      trimedCategory: trimCategories(category),
+      phase: e['Stage of Development'] || '',
+      clinical_stage: e['Stage of Development'] || '',
+      stage: e['Stage of Development'] || '',
+      nextSteps: e['Anticipated Next Steps'] === 'Unknown' || !e['Anticipated Next Steps'] ? '' : e['Anticipated Next Steps'],
+      description: e['Product Description'] === 'Unknown' ? '' : (e['Product Description'] || ''),
+      clinicalTrials: e['Clinical Trials for COVID-19'] || '',
+      funder: e['Funder'] === 'Unknown' || !e['Funder'] ? '' : e['Funder'],
+      publishedResults: e['Published Results'] || '',
+      resultUrls: resultUrls,
+      relatedUse: e['Clinical Trials for Other Diseases (T only) / Related Use or Platform (V only)'] || '',
+      FDAApproved: (hasFDAIndication || isAuthorizedOrApproved) ? (e['FDA-Approved Indications'] || 'Emergency Use Authorization') : 'Not Approved Yet',
+      fda_approved: hasFDAIndication || isAuthorizedOrApproved,
+      sources: e['Sources'] || '',
+      sourceUrls: sourceUrls,
+      lastUpdated: e['Date Last Updated'] || '',
+      name: e['Developer / Researcher'] || '',
+      platform: category,
+      treatmentVsVaccine: treatmentVsVaccine
+    };
+  });
+}
+
+// Load vaccine data from vaccine-data.json (primary source)
 let provincesData = {};
 let vaccinesData = [];
 let treatmentsData = [];
 let newsData = [];
+
 try {
-  const mockDataPath = path.join(__dirname, 'client', 'public', 'data', 'mock-api-data.json');
-  const mockData = JSON.parse(fs.readFileSync(mockDataPath, 'utf8'));
-  provincesData = mockData.provinces || {};
-  vaccinesData = mockData.vaccines || [];
-  treatmentsData = mockData.treatments || [];
-  newsData = mockData.news || [];
-  console.log('✅ Provinces data loaded:', Object.keys(provincesData).length, 'countries');
-  console.log('✅ Vaccine data loaded:', vaccinesData.length, 'vaccines');
-  console.log('✅ Treatment data loaded:', treatmentsData.length, 'treatments');
-  console.log('✅ News data loaded:', newsData.length, 'articles');
+  // Load vaccine data from vaccine-data.json
+  const vaccineDataPath = path.join(__dirname, 'app', 'src', 'utils', 'vaccine-data.json');
+  const rawVaccineData = JSON.parse(fs.readFileSync(vaccineDataPath, 'utf8'));
+  
+  // Transform and separate vaccines from treatments
+  const transformedData = transformVaccineData(rawVaccineData);
+  
+  // Separate vaccines and treatments based on treatmentVsVaccine field
+  vaccinesData = transformedData.filter(item => item.treatmentVsVaccine === 'Vaccine');
+  treatmentsData = transformedData.filter(item => item.treatmentVsVaccine !== 'Vaccine');
+  
+  console.log('✅ Vaccine data loaded from vaccine-data.json:', vaccinesData.length, 'vaccines');
+  console.log('✅ Treatment data loaded from vaccine-data.json:', treatmentsData.length, 'treatments');
+  
+  // Try to load provinces and news from mock-api-data.json
+  try {
+    const mockDataPath = path.join(__dirname, 'client', 'public', 'data', 'mock-api-data.json');
+    const mockData = JSON.parse(fs.readFileSync(mockDataPath, 'utf8'));
+    provincesData = mockData.provinces || {};
+    newsData = mockData.news || [];
+    console.log('✅ Provinces data loaded:', Object.keys(provincesData).length, 'countries');
+    console.log('✅ News data loaded:', newsData.length, 'articles');
+  } catch (mockErr) {
+    console.warn('⚠️ Could not load mock data for provinces/news:', mockErr.message);
+  }
 } catch (err) {
-  console.warn('⚠️ Could not load mock data:', err.message);
+  console.warn('⚠️ Could not load vaccine-data.json:', err.message);
+  console.warn('⚠️ Falling back to mock-api-data.json...');
+  
+  // Fallback to mock-api-data.json
+  try {
+    const mockDataPath = path.join(__dirname, 'client', 'public', 'data', 'mock-api-data.json');
+    const mockData = JSON.parse(fs.readFileSync(mockDataPath, 'utf8'));
+    provincesData = mockData.provinces || {};
+    vaccinesData = mockData.vaccines || [];
+    treatmentsData = mockData.treatments || [];
+    newsData = mockData.news || [];
+    console.log('✅ Fallback - Provinces data loaded:', Object.keys(provincesData).length, 'countries');
+    console.log('✅ Fallback - Vaccine data loaded:', vaccinesData.length, 'vaccines');
+    console.log('✅ Fallback - Treatment data loaded:', treatmentsData.length, 'treatments');
+    console.log('✅ Fallback - News data loaded:', newsData.length, 'articles');
+  } catch (fallbackErr) {
+    console.warn('⚠️ Could not load any data:', fallbackErr.message);
+  }
 }
 
 // Helper function to filter news by category
@@ -6490,19 +6588,41 @@ function filterByPhase(items, phase) {
 
 // Helper function to filter by category
 function filterByCategory(items, category) {
-  const catLower = category.toLowerCase();
-  return items.filter(item => 
-    (item.category || item.platform || '').toLowerCase().includes(catLower)
-  );
+  const catLower = category.toLowerCase().replace(/\s+/g, '-');
+  return items.filter(item => {
+    const itemCat = (item.category || item.platform || '').toLowerCase().replace(/\s+/g, '-');
+    const itemTrimedCat = (item.trimedCategory || '').toLowerCase();
+    return itemCat.includes(catLower) || catLower.includes(itemCat) ||
+           itemTrimedCat.includes(catLower) || catLower.includes(itemTrimedCat);
+  });
 }
 
 // Helper function to find item by name and category
 function findByNameAndCategory(items, category, name) {
-  const nameLower = (name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-  return items.find(item => {
+  const nameLower = (name || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  const nameStripped = nameLower.replace(/-/g, '');
+  
+  // First try exact or substring match
+  let found = items.find(item => {
     const itemName = (item.trimedName || item.developerResearcher || item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-    return itemName.includes(nameLower) || nameLower.includes(itemName);
+    return itemName.includes(nameStripped) || nameStripped.includes(itemName);
   });
+  
+  if (found) return found;
+  
+  // Fallback: check if the first word/phrase matches (e.g., "moderna" matches "moderna-national-...")
+  const nameWords = nameLower.split('-').filter(w => w.length > 2);
+  if (nameWords.length > 0) {
+    const firstWord = nameWords[0];
+    found = items.find(item => {
+      const itemTrimed = (item.trimedName || '').toLowerCase();
+      const itemDev = (item.developerResearcher || '').toLowerCase();
+      // Match if the item starts with the first word from the URL
+      return itemTrimed.startsWith(firstWord) || itemDev.startsWith(firstWord.charAt(0).toUpperCase() + firstWord.slice(1));
+    });
+  }
+  
+  return found;
 }
 
 // News data is loaded from mock-api-data.json (newsData variable)
@@ -6653,7 +6773,8 @@ router.get('/vaccines/get-vaccines/:category', (req, res) => {
 router.get('/vaccines/get-vaccines/:category/:name', (req, res) => {
   const item = findByNameAndCategory(vaccinesData, req.params.category, req.params.name);
   console.log('📊 Vaccine by name', req.params.name, ':', item ? 'found' : 'not found');
-  res.json(item || {});
+  // Return as array because frontend expects res.data[0]
+  res.json(item ? [item] : []);
 });
 
 // Treatment endpoints
@@ -6687,7 +6808,8 @@ router.get('/vaccines/get-treatments/:category', (req, res) => {
 router.get('/vaccines/get-treatments/:category/:name', (req, res) => {
   const item = findByNameAndCategory(treatmentsData, req.params.category, req.params.name);
   console.log('💊 Treatment by name', req.params.name, ':', item ? 'found' : 'not found');
-  res.json(item || {});
+  // Return as array because frontend expects res.data[0]
+  res.json(item ? [item] : []);
 });
 
 // News endpoints

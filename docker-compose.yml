@@ -35,6 +35,8 @@ services:
       - ./server.js:/app/server.js
       - ./mockApi.js:/app/mockApi.js
       - ./client/build:/app/client/build
+      - ./client/public/data:/app/client/public/data
+      - ./app/src/utils:/app/app/src/utils
       - ./package.json:/app/package.json
     networks:
       - vaccovid-network

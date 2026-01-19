@@ -1067,16 +1067,11 @@ td {
                             padding: 0px 8px;
                             font-size: 95%;
                             color: #fff;
-                            // display: grid;
-                            // grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
-                            // grid-template-columns: repeat(14, minmax(100px, 7%));
-                            // grid-template-columns: repeat(14, 1fr);
-                            // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
-                            // width: 80.8%;
 
                             display: grid;
-                            grid-template-rows: [caption-start] 30px [caption-end table-start] 1fr [table-end];
+                            grid-template-rows: 30px;
                             grid-template-columns: 40px 400px 250px 175px 400px 400px 265px 400px 300px;
+                            align-items: center;
                             // grid-template-columns: [number-start] minmax(30px, 300px) [number-end name-start] minmax(180px, 300px) [name-end confirmed-start] minmax(100px, 300px) [confirmed-end newcases-start] minmax(65px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(75px, 300px) [critical-end active-start] minmax(95px, 300px) [active-end deceased-start] minmax(80px, 300px) [deceased-end newdeaths-start] minmax(65px, 300px) [newdeaths-end deathspermil-start] minmax(100px, 300px) [deathspermil-end giventests-start] minmax(120px, 300px) [giventests-end testspermil-start] minmax(90px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end recoveredrate-start] minmax(90px, 300px) [recoveredrate-end population-start] minmax(105px, 300px) [population-end];
                             // grid-template-columns: [name-start] minmax(170px, 300px) [name-end confirmed-start]minmax(100px, 300px) [confirmed-end newcases-start] minmax(80px, 300px) [newcases-end confirmedpermil-start] minmax(80px, 300px) [confirmedpermil-end critical-start] minmax(100px, 300px) [critical-end active-start] minmax(90px, 300px) [active-end deceased-start]minmax(100px, 300px) [deceased-end newdeaths-start] minmax(80px, 300px) [newdeaths-end deathspermil-start] minmax(80px, 300px) [deathspermil-end giventests-start] minmax(100px, 300px) [giventests-end testspermil-start] minmax(80px, 300px) [testspermil-end recovered-start] minmax(100px, 300px) [recovered-end newrecovered-start] minmax(80px, 300px) [newrecovered-end population-start] minmax(100px, 300px) [population-end];
 
@@ -1087,7 +1082,7 @@ td {
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 max-width: 100%;
-                                display: block;
+                                min-width: 0; // Important for grid items to allow truncation
                                 
                                 // Ensure all links inside table cells also truncate
                                 a, Link {

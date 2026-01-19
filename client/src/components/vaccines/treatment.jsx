@@ -55,8 +55,9 @@ export class Treatment extends Component {
         }
     }
 
-    async componentWillUnmount() {
-        await this.props.clearTreatmentData();
+    componentWillUnmount() {
+        // Data is managed by Redux, no need to clear on unmount
+        // Clearing causes race conditions when navigating between pages
     }
 
     async callActionMethods() {
