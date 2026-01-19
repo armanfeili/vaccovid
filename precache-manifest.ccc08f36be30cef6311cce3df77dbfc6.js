@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "61b7ba370cd1702ef3a6950bd3d3066c",
+    "revision": "fb6cb81891bc4e004f11f647a9ca3e08",
     "url": "/vaccovid/index.html"
   },
   {
-    "revision": "72a39200c0b1d74ad784",
+    "revision": "94dadae7af7e2974c08f",
     "url": "/vaccovid/static/css/main.886f1f4b.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vaccovid/static/js/2.e87b197b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "72a39200c0b1d74ad784",
-    "url": "/vaccovid/static/js/main.5264753e.chunk.js"
+    "revision": "94dadae7af7e2974c08f",
+    "url": "/vaccovid/static/js/main.2a2ab609.chunk.js"
   },
   {
     "revision": "1a0292a6fac7a068ad08",
