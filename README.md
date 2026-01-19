@@ -8,17 +8,17 @@ VACCOVID was a comprehensive COVID-19 tracking platform that provided real-time 
 
 ## Features
 
-### 📊 COVID-19 Data
+### COVID-19 Data
 - **Global Coverage**: Real-time statistics for all countries worldwide
 - **State/Province Data**: Detailed breakdown for ~20 countries with regional data
 - **Visualization**: Interactive tables, charts, and maps
 
-### 💉 Vaccine & Treatment Tracker
+### Vaccine & Treatment Tracker
 - Complete list of all COVID-19 vaccines and treatments
 - Development stages and clinical trial information
 - Detailed information for each vaccine/treatment
 
-### 📰 News Aggregation
+### News Aggregation
 - COVID-19, vaccine, and health news
 - Aggregated from **23 broadcasting services**
 - Real-time updates during active operation
@@ -27,7 +27,7 @@ VACCOVID was a comprehensive COVID-19 tracking platform that provided real-time 
 
 The VACCOVID API was publicly available on RapidAPI:
 
-🔗 [VACCOVID API on RapidAPI](https://rapidapi.com/vaccovidlive-vaccovidlive-default/api/vaccovid-coronavirus-vaccine-and-treatment-tracker)
+[VACCOVID API on RapidAPI](https://rapidapi.com/vaccovidlive-vaccovidlive-default/api/vaccovid-coronavirus-vaccine-and-treatment-tracker)
 
 ### Achievements
 - 🥇 **#1 Vaccine API** on RapidAPI for 2 consecutive years
