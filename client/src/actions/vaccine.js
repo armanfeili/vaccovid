@@ -18,9 +18,8 @@ import {
     CLEAR_TREATMENT_DATA,
     GET_EACH
 } from './types';
-// Use backend API instead of client-side mock API
-import api from '../utils/api';
-const mockAPI = api; // Map to api for backward compatibility
+// Use mock API for static site deployment (GitHub Pages)
+import mockAPI from '../utils/mockApi';
 
 export const clearVaccineData = () => dispatch => {
   try {
