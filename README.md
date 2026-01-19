@@ -2,9 +2,9 @@
 
 > 🏆 **Arman Feili's 1st Project** | Originally live from 2020-2023 | Now preserved as a static showcase
 
-## 🌐 Live Demo
+## Live Demo
 
-**[👉 View Demo](https://armanfeili.github.io/vaccovid/#/)**
+**[View Demo](https://armanfeili.github.io/vaccovid/#/)**
 
 Experience the fully functional static version of VACCOVID with archived COVID-19 data, vaccine information, and treatment tracking.
 
