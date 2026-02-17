@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon build/index.js",
     "client": "npm start --prefix client",
-    "watch:sass": "node-sass --watch client/src/views/sass/main.scss client/src/views/stylesheets/style.css",
+    "watch:sass": "sass --watch client/src/views/sass/main.scss client/src/views/stylesheets/style.css",
     "justServer": "concurrently \"lsof -t -i tcp:5000 | xargs kill -9\" \"npm run server\"",
     "start": "concurrently \"lsof -t -i tcp:5000 | xargs kill -9\" \"node build/index.js\" \"npm run client\"",
     "start1": "concurrently \"lsof -t -i tcp:5000 | xargs kill -9\"  \"npm run server\" \"npm run client\"",
@@ -39,15 +39,18 @@
     "covid19-api": "^1.2.1",
     "csvtojson": "^2.0.10",
     "express": "^4.17.1",
-    "node-sass": "^4.14.1",
+    "lodash": "^4.17.23",
     "pg": "^8.3.3",
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.9.0",
+    "sass": "^1.83.0",
     "sitemap": "^6.3.3",
-    "typeorm": "0.2.24",
+    "typeorm": "^0.2.45",
     "typescript": "^4.0.2",
-    "validator": "^13.1.1",
-    "winston": "^3.3.3"
+    "validator": "^13.15.26",
+    "winston": "^3.3.3",
+    "xml2js": "^0.6.2",
+    "y18n": "^5.0.8"
   },
   "devDependencies": {
     "@types/node": "^14.10.1",

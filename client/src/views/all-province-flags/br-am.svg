@@ -9,7 +9,7 @@
 <use xlink:href="#t" transform="rotate(144)"/>
 <use xlink:href="#t" transform="rotate(-144)"/>
 </g>
-<use id="s1" xlink:href="#s"  transform="scale(2)"/>
+<use id="s1" xlink:href="#s" transform="scale(2)"/>
 </defs>
 <rect fill="#fff" x="0" y="0" width="2100" height="1500"/>
 <rect fill="#d20000" x="0" y="500" width="2100" height="500"/>
